@@ -1,0 +1,16 @@
+Użytkownik posiada plan treningowy (matryce) np 3 dniowy, w poniedziałek 
+wybiera dzień nr jeden, następnie plan z tego dnia zostaje wklejony do loga, 
+dzięki czemu nie musimy wpisywać za każdym razem ćwiczeń od nowa. 
+Użytkownik podaje liczbę serii, wykonane w nich powtórzenia oraz użyty ciężar.
+
+
+Użytkownik chce dodać nowego loga. Co robi? 
+    Klika w navbara w przycisk Log/Training log.
+    Rozwijają się opcje. Jakie? 
+        - przeglądanie istniejącego loga / logów?
+        - utworzenie nowego loga, 
+        - edytowanie istniejącego loga.
+        (może przeglądanie i edytowanie powinny być w jednym miejscu?)
+
+
+    

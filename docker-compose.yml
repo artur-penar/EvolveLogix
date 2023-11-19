@@ -1,0 +1,50 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: evolve_logix_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - evolve_logix_network
+
+  
+  django:
+    build: ./backend/evolve_logix
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/evolve_logix:/app
+    ports:
+      - "8000:8000"
+    networks:
+      - evolve_logix_network
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - evolve_logix_network
+
+  express:
+    build: ./express
+    volumes:
+      - ./express:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - evolve_logix_network
+
+networks:
+  evolve_logix_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,8 @@
+.set-field {
+  display: flex;
+  justify-content: space-between;
+}
+
+.set-input{
+    width: min-content;
+}

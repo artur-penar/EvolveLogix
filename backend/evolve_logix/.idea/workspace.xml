@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="32f3dd54-3fbb-432c-9caa-19c82b200a7d" name="Changes" comment="Changed post method into RegisterView.">
+      <change beforePath="$PROJECT_DIR$/auth_site/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth_site/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2Wwd7vzdSlrcsUnuBFbRIuyxgJq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32f3dd54-3fbb-432c-9caa-19c82b200a7d" name="Changes" comment="" />
+      <created>1697647414661</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697647414661</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added UserProfileManager.&#10;Updated setting in settings.py">
+      <option name="closed" value="true" />
+      <created>1697648415310</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697648415310</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added GymUserProfile">
+      <option name="closed" value="true" />
+      <created>1697648759432</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697648759432</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Small modifications: settings.py, models.py&#10;Registered site in admin.py">
+      <option name="closed" value="true" />
+      <created>1697650255436</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697650255436</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added UserCreateSerializer in serializers.py">
+      <option name="closed" value="true" />
+      <created>1697722260023</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697722260023</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added RegisterView in views.py">
+      <option name="closed" value="true" />
+      <created>1697723270174</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697723270174</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changed post method into RegisterView.">
+      <option name="closed" value="true" />
+      <created>1697732017612</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697732017612</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added UserProfileManager.&#10;Updated setting in settings.py" />
+    <MESSAGE value="Added GymUserProfile" />
+    <MESSAGE value="Small modifications: settings.py, models.py&#10;Registered site in admin.py" />
+    <MESSAGE value="Added UserCreateSerializer in serializers.py" />
+    <MESSAGE value="Added RegisterView in views.py" />
+    <MESSAGE value="Changed post method into RegisterView." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed post method into RegisterView." />
+  </component>
+</project>
