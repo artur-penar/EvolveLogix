@@ -11,6 +11,7 @@ import TrainingLogNameField from "./components /TrainingLogNameField";
 import CommentField from "./components /CommentField";
 import SetField from "./components /SetField";
 import "./AddTrainingSessionPage.css";
+import ExerciseField from "./components /ExerciseField";
 
 // Function to get log names
 const getLogNames = (trainingLogsData) =>
@@ -140,61 +141,21 @@ const AddTrainingSessionPage = () => {
   return (
     <Layout title="Gym-Support | Training Log">
       <div className="add-training-container">
-        <div className="left-panel">
-          <TrainingLogNameField
-            logName={logName}
-            setLogName={setLogName}
-            logNames={logNames}
-          />
-          <DateField date={date} setDate={setDate} />
-          <CommentField comment={comment} setComment={setComment} />
-        </div>
-        <form onSubmit={handleSubmit} className="form">
-          {exercises.map((exercise, index) => (
-            <div className="exercise" key={index}>
-              <div className="exercise-set-container">
-                <div className="exercise-left-panel">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor={`exercise${index}`}>
-                      Name:
-                      <select
-                        className="form-control"
-                        name="exercise"
-                        value={exercise.exercise}
-                        onChange={(e) => handleExerciseChange(e, index)}
-                      >
-                        {exerciseNameList.map((name, i) => (
-                          <option key={i} value={name}>
-                            {name}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="form-group">
-                        <label className="form-label" htmlFor={`sets${index}`}>
-                          Sets
-                          <input
-                            className="form-control"
-                            type="number"
-                            name="setsNumber"
-                            value={exercise.setsNumber}
-                            onChange={(e) => handleSetsNumberChange(e, index)}
-                          />
-                        </label>
-                      </div>
-                    </label>
-                  </div>
-                </div>
+        <TrainingLogNameField
+          logName={logName}
+          setLogName={setLogName}
+          logNames={logNames}
+        />
+        <DateField date={date} setDate={setDate} />
+        <CommentField comment={comment} setComment={setComment} />
 
-                <SetField
-                  exercise={exercise}
-                  index={index}
-                  setsNumber={exercise.setsNumber}
-                  handleExerciseChange={handleExerciseChange}
-                  handleSetsNumberChange={handleSetsNumberChange}
-                />
-              </div>
-            </div>
-          ))}
+        <form onSubmit={handleSubmit} className="form">
+          <ExerciseField
+            exercises={exercises}
+            exerciseNameList={exerciseNameList}
+            handleExerciseChange={handleExerciseChange}
+            handleSetsNumberChange={handleSetsNumberChange}
+          />
           <button
             type="button"
             onClick={handleAddExercise}
