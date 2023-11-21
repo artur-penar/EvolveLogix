@@ -24,7 +24,6 @@ const getExercisesNames = (exercises) =>
 const AddTrainingSessionPage = () => {
   const dispatch = useDispatch();
 
-  // Fetch training log on component mount
   useEffect(() => {
     dispatch(getTrainingLog());
   }, []);
@@ -43,6 +42,13 @@ const AddTrainingSessionPage = () => {
       try {
         const res = await ApiServices.get("/training_log/exercises");
         setExerciseList(res);
+        setExercises([
+          {
+            exercise: res[0].name,
+            sets: [{ weight: "", repetitions: "" }],
+            setsNumber: 1,
+          },
+        ]);
       } catch (err) {
         console.error(err);
       }
@@ -61,25 +67,57 @@ const AddTrainingSessionPage = () => {
   const [comment, setComment] = useState("");
   const [setsNumber, setSetsNumber] = useState(1);
   const [exercises, setExercises] = useState([
-    { exercise: "", sets: [{ weight: "", repetitions: "" }], setsNumber: 1 },
+    {
+      exercise: "",
+      sets: [{ weight: "", repetitions: "" }],
+      setsNumber: 1,
+    },
   ]);
+
+  // const handleSetsNumberChange = (e, exerciseIndex) => {
+  //   const newSetsNumber = parseInt(e.target.value, 10);
+  //   setExercises(
+  //     exercises.map((exercise, index) => {
+  //       if (index !== exerciseIndex) return exercise;
+  //       const newSets = [...exercise.sets];
+  //       if (newSetsNumber < newSets.length) {
+  //         newSets.length = newSetsNumber;
+  //       } else
+  //         while (newSets.length < newSetsNumber) {
+  //           newSets.push({ weight: "", repetitions: "" });
+  //         }
+  //       return { ...exercise, sets: newSets, setsNumber: newSetsNumber };
+  //     })
+  //   );
+  // };
+
+  const updateSets = (exercise, newSetsNumber) => {
+    const newSets = [...exercise.sets];
+    if (newSetsNumber < newSets.length) {
+      newSets.length = newSetsNumber;
+    } else {
+      while (newSets.length < newSetsNumber) {
+        newSets.push({ weight: "", repetitions: "" });
+      }
+    }
+    return newSets;
+  };
 
   const handleSetsNumberChange = (e, exerciseIndex) => {
     const newSetsNumber = parseInt(e.target.value, 10);
     setExercises(
-      exercises.map((exercise, index) => {
-        if (index !== exerciseIndex) return exercise;
-        const newSets = [...exercise.sets];
-        if (newSetsNumber < newSets.length) {
-          newSets.length = newSetsNumber;
-        } else
-          while (newSets.length < newSetsNumber) {
-            newSets.push({ weight: "", repetitions: "" });
-          }
-        return { ...exercise, sets: newSets, setsNumber: newSetsNumber };
-      })
+      exercises.map((exercise, index) =>
+        index !== exerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: updateSets(exercise, newSetsNumber),
+              setsNumber: newSetsNumber,
+            }
+      )
     );
   };
+
   const handleExerciseChange = (e, exerciseIndex, setIndex) => {
     const newExercises = [...exercises];
     if (setIndex !== undefined) {
@@ -137,6 +175,7 @@ const AddTrainingSessionPage = () => {
     };
 
     // Here you can call your API to send the data
+    console.log(data);
   };
   return (
     <Layout title="Gym-Support | Training Log">
