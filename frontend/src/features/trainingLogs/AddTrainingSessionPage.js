@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Internal imports
-import { getTrainingLog } from "./log";
+import { addTrainingSession, getTrainingLog } from "./log";
 import ApiServices from "./services/ApiService";
 import Layout from "components/shared/Layout";
 import DateField from "./components /DateField";
@@ -154,6 +154,7 @@ const AddTrainingSessionPage = () => {
         },
       ],
     };
+    dispatch(addTrainingSession(data));
 
     console.log(data);
   };
