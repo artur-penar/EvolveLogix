@@ -23,6 +23,31 @@ export const getTrainingLog = createAsyncThunk(
   }
 );
 
+export const addTrainingSession = createAsyncThunk(
+  "log/addTrainingSession",
+  async (trainingSession, thunkAPI) => {
+    try {
+      const res = await fetch("api/training-log/addTrainingSession", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(trainingSession),
+      });
+      const data = await res.json();
+      if (res.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const initialState = {
   trainingLogs: [],
   loading: false,
