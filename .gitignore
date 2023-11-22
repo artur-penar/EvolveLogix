@@ -92,3 +92,8 @@ bower_components
 
 # DynamoDB Local files
 .dynamodb/
+
+# Ignore a specific file
+/backend/evolve_logix/TRAINING-LOG-JSON.txt
+/backend/evolve_logix/training_log/my_test.py
+/commits-convention.md

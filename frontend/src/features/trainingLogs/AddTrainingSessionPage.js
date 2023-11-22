@@ -163,14 +163,15 @@ const AddTrainingSessionPage = () => {
   return (
     <Layout title="Gym-Support | Training Log">
       <div className="add-training-container">
-        <TrainingLogNameField
-          logName={logName}
-          setLogName={setLogName}
-          logNames={logNames}
-        />
-        <DateField date={date} setDate={setDate} />
-        <CommentField comment={comment} setComment={setComment} />
-
+        <div className="field-container">
+          <TrainingLogNameField
+            logName={logName}
+            setLogName={setLogName}
+            logNames={logNames}
+          />
+          <DateField date={date} setDate={setDate} />
+          <CommentField comment={comment} setComment={setComment} />
+        </div>
         <form onSubmit={handleSubmit} className="form">
           <ExerciseField
             exercises={exercises}
