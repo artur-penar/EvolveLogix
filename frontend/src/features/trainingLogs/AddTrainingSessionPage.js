@@ -160,12 +160,10 @@ const AddTrainingSessionPage = () => {
           comment,
           exercises: exercises.map((exercise) => ({
             exercise: exercise.exercise,
-            sets: [
-              {
-                weight: exercise.weight,
-                repetitions: exercise.repetitions,
-              },
-            ],
+            sets: exercise.sets.map((set) => ({
+              weight: set.weight,
+              repetitions: set.repetitions,
+            })),
           })),
         },
       ],
