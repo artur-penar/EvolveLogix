@@ -1,47 +1,56 @@
 // External imports
-import React, {
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Internal imports
+import { getTrainingLog } from "./log";
 import ApiServices from "./services/ApiService";
 import Layout from "components/shared/Layout";
-import { getTrainingLog } from "./log";
 import DateField from "./components /DateField";
 import TrainingLogNameField from "./components /TrainingLogNameField";
 import CommentField from "./components /CommentField";
-import SetField from "./components /SetField";
-import "./AddTrainingSessionPage.css";
 import ExerciseField from "./components /ExerciseField";
-
-// Function to get log names
-const getLogNames = (trainingLogsData) =>
-  trainingLogsData.map((log) => log.name);
-
-// Function to get exercise names
-const getExercisesNames = (exercises) =>
-  exercises.map((exercise) => exercise.name);
+import "./AddTrainingSessionPage.css";
 
 const AddTrainingSessionPage = () => {
+  const getLogNames = (trainingLogsData) =>
+    trainingLogsData.map((log) => log.name);
+
+  const getExercisesNames = (exercises) =>
+    exercises.map((exercise) => exercise.name);
+
+  // State variables
+  const [logName, setLogName] = useState("");
+  const [date, setDate] = useState("");
+  const [comment, setComment] = useState("");
+  const [exercises, setExercises] = useState([
+    {
+      exercise: "",
+      sets: [{ weight: "", repetitions: "" }],
+      setsNumber: 1,
+    },
+  ]);
+  const [exerciseList, setExerciseList] = useState([]);
+
+  // Redux hooks
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTrainingLog());
-  }, []);
-
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+
+  // Memoized values
   const logNames = useMemo(
     () => getLogNames(trainingLogsData),
     [trainingLogsData]
   );
+  const exerciseNameList = useMemo(
+    () => getExercisesNames(exerciseList),
+    [exerciseList]
+  );
 
-  const [exerciseList, setExerciseList] = useState([]);
+  // Effect hooks
+  useEffect(() => {
+    dispatch(getTrainingLog());
+  }, []);
 
-  // Fetch exercises on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,23 +70,7 @@ const AddTrainingSessionPage = () => {
     fetchData();
   }, []);
 
-  const exerciseNameList = useMemo(
-    () => getExercisesNames(exerciseList),
-    [exerciseList]
-  );
-
-  // Form state
-  const [logName, setLogName] = useState("");
-  const [date, setDate] = useState("");
-  const [comment, setComment] = useState("");
-  const [setsNumber, setSetsNumber] = useState(1);
-  const [exercises, setExercises] = useState([
-    {
-      exercise: "",
-      sets: [{ weight: "", repetitions: "" }],
-      setsNumber: 1,
-    },
-  ]);
+  // Event handlers and other functions
 
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
@@ -135,12 +128,6 @@ const AddTrainingSessionPage = () => {
     );
   };
 
-  const handleAddSet = (exerciseIndex) => {
-    const newExercises = [...exercises];
-    newExercises[exerciseIndex].sets.push({ weight: "", repetitions: "" });
-    setExercises(newExercises);
-  };
-
   const handleAddExercise = () => {
     setExercises([
       ...exercises,
@@ -148,7 +135,6 @@ const AddTrainingSessionPage = () => {
     ]);
   };
 
-  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -169,9 +155,10 @@ const AddTrainingSessionPage = () => {
       ],
     };
 
-    // Here you can call your API to send the data
     console.log(data);
   };
+
+  // JSX return
   return (
     <Layout title="Gym-Support | Training Log">
       <div className="add-training-container">
