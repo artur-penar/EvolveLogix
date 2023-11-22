@@ -35,7 +35,7 @@ const ExerciseField = ({
                         className="form-control"
                         type="number"
                         name="setsNumber"
-                        value={exercise.setsNumber}
+                        value={exercise.setsNumber || 1}
                         onChange={(e) => handleSetsNumberChange(e, index)}
                       />
                     </label>
