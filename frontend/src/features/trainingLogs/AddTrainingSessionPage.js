@@ -1,5 +1,10 @@
 // External imports
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Internal imports
@@ -74,23 +79,6 @@ const AddTrainingSessionPage = () => {
     },
   ]);
 
-  // const handleSetsNumberChange = (e, exerciseIndex) => {
-  //   const newSetsNumber = parseInt(e.target.value, 10);
-  //   setExercises(
-  //     exercises.map((exercise, index) => {
-  //       if (index !== exerciseIndex) return exercise;
-  //       const newSets = [...exercise.sets];
-  //       if (newSetsNumber < newSets.length) {
-  //         newSets.length = newSetsNumber;
-  //       } else
-  //         while (newSets.length < newSetsNumber) {
-  //           newSets.push({ weight: "", repetitions: "" });
-  //         }
-  //       return { ...exercise, sets: newSets, setsNumber: newSetsNumber };
-  //     })
-  //   );
-  // };
-
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
     if (newSetsNumber < newSets.length) {
@@ -118,24 +106,33 @@ const AddTrainingSessionPage = () => {
     );
   };
 
+  const updateExercise = (e, exercise, setIndex) => {
+    return {
+      ...exercise,
+      sets: exercise.sets.map((set, index) => {
+        if (index !== setIndex) {
+          return set;
+        } else {
+          return { ...set, [e.target.name]: e.target.value };
+        }
+      }),
+    };
+  };
+
   const handleExerciseChange = (e, exerciseIndex, setIndex) => {
-    const newExercises = [...exercises];
-    if (setIndex !== undefined) {
-      // This is a change to a set value
-      if (
-        newExercises[exerciseIndex] &&
-        newExercises[exerciseIndex].sets[setIndex]
-      ) {
-        newExercises[exerciseIndex].sets[setIndex][e.target.name] =
-          e.target.value;
-      }
-    } else {
-      // This is a change to an exercise name
-      if (newExercises[exerciseIndex]) {
-        newExercises[exerciseIndex].exercise = e.target.value;
-      }
-    }
-    setExercises(newExercises);
+    setExercises(
+      exercises.map((exercise, index) => {
+        if (index !== exerciseIndex) return exercise;
+        if (setIndex !== undefined) {
+          return updateExercise(e, exercise, setIndex);
+        } else {
+          return {
+            ...exercise,
+            exercise: e.target.value,
+          };
+        }
+      })
+    );
   };
 
   const handleAddSet = (exerciseIndex) => {
