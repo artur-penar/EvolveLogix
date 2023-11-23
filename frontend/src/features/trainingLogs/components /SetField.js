@@ -16,6 +16,7 @@ const SetField = ({ exercise, index, handleExerciseChange, setsNumber }) => {
                   <input
                     className="form-control"
                     type="number"
+                    min="1"
                     name="weight"
                     value={exercise.sets[setIndex]?.weight || ""}
                     onChange={(e) => handleExerciseChange(e, index, setIndex)}
@@ -31,6 +32,7 @@ const SetField = ({ exercise, index, handleExerciseChange, setsNumber }) => {
                   <input
                     className="form-control"
                     type="number"
+                    min="1"
                     name="repetitions"
                     value={exercise.sets[setIndex]?.repetitions || ""}
                     onChange={(e) => handleExerciseChange(e, index, setIndex)}

@@ -131,7 +131,7 @@ const AddTrainingSessionPage = () => {
   const handleAddExercise = () => {
     setExercises([
       ...exercises,
-      { exercise: "", sets: [{ weight: "", repetitions: "" }] },
+      { exercise: "", sets: [{ weight: "", repetitions: "" }], setsNumber: 1 },
     ]);
   };
 
