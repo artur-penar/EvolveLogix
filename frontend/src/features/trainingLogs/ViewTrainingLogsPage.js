@@ -30,7 +30,7 @@ const ViewTrainingLogsPage = () => {
                   {session.exercises.map((exercise, j) => (
                     <div key={j}>
                       <h4>Exercise: {exercise.exercise}</h4>
-                      <p>Commend: {exercise.comment}</p>
+                      <p>Comment: {exercise.comment}</p>
                       {exercise.sets.map((set, k) => (
                         <div key={k}>
                           <p>

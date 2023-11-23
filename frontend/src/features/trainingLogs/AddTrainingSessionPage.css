@@ -27,7 +27,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  border-left: 1px solid #ddd;
+  border-left: 2px solid #ddd;
 }
 
 .form-label {
