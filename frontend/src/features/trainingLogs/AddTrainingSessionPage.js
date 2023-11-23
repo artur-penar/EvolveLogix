@@ -10,6 +10,8 @@ import DateField from "./components /DateField";
 import TrainingLogNameField from "./components /TrainingLogNameField";
 import CommentField from "./components /CommentField";
 import ExerciseField from "./components /ExerciseField";
+import { selectIsUserAuthenticated } from "features/users/user";
+import { Navigate } from "react-router-dom";
 import "./AddTrainingSessionPage.css";
 
 const AddTrainingSessionPage = () => {
@@ -31,7 +33,7 @@ const AddTrainingSessionPage = () => {
     },
   ]);
   const [exerciseList, setExerciseList] = useState([]);
-
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
   // Redux hooks
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
@@ -158,6 +160,8 @@ const AddTrainingSessionPage = () => {
 
     console.log(data);
   };
+
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   // JSX return
   return (
