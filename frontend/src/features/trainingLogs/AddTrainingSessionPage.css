@@ -11,3 +11,75 @@
   flex-direction: row;
   justify-content: flex-start;
 }
+
+.exercise {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.exercise-left-panel {
+  padding-right: 10px;
+  width: 15%;
+}
+.exercise-right-panel {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  border-left: 1px solid #ddd;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.add-training-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.field-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-add-exercise {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-submit {
+  background-color: #28a745;
+  color: white;
+}
+
+.set-input {
+  padding-right: 10px;
+  padding-left: 10px;
+  border-right: 1px solid #ddd;
+}
