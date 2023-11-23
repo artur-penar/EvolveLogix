@@ -41,7 +41,7 @@ const ExerciseField = ({
                   type="number"
                   min="1"
                   name="setsNumber"
-                  value={exercise.setsNumber || 1}
+                  value={exercise.setsNumber || ""}
                   onChange={(e) => handleSetsNumberChange(e, index)}
                 />
               </div>
