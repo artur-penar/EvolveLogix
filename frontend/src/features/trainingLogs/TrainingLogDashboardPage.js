@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTrainingLog } from "./log";
 import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,10 @@ const TrainingLogDashboardPage = () => {
   useEffect(() => {
     dispatch(getTrainingLog());
   }, []);
+
+  const handleDateClick = (info) => {
+    alert('Clicked on: ' + info.dateStr);
+  };
 
   if (loading) {
     console.log("Loading...");
@@ -26,9 +31,9 @@ const TrainingLogDashboardPage = () => {
       <h1>Training Log Dashboard</h1>
       <div style={{ width: "800px", height: "600px" }}>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
           initialView="dayGridMonth"
-          editable={true}
+          dateClick={handleDateClick}
         />
       </div>
     </Layout>
