@@ -1,6 +1,7 @@
 // External imports
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 // Internal imports
 import { addTrainingSession, getTrainingLog } from "./log";
@@ -15,15 +16,11 @@ import { Navigate } from "react-router-dom";
 import "./AddTrainingSessionPage.css";
 
 const AddTrainingSessionPage = () => {
-  const getLogNames = (trainingLogsData) =>
-    trainingLogsData.map((log) => log.name);
-
-  const getExercisesNames = (exercises) =>
-    exercises.map((exercise) => exercise.name);
-
+  const location = useLocation();
+  const selectedDate = location.state.selectedDate;
   // State variables
   const [logName, setLogName] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(selectedDate ? selectedDate : "");
   const [comment, setComment] = useState("");
   const [exercises, setExercises] = useState([
     {
@@ -34,6 +31,12 @@ const AddTrainingSessionPage = () => {
   ]);
   const [exerciseList, setExerciseList] = useState([]);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
+
+  const getLogNames = (trainingLogsData) =>
+    trainingLogsData.map((log) => log.name);
+
+  const getExercisesNames = (exercises) =>
+    exercises.map((exercise) => exercise.name);
   // Redux hooks
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
@@ -76,14 +79,14 @@ const AddTrainingSessionPage = () => {
 
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
-    if (newSets >=1)
-    if (newSetsNumber < newSets.length) {
-      newSets.length = newSetsNumber;
-    } else {
-      while (newSets.length < newSetsNumber) {
-        newSets.push({ weight: "", repetitions: "" });
+    if (newSets >= 1)
+      if (newSetsNumber < newSets.length) {
+        newSets.length = newSetsNumber;
+      } else {
+        while (newSets.length < newSetsNumber) {
+          newSets.push({ weight: "", repetitions: "" });
+        }
       }
-    }
     return newSets;
   };
 
