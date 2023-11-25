@@ -5,6 +5,7 @@ import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import "./TrainingLogDashboardPage.css";
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const TrainingLogDashboardPage = () => {
   }, []);
 
   const handleDateClick = (info) => {
-    alert('Clicked on: ' + info.dateStr);
+    alert("Clicked on: " + info.dateStr);
   };
 
   if (loading) {
@@ -34,6 +35,24 @@ const TrainingLogDashboardPage = () => {
           plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
           initialView="dayGridMonth"
           dateClick={handleDateClick}
+          firstDay={1}
+          events={[
+            { title: "[Done] Day A", date: "2023-10-30", color: "green" },
+            { title: "[Done] Day B", date: "2023-11-01", color: "green" },
+            { title: "[Done] Day C", date: "2023-11-03", color: "green" },
+            { title: "[Done] Day A", date: "2023-11-06", color: "green" },
+            { title: "[Done] Day B", date: "2023-11-07", color: "green" },
+            { title: "[Done] Day C", date: "2023-11-10", color: "green" },
+            { title: "[Miss] Day A", date: "2023-11-14", color: "grey" },
+            { title: "[Done] Day B", date: "2023-11-15", color: "green" },
+            { title: "[Done] Day C", date: "2023-11-17", color: "green" },
+            { title: "[Done] Day A", date: "2023-11-19", color: "green" },
+            { title: "[Done] Day B", date: "2023-11-21", color: "green" },
+            { title: "[Done] Day C", date: "2023-11-23", color: "green" },
+            { title: "[ToDo] Day A", date: "2023-11-27" },
+            { title: "[ToDo] Day B", date: "2023-11-29" },
+            { title: "[ToDo] Day C", date: "2023-12-01" },
+          ]}
         />
       </div>
     </Layout>
