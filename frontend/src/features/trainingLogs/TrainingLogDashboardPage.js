@@ -1,23 +1,26 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrainingLog } from "./log";
 import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import interactionPlugin from "@fullcalendar/interaction";
+import { getTrainingLog } from "./log";
 import "./TrainingLogDashboardPage.css";
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getTrainingLog());
   }, []);
 
-  const handleDateClick = (info) => {
-    alert("Clicked on: " + info.dateStr);
+  const handleDateClick = (date) => {
+    alert("Clicked on: " + date.dateStr);
+    navigate("/add-log", { state: { selectedDate: date.dateStr } });
   };
 
   if (loading) {
