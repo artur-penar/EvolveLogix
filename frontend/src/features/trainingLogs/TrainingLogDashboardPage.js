@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrainingLog } from "./log";
 import Layout from "components/shared/Layout";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,13 @@ const TrainingLogDashboardPage = () => {
   return (
     <Layout title="PerformanceTracker| Training Log">
       <h1>Training Log Dashboard</h1>
+      <div style={{ width: "800px", height: "600px" }}>
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView="dayGridMonth"
+          editable={true}
+        />
+      </div>
     </Layout>
   );
 };
