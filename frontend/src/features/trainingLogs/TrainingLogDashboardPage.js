@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/shared/Layout";
@@ -10,27 +10,50 @@ import "./TrainingLogDashboardPage.css";
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-  const navigate = useNavigate();
+  const [eventData, setEventData] = useState();
 
   useEffect(() => {
     dispatch(getTrainingLog());
+
+    console.log(eventData);
   }, []);
+
+  useEffect(() => {
+    if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
+      setEventData(
+        trainingLogsData.flatMap((logData) =>
+          logData.training_sessions.map((session) => ({
+            title: session.comment,
+            date: session.date,
+            color: "green",
+          }))
+        )
+      );
+    }
+    console.log(eventData)
+  }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
     alert("Clicked on: " + date.dateStr);
     navigate("/add-log", { state: { selectedDate: date.dateStr } });
   };
 
+  trainingLogsData.forEach((element) => {
+    element["training_sessions"].forEach((el) => {
+      console.log(el["date"]);
+    });
+  });
+
   return (
     <Layout title="PerformanceTracker| Training Log">
       <h1>Training Log Dashboard</h1>
-      {loading ? (
+      {loading || !trainingLogsData ? (
         <div
           style={{
             display: "flex",
-            // justifyContent: "center",
             alignItems: "center",
           }}
         >
@@ -47,23 +70,7 @@ const TrainingLogDashboardPage = () => {
             dateClick={handleDateClick}
             firstDay={1}
             events={
-              [
-                // { title: "[Done] Day A", date: "2023-10-30", color: "green" },
-                // { title: "[Done] Day B", date: "2023-11-01", color: "green" },
-                // { title: "[Done] Day C", date: "2023-11-03", color: "green" },
-                // { title: "[Done] Day A", date: "2023-11-06", color: "green" },
-                // { title: "[Done] Day B", date: "2023-11-07", color: "green" },
-                // { title: "[Done] Day C", date: "2023-11-10", color: "green" },
-                // { title: "[Miss] Day A", date: "2023-11-14", color: "grey" },
-                // { title: "[Done] Day B", date: "2023-11-15", color: "green" },
-                // { title: "[Done] Day C", date: "2023-11-17", color: "green" },
-                // { title: "[Done] Day A", date: "2023-11-19", color: "green" },
-                // { title: "[Done] Day B", date: "2023-11-21", color: "green" },
-                // { title: "[Done] Day C", date: "2023-11-23", color: "green" },
-                // { title: "[ToDo] Day A", date: "2023-11-27" },
-                // { title: "[ToDo] Day B", date: "2023-11-29" },
-                // { title: "[ToDo] Day C", date: "2023-12-01" },
-              ]
+              eventData
             }
           />
         </div>
