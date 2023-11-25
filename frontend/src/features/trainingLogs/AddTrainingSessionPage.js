@@ -79,7 +79,7 @@ const AddTrainingSessionPage = () => {
 
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
-    if (newSets >= 1)
+    if (newSets.length >= 1)
       if (newSetsNumber < newSets.length) {
         newSets.length = newSetsNumber;
       } else {
