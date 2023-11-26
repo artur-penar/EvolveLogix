@@ -18,7 +18,7 @@ import "./AddTrainingSessionPage.css";
 const AddTrainingSessionPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const selectedDate = location.state.selectedDate;
+  const selectedDate = location.state ? location.state.selectedDate : "";
   // State variables
   const [logName, setLogName] = useState("");
   const [date, setDate] = useState(selectedDate ? selectedDate : "");
