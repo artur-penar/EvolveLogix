@@ -5,8 +5,8 @@ import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { getTrainingLog } from "./log";
 import "./TrainingLogDashboardPage.css";
+import { getTrainingLog } from "features/trainingLogs/log";
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();

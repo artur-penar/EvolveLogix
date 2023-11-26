@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTrainingLog } from "./log";
+import { getTrainingLog } from "../log";
 import Layout from "components/shared/Layout";
 
 const ViewTrainingLogsPage = () => {

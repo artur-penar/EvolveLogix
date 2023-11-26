@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
-import { addTrainingSession, getTrainingLog } from "./log";
-import ApiServices from "./services/ApiService";
+import { addTrainingSession, getTrainingLog } from "../../log";
+import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
-import DateField from "./components /DateField";
-import TrainingLogNameField from "./components /TrainingLogNameField";
-import CommentField from "./components /CommentField";
-import ExerciseField from "./components /ExerciseField";
+import DateField from "../../components /DateField";
+import TrainingLogNameField from "../../components /TrainingLogNameField";
+import CommentField from "../../components /CommentField";
+import ExerciseField from "../../components /ExerciseField";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { Navigate } from "react-router-dom";
 import "./AddTrainingSessionPage.css";
