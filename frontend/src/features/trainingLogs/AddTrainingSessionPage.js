@@ -1,7 +1,7 @@
 // External imports
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
 import { addTrainingSession, getTrainingLog } from "./log";
@@ -16,6 +16,7 @@ import { Navigate } from "react-router-dom";
 import "./AddTrainingSessionPage.css";
 
 const AddTrainingSessionPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const selectedDate = location.state.selectedDate;
   // State variables
@@ -160,7 +161,8 @@ const AddTrainingSessionPage = () => {
         },
       ],
     };
-    dispatch(addTrainingSession(data));
+    // dispatch(addTrainingSession(data));
+    navigate('/training-log')
 
     console.log(data);
   };
