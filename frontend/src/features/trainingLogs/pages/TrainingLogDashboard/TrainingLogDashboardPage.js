@@ -5,8 +5,9 @@ import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import "./TrainingLogDashboardPage.css";
 import { getTrainingLog } from "features/trainingLogs/log";
+import "./TrainingLogDashboardPage.css";
+import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
 
 const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const TrainingLogDashboardPage = () => {
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
   const [eventData, setEventData] = useState();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getTrainingLog());
@@ -33,7 +35,7 @@ const TrainingLogDashboardPage = () => {
         )
       );
     }
-    console.log(eventData)
+    console.log(eventData);
   }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
@@ -41,11 +43,13 @@ const TrainingLogDashboardPage = () => {
     navigate("/add-log", { state: { selectedDate: date.dateStr } });
   };
 
-  trainingLogsData.forEach((element) => {
-    element["training_sessions"].forEach((el) => {
-      console.log(el["date"]);
-    });
-  });
+  const handleEventClic = (e) => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
     <Layout title="PerformanceTracker| Training Log">
@@ -68,10 +72,13 @@ const TrainingLogDashboardPage = () => {
             plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
             initialView="dayGridMonth"
             dateClick={handleDateClick}
+            eventClick={handleEventClic}
             firstDay={1}
-            events={
-              eventData
-            }
+            events={eventData}
+          />
+          <TrainingLogDashboardModal
+            isOpen={modalIsOpen}
+            closeModal={closeModal}
           />
         </div>
       )}
