@@ -13,7 +13,7 @@ import CommentField from "../../components /CommentField";
 import ExerciseField from "../../components /ExerciseField";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { Navigate } from "react-router-dom";
-import "./AddTrainingSessionPage.css";
+import "./AddTrainingSession.css";
 
 const AddTrainingSessionPage = () => {
   const navigate = useNavigate();

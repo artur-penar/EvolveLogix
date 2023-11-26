@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 // Import components
 // trainingLogs components
-import AddTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSessionPage";
+import AddTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSession";
 import ExerciseListPage from "features/trainingLogs/pages/ExerciseListPage";
 import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogsPage";
-import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboardPage";
+import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 // user components
 import DashboardPage from "features/users/DashboardPage";
 import HomePage from "features/users/HomePage";
