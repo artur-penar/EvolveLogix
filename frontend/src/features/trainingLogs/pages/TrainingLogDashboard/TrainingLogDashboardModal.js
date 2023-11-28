@@ -13,10 +13,10 @@ const TrainingLogDashboardModal = ({ isOpen, closeModal }) => {
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
     >
-      <button>View</button>
-      <button>Edit</button>
-      <button>Delete</button>
-      <button onClick={closeModal}>Close</button>
+      <button className="react-modal-button">View</button>
+      <button className="react-modal-button">Edit</button>
+      <button className="react-modal-button">Delete</button>
+      <button className="react-modal-button" onClick={closeModal}>Close</button>
     </Modal>
   );
 };

@@ -31,6 +31,7 @@ const TrainingLogDashboardPage = () => {
             title: session.comment,
             date: session.date,
             color: "green",
+            ...session,
           }))
         )
       );
@@ -45,6 +46,7 @@ const TrainingLogDashboardPage = () => {
 
   const handleEventClic = (e) => {
     setModalIsOpen(true);
+    console.log(e.event.extendedProps.exercises.map((exercise) => exercise));
   };
 
   const closeModal = () => {
