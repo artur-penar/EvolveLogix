@@ -4,7 +4,7 @@ import "./TrainingLogDashboardModal.css";
 
 Modal.setAppElement("#root");
 
-const TrainingLogDashboardModal = ({ isOpen, closeModal }) => {
+const TrainingLogDashboardModal = ({ isOpen, closeModal, handleEdit }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -14,7 +14,7 @@ const TrainingLogDashboardModal = ({ isOpen, closeModal }) => {
       className="react-modal-content"
     >
       <button className="react-modal-button">View</button>
-      <button className="react-modal-button">Edit</button>
+      <button className="react-modal-button" onClick={handleEdit}>Edit</button>
       <button className="react-modal-button">Delete</button>
       <button className="react-modal-button" onClick={closeModal}>Close</button>
     </Modal>

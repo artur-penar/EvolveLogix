@@ -14,29 +14,33 @@ const TrainingLogDashboardPage = () => {
   const navigate = useNavigate();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-  const [eventData, setEventData] = useState();
+  const [eventsData, setEventsData] = useState();
+  const [clickedEventData, setClickedEventData] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getTrainingLog());
-
-    console.log(eventData);
+    console.log("First useEffect eventsData");
+    console.log(eventsData);
   }, []);
 
   useEffect(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
-      setEventData(
+      setEventsData(
         trainingLogsData.flatMap((logData) =>
           logData.training_sessions.map((session) => ({
             title: session.comment,
             date: session.date,
             color: "green",
-            ...session,
+            extendedProps: {
+              ...session,
+            },
           }))
         )
       );
     }
-    console.log(eventData);
+    console.log("Second useEffect eventsData");
+    console.log(eventsData);
   }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
@@ -44,9 +48,20 @@ const TrainingLogDashboardPage = () => {
     navigate("/add-log", { state: { selectedDate: date.dateStr } });
   };
 
-  const handleEventClic = (e) => {
+  const handleEventClick = (e) => {
     setModalIsOpen(true);
-    console.log(e.event.extendedProps.exercises.map((exercise) => exercise));
+    const { date, comment, exercises } = e.event.extendedProps;
+    console.log("Data from handleEventClick");
+    console.log({ date, comment, exercises });
+    setClickedEventData({ date, comment, exercises });
+  };
+
+  const handleEditClick = () => {
+    // const trainingData = e[0].map((exercise) => exercise);
+    console.log(clickedEventData);
+    const trainingData = clickedEventData;
+
+    navigate("/add-log", { state: { trainingData } });
   };
 
   const closeModal = () => {
@@ -74,12 +89,13 @@ const TrainingLogDashboardPage = () => {
             plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
             initialView="dayGridMonth"
             dateClick={handleDateClick}
-            eventClick={handleEventClic}
+            eventClick={handleEventClick}
             firstDay={1}
-            events={eventData}
+            events={eventsData}
           />
           <TrainingLogDashboardModal
             isOpen={modalIsOpen}
+            handleEdit={handleEditClick}
             closeModal={closeModal}
           />
         </div>

@@ -7,10 +7,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { addTrainingSession, getTrainingLog } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
-import DateField from "../../components /DateField";
-import TrainingLogNameField from "../../components /TrainingLogNameField";
-import CommentField from "../../components /CommentField";
-import ExerciseField from "../../components /ExerciseField";
+import DateField from "../../components/DateField";
+import TrainingLogNameField from "../../components/TrainingLogNameField";
+import CommentField from "../../components/CommentField";
+import ExerciseField from "../../components/ExerciseField";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { Navigate } from "react-router-dom";
 import "./AddTrainingSession.css";
@@ -19,17 +19,41 @@ const AddTrainingSessionPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedDate = location.state ? location.state.selectedDate : "";
+  const trainingData = location.state ? location.state.trainingData : "";
+  const {
+    date: trainingDate,
+    comment: trainingComment,
+    exercises: trainingExercises,
+  } = trainingData || {};
+  let processedExercises = [];
+
+  if (trainingExercises) {
+    processedExercises =
+      trainingExercises.map((exercise) => ({
+        exercise: exercise.exercise,
+        setsNumber: exercise.sets.length,
+        sets: exercise.sets.map((set) => ({
+          weight: set.weight,
+          repetitions: set.repetitions,
+        })),
+      })) || {};
+  }
   // State variables
+  const [loading, setLoading] = useState(true);
   const [logName, setLogName] = useState("");
-  const [date, setDate] = useState(selectedDate ? selectedDate : "");
-  const [comment, setComment] = useState("");
-  const [exercises, setExercises] = useState([
-    {
-      exercise: "",
-      sets: [{ weight: "", repetitions: "" }],
-      setsNumber: "",
-    },
-  ]);
+  const [date, setDate] = useState(
+    selectedDate ? selectedDate : trainingDate || ""
+  );
+  const [comment, setComment] = useState(trainingComment || "");
+  const [exercises, setExercises] = useState(
+    processedExercises || [
+      {
+        exercise: "",
+        sets: [{ weight: "", repetitions: "" }],
+        setsNumber: "",
+      },
+    ]
+  );
   const [exerciseList, setExerciseList] = useState([]);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
@@ -62,13 +86,16 @@ const AddTrainingSessionPage = () => {
       try {
         const res = await ApiServices.get("/training_log/exercises");
         setExerciseList(res);
-        setExercises([
-          {
-            exercise: res[0].name,
-            sets: [{ weight: "", repetitions: "" }],
-            setsNumber: 1,
-          },
-        ]);
+        setLoading(false);
+        if (!trainingData || Object.keys(trainingData).length == 0) {
+          setExercises([
+            {
+              exercise: res[0].name,
+              sets: [{ weight: "", repetitions: "" }],
+              setsNumber: 1,
+            },
+          ]);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -162,45 +189,65 @@ const AddTrainingSessionPage = () => {
       ],
     };
     // dispatch(addTrainingSession(data));
-    navigate('/training-log')
+    navigate("/training-log");
 
     console.log(data);
   };
+
+  console.log("Training data sendet from Event");
+  console.log(trainingData);
+  console.log("Training exercises");
+  console.log(trainingExercises);
+  console.log(exercises);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   // JSX return
   return (
     <Layout title="Gym-Support | Training Log">
-      <div className="add-training-container">
-        <div className="field-container">
-          <TrainingLogNameField
-            logName={logName}
-            setLogName={setLogName}
-            logNames={logNames}
-          />
-          <DateField date={date} setDate={setDate} />
-          <CommentField comment={comment} setComment={setComment} />
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <div className="spinner-border" role="status">
+            <span className="sr-only"></span>
+          </div>
+          <h2>Loading...</h2>
         </div>
-        <form onSubmit={handleSubmit} className="form">
-          <ExerciseField
-            exercises={exercises}
-            exerciseNameList={exerciseNameList}
-            handleExerciseChange={handleExerciseChange}
-            handleSetsNumberChange={handleSetsNumberChange}
-          />
-          <button
-            type="button"
-            onClick={handleAddExercise}
-            className="button button-add-exercise"
-          >
-            Add Exercise
-          </button>
-          <button type="submit" className="button button-submit">
-            Submit
-          </button>
-        </form>
-      </div>
+      ) : (
+        <div className="add-training-container">
+          <div className="field-container">
+            <TrainingLogNameField
+              logName={logName}
+              setLogName={setLogName}
+              logNames={logNames}
+            />
+            <DateField date={date} setDate={setDate} />
+            <CommentField comment={comment} setComment={setComment} />
+          </div>
+          <form onSubmit={handleSubmit} className="form">
+            <ExerciseField
+              exercises={exercises}
+              exerciseNameList={exerciseNameList}
+              handleExerciseChange={handleExerciseChange}
+              handleSetsNumberChange={handleSetsNumberChange}
+            />
+            <button
+              type="button"
+              onClick={handleAddExercise}
+              className="button button-add-exercise"
+            >
+              Add Exercise
+            </button>
+            <button type="submit" className="button button-submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
     </Layout>
   );
 };
