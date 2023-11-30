@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
-import { addTrainingSession, getTrainingLog } from "../../log";
+import { getTrainingLog } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
 import DateField from "../../components/DateField";
@@ -15,34 +15,41 @@ import { selectIsUserAuthenticated } from "features/users/user";
 import { Navigate } from "react-router-dom";
 import "./AddTrainingSession.css";
 
+const processExercises = (exercises) => {
+  if (!exercises) {
+    return [];
+  }
+
+  return exercises.map((exercise) => ({
+    exercise: exercise.exercise,
+    setsNumber: exercise.sets.length,
+    sets: exercise.sets.map((set) => ({
+      weight: set.weight,
+      repetitions: set.repetitions,
+    })),
+  }));
+};
+
 const AddTrainingSessionPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const selectedDate = location.state ? location.state.selectedDate : "";
-  const trainingData = location.state ? location.state.trainingData : "";
+  const clickedCalendarDate = location.state?.selectedDate || "";
+  const clickedEventTrainingData = location.state
+    ? location.state.trainingData
+    : "";
   const {
     date: trainingDate,
     comment: trainingComment,
     exercises: trainingExercises,
-  } = trainingData || {};
-  let processedExercises = [];
+  } = clickedEventTrainingData || {};
 
-  if (trainingExercises) {
-    processedExercises =
-      trainingExercises.map((exercise) => ({
-        exercise: exercise.exercise,
-        setsNumber: exercise.sets.length,
-        sets: exercise.sets.map((set) => ({
-          weight: set.weight,
-          repetitions: set.repetitions,
-        })),
-      })) || {};
-  }
+  const processedExercises = processExercises(trainingExercises);
+
   // State variables
   const [loading, setLoading] = useState(true);
   const [logName, setLogName] = useState("");
   const [date, setDate] = useState(
-    selectedDate ? selectedDate : trainingDate || ""
+    clickedCalendarDate ? clickedCalendarDate : trainingDate || ""
   );
   const [comment, setComment] = useState(trainingComment || "");
   const [exercises, setExercises] = useState(
@@ -62,6 +69,7 @@ const AddTrainingSessionPage = () => {
 
   const getExercisesNames = (exercises) =>
     exercises.map((exercise) => exercise.name);
+
   // Redux hooks
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
@@ -87,7 +95,10 @@ const AddTrainingSessionPage = () => {
         const res = await ApiServices.get("/training_log/exercises");
         setExerciseList(res);
         setLoading(false);
-        if (!trainingData || Object.keys(trainingData).length == 0) {
+        if (
+          !clickedEventTrainingData ||
+          Object.keys(clickedEventTrainingData).length == 0
+        ) {
           setExercises([
             {
               exercise: res[0].name,
@@ -195,7 +206,7 @@ const AddTrainingSessionPage = () => {
   };
 
   console.log("Training data sendet from Event");
-  console.log(trainingData);
+  console.log(clickedEventTrainingData);
   console.log("Training exercises");
   console.log(trainingExercises);
   console.log(exercises);
