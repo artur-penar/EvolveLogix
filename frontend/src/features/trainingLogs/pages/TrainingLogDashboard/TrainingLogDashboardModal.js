@@ -5,7 +5,12 @@ import ViewTrainingSessionModal from "./ViewTrainingSessionModal";
 
 Modal.setAppElement("#root");
 
-const TrainingLogDashboardModal = ({ isOpen, closeModal, handleEdit }) => {
+const TrainingLogDashboardModal = ({
+  isOpen,
+  closeModal,
+  trainingSessionData,
+  handleEdit,
+}) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const closeViewModal = () => {
@@ -38,6 +43,7 @@ const TrainingLogDashboardModal = ({ isOpen, closeModal, handleEdit }) => {
       </Modal>
       <ViewTrainingSessionModal
         isOpen={isViewModalOpen}
+        selectedTraining={trainingSessionData}
         closeModal={closeViewModal}
       />
     </div>

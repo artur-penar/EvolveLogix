@@ -96,6 +96,7 @@ const TrainingLogDashboardPage = () => {
           <TrainingLogDashboardModal
             isOpen={modalIsOpen}
             handleEdit={handleEditClick}
+            trainingSessionData={clickedEventData}
             closeModal={closeModal}
           />
         </div>
