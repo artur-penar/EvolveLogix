@@ -1,0 +1,16 @@
+.react-modal-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  .react-modal-content p {
+    margin-bottom: 10px;
+  }
+  
+  .react-modal-content .exercise {
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .react-modal-content .set {
+    margin-left: 20px;
+  }

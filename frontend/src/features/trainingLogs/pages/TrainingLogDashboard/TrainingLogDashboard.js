@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
@@ -7,6 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { getTrainingLog } from "features/trainingLogs/log";
 import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
+import { selectIsUserAuthenticated } from "features/users/user";
 import "./TrainingLogDashboard.css";
 
 const TrainingLogDashboardPage = () => {
@@ -17,6 +18,7 @@ const TrainingLogDashboardPage = () => {
   const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
     dispatch(getTrainingLog());
@@ -64,9 +66,15 @@ const TrainingLogDashboardPage = () => {
     navigate("/add-log", { state: { trainingData } });
   };
 
+  const rightButtonClick = () => {
+    console.log("Right Button Clicked")
+  }
+
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
     <Layout title="PerformanceTracker| Training Log">
@@ -90,6 +98,7 @@ const TrainingLogDashboardPage = () => {
             initialView="dayGridMonth"
             dateClick={handleDateClick}
             eventClick={handleEventClick}
+            eventRightClick={rightButtonClick}
             firstDay={1}
             events={eventsData}
           />

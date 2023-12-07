@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import "./ViewTrainingSessionModal.css";
 
 Modal.setAppElement("#root");
 
@@ -18,11 +19,11 @@ const ViewTrainingSessionModal = ({ isOpen, selectedTraining, closeModal }) => {
           <p>Comment: {selectedTraining.comment}</p>
           {selectedTraining.exercises.map((exercise, index) => (
             <React.Fragment key={index}>
-              <p>
+              <p className="exercise">
                 Nr: {exercise.order}. {exercise.exercise}
               </p>
               {exercise.sets.map((set, index) => (
-                <p key={index}>
+                <p className="set" key={index}>
                   {set.set_number}. {set.weight} x {set.repetitions}
                 </p>
               ))}
