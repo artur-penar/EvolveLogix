@@ -66,10 +66,6 @@ const TrainingLogDashboardPage = () => {
     navigate("/add-log", { state: { trainingData } });
   };
 
-  const rightButtonClick = () => {
-    console.log("Right Button Clicked")
-  }
-
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -98,7 +94,6 @@ const TrainingLogDashboardPage = () => {
             initialView="dayGridMonth"
             dateClick={handleDateClick}
             eventClick={handleEventClick}
-            eventRightClick={rightButtonClick}
             firstDay={1}
             events={eventsData}
           />
