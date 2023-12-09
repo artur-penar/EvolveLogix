@@ -48,6 +48,28 @@ export const addTrainingSession = createAsyncThunk(
   }
 );
 
+export const deleteTrainingSession = createAsyncThunk(
+  "log/deleteTrainingSession",
+  async (sessionId, thunkAPI) => {
+    try {
+      const res = await fetch(`api/training-log/${sessionId}/delete`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (res.status === 200) {
+        return { sessionId };
+      } else {
+        const data = await res.json();
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const initialState = {
   trainingLogs: [],
   loading: false,
