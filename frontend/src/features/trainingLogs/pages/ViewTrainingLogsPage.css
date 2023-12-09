@@ -1,0 +1,25 @@
+/* TrainingLogs.css */
+
+.training-log {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: calc(25% - 40px);
+  box-sizing: border-box;
+}
+
+.training-log-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.ex {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
+.set {
+  margin-left: 20px;
+}

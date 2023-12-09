@@ -1,0 +1,44 @@
+/* TrainingLogDashboardModal.css */
+
+.react-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* High z-index to ensure the overlay is on top */
+}
+
+.react-modal-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background: #f4f4f4;
+  padding: 20px;
+  border: "1px solid #ccc";
+  border-radius: 10px;
+  z-index: 1000; /* High z-index to ensure the content is on top */
+  width: 80%;
+  max-width: 600px;
+}
+
+.react-modal-button {
+  font-size: 20px;
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.react-modal-button:hover {
+  background-color: #0056b3;
+}

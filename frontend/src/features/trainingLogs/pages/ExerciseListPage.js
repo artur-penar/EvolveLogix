@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import ApiServices from "./services/ApiService";
+import ApiServices from "../services/ApiService";
 
 const ExerciseList = () => {
   const [exercises, setExercises] = useState([]);

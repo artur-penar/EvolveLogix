@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 // Import components
 // trainingLogs components
-import AddTrainingSessionPage from "features/trainingLogs/AddTrainingSessionPage";
-import ExerciseListPage from "features/trainingLogs/ExerciseListPage";
-import TrainingLogDashboardPage from "features/trainingLogs/TrainingLogDashboardPage";
-import ViewTrainingLogsPage from "features/trainingLogs/ViewTrainingLogsPage";
+import AddTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSession";
+import ExerciseListPage from "features/trainingLogs/pages/ExerciseListPage";
+import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogsPage";
+import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 // user components
 import DashboardPage from "features/users/DashboardPage";
 import HomePage from "features/users/HomePage";
@@ -16,7 +16,6 @@ import RegisterPage from "features/users/RegisterPage";
 
 // Import actions
 import { verifyAuth } from "features/users/user";
-
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,12 +29,11 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage/>} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/exercises" element={<ExerciseListPage />} />
         <Route path="/training-log" element={<TrainingLogDashboardPage />} />
-        <Route path="/view-logs" element={<ViewTrainingLogsPage/>} />
+        <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
         <Route path="/add-log" element={<AddTrainingSessionPage />} />
-
       </Routes>
     </Router>
   );
