@@ -72,6 +72,11 @@ class TrainingLogView(APIView):
 
 
 class TrainingSessionDelete(generics.DestroyAPIView):
+    """
+    A view for deleting a training session.
+
+    This view allows the deletion of a specific training session by its ID.
+    """
     queryset = TrainingSession.objects.all()
     lookup_fields = 'id'
     serializer_class = TrainingSessionSerializer
