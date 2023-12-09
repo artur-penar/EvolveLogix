@@ -17,6 +17,7 @@ const veryfiAuth = require("./routes/auth/verify");
 const exercisesRoute = require("./routes/training_log/listExercises");
 const trainingLogRoute = require("./routes/training_log/trainingLog");
 const addTrainingSessionRoute = require("./routes/training_log/addTrainingSession");
+const deleteTrainingSessionRoute = require("./routes/training_log/deleteTrainingSession");
 // Create an instance of the Express application
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(veryfiAuth);
 app.use(exercisesRoute);
 app.use(trainingLogRoute);
 app.use(addTrainingSessionRoute);
+app.use(deleteTrainingSessionRoute);
 
 // Catch-all route to serve the HTML file for client-side routing
 app.get("*", (req, res) => {
