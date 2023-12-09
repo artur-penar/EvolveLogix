@@ -5,7 +5,10 @@ import Layout from "components/shared/Layout";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { getTrainingLog } from "features/trainingLogs/log";
+import {
+  deleteTrainingSession,
+  getTrainingLog,
+} from "features/trainingLogs/log";
 import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
 import { selectIsUserAuthenticated } from "features/users/user";
 import "./TrainingLogDashboard.css";
@@ -52,18 +55,35 @@ const TrainingLogDashboardPage = () => {
 
   const handleEventClick = (e) => {
     setModalIsOpen(true);
-    const { date, comment, exercises } = e.event.extendedProps;
+    const { id, date, comment, exercises } = e.event.extendedProps;
     console.log("Data from handleEventClick");
-    console.log({ date, comment, exercises });
-    setClickedEventData({ date, comment, exercises });
+    console.log({ id, date, comment, exercises });
+    setClickedEventData({ id, date, comment, exercises });
   };
 
-  const handleEditClick = () => {
-    // const trainingData = e[0].map((exercise) => exercise);
+  const handleModalEditClick = () => {
     console.log(clickedEventData);
     const trainingData = clickedEventData;
 
     navigate("/add-log", { state: { trainingData } });
+  };
+
+  const handleModalDeleteClick = async (id) => {
+    try {
+      const resultAction = await dispatch(deleteTrainingSession(id));
+      if (deleteTrainingSession.fulfilled.match(resultAction)) {
+        window.alert(`The id ${id} training session has been deleted`);
+        setModalIsOpen(false);
+      } else {
+        if (resultAction.payload) {
+          window.alert(resultAction.payload.error);
+        } else {
+          window.alert("Something went wrong");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const closeModal = () => {
@@ -99,7 +119,8 @@ const TrainingLogDashboardPage = () => {
           />
           <TrainingLogDashboardModal
             isOpen={modalIsOpen}
-            handleEdit={handleEditClick}
+            handleEdit={handleModalEditClick}
+            handleDelete={handleModalDeleteClick}
             trainingSessionData={clickedEventData}
             closeModal={closeModal}
           />

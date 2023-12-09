@@ -10,6 +10,7 @@ const TrainingLogDashboardModal = ({
   closeModal,
   trainingSessionData,
   handleEdit,
+  handleDelete,
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
@@ -36,7 +37,12 @@ const TrainingLogDashboardModal = ({
         <button className="react-modal-button" onClick={handleEdit}>
           Edit
         </button>
-        <button className="react-modal-button">Delete</button>
+        <button
+          className="react-modal-button"
+          onClick={() => handleDelete(trainingSessionData.id)}
+        >
+          Delete
+        </button>
         <button className="react-modal-button" onClick={closeModal}>
           Close
         </button>

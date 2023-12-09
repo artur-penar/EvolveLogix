@@ -52,13 +52,13 @@ export const deleteTrainingSession = createAsyncThunk(
   "log/deleteTrainingSession",
   async (sessionId, thunkAPI) => {
     try {
-      const res = await fetch(`api/training-log/${sessionId}/delete`, {
+      const res = await fetch(`api/training-log/training-session/${sessionId}/delete`, {
         method: "DELETE",
         headers: {
           Accept: "application/json",
         },
       });
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 204) {
         return { sessionId };
       } else {
         const data = await res.json();

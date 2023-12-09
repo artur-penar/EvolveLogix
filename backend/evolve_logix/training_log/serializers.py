@@ -53,7 +53,7 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrainingSession
-        fields = ['date', 'comment', 'exercises']
+        fields = ['id', 'date', 'comment', 'exercises']
 
 
 class TrainingLogSerializer(serializers.ModelSerializer):
