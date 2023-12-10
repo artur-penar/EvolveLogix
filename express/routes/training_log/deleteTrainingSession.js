@@ -13,7 +13,7 @@ router.delete(
 
     try {
       const apiRes = await fetch(
-        `${process.env.API_URL}/api/training-log/training-session/${sessionId}/delete`,
+        `${process.env.API_URL}/api/training-log/training-session/${sessionId}/delete/`,
         {
           method: "DELETE",
           headers: {

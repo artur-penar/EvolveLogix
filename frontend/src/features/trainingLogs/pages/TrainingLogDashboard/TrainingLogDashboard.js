@@ -20,14 +20,16 @@ const TrainingLogDashboardPage = () => {
   const loading = useSelector((state) => state.log.loading);
   const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [mainModalIsOpen, setMainModalIsOpen] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0); // reset key to force rerender on modal close
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
     dispatch(getTrainingLog());
     console.log("First useEffect eventsData");
     console.log(eventsData);
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
@@ -54,7 +56,7 @@ const TrainingLogDashboardPage = () => {
   };
 
   const handleEventClick = (e) => {
-    setModalIsOpen(true);
+    setMainModalIsOpen(true);
     const { id, date, comment, exercises } = e.event.extendedProps;
     console.log("Data from handleEventClick");
     console.log({ id, date, comment, exercises });
@@ -68,26 +70,40 @@ const TrainingLogDashboardPage = () => {
     navigate("/add-log", { state: { trainingData } });
   };
 
-  const handleModalDeleteClick = async (id) => {
+  const handleModalDeleteClick = async () => {
+    console.log("ID TO DLETE: " + clickedEventData.id);
+    const trainingSessionIdToDelete = clickedEventData.id;
     try {
-      const resultAction = await dispatch(deleteTrainingSession(id));
+      const resultAction = await dispatch(
+        deleteTrainingSession(trainingSessionIdToDelete)
+      );
       if (deleteTrainingSession.fulfilled.match(resultAction)) {
-        window.alert(`The id ${id} training session has been deleted`);
-        setModalIsOpen(false);
+        setDeleteMessage(
+          `The id ${trainingSessionIdToDelete}training session has been deleted`
+        );
+        setMainModalIsOpen(false);
+        setRefreshKey((oldKey) => oldKey + 1);
       } else {
         if (resultAction.payload) {
-          window.alert(resultAction.payload.error);
+          setDeleteMessage(
+            "Info from payload.message\n" + resultAction.payload.error
+          );
         } else {
-          window.alert("Something went wrong");
+          setDeleteMessage(
+            "Info from resultAction.error.message\n" +
+              resultAction.error.message
+          );
         }
       }
     } catch (err) {
       console.log(err);
+      setDeleteMessage("Info from catch(err)\n" + err.message);
     }
+    console.log(deleteMessage);
   };
 
   const closeModal = () => {
-    setModalIsOpen(false);
+    setMainModalIsOpen(false);
   };
 
   if (!isAuthenticated) return <Navigate to="/login" />;
@@ -118,11 +134,13 @@ const TrainingLogDashboardPage = () => {
             events={eventsData}
           />
           <TrainingLogDashboardModal
-            isOpen={modalIsOpen}
+            isOpen={mainModalIsOpen}
             handleEdit={handleModalEditClick}
             handleDelete={handleModalDeleteClick}
             trainingSessionData={clickedEventData}
             closeModal={closeModal}
+            deleteMessage={deleteMessage}
+            setMainModalIsOpen={setMainModalIsOpen}
           />
         </div>
       )}

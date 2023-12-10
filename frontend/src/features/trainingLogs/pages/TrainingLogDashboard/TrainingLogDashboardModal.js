@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import "./TrainingLogDashboardModal.css";
 import ViewTrainingSessionModal from "./ViewTrainingSessionModal";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 Modal.setAppElement("#root");
 
@@ -11,8 +12,11 @@ const TrainingLogDashboardModal = ({
   trainingSessionData,
   handleEdit,
   handleDelete,
+  deleteMessage,
+  setMainModalIsOpen,
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const closeViewModal = () => {
     setIsViewModalOpen(false);
@@ -39,7 +43,7 @@ const TrainingLogDashboardModal = ({
         </button>
         <button
           className="react-modal-button"
-          onClick={() => handleDelete(trainingSessionData.id)}
+          onClick={() => setIsDeleteModalOpen(true)}
         >
           Delete
         </button>
@@ -51,6 +55,13 @@ const TrainingLogDashboardModal = ({
         isOpen={isViewModalOpen}
         selectedTraining={trainingSessionData}
         closeModal={closeViewModal}
+      />
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        handleDelete={handleDelete}
+        deleteMessage={deleteMessage}
+        setMainModalIsOpen={setMainModalIsOpen}
       />
     </div>
   );
