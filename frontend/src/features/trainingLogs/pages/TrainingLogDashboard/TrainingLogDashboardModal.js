@@ -8,11 +8,11 @@ Modal.setAppElement("#root");
 
 const TrainingLogDashboardModal = ({
   isOpen,
-  closeModal,
   trainingSessionData,
   handleEdit,
   handleDelete,
   deleteMessage,
+  setRefreshKey,
   setMainModalIsOpen,
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -30,7 +30,6 @@ const TrainingLogDashboardModal = ({
     <div>
       <Modal
         isOpen={isOpen}
-        onRequestClose={closeModal}
         contentLabel="Event Details"
         overlayClassName="react-modal-overlay"
         className="react-modal-content"
@@ -47,7 +46,10 @@ const TrainingLogDashboardModal = ({
         >
           Delete
         </button>
-        <button className="react-modal-button" onClick={closeModal}>
+        <button
+          className="react-modal-button"
+          onClick={() => setMainModalIsOpen(false)}
+        >
           Close
         </button>
       </Modal>
@@ -61,7 +63,7 @@ const TrainingLogDashboardModal = ({
         setIsDeleteModalOpen={setIsDeleteModalOpen}
         handleDelete={handleDelete}
         deleteMessage={deleteMessage}
-        setMainModalIsOpen={setMainModalIsOpen}
+        setRefreshKey={setRefreshKey}
       />
     </div>
   );

@@ -7,15 +7,14 @@ const DeleteConfirmationModal = ({
   isOpen,
   handleDelete,
   setIsDeleteModalOpen,
-  setMainModalIsOpen,
   deleteMessage,
+  setRefreshKey,
 }) => {
   const [isDeleteInfoModalOpen, setIsDeleteInfoModalOpen] = useState(false);
   return (
     <div>
       <Modal
         isOpen={isOpen}
-        onRequestClose={() => setIsDeleteModalOpen(false)}
         contentLabel="Delete Confirmation"
         overlayClassName="react-modal-overlay"
         className="react-modal-content"
@@ -25,7 +24,6 @@ const DeleteConfirmationModal = ({
           className="react-modal-button"
           onClick={() => {
             setIsDeleteInfoModalOpen(true);
-            setIsDeleteModalOpen(false);
             handleDelete();
           }}
         >
@@ -40,9 +38,8 @@ const DeleteConfirmationModal = ({
       </Modal>
       <DeleteInfoModal
         isOpen={isDeleteInfoModalOpen}
-        setIsDeleteModalOpen={setIsDeleteInfoModalOpen}
         deleteMessage={deleteMessage}
-        setMainModalIsOpen={setMainModalIsOpen}
+        setRefreshKey={setRefreshKey}
       />
     </div>
   );

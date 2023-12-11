@@ -72,17 +72,20 @@ const TrainingLogDashboardPage = () => {
 
   const handleModalDeleteClick = async () => {
     console.log("ID TO DLETE: " + clickedEventData.id);
+    console.log("Delete item comment: " + clickedEventData.comment);
+    console.log("Delete item date: " + clickedEventData.date);
     const trainingSessionIdToDelete = clickedEventData.id;
     try {
       const resultAction = await dispatch(
         deleteTrainingSession(trainingSessionIdToDelete)
       );
+      console.log("Delete Result action");
+      console.log(resultAction.payload);
+
       if (deleteTrainingSession.fulfilled.match(resultAction)) {
         setDeleteMessage(
-          `The id ${trainingSessionIdToDelete}training session has been deleted`
+          `${clickedEventData.comment} on ${clickedEventData.date} was deleted`
         );
-        setMainModalIsOpen(false);
-        setRefreshKey((oldKey) => oldKey + 1);
       } else {
         if (resultAction.payload) {
           setDeleteMessage(
@@ -100,9 +103,6 @@ const TrainingLogDashboardPage = () => {
       setDeleteMessage("Info from catch(err)\n" + err.message);
     }
     console.log(deleteMessage);
-  };
-
-  const closeModal = () => {
     setMainModalIsOpen(false);
   };
 
@@ -138,9 +138,9 @@ const TrainingLogDashboardPage = () => {
             handleEdit={handleModalEditClick}
             handleDelete={handleModalDeleteClick}
             trainingSessionData={clickedEventData}
-            closeModal={closeModal}
             deleteMessage={deleteMessage}
             setMainModalIsOpen={setMainModalIsOpen}
+            setRefreshKey={setRefreshKey}
           />
         </div>
       )}

@@ -61,14 +61,11 @@ export const deleteTrainingSession = createAsyncThunk(
           },
         }
       );
-      if (res.status === 204) {
+      if (res.status === 200 || res.status === 204) {
         return { sessionId };
       } else {
-        // Only parse the response body if the status is not 204
-        if (res.status !== 204) {
-          const data = await res.json();
-          return thunkAPI.rejectWithValue(data);
-        }
+        const data = await res.json();
+        return thunkAPI.rejectWithValue(data);
       }
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

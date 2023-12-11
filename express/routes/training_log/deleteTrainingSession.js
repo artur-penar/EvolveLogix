@@ -23,7 +23,11 @@ router.delete(
         }
       );
 
-      const data = await apiRes.json();
+      // Only parse the response body if the status is not 204
+      let data;
+      if (apiRes.status !== 204) {
+        data = await apiRes.json();
+      }
 
       return res.status(apiRes.status).json(data);
     } catch (err) {
