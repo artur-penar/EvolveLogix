@@ -17,6 +17,8 @@ const TrainingLogDashboardModal = ({
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isTrainingSessionComplete, setIsTrainingSessionComplete] =
+    useState(false);
 
   const closeViewModal = () => {
     setIsViewModalOpen(false);
@@ -34,6 +36,14 @@ const TrainingLogDashboardModal = ({
         overlayClassName="react-modal-overlay"
         className="react-modal-content"
       >
+        <button
+          className="react-modal-button"
+          onClick={() =>
+            setIsTrainingSessionComplete(!isTrainingSessionComplete)
+          }
+        >
+          Mark as {isTrainingSessionComplete ? "Incomplete" : "Complete"}
+        </button>
         <button className="react-modal-button" onClick={handleViewButtonClick}>
           View
         </button>

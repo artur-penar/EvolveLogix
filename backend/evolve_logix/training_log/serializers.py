@@ -53,7 +53,7 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrainingSession
-        fields = ['id', 'date', 'comment', 'exercises']
+        fields = ['id', 'date', 'comment', 'exercises', 'is_completed']
 
 
 class TrainingLogSerializer(serializers.ModelSerializer):
@@ -123,6 +123,8 @@ class TrainingLogSerializer(serializers.ModelSerializer):
                 'date', training_session.date)
             training_session.comment = training_session_data.get(
                 'comment', training_session.comment)
+            training_session.isCompleted = training_session_data.get(
+                'isCompleted', training_session.isCompleted)  # Add this line
             training_session.save()
 
             # Update the ExercisesInSession

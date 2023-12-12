@@ -82,6 +82,7 @@ class TrainingSession(models.Model):
         TrainingLog, on_delete=models.CASCADE, related_name='training_sessions')
     date = models.DateField()
     comment = models.TextField(blank=True, null=True)
+    is_completed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.training_log.user.user_name} - {self.training_log.name} - {self.date}"
