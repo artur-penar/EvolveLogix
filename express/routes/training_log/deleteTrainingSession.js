@@ -11,9 +11,10 @@ router.delete(
     const { access } = req.cookies;
     const { sessionId } = req.params;
 
+    const pk = sessionId
     try {
       const apiRes = await fetch(
-        `${process.env.API_URL}/api/training-log/training-session/${sessionId}/delete/`,
+        `${process.env.API_URL}/api/training-log/training-session/${pk}/delete/`,
         {
           method: "DELETE",
           headers: {

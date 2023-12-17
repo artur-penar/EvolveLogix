@@ -80,7 +80,7 @@ class TrainingSessionUpdateDelete(mixins.UpdateModelMixin, generics.DestroyAPIVi
     This view allows the updating or deletion of a specific training session by its ID.
     """
     queryset = TrainingSession.objects.all()
-    lookup_field = 'id'
+    lookup_field = 'pk'
     serializer_class = TrainingSessionSerializer
 
     def patch(self, request, *args, **kwargs):
