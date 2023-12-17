@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db.models import Count
 from django.utils import timezone
 
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, mixins
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -71,12 +71,17 @@ class TrainingLogView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TrainingSessionDelete(generics.DestroyAPIView):
-    """
-    A view for deleting a training session.
 
-    This view allows the deletion of a specific training session by its ID.
+
+class TrainingSessionUpdateDelete(mixins.UpdateModelMixin, generics.DestroyAPIView):
+    """
+    A view for updating or deleting a training session.
+
+    This view allows the updating or deletion of a specific training session by its ID.
     """
     queryset = TrainingSession.objects.all()
-    lookup_fields = 'id'
+    lookup_field = 'id'
     serializer_class = TrainingSessionSerializer
+
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
