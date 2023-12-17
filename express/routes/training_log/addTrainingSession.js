@@ -8,11 +8,11 @@ router.use(express.json());
 
 router.post("/api/training-log/addTrainingSession", async (req, res) => {
   const { access } = req.cookies;
-  const { name, training_sessions } = req.body;
+  const { name, trainingSession } = req.body;
 
   const body = JSON.stringify({
     name,
-    training_sessions,
+    trainingSession,
   });
 
   try {
