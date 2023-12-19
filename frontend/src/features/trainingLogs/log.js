@@ -156,9 +156,12 @@ const logSlice = createSlice({
       .addCase(deleteTrainingSession.fulfilled, (state, action) => {
         state.loading = false;
         const { sessionId } = action.payload;
-        state.trainingLogs = state.trainingLogs.filter(
-          (trainingSession) => trainingSession.id !== sessionId
-        );
+        state.trainingLogs = state.trainingLogs.map((logData) => ({
+          ...logData,
+          training_sessions: logData.training_sessions.filter(
+            (session) => session.id !== sessionId
+          ),
+        }));
       })
       .addCase(deleteTrainingSession.rejected, (state, action) => {
         state.loading = false;

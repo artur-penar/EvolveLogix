@@ -106,6 +106,9 @@ const TrainingLogDashboardPage = () => {
     setMainModalIsOpen(false);
   };
 
+  console.log("Training log data!!!!!");
+  console.log(trainingLogsData);
+
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
