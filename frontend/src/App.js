@@ -16,6 +16,7 @@ import RegisterPage from "features/users/RegisterPage";
 
 // Import actions
 import { verifyAuth } from "features/users/user";
+import EditTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/EditTrainingSession";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/training-log" element={<TrainingLogDashboardPage />} />
         <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
         <Route path="/add-log" element={<AddTrainingSessionPage />} />
+        <Route path="/edit-log" element={<EditTrainingSessionPage />} />
       </Routes>
     </Router>
   );
