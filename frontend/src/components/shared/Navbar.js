@@ -15,22 +15,22 @@ const Navbar = () => {
           Dashboard
         </NavLink>
       </li>
-        <Dropdown as="li" className="nav-item">
-          <Dropdown.Toggle as={NavLink} className="nav-link" to="/training-log">
-            Training log
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item as={NavLink} to="/view-logs">
-              View Logs
-            </Dropdown.Item>
-            <Dropdown.Item as={NavLink} to="/add-log">
-              Add Log 
-            </Dropdown.Item>
-            <Dropdown.Item as={NavLink} to="/traininglog/edit">
-              Edit Existing Log
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+      <Dropdown as="li" className="nav-item">
+        <Dropdown.Toggle as={NavLink} className="nav-link" to="/training-log">
+          Training log
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item as={NavLink} to="/view-logs">
+            View Logs
+          </Dropdown.Item>
+          <Dropdown.Item as={NavLink} to="/add-log">
+            Add Log
+          </Dropdown.Item>
+          <Dropdown.Item as={NavLink} to="/edit-log">
+            Edit Existing Log
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       <li className="nav-item">
         <NavLink className="nav-link" to="/" onClick={() => dispatch(logout())}>
           Logout
@@ -58,8 +58,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-        EvolveLogix
-       
+          EvolveLogix
         </Link>
         <button
           className="navbar-toggler"

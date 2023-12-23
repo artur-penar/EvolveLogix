@@ -67,7 +67,7 @@ const TrainingLogDashboardPage = () => {
     console.log(clickedEventData);
     const trainingData = clickedEventData;
 
-    navigate("/add-log", { state: { trainingData } });
+    navigate("/edit-log", { state: { trainingData } });
   };
 
   const handleModalDeleteClick = async () => {
