@@ -55,7 +55,7 @@ export const updateTrainingSession = createAsyncThunk(
       const res = await fetch(
         `api/training-log/training-session/${trainingSession.id}/update`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -64,6 +64,8 @@ export const updateTrainingSession = createAsyncThunk(
           body: JSON.stringify(trainingSession),
         }
       );
+      console.log("log.js updateTrainingSession body!!!!")
+      console.log(JSON.stringify(trainingSession));
       const data = await res.json();
       if (res.status === 200) {
         return data;
