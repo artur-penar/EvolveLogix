@@ -1,10 +1,14 @@
 // External imports
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 
 // Internal imports
-import { addTrainingSession, getTrainingLog } from "../../log";
+import {
+  addTrainingSession,
+  getTrainingLog,
+  updateTrainingSession,
+} from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
 import DateField from "../../components/DateField";
@@ -12,101 +16,40 @@ import TrainingLogNameField from "../../components/TrainingLogNameField";
 import CommentField from "../../components/CommentField";
 import ExerciseField from "../../components/ExerciseField";
 import { selectIsUserAuthenticated } from "features/users/user";
-import { Navigate } from "react-router-dom";
 import "./AddTrainingSession.css";
 
-const processExercises = (exercises) => {
-  if (!exercises) {
-    return [];
-  }
+// Function to get log names
+const getLogNames = (trainingLogsData) =>
+  trainingLogsData.map((log) => log.name);
 
-  return exercises.map((exercise) => ({
-    exercise: exercise.exercise,
-    setsNumber: exercise.sets.length,
-    sets: exercise.sets.map((set) => ({
-      weight: set.weight,
-      repetitions: set.repetitions,
-    })),
-  }));
-};
+// Function to get exercise names
+const getExercisesNames = (exercises) =>
+  exercises.map((exercise) => exercise.name);
 
 const AddTrainingSessionPage = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const clickedCalendarDate = location.state?.selectedDate || "";
-  const clickedEventTrainingData = location.state
-    ? location.state.trainingData
-    : "";
-  const {
-    date: trainingDate,
-    comment: trainingComment,
-    exercises: trainingExercises,
-  } = clickedEventTrainingData || {};
-
-  const processedExercises = processExercises(trainingExercises);
-
-  // State variables
-  const [loading, setLoading] = useState(true);
-  const [logName, setLogName] = useState("");
-  const [date, setDate] = useState(
-    clickedCalendarDate ? clickedCalendarDate : trainingDate || ""
-  );
-  const [comment, setComment] = useState(trainingComment || "");
-  const [exercises, setExercises] = useState(
-    processedExercises || [
-      {
-        exercise: "",
-        sets: [{ weight: "", repetitions: "" }],
-        setsNumber: "",
-      },
-    ]
-  );
-  const [exerciseList, setExerciseList] = useState([]);
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
-
-  const getLogNames = (trainingLogsData) =>
-    trainingLogsData.map((log) => log.name);
-
-  const getExercisesNames = (exercises) =>
-    exercises.map((exercise) => exercise.name);
-
-  // Redux hooks
+  const EMPTY_STRING = "";
   const dispatch = useDispatch();
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
 
-  // Memoized values
-  const logNames = useMemo(
-    () => getLogNames(trainingLogsData),
-    [trainingLogsData]
-  );
-  const exerciseNameList = useMemo(
-    () => getExercisesNames(exerciseList),
-    [exerciseList]
-  );
-
-  // Effect hooks
+  // Fetch training log on component mount
   useEffect(() => {
     dispatch(getTrainingLog());
   }, []);
 
+  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  const logNames = useMemo(
+    () => getLogNames(trainingLogsData),
+    [trainingLogsData]
+  );
+
+  const [exerciseList, setExerciseList] = useState([]);
+
+  // Fetch exercises on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await ApiServices.get("/training_log/exercises");
         setExerciseList(res);
         setLoading(false);
-        if (
-          !clickedEventTrainingData ||
-          Object.keys(clickedEventTrainingData).length == 0
-        ) {
-          setExercises([
-            {
-              exercise: res[0].name,
-              sets: [{ weight: "", repetitions: "" }],
-              setsNumber: 1,
-            },
-          ]);
-        }
       } catch (err) {
         console.error(err);
       }
@@ -114,7 +57,20 @@ const AddTrainingSessionPage = () => {
     fetchData();
   }, []);
 
-  // Event handlers and other functions
+  const exerciseNameList = useMemo(
+    () => getExercisesNames(exerciseList),
+    [exerciseList]
+  );
+
+  // Form state
+  const [loading, setLoading] = useState(true);
+  const [logName, setLogName] = useState("");
+  const [date, setDate] = useState("");
+  const [comment, setComment] = useState("");
+  const [setsNumber, setSetsNumber] = useState(1);
+  const [exercises, setExercises] = useState([
+    { exercise: "", sets: [{ weight: "", repetitions: "" }], setsNumber: 1 },
+  ]);
 
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
@@ -123,7 +79,10 @@ const AddTrainingSessionPage = () => {
         newSets.length = newSetsNumber;
       } else {
         while (newSets.length < newSetsNumber) {
-          newSets.push({ weight: "", repetitions: "" });
+          newSets.push({
+            weight: EMPTY_STRING,
+            repetitions: EMPTY_STRING,
+          });
         }
       }
     return newSets;
@@ -176,10 +135,11 @@ const AddTrainingSessionPage = () => {
   const handleAddExercise = () => {
     setExercises([
       ...exercises,
-      { exercise: "", sets: [{ weight: "", repetitions: "" }], setsNumber: 1 },
+      { exercise: "", sets: [{ weight: "", repetitions: "" }] },
     ]);
   };
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -191,29 +151,19 @@ const AddTrainingSessionPage = () => {
           comment,
           exercises: exercises.map((exercise) => ({
             exercise: exercise.exercise,
-            sets: exercise.sets.map((set) => ({
-              weight: set.weight,
-              repetitions: set.repetitions,
-            })),
+            sets: [
+              {
+                weight: exercise.weight,
+                repetitions: exercise.repetitions,
+              },
+            ],
           })),
         },
       ],
     };
-    dispatch(addTrainingSession(data));
-    navigate("/training-log");
 
-    console.log(data);
+    // Here you can call your API to send the data
   };
-
-  console.log("Training data sendet from Event");
-  console.log(clickedEventTrainingData);
-  console.log("Training exercises");
-  console.log(trainingExercises);
-  console.log(exercises);
-
-  if (!isAuthenticated) return <Navigate to="/login" />;
-
-  // JSX return
   return (
     <Layout title="Gym-Support | Training Log">
       {loading ? (
