@@ -1,21 +1,18 @@
 // External imports
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
-import {
-  addTrainingSession,
-  getTrainingLog,
-  updateTrainingSession,
-} from "../../log";
+import { addTrainingSession, getTrainingLog } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
 import DateField from "../../components/DateField";
-import TrainingLogNameField from "../../components/TrainingLogNameField";
 import CommentField from "../../components/CommentField";
 import ExerciseField from "../../components/ExerciseField";
+import TrainingLogNameField from "../../components/TrainingLogNameField";
 import { selectIsUserAuthenticated } from "features/users/user";
+import LoadingState from "features/trainingLogs/components/LoadingStat";
 import "./AddTrainingSession.css";
 
 // Function to get log names
@@ -27,21 +24,20 @@ const getExercisesNames = (exercises) =>
   exercises.map((exercise) => exercise.name);
 
 const AddTrainingSessionPage = () => {
+  // Const
   const EMPTY_STRING = "";
+
+  // Hooks
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   // Fetch training log on component mount
   useEffect(() => {
     dispatch(getTrainingLog());
   }, []);
-
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
-  const logNames = useMemo(
-    () => getLogNames(trainingLogsData),
-    [trainingLogsData]
-  );
-
-  const [exerciseList, setExerciseList] = useState([]);
 
   // Fetch exercises on component mount
   useEffect(() => {
@@ -57,21 +53,34 @@ const AddTrainingSessionPage = () => {
     fetchData();
   }, []);
 
+  // State variables
+  const [loading, setLoading] = useState(true);
+  const [logName, setLogName] = useState("");
+  const [date, setDate] = useState(
+    location.state?.selectedDate || new Date().toISOString().substring(0, 10)
+  );
+  const [comment, setComment] = useState("");
+  const [exerciseList, setExerciseList] = useState([]);
+  const [exercises, setExercises] = useState([
+    {
+      exercise: "Squat",
+      sets: [{ weight: "", repetitions: "" }],
+      setsNumber: 1,
+    },
+  ]);
+
+  // Memoized functions
   const exerciseNameList = useMemo(
     () => getExercisesNames(exerciseList),
     [exerciseList]
   );
 
-  // Form state
-  const [loading, setLoading] = useState(true);
-  const [logName, setLogName] = useState("");
-  const [date, setDate] = useState("");
-  const [comment, setComment] = useState("");
-  const [setsNumber, setSetsNumber] = useState(1);
-  const [exercises, setExercises] = useState([
-    { exercise: "", sets: [{ weight: "", repetitions: "" }], setsNumber: 1 },
-  ]);
+  const logNames = useMemo(
+    () => getLogNames(trainingLogsData),
+    [trainingLogsData]
+  );
 
+  // Set logic
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
     if (newSets.length >= 1)
@@ -82,6 +91,7 @@ const AddTrainingSessionPage = () => {
           newSets.push({
             weight: EMPTY_STRING,
             repetitions: EMPTY_STRING,
+            set_number: newSets.length + 1,
           });
         }
       }
@@ -103,6 +113,7 @@ const AddTrainingSessionPage = () => {
     );
   };
 
+  // Exercise logic
   const updateExercise = (e, exercise, setIndex) => {
     return {
       ...exercise,
@@ -135,49 +146,66 @@ const AddTrainingSessionPage = () => {
   const handleAddExercise = () => {
     setExercises([
       ...exercises,
-      { exercise: "", sets: [{ weight: "", repetitions: "" }] },
+      {
+        exercise: "Squat",
+        sets: [
+          { set_number: 1, weight: EMPTY_STRING, repetitions: EMPTY_STRING },
+        ],
+        setsNumber: 1,
+      },
     ]);
   };
 
-  // Handle form submission
+  // Submission logic
+  const checkForEmptyFields = () => {
+    for (let exercise of exercises) {
+      for (let set of exercise.sets) {
+        if (set.repetitions === "" || set.weight === "") {
+          alert("Weight and repetitions cannot be empty.");
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const prepareExercisesForSubmission = (exercises) => {
+    return exercises.map((exercise) => ({
+      exercise: exercise.exercise,
+      sets: exercise.sets.map((set) => ({
+        weight: set.weight,
+        repetitions: set.repetitions,
+      })),
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = {
+    if (checkForEmptyFields()) return;
+
+    const dataToSubmit = {
       name: logName,
       training_sessions: [
         {
           date,
           comment,
-          exercises: exercises.map((exercise) => ({
-            exercise: exercise.exercise,
-            sets: [
-              {
-                weight: exercise.weight,
-                repetitions: exercise.repetitions,
-              },
-            ],
-          })),
+          exercises: prepareExercisesForSubmission(exercises),
         },
       ],
     };
 
-    // Here you can call your API to send the data
+    dispatch(addTrainingSession(dataToSubmit));
+    navigate("/training-log");
   };
+
+  // Return JSX
+  if (!isAuthenticated) return <Navigate to="/login" />;
+
   return (
     <Layout title="Gym-Support | Training Log">
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div className="spinner-border" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <h2>Loading...</h2>
-        </div>
+          <LoadingState />
       ) : (
         <div className="add-training-container">
           <div className="field-container">
