@@ -7,14 +7,10 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { addTrainingSession, getTrainingLog } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
-import DateField from "../../components/DateField";
-import CommentField from "../../components/CommentField";
-import ExerciseField from "../../components/ExerciseField";
-import TrainingLogNameField from "../../components/TrainingLogNameField";
 import { selectIsUserAuthenticated } from "features/users/user";
 import LoadingState from "features/trainingLogs/components/LoadingState";
-import TrainingSessionForm from "features/trainingLogs/components/AddTrainingSessionForm";
 import "./AddTrainingSession.css";
+import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
 
 // Function to get log names
 const getLogNames = (trainingLogsData) =>
