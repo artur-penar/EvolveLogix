@@ -12,7 +12,8 @@ import CommentField from "../../components/CommentField";
 import ExerciseField from "../../components/ExerciseField";
 import TrainingLogNameField from "../../components/TrainingLogNameField";
 import { selectIsUserAuthenticated } from "features/users/user";
-import LoadingState from "features/trainingLogs/components/LoadingStat";
+import LoadingState from "features/trainingLogs/components/LoadingState";
+import TrainingSessionForm from "features/trainingLogs/components/AddTrainingSessionForm";
 import "./AddTrainingSession.css";
 
 // Function to get log names
@@ -205,37 +206,23 @@ const AddTrainingSessionPage = () => {
   return (
     <Layout title="Gym-Support | Training Log">
       {loading ? (
-          <LoadingState />
+        <LoadingState />
       ) : (
-        <div className="add-training-container">
-          <div className="field-container">
-            <TrainingLogNameField
-              logName={logName}
-              setLogName={setLogName}
-              logNames={logNames}
-            />
-            <DateField date={date} setDate={setDate} />
-            <CommentField comment={comment} setComment={setComment} />
-          </div>
-          <form onSubmit={handleSubmit} className="form">
-            <ExerciseField
-              exercises={exercises}
-              exerciseNameList={exerciseNameList}
-              handleExerciseChange={handleExerciseChange}
-              handleSetsNumberChange={handleSetsNumberChange}
-            />
-            <button
-              type="button"
-              onClick={handleAddExercise}
-              className="button button-add-exercise"
-            >
-              Add Exercise
-            </button>
-            <button type="submit" className="button button-submit">
-              Submit
-            </button>
-          </form>
-        </div>
+        <TrainingSessionForm
+          logName={logName}
+          setLogName={setLogName}
+          logNames={logNames}
+          date={date}
+          setDate={setDate}
+          comment={comment}
+          setComment={setComment}
+          exercises={exercises}
+          exerciseNameList={exerciseNameList}
+          handleExerciseChange={handleExerciseChange}
+          handleSetsNumberChange={handleSetsNumberChange}
+          handleSubmit={handleSubmit}
+          handleAddExercise={handleAddExercise}
+        />
       )}
     </Layout>
   );
