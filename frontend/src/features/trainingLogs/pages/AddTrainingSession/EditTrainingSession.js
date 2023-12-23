@@ -11,10 +11,8 @@ import {
 } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
-import DateField from "../../components/DateField";
-import TrainingLogNameField from "../../components/TrainingLogNameField";
-import CommentField from "../../components/CommentField";
-import ExerciseField from "../../components/ExerciseField";
+import LoadingState from "features/trainingLogs/components/LoadingState";
+import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
 import { selectIsUserAuthenticated } from "features/users/user";
 import "./AddTrainingSession.css";
 
@@ -35,7 +33,7 @@ const processExercises = (exercises) => {
   }));
 };
 
-const AddTrainingSessionPage = () => {
+const EditTrainingSessionPage = () => {
   const EMPTY_STRING = "";
   const navigate = useNavigate();
   const location = useLocation();
@@ -243,63 +241,32 @@ const AddTrainingSessionPage = () => {
     console.log(data);
   };
 
-  console.log("Training data sendet from Event");
-  console.log(selectedEventTrainingData);
-  console.log("Training exercises");
-  console.log(trainingExercises);
-  console.log("Processed exercise:");
-  console.log(exercises);
-
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   // JSX return
   return (
     <Layout title="Gym-Support | Training Log">
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div className="spinner-border" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <h2>Loading...</h2>
-        </div>
+        <LoadingState />
       ) : (
-        <div className="add-training-container">
-          <div className="field-container">
-            <TrainingLogNameField
-              logName={logName}
-              setLogName={setLogName}
-              logNames={logNames}
-            />
-            <DateField date={date} setDate={setDate} />
-            <CommentField comment={comment} setComment={setComment} />
-          </div>
-          <form onSubmit={handleSubmit} className="form">
-            <ExerciseField
-              exercises={exercises}
-              exerciseNameList={exerciseNameList}
-              handleExerciseChange={handleExerciseChange}
-              handleSetsNumberChange={handleSetsNumberChange}
-            />
-            <button
-              type="button"
-              onClick={handleAddExercise}
-              className="button button-add-exercise"
-            >
-              Add Exercise
-            </button>
-            <button type="submit" className="button button-submit">
-              Submit
-            </button>
-          </form>
-        </div>
+        <TrainingSessionForm
+          logName={logName}
+          setLogName={setLogName}
+          logNames={logNames}
+          date={date}
+          setDate={setDate}
+          comment={comment}
+          setComment={setComment}
+          exercises={exercises}
+          exerciseNameList={exerciseNameList}
+          handleExerciseChange={handleExerciseChange}
+          handleSetsNumberChange={handleSetsNumberChange}
+          handleSubmit={handleSubmit}
+          handleAddExercise={handleAddExercise}
+        />
       )}
     </Layout>
   );
 };
 
-export default AddTrainingSessionPage;
+export default EditTrainingSessionPage;
