@@ -3,6 +3,7 @@ from .models import Exercise, TrainingLog
 
 from rest_framework import serializers
 from .models import TrainingLog, TrainingSession, ExerciseInSession, Set, Exercise, MuscleGroup
+from django.db.models import Max
 
 
 class MuscleGroupSerializer(serializers.ModelSerializer):
@@ -54,6 +55,51 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingSession
         fields = ['id', 'date', 'comment', 'exercises', 'is_completed']
+
+    def update(self, instance, validated_data):
+        self._delete_existing_exercises(instance)
+        self._update_exercises(instance, validated_data.pop('exercises'))
+        self._update_instance_fields(instance, validated_data)
+        instance.save()
+        return instance
+
+    def _delete_existing_exercises(self, instance):
+        instance.exercises.all().delete()
+
+    def _update_exercises(self, instance, exercises_data):
+        for exercise_data in exercises_data:
+            sets_data = exercise_data.pop('sets')
+            exercise_data['order'] = exercise_data.get('order', self._get_next_order(instance))
+            exercise_in_session, created = ExerciseInSession.objects.update_or_create(
+                order=exercise_data['order'], 
+                training_session=instance, 
+                defaults=exercise_data)
+            if created:
+                instance.exercises.add(exercise_in_session)
+            self._update_sets(exercise_in_session, sets_data)
+
+    def _get_next_order(self, instance):
+        max_order = ExerciseInSession.objects.filter(
+            training_session=instance).aggregate(Max('order'))['order__max']
+        return (max_order or 0) + 1
+
+    def _update_sets(self, exercise_in_session, sets_data):
+        for set_data in sets_data:
+            set_data['set_number'] = set_data.get('set_number', self._get_next_set_number(exercise_in_session))
+            Set.objects.update_or_create(
+                set_number=set_data['set_number'], 
+                exercise_in_session=exercise_in_session, 
+                defaults=set_data)
+
+    def _get_next_set_number(self, exercise_in_session):
+        max_set_number = Set.objects.filter(
+            exercise_in_session=exercise_in_session).aggregate(
+            Max('set_number'))['set_number__max']
+        return (max_set_number or 0) + 1
+
+    def _update_instance_fields(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
 
 
 class TrainingLogSerializer(serializers.ModelSerializer):
