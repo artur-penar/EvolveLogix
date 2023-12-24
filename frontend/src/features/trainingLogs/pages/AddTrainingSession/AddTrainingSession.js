@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
-import { addTrainingSession, getTrainingLog } from "../../log";
+import { addTrainingSession, getTrainingLogs } from "../../log";
 import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
 import { selectIsUserAuthenticated } from "features/users/user";
@@ -33,7 +33,7 @@ const AddTrainingSessionPage = () => {
 
   // Fetch training log on component mount
   useEffect(() => {
-    dispatch(getTrainingLog());
+    dispatch(getTrainingLogs());
   }, []);
 
   // Fetch exercises on component mount

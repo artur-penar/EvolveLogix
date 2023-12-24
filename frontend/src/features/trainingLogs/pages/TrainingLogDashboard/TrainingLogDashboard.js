@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import {
   deleteTrainingSession,
-  getTrainingLog,
+  getTrainingLogs,
 } from "features/trainingLogs/log";
 import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
 import { selectIsUserAuthenticated } from "features/users/user";
@@ -26,7 +26,7 @@ const TrainingLogDashboardPage = () => {
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
-    dispatch(getTrainingLog());
+    dispatch(getTrainingLogs());
     console.log("First useEffect eventsData");
     console.log(eventsData);
   }, [refreshKey]);
@@ -65,9 +65,10 @@ const TrainingLogDashboardPage = () => {
 
   const handleModalEditClick = () => {
     console.log(clickedEventData);
-    const trainingData = clickedEventData;
+    const { id } = clickedEventData;
+    const  trainingData  = clickedEventData;
 
-    navigate("/edit-log", { state: { trainingData } });
+    navigate(`/edit-training-session/${id}`, { state: { trainingData } });
   };
 
   const handleModalDeleteClick = async () => {

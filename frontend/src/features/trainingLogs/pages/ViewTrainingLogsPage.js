@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTrainingLog } from "../log";
+import { getTrainingLogs } from "../log";
 import Layout from "components/shared/Layout";
 import "./ViewTrainingLogsPage.css";
 
 const ViewTrainingLogsPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getTrainingLog());
+    dispatch(getTrainingLogs());
   }, []);
 
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
