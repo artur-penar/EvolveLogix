@@ -35,7 +35,10 @@ const App = () => {
         <Route path="/training-log" element={<TrainingLogDashboardPage />} />
         <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
         <Route path="/add-log" element={<AddTrainingSessionPage />} />
-        <Route path="/edit-log" element={<EditTrainingSessionPage />} />
+        <Route
+          path="/edit-training-session/:id"
+          element={<EditTrainingSessionPage />}
+        />
       </Routes>
     </Router>
   );
