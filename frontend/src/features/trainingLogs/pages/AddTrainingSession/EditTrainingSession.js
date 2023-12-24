@@ -21,10 +21,14 @@ import TrainingSessionForm from "features/trainingLogs/components/TrainingSessio
 import { selectIsUserAuthenticated } from "features/users/user";
 import "./AddTrainingSession.css";
 
+// Helper functions
+const getLogNames = (trainingLogsData) =>
+  trainingLogsData.map((log) => log.name);
+
+const getExercisesNames = (exercises) =>
+  exercises.map((exercise) => exercise.name);
+
 const processExercises = (exercises) => {
-  if (!exercises) {
-    return [];
-  }
   return exercises.map((exercise) => ({
     exercise: exercise.exercise,
     comment: exercise.comment,
@@ -37,6 +41,12 @@ const processExercises = (exercises) => {
     })),
   }));
 };
+
+/**
+ * This is the main component for the Edit Training Session page.
+ * It handles the editing of a training session, including updating the training session data and dispatching the update action.
+ * It uses the useParams hook to get the id of the training session to be edited.
+ */
 const EditTrainingSessionPage = () => {
   const { id } = useParams();
   const EMPTY_STRING = "";
@@ -65,12 +75,6 @@ const EditTrainingSessionPage = () => {
   const [exercises, setExercises] = useState(processedExercises);
   const [exerciseList, setExerciseList] = useState([]);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
-
-  const getLogNames = (trainingLogsData) =>
-    trainingLogsData.map((log) => log.name);
-
-  const getExercisesNames = (exercises) =>
-    exercises.map((exercise) => exercise.name);
 
   // Memoized values
   const logNames = useMemo(
@@ -195,42 +199,17 @@ const EditTrainingSessionPage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = {
-      name: logName,
-      training_sessions: [
-        {
-          date,
-          comment,
-          exercises: exercises.map((exercise) => ({
-            exercise: exercise.exercise,
-            sets: exercise.sets.map((set) => ({
-              weight: set.weight,
-              repetitions: set.repetitions,
-            })),
-          })),
-        },
-      ],
+    const updatedData = {
+      id: selectedEventTrainingData.id,
+      date: date,
+      comment: comment,
+      exercises: exercises,
     };
+    console.log("Updated data!");
+    console.log(updatedData);
+    dispatch(updateTrainingSession(updatedData));
 
-    if (selectedEventTrainingData.length !== 0) {
-      console.log("Updating training session triggered!");
-      const updatedData = {
-        id: selectedEventTrainingData.id,
-        date: date,
-        comment: comment,
-        exercises: exercises,
-      };
-      console.log("Updated data!");
-      console.log(updatedData);
-      dispatch(updateTrainingSession(updatedData));
-    } else {
-      console.log("Adding training session triggered!");
-      dispatch(addTrainingSession(data));
-    }
     navigate("/training-log");
-
-    console.log("Data sendet to update");
-    console.log(data);
   };
 
   // Function to fetch data by passed id from TrainingLogDashboard, keep that in mind for future modernisation
