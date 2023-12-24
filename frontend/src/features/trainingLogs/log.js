@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import trainingLogEndpoints from "./trainingLogEndpoints";
 
-export const getTrainingLog = createAsyncThunk(
+export const getTrainingLogs = createAsyncThunk(
   "log/getTrainingLog",
   async (_, thunkAPI) => {
     try {
@@ -53,7 +53,7 @@ export const updateTrainingSession = createAsyncThunk(
   async (trainingSession, thunkAPI) => {
     try {
       const res = await fetch(
-        `api/training-log/training-session/${trainingSession.id}/update`,
+        `/api/training-log/training-session/${trainingSession.id}/update`,
         {
           method: "PATCH",
           headers: {
@@ -115,14 +115,14 @@ const logSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getTrainingLog.pending, (state) => {
+      .addCase(getTrainingLogs.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getTrainingLog.fulfilled, (state, action) => {
+      .addCase(getTrainingLogs.fulfilled, (state, action) => {
         state.loading = false;
         state.trainingLogs = action.payload;
       })
-      .addCase(getTrainingLog.rejected, (state, action) => {
+      .addCase(getTrainingLogs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
