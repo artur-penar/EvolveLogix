@@ -1,12 +1,17 @@
 // External imports
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, Navigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  Navigate,
+  useParams,
+} from "react-router-dom";
 
 // Internal imports
 import {
   addTrainingSession,
-  getTrainingLog,
+  getTrainingLogs,
   updateTrainingSession,
 } from "../../log";
 import ApiServices from "../../services/ApiService";
@@ -32,39 +37,32 @@ const processExercises = (exercises) => {
     })),
   }));
 };
-
 const EditTrainingSessionPage = () => {
+  const { id } = useParams();
   const EMPTY_STRING = "";
   const navigate = useNavigate();
   const location = useLocation();
-  const selectedCalendarDate = location.state?.selectedDate || EMPTY_STRING;
-  const selectedEventTrainingData = location.state
-    ? location.state.trainingData
-    : EMPTY_STRING;
+
+  // Redux hooks
+  const dispatch = useDispatch();
+  const trainingLogsData = useSelector((state) => state.log.trainingLogs); // Data fetching by id recieved from TrainingLogDashboard
+
+  const selectedEventTrainingData = location.state.trainingData;
+
   const {
     date: trainingDate,
     comment: trainingComment,
     exercises: trainingExercises,
-  } = selectedEventTrainingData || {};
+  } = selectedEventTrainingData;
 
   const processedExercises = processExercises(trainingExercises);
 
   // State variables
   const [loading, setLoading] = useState(true);
   const [logName, setLogName] = useState(EMPTY_STRING);
-  const [date, setDate] = useState(
-    selectedCalendarDate ? selectedCalendarDate : trainingDate || EMPTY_STRING
-  );
-  const [comment, setComment] = useState(trainingComment || EMPTY_STRING);
-  const [exercises, setExercises] = useState(
-    processedExercises || [
-      {
-        exercise: EMPTY_STRING,
-        sets: [{ weight: EMPTY_STRING, repetitions: EMPTY_STRING }],
-        setsNumber: EMPTY_STRING,
-      },
-    ]
-  );
+  const [date, setDate] = useState(trainingDate);
+  const [comment, setComment] = useState(trainingComment);
+  const [exercises, setExercises] = useState(processedExercises);
   const [exerciseList, setExerciseList] = useState([]);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
@@ -73,10 +71,6 @@ const EditTrainingSessionPage = () => {
 
   const getExercisesNames = (exercises) =>
     exercises.map((exercise) => exercise.name);
-
-  // Redux hooks
-  const dispatch = useDispatch();
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
 
   // Memoized values
   const logNames = useMemo(
@@ -90,7 +84,7 @@ const EditTrainingSessionPage = () => {
 
   // Effect hooks
   useEffect(() => {
-    dispatch(getTrainingLog());
+    dispatch(getTrainingLogs());
   }, []);
 
   useEffect(() => {
@@ -117,6 +111,9 @@ const EditTrainingSessionPage = () => {
     };
     fetchData();
   }, []);
+
+  console.log("EditTrainingSession id");
+  console.log(id);
 
   // Event handlers and other functions
 
@@ -225,12 +222,7 @@ const EditTrainingSessionPage = () => {
       };
       console.log("Updated data!");
       console.log(updatedData);
-      dispatch(
-        updateTrainingSession({
-          id: selectedEventTrainingData.id,
-          ...updatedData,
-        })
-      );
+      dispatch(updateTrainingSession(updatedData));
     } else {
       console.log("Adding training session triggered!");
       dispatch(addTrainingSession(data));
@@ -240,6 +232,11 @@ const EditTrainingSessionPage = () => {
     console.log("Data sendet to update");
     console.log(data);
   };
+
+  // Function to fetch data by passed id from TrainingLogDashboard, keep that in mind for future modernisation
+  // const specificTrainingData = trainingLogsData
+  //   .flatMap((log) => log.training_sessions)
+  //   .find((session) => Number(session.id) === Number(id));
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
