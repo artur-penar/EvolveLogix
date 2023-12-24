@@ -17,9 +17,8 @@ router.patch(
 
     const body = JSON.stringify(trainingSession);
 
-    console.log("BODY");
-    console.log(body);
-    console.log("END BODY");
+    console.log("sessionId");
+    console.log(sessionId);
 
     try {
       const apiRes = await fetch(
