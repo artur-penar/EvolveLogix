@@ -4,13 +4,15 @@ export const getExercises = createAsyncThunk(
   "exercises/getExercises",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch("api/exercises", {
+      const res = await fetch("/api/training_log/exercises/", {
         method: "GET",
         headers: {
           Accept: "application/json",
         },
       });
+
       const data = await res.json();
+
       if (res.status === 200) {
         return data;
       } else {

@@ -5,7 +5,7 @@ export const getTrainingLogs = createAsyncThunk(
   "log/getTrainingLog",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch("api/training-log", {
+      const res = await fetch("/api/training-log/", {
         method: "GET",
         headers: {
           Accept: "application/json",

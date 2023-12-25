@@ -8,7 +8,7 @@ router.get("/api/training-log", async (req, res) => {
   const { access } = req.cookies;
 
   try {
-    const apiRes = await fetch(`${process.env.API_URL}/api/training-log`, {
+    const apiRes = await fetch(`${process.env.API_URL}/api/training-log/`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -19,7 +19,6 @@ router.get("/api/training-log", async (req, res) => {
     });
 
     const data = await apiRes.json();
-    console.log(data);
 
     return res.status(apiRes.status).json(data);
   } catch (err) {

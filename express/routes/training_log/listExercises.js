@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/api/training_log/exercises", async (req, res) => {
   try {
     const apiRes = await fetch(
-      `${process.env.API_URL}/api/training-log/exercises`,
+      `${process.env.API_URL}/api/training-log/exercises/`,
       {
         method: "GET",
         headers: {
@@ -27,6 +27,5 @@ router.get("/api/training_log/exercises", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;
