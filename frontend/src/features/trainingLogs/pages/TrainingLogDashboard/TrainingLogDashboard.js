@@ -11,6 +11,7 @@ import {
 } from "features/trainingLogs/log";
 import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
 import { selectIsUserAuthenticated } from "features/users/user";
+import { getExercises } from "features/trainingLogs/exercises";
 import "./TrainingLogDashboard.css";
 
 const TrainingLogDashboardPage = () => {
@@ -27,8 +28,7 @@ const TrainingLogDashboardPage = () => {
 
   useEffect(() => {
     dispatch(getTrainingLogs());
-    console.log("First useEffect eventsData");
-    console.log(eventsData);
+    dispatch(getExercises());
   }, [refreshKey]);
 
   useEffect(() => {
@@ -46,8 +46,6 @@ const TrainingLogDashboardPage = () => {
         )
       );
     }
-    console.log("Second useEffect eventsData");
-    console.log(eventsData);
   }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
@@ -66,7 +64,7 @@ const TrainingLogDashboardPage = () => {
   const handleModalEditClick = () => {
     console.log(clickedEventData);
     const { id } = clickedEventData;
-    const  trainingData  = clickedEventData;
+    const trainingData = clickedEventData;
 
     navigate(`/edit-training-session/${id}`, { state: { trainingData } });
   };

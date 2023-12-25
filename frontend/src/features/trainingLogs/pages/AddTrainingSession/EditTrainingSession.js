@@ -9,12 +9,7 @@ import {
 } from "react-router-dom";
 
 // Internal imports
-import {
-  addTrainingSession,
-  getTrainingLogs,
-  updateTrainingSession,
-} from "../../log";
-import ApiServices from "../../services/ApiService";
+import { getTrainingLogs, updateTrainingSession } from "../../log";
 import Layout from "components/shared/Layout";
 import LoadingState from "features/trainingLogs/components/LoadingState";
 import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
@@ -48,7 +43,6 @@ const processExercises = (exercises) => {
  * It uses the useParams hook to get the id of the training session to be edited.
  */
 const EditTrainingSessionPage = () => {
-  const { id } = useParams();
   const EMPTY_STRING = "";
   const navigate = useNavigate();
   const location = useLocation();
@@ -72,52 +66,23 @@ const EditTrainingSessionPage = () => {
   const [logName, setLogName] = useState(EMPTY_STRING);
   const [date, setDate] = useState(trainingDate);
   const [comment, setComment] = useState(trainingComment);
-  const [exercises, setExercises] = useState(processedExercises);
-  const [exerciseList, setExerciseList] = useState([]);
+  const [editedExercises, setEditedExercises] = useState(processedExercises);
+  const [exerciseNames, setExerciseNames] = useState([]);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
+  const exercisesData = useSelector((state) => state.exercises.exercises);
 
-  // Memoized values
-  const logNames = useMemo(
-    () => getLogNames(trainingLogsData),
-    [trainingLogsData]
-  );
-  const exerciseNameList = useMemo(
-    () => getExercisesNames(exerciseList),
-    [exerciseList]
-  );
+  console.log("EditTrainingSession exercisesData");
+  console.log(exercisesData);
+
+  const logNames = getLogNames(trainingLogsData);
+  const exerciseNameList = getExercisesNames(exerciseNames);
 
   // Effect hooks
   useEffect(() => {
     dispatch(getTrainingLogs());
+    setExerciseNames(exercisesData);
+    setLoading(false);
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await ApiServices.get("/training_log/exercises");
-        setExerciseList(res);
-        setLoading(false);
-        if (
-          !selectedEventTrainingData ||
-          Object.keys(selectedEventTrainingData).length == 0
-        ) {
-          setExercises([
-            {
-              exercise: res[0].name,
-              sets: [{ weight: EMPTY_STRING, repetitions: EMPTY_STRING }],
-              setsNumber: 1,
-            },
-          ]);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
-
-  console.log("EditTrainingSession id");
-  console.log(id);
 
   // Event handlers and other functions
 
@@ -140,8 +105,8 @@ const EditTrainingSessionPage = () => {
 
   const handleSetsNumberChange = (e, exerciseIndex) => {
     const newSetsNumber = parseInt(e.target.value, 10);
-    setExercises(
-      exercises.map((exercise, index) =>
+    setEditedExercises(
+      editedExercises.map((exercise, index) =>
         index !== exerciseIndex
           ? exercise
           : {
@@ -167,8 +132,8 @@ const EditTrainingSessionPage = () => {
   };
 
   const handleExerciseChange = (e, exerciseIndex, setIndex) => {
-    setExercises(
-      exercises.map((exercise, index) => {
+    setEditedExercises(
+      editedExercises.map((exercise, index) => {
         if (index !== exerciseIndex) return exercise;
         if (setIndex !== undefined) {
           return updateExercise(e, exercise, setIndex);
@@ -183,15 +148,15 @@ const EditTrainingSessionPage = () => {
   };
 
   const handleAddExercise = () => {
-    setExercises([
-      ...exercises,
+    setEditedExercises([
+      ...editedExercises,
       {
         exercise: EMPTY_STRING,
         sets: [
           { set_number: 1, weight: EMPTY_STRING, repetitions: EMPTY_STRING },
         ],
         setsNumber: 1,
-        order: exercises.length + 1,
+        order: editedExercises.length + 1,
       },
     ]);
   };
@@ -203,7 +168,7 @@ const EditTrainingSessionPage = () => {
       id: selectedEventTrainingData.id,
       date: date,
       comment: comment,
-      exercises: exercises,
+      exercises: editedExercises,
     };
     console.log("Updated data!");
     console.log(updatedData);
@@ -233,7 +198,7 @@ const EditTrainingSessionPage = () => {
           setDate={setDate}
           comment={comment}
           setComment={setComment}
-          exercises={exercises}
+          exercises={editedExercises}
           exerciseNameList={exerciseNameList}
           handleExerciseChange={handleExerciseChange}
           handleSetsNumberChange={handleSetsNumberChange}
