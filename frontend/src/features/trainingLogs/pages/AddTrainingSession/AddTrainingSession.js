@@ -7,9 +7,11 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { addTrainingSession, getTrainingLogs } from "../../log";
 import Layout from "components/shared/Layout";
 import { selectIsUserAuthenticated } from "features/users/user";
-import LoadingState from "features/trainingLogs/components/LoadingState";
+import LoadingState from "components/shared/LoadingState";
 import "./AddTrainingSession.css";
 import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
+
+
 
 // Function to get log names
 const getLogNames = (trainingLogsData) =>
