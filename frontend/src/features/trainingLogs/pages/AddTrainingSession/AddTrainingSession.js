@@ -1,11 +1,10 @@
 // External imports
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
 import { addTrainingSession, getTrainingLogs } from "../../log";
-import ApiServices from "../../services/ApiService";
 import Layout from "components/shared/Layout";
 import { selectIsUserAuthenticated } from "features/users/user";
 import LoadingState from "features/trainingLogs/components/LoadingState";
@@ -21,61 +20,44 @@ const getExercisesNames = (exercises) =>
   exercises.map((exercise) => exercise.name);
 
 const AddTrainingSessionPage = () => {
-  // Const
+  // Constants
   const EMPTY_STRING = "";
 
-  // Hooks
+  // React Router hooks
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Redux hooks
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
+  const exercisesData = useSelector((state) => state.exercises.exercises);
 
-  // Fetch training log on component mount
-  useEffect(() => {
-    dispatch(getTrainingLogs());
-  }, []);
+  // Initial state for exercises
+  const initialExerciseState = {
+    exercise: "Squat",
+    sets: [{ weight: EMPTY_STRING, repetitions: EMPTY_STRING }],
+    setsNumber: 1,
+  };
 
-  // Fetch exercises on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await ApiServices.get("/training_log/exercises");
-        setExerciseList(res);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // State variables
+  // State hooks
   const [loading, setLoading] = useState(true);
   const [logName, setLogName] = useState("");
   const [date, setDate] = useState(
     location.state?.selectedDate || new Date().toISOString().substring(0, 10)
   );
   const [comment, setComment] = useState("");
-  const [exerciseList, setExerciseList] = useState([]);
-  const [exercises, setExercises] = useState([
-    {
-      exercise: "Squat",
-      sets: [{ weight: "", repetitions: "" }],
-      setsNumber: 1,
-    },
-  ]);
+  const [exercises, setExercises] = useState([initialExerciseState]);
 
-  // Memoized functions
-  const exerciseNameList = useMemo(
-    () => getExercisesNames(exerciseList),
-    [exerciseList]
-  );
+  // Derived state
+  const logNames = getLogNames(trainingLogsData);
+  const exerciseNames = getExercisesNames(exercisesData);
 
-  const logNames = useMemo(
-    () => getLogNames(trainingLogsData),
-    [trainingLogsData]
-  );
+  // Side effects
+  useEffect(() => {
+    dispatch(getTrainingLogs());
+    setLoading(false);
+  }, []);
 
   // Set logic
   const updateSets = (exercise, newSetsNumber) => {
@@ -141,16 +123,7 @@ const AddTrainingSessionPage = () => {
   };
 
   const handleAddExercise = () => {
-    setExercises([
-      ...exercises,
-      {
-        exercise: "Squat",
-        sets: [
-          { set_number: 1, weight: EMPTY_STRING, repetitions: EMPTY_STRING },
-        ],
-        setsNumber: 1,
-      },
-    ]);
+    setExercises([...exercises, initialExerciseState]);
   };
 
   // Submission logic
@@ -213,7 +186,7 @@ const AddTrainingSessionPage = () => {
           comment={comment}
           setComment={setComment}
           exercises={exercises}
-          exerciseNameList={exerciseNameList}
+          exerciseNameList={exerciseNames}
           handleExerciseChange={handleExerciseChange}
           handleSetsNumberChange={handleSetsNumberChange}
           handleSubmit={handleSubmit}
