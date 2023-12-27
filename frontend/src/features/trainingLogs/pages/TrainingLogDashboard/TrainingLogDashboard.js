@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/shared/Layout";
@@ -19,7 +19,7 @@ const TrainingLogDashboardPage = () => {
   const navigate = useNavigate();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-  const [eventsData, setEventsData] = useState();
+  // const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
   const [mainModalIsOpen, setMainModalIsOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
@@ -31,22 +31,37 @@ const TrainingLogDashboardPage = () => {
     dispatch(getExercises());
   }, [refreshKey]);
 
-  useEffect(() => {
+  const eventsData = useMemo(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
-      setEventsData(
-        trainingLogsData.flatMap((logData) =>
-          logData.training_sessions.map((session) => ({
-            title: session.comment,
-            date: session.date,
-            color: "green",
-            extendedProps: {
-              ...session,
-            },
-          }))
-        )
+      return trainingLogsData.flatMap((logData) =>
+        logData.training_sessions.map((session) => ({
+          title: session.comment,
+          date: session.date,
+          color: "green",
+          extendedProps: {
+            ...session,
+          },
+        }))
       );
     }
   }, [trainingLogsData]);
+
+  // useEffect(() => {
+  //   if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
+  //     setEventsData(
+  //       trainingLogsData.flatMap((logData) =>
+  //         logData.training_sessions.map((session) => ({
+  //           title: session.comment,
+  //           date: session.date,
+  //           color: "green",
+  //           extendedProps: {
+  //             ...session,
+  //           },
+  //         }))
+  //       )
+  //     );
+  //   }
+  // }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
     alert("Clicked on: " + date.dateStr);
