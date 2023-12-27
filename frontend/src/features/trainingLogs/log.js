@@ -64,8 +64,6 @@ export const updateTrainingSession = createAsyncThunk(
           body: JSON.stringify(trainingSession),
         }
       );
-      console.log("log.js updateTrainingSession body!!!!")
-      console.log(JSON.stringify(trainingSession));
       const data = await res.json();
       if (res.status === 200) {
         return data;
@@ -131,7 +129,8 @@ const logSlice = createSlice({
       })
       .addCase(addTrainingSession.fulfilled, (state, action) => {
         state.loading = false;
-        state.trainingLogs.push(action.payload);
+        const { trainingSession } = action.payload;
+        state.trainingLogs.push(trainingSession[0]);
       })
       .addCase(addTrainingSession.rejected, (state, action) => {
         state.loading = false;
