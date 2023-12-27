@@ -64,7 +64,9 @@ export const updateTrainingSession = createAsyncThunk(
           body: JSON.stringify(trainingSession),
         }
       );
+
       const data = await res.json();
+
       if (res.status === 200) {
         return data;
       } else {
