@@ -14,11 +14,12 @@ const DashboardPage = () => {
   const user = useSelector(selectUser);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
+  const trainingLogss = [];
 
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
-
+  const [showNewLogForm, setShowNewLogForm] = useState(false);
   // Redux dispatch
   const dispatch = useDispatch();
 
@@ -44,12 +45,17 @@ const DashboardPage = () => {
 
   return (
     <Layout title="PerformanceTracker | Dashboard">
-      {loading || !user || !trainingLogs ? (
+      {loading || !user ? (
         <LoadingState />
       ) : (
-        <>
-          <h1>Current log:</h1>
-          <select onChange={handleChange} value={selectedLog}>
+        <div className="dashboard">
+          <h1 className="dashboard-title">Dashboard</h1>
+          <h2 className="dashboard-subtitle">Current log:</h2>
+          <select
+            className="dashboard-select"
+            onChange={(e) => setSelectedLog(e.target.value)}
+            value={selectedLog}
+          >
             {trainingLogs.map((log, index) => (
               <option key={index} value={log.name}>
                 {log.name}
@@ -57,12 +63,33 @@ const DashboardPage = () => {
             ))}
           </select>
 
-          <NewLogForm
-            newLogName={newLogName}
-            setNewLogName={setNewLogName}
-            handleSubmit={handleSubmit}
-          />
-        </>
+          <div className="log-details">
+            {/* Replace this with the actual log details */}
+            <div className="strength-records">
+              <h3>Strength personal records </h3>
+              <p>Squt: 100kg</p>
+              <p>Bench Press: 100kg</p>
+              <p>Deadlift: 100kg</p>
+            </div>
+            <p>Performed trainign sessions = 100</p>
+            <p>Log details go here...</p>
+          </div>
+
+          <button
+            className="dashboard-button"
+            onClick={() => setShowNewLogForm(!showNewLogForm)}
+          >
+            {showNewLogForm ? "Cancel" : "Create New Log"}
+          </button>
+
+          {showNewLogForm && (
+            <NewLogForm
+              newLogName={newLogName}
+              setNewLogName={setNewLogName}
+              handleSubmit={() => {}}
+            />
+          )}
+        </div>
       )}
     </Layout>
   );

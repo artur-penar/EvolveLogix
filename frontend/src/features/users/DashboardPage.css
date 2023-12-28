@@ -25,3 +25,65 @@ form button[type="submit"] {
   border-radius: 0.25em;
   cursor: pointer;
 }
+
+.dashboard {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+.dashboard-title {
+  font-size: 2em;
+  color: #333;
+}
+
+.dashboard-subtitle {
+  font-size: 1.5em;
+  color: #666;
+}
+
+.dashboard-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.dashboard-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dashboard-button:hover {
+  background-color: #0056b3;
+}
+
+.log-details {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.strength-records {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.strength-records p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.strength-records h3 {
+  margin: 0;
+  padding: 5px 0;
+  font-weight: bold;
+  text-decoration: underline;
+}
