@@ -87,3 +87,10 @@ form button[type="submit"] {
   font-weight: bold;
   text-decoration: underline;
 }
+
+.create-log {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-top: 20px;
+}

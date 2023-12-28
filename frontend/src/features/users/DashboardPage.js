@@ -74,21 +74,22 @@ const DashboardPage = () => {
             <p>Performed trainign sessions = 100</p>
             <p>Log details go here...</p>
           </div>
+          <div className="create-log">
+            <button
+              className="dashboard-button"
+              onClick={() => setShowNewLogForm(!showNewLogForm)}
+            >
+              {showNewLogForm ? "Create New Log ʌ" : "Create New Log v"}
+            </button>
 
-          <button
-            className="dashboard-button"
-            onClick={() => setShowNewLogForm(!showNewLogForm)}
-          >
-            {showNewLogForm ? "Cancel" : "Create New Log"}
-          </button>
-
-          {showNewLogForm && (
-            <NewLogForm
-              newLogName={newLogName}
-              setNewLogName={setNewLogName}
-              handleSubmit={() => {}}
-            />
-          )}
+            {showNewLogForm && (
+              <NewLogForm
+                newLogName={newLogName}
+                setNewLogName={setNewLogName}
+                handleSubmit={() => {}}
+              />
+            )}
+          </div>
         </div>
       )}
     </Layout>
