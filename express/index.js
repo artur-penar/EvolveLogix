@@ -19,6 +19,7 @@ const trainingLogRoute = require("./routes/training_log/trainingLog");
 const addTrainingSessionRoute = require("./routes/training_log/addTrainingSession");
 const deleteTrainingSessionRoute = require("./routes/training_log/deleteTrainingSession");
 const updateTrainingSessionRoute = require("./routes/training_log/updateTrainingSession");
+const createTrainingLogRoute = require("./routes/training_log/createTrainingLog");
 // Create an instance of the Express application
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(trainingLogRoute);
 app.use(addTrainingSessionRoute);
 app.use(deleteTrainingSessionRoute);
 app.use(updateTrainingSessionRoute);
+app.use(createTrainingLogRoute);
 
 // Catch-all route to serve the HTML file for client-side routing
 app.get("*", (req, res) => {
