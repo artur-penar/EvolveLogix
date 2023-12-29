@@ -6,8 +6,7 @@ import CommentField from "./CommentField";
 
 const TrainingSessionForm = ({
   logName,
-  setLogName,
-  logNames,
+
   date,
   setDate,
   comment,
@@ -21,11 +20,7 @@ const TrainingSessionForm = ({
 }) => (
   <div className="add-training-container">
     <div className="field-container">
-      <TrainingLogNameField
-        logName={logName}
-        setLogName={setLogName}
-        logNames={logNames}
-      />
+      <TrainingLogNameField logName={logName} />
       <DateField date={date} setDate={setDate} />
       <CommentField comment={comment} setComment={setComment} />
     </div>
