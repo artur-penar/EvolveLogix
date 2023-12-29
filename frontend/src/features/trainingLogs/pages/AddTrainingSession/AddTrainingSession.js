@@ -5,15 +5,11 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // Internal imports
 import { addTrainingSession, getTrainingLogs } from "../../log";
-import Layout from "components/shared/Layout";
 import { selectIsUserAuthenticated } from "features/users/user";
+import Layout from "components/shared/Layout";
 import LoadingState from "components/shared/LoadingState";
-import "./AddTrainingSession.css";
 import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
-
-// Function to get log names
-const getLogNames = (trainingLogsData) =>
-  trainingLogsData.map((log) => log.name);
+import "./AddTrainingSession.css";
 
 // Function to get exercise names
 const getExercisesNames = (exercises) =>
@@ -27,18 +23,6 @@ const AddTrainingSessionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redux hooks
-  const dispatch = useDispatch();
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
-  const exercisesData = useSelector((state) => state.exercises.exercises);
-  const selectedTrainingLog = useSelector(
-    (state) => state.log.selectedTrainingLog
-  );
-
-  console.log("Selected training log:");
-  console.log(selectedTrainingLog);
-
   // Initial state for exercises
   const initialExerciseState = {
     exercise: "Squat",
@@ -46,18 +30,27 @@ const AddTrainingSessionPage = () => {
     setsNumber: 1,
   };
 
+  // Redux hooks
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
+  const exercisesData = useSelector((state) => state.exercises.exercises);
+
+  // Derived state
+  const exerciseNames = getExercisesNames(exercisesData);
+
+  // Redux state
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
+  const logName = selectedTrainingLog.name;
+
   // State hooks
   const [loading, setLoading] = useState(true);
-  const [logName, setLogName] = useState("");
   const [date, setDate] = useState(
     location.state?.selectedDate || new Date().toISOString().substring(0, 10)
   );
   const [comment, setComment] = useState("");
   const [exercises, setExercises] = useState([initialExerciseState]);
-
-  // Derived state
-  const logNames = getLogNames(trainingLogsData);
-  const exerciseNames = getExercisesNames(exercisesData);
 
   // Side effects
   useEffect(() => {
@@ -186,21 +179,23 @@ const AddTrainingSessionPage = () => {
       {loading ? (
         <LoadingState />
       ) : (
-        <TrainingSessionForm
-          logName={logName}
-          setLogName={setLogName}
-          logNames={logNames}
-          date={date}
-          setDate={setDate}
-          comment={comment}
-          setComment={setComment}
-          exercises={exercises}
-          exerciseNameList={exerciseNames}
-          handleExerciseChange={handleExerciseChange}
-          handleSetsNumberChange={handleSetsNumberChange}
-          handleSubmit={handleSubmit}
-          handleAddExercise={handleAddExercise}
-        />
+        <>
+          <h1 className="h1-title">Add Training Session</h1>
+          <h2 className="h2-subtitle">Current log: {logName}</h2>
+          <TrainingSessionForm
+            logName={logName}
+            date={date}
+            setDate={setDate}
+            comment={comment}
+            setComment={setComment}
+            exercises={exercises}
+            exerciseNameList={exerciseNames}
+            handleExerciseChange={handleExerciseChange}
+            handleSetsNumberChange={handleSetsNumberChange}
+            handleSubmit={handleSubmit}
+            handleAddExercise={handleAddExercise}
+          />
+        </>
       )}
     </Layout>
   );

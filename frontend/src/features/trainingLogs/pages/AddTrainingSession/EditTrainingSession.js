@@ -12,8 +12,6 @@ import { selectIsUserAuthenticated } from "features/users/user";
 import "./AddTrainingSession.css";
 
 // Helper functions
-const getLogNames = (trainingLogsData) =>
-  trainingLogsData.map((log) => log.name);
 
 const getExercisesNames = (exercises) =>
   exercises.map((exercise) => exercise.name);
@@ -38,46 +36,47 @@ const processExercises = (exercises) => {
  * It uses the useParams hook to get the id of the training session to be edited.
  */
 const EditTrainingSessionPage = () => {
-  // Constants
-  const EMPTY_STRING = "";
+// Constants
+const EMPTY_STRING = "";
 
-  // React Router hooks
-  const location = useLocation();
-  const navigate = useNavigate();
+// React Router hooks
+const location = useLocation();
+const navigate = useNavigate();
 
-  // Redux hooks
-  const dispatch = useDispatch();
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
-  const exercisesData = useSelector((state) => state.exercises.exercises);
+// Data from location state
+const selectedEventTrainingData = location.state.trainingData;
+const {
+  date: trainingDate,
+  comment: trainingComment,
+  exercises: trainingExercises,
+} = selectedEventTrainingData;
 
-  // Data from location state
-  const selectedEventTrainingData = location.state.trainingData;
-  const {
-    date: trainingDate,
-    comment: trainingComment,
-    exercises: trainingExercises,
-  } = selectedEventTrainingData;
+// Processed exercises
+const processedExercises = processExercises(trainingExercises);
 
-  // Processed exercises
-  const processedExercises = processExercises(trainingExercises);
+// Redux hooks
+const dispatch = useDispatch();
+const isAuthenticated = useSelector(selectIsUserAuthenticated);
+const exercisesData = useSelector((state) => state.exercises.exercises);
 
-  // State hooks
-  const [loading, setLoading] = useState(true);
-  const [logName, setLogName] = useState(EMPTY_STRING);
-  const [date, setDate] = useState(trainingDate);
-  const [comment, setComment] = useState(trainingComment);
-  const [editedExercises, setEditedExercises] = useState(processedExercises);
+// Derived state
+const exerciseNameList = getExercisesNames(exercisesData);
 
-  // Derived state
-  const logNames = getLogNames(trainingLogsData);
-  const exerciseNameList = getExercisesNames(exercisesData);
+// Redux state
+const selectedTrainingLog = useSelector((state) => state.log.selectedTrainingLog);
+const logName = selectedTrainingLog.name;
 
-  // Side effects
-  useEffect(() => {
-    dispatch(getTrainingLogs());
-    setLoading(false);
-  }, []);
+// State hooks
+const [loading, setLoading] = useState(true);
+const [date, setDate] = useState(trainingDate);
+const [comment, setComment] = useState(trainingComment);
+const [editedExercises, setEditedExercises] = useState(processedExercises);
+
+// Side effects
+useEffect(() => {
+  dispatch(getTrainingLogs());
+  setLoading(false);
+}, []);
 
   // Event handlers and other functions
 
@@ -146,7 +145,7 @@ const EditTrainingSessionPage = () => {
     setEditedExercises([
       ...editedExercises,
       {
-        exercise: EMPTY_STRING,
+        exercise: "Squat",
         sets: [
           { set_number: 1, weight: EMPTY_STRING, repetitions: EMPTY_STRING },
         ],
@@ -185,21 +184,23 @@ const EditTrainingSessionPage = () => {
       {loading ? (
         <LoadingState />
       ) : (
-        <TrainingSessionForm
-          logName={logName}
-          setLogName={setLogName}
-          logNames={logNames}
-          date={date}
-          setDate={setDate}
-          comment={comment}
-          setComment={setComment}
-          exercises={editedExercises}
-          exerciseNameList={exerciseNameList}
-          handleExerciseChange={handleExerciseChange}
-          handleSetsNumberChange={handleSetsNumberChange}
-          handleSubmit={handleSubmit}
-          handleAddExercise={handleAddExercise}
-        />
+        <>
+          <h1 className="h1-title">Edit Training Session</h1>
+          <h2 className="h2-subtitle">Current log: {logName}</h2>
+          <TrainingSessionForm
+            logName={logName}
+            date={date}
+            setDate={setDate}
+            comment={comment}
+            setComment={setComment}
+            exercises={editedExercises}
+            exerciseNameList={exerciseNameList}
+            handleExerciseChange={handleExerciseChange}
+            handleSetsNumberChange={handleSetsNumberChange}
+            handleSubmit={handleSubmit}
+            handleAddExercise={handleAddExercise}
+          />
+        </>
       )}
     </Layout>
   );
