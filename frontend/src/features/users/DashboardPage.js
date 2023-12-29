@@ -66,19 +66,21 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <h1 className="dashboard-title">Dashboard</h1>
-          <h2 className="dashboard-subtitle">Current log:</h2>
-          <select
-            className="dashboard-select"
-            onChange={(e) => handleChange(e)}
-            value={selectedLog}
-          >
-            {trainingLogs.map((log, index) => (
-              <option key={index} value={log.name}>
-                {log.name}
-              </option>
-            ))}
-          </select>
+          <div>
+            <h1 className="dashboard-title">Dashboard</h1>
+            <h2 className="dashboard-subtitle">Current log:</h2>
+            <select
+              className="dashboard-select"
+              onChange={(e) => handleChange(e)}
+              value={selectedLog}
+            >
+              {trainingLogs.map((log, index) => (
+                <option key={index} value={log.name}>
+                  {log.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="log-details">
             {/* Replace this with the actual log details */}
