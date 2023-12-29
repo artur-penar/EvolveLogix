@@ -11,8 +11,6 @@ import LoadingState from "components/shared/LoadingState";
 import "./AddTrainingSession.css";
 import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
 
-
-
 // Function to get log names
 const getLogNames = (trainingLogsData) =>
   trainingLogsData.map((log) => log.name);
@@ -34,6 +32,12 @@ const AddTrainingSessionPage = () => {
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
   const exercisesData = useSelector((state) => state.exercises.exercises);
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
+
+  console.log("Selected training log:");
+  console.log(selectedTrainingLog);
 
   // Initial state for exercises
   const initialExerciseState = {
@@ -158,6 +162,7 @@ const AddTrainingSessionPage = () => {
 
     const dataToSubmit = {
       name: logName,
+      training_log_id: selectedTrainingLog.id,
       training_sessions: [
         {
           date,
@@ -166,6 +171,8 @@ const AddTrainingSessionPage = () => {
         },
       ],
     };
+    console.log("Add Training Session data to submit:");
+    console.log(dataToSubmit);
 
     dispatch(addTrainingSession(dataToSubmit));
     navigate("/training-log");
