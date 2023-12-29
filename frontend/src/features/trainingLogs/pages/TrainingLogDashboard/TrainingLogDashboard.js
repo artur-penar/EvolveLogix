@@ -24,6 +24,9 @@ const TrainingLogDashboardPage = () => {
   const [mainModalIsOpen, setMainModalIsOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
   const [refreshKey, setRefreshKey] = useState(0); // reset key to force rerender on modal close
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
@@ -33,18 +36,21 @@ const TrainingLogDashboardPage = () => {
 
   const eventsData = useMemo(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
-      return trainingLogsData.flatMap((logData) =>
-        logData.training_sessions.map((session) => ({
+      const selectedLogData = trainingLogsData.find(
+        (log) => log.name === selectedTrainingLog.name
+      );
+      if (selectedLogData) {
+        return selectedLogData.training_sessions.map((session) => ({
           title: session.comment,
           date: session.date,
           color: "green",
           extendedProps: {
             ...session,
           },
-        }))
-      );
+        }));
+      }
     }
-  }, [trainingLogsData]);
+  }, [trainingLogsData, selectedTrainingLog]);
 
   // useEffect(() => {
   //   if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
@@ -122,6 +128,10 @@ const TrainingLogDashboardPage = () => {
 
   console.log("Training log data!!!!!");
   console.log(trainingLogsData);
+  console.log("Selected training log:");
+  console.log(selectedTrainingLog);
+  console.log("Events data:");
+  console.log(eventsData);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
