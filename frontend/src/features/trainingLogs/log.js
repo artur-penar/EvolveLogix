@@ -23,9 +23,34 @@ export const getTrainingLogs = createAsyncThunk(
   }
 );
 
+export const createTrainingLog = createAsyncThunk(
+  "log/createTrainingLog",
+  async (name, thunkAPI) => {
+    try {
+      const res = await fetch("/api/training-log/", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(name),
+      });
+      const data = await res.json();
+      if (res.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const addTrainingSession = createAsyncThunk(
   "log/addTrainingSession",
-  async (trainingSession, thunkAPI) => {
+  async ({ name, training_sessions, training_log_id }, thunkAPI) => {
     try {
       const res = await fetch("api/training-log/addTrainingSession", {
         method: "POST",
@@ -34,8 +59,9 @@ export const addTrainingSession = createAsyncThunk(
           "Content-Type": "application/json",
           // 'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(trainingSession),
+        body: JSON.stringify({ name, training_sessions, training_log_id }),
       });
+
       const data = await res.json();
       if (res.status === 200) {
         return data;
@@ -105,6 +131,7 @@ export const deleteTrainingSession = createAsyncThunk(
 
 const initialState = {
   trainingLogs: [],
+  selectedTrainingLog: null,
   loading: false,
   error: null,
 };
@@ -112,7 +139,11 @@ const initialState = {
 const logSlice = createSlice({
   name: "log",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedTrainingLog: (state, action) => {
+      state.selectedTrainingLog = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTrainingLogs.pending, (state) => {
@@ -123,6 +154,18 @@ const logSlice = createSlice({
         state.trainingLogs = action.payload;
       })
       .addCase(getTrainingLogs.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createTrainingLog.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createTrainingLog.fulfilled, (state, action) => {
+        state.loading = false;
+        const { trainingLog } = action.payload;
+        state.trainingLogs.push(trainingLog);
+      })
+      .addCase(createTrainingLog.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -173,4 +216,5 @@ const logSlice = createSlice({
   },
 });
 
+export const { setSelectedTrainingLog } = logSlice.actions;
 export default logSlice.reducer;
