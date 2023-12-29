@@ -29,11 +29,15 @@ class SetSerializer(serializers.ModelSerializer):
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
     exercise = serializers.SlugRelatedField(
         slug_field='name', queryset=Exercise.objects.all())
-    sets = SetSerializer(many=True)  # Change this line
+    muscle_group = serializers.SerializerMethodField()
+    sets = SetSerializer(many=True)
 
     class Meta:
         model = ExerciseInSession
-        fields = ['exercise', 'order', 'comment', 'sets']
+        fields = ['exercise', 'muscle_group', 'order', 'comment', 'sets']
+
+    def get_muscle_group(self, obj):
+        return MuscleGroupSerializer(obj.exercise.muscle_group, many=True).data
 
     def create(self, validated_data):
         sets_data = validated_data.pop('sets', [])  # Add default value for pop
@@ -69,10 +73,11 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
     def _update_exercises(self, instance, exercises_data):
         for exercise_data in exercises_data:
             sets_data = exercise_data.pop('sets')
-            exercise_data['order'] = exercise_data.get('order', self._get_next_order(instance))
+            exercise_data['order'] = exercise_data.get(
+                'order', self._get_next_order(instance))
             exercise_in_session, created = ExerciseInSession.objects.update_or_create(
-                order=exercise_data['order'], 
-                training_session=instance, 
+                order=exercise_data['order'],
+                training_session=instance,
                 defaults=exercise_data)
             if created:
                 instance.exercises.add(exercise_in_session)
@@ -85,10 +90,11 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
     def _update_sets(self, exercise_in_session, sets_data):
         for set_data in sets_data:
-            set_data['set_number'] = set_data.get('set_number', self._get_next_set_number(exercise_in_session))
+            set_data['set_number'] = set_data.get(
+                'set_number', self._get_next_set_number(exercise_in_session))
             Set.objects.update_or_create(
-                set_number=set_data['set_number'], 
-                exercise_in_session=exercise_in_session, 
+                set_number=set_data['set_number'],
+                exercise_in_session=exercise_in_session,
                 defaults=set_data)
 
     def _get_next_set_number(self, exercise_in_session):
@@ -103,11 +109,11 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
 
 class TrainingLogSerializer(serializers.ModelSerializer):
-    training_sessions = TrainingSessionSerializer(many=True)
+    training_sessions = TrainingSessionSerializer(many=True, required=False)
 
     class Meta:
         model = TrainingLog
-        fields = ['name', 'training_sessions']
+        fields = ['id', 'name', 'training_sessions']
 
     def create(self, validated_data):
         """
@@ -119,21 +125,21 @@ class TrainingLogSerializer(serializers.ModelSerializer):
         Returns:
             The created TrainingLog instance.
         """
-        # Get the training sessions data and remove it from the validated data
-        training_sessions_data = validated_data.pop('training_sessions')
+        # Get the training sessions data if it exists, otherwise use an empty list
+        training_sessions_data = validated_data.pop('training_sessions', [])
         # Get or create a TrainingLog instance with the remaining validated data
         training_log, created = TrainingLog.objects.get_or_create(
             name=validated_data['name'], user=validated_data['user'], defaults=validated_data)
         # Loop through the training sessions data and create a TrainingSession instance for each one
         for training_session_data in training_sessions_data:
-            # Get the exercises data and remove it from the training session data
-            exercises_data = training_session_data.pop('exercises')
+            # Get the exercises data if it exists, otherwise use an empty list
+            exercises_data = training_session_data.pop('exercises', [])
             # Create a TrainingSession instance with the remaining training session data
             training_session = TrainingSession.objects.create(
                 training_log=training_log, **training_session_data)
             # Loop through the exercises data and create an ExerciseInSession instance for each one
             for exercise_data in exercises_data:
-                # Get the sets data and remove it from the exercise data
+                # Get the sets data if it exists, otherwise use an empty list
                 sets_data = exercise_data.pop('sets', [])
                 # Create an ExerciseInSession instance with the remaining exercise data
                 exercise_in_session = ExerciseInSession.objects.create(
