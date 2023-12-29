@@ -50,14 +50,6 @@ form button[type="submit"] {
   text-align: center;
 }
 
-.dashboard-select {
-  width: 100%;
-  padding: 5px;
-  border-radius: 3px;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
-}
-
 .dashboard-button {
   padding: 10px 20px;
   background-color: #007bff;

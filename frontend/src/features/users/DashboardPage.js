@@ -11,6 +11,8 @@ import log, {
 import NewLogForm from "./components/NewLogForm";
 import LoadingState from "components/shared/LoadingState";
 import "./DashboardPage.css";
+import LogDetails from "./components/LogDetails";
+import LogSelector from "./components/LogSelector";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -66,33 +68,20 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <div>
-            <h1 className="dashboard-title">Dashboard</h1>
-            <h2 className="dashboard-subtitle">Current log:</h2>
-            <select
-              className="dashboard-select"
-              onChange={(e) => handleChange(e)}
-              value={selectedLog}
-            >
-              {trainingLogs.map((log, index) => (
-                <option key={index} value={log.name}>
-                  {log.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="log-details">
-            {/* Replace this with the actual log details */}
-            <div className="strength-records">
-              <h3>Strength personal records </h3>
-              <p>Squt: 100kg</p>
-              <p>Bench Press: 100kg</p>
-              <p>Deadlift: 100kg</p>
-            </div>
-            <p>Performed trainign sessions = 100</p>
-            <p>Log details go here...</p>
-          </div>
+          <h1 className="dashboard-title">Dashboard</h1>
+          <h2 className="dashboard-subtitle">Current log:</h2>
+          {trainingLogs.length > 0 ? (
+            <>
+              <LogSelector
+                trainingLogs={trainingLogs}
+                selectedLog={selectedLog}
+                handleChange={handleChange}
+              />
+              <LogDetails />
+            </>
+          ) : (
+            <p>Log has no logs Create yout first log! </p>
+          )}
           <div className="create-log">
             <button
               className="dashboard-button"
