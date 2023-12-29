@@ -3,7 +3,11 @@ import Layout from "components/shared/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsUserAuthenticated, selectUser } from "features/users/user";
 import { Navigate } from "react-router-dom";
-import { getTrainingLogs } from "features/trainingLogs/log";
+import log, {
+  createTrainingLog,
+  getTrainingLogs,
+  setSelectedTrainingLog,
+} from "features/trainingLogs/log";
 import NewLogForm from "./components/NewLogForm";
 import LoadingState from "components/shared/LoadingState";
 import "./DashboardPage.css";
@@ -15,7 +19,6 @@ const DashboardPage = () => {
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const trainingLogss = [];
-
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
@@ -27,19 +30,33 @@ const DashboardPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getTrainingLogs());
-      if (trainingLogs.length > 0) {
-        setSelectedLog(trainingLogs[0].name);
-      }
     }
-  }, [dispatch]);
+  }, [dispatch, isAuthenticated]);
+
+  useEffect(() => {
+    if (trainingLogs.length > 0) {
+      const firstLogName = trainingLogs[0].name;
+      setSelectedLog(firstLogName);
+      dispatch(setSelectedTrainingLog(trainingLogs[0]));
+    }
+  }, [dispatch, trainingLogs]);
 
   if (!isAuthenticated && !loading) return <Navigate to="/login" />;
 
   const handleChange = (e) => {
-    setSelectedLog(e.target.value);
+    const selectedLogName = e.target.value;
+    const selectedLog = trainingLogs.find(
+      (log) => log.name === selectedLogName
+    );
+
+    setSelectedLog(selectedLogName);
+    console.log("Selected log:");
+    console.log(selectedLog);
+    dispatch(setSelectedTrainingLog(selectedLog));
   };
 
   const handleSubmit = () => {
+    dispatch(createTrainingLog({ name: newLogName }));
     console.log("Submited");
   };
 
@@ -53,7 +70,7 @@ const DashboardPage = () => {
           <h2 className="dashboard-subtitle">Current log:</h2>
           <select
             className="dashboard-select"
-            onChange={(e) => setSelectedLog(e.target.value)}
+            onChange={(e) => handleChange(e)}
             value={selectedLog}
           >
             {trainingLogs.map((log, index) => (
@@ -86,7 +103,7 @@ const DashboardPage = () => {
               <NewLogForm
                 newLogName={newLogName}
                 setNewLogName={setNewLogName}
-                handleSubmit={() => {}}
+                handleSubmit={handleSubmit}
               />
             )}
           </div>
