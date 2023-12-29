@@ -8,12 +8,16 @@ router.use(express.json());
 
 router.post("/api/training-log/addTrainingSession", async (req, res) => {
   const { access } = req.cookies;
-  const { name, training_sessions } = req.body;
+  const { training_log_id, name, training_sessions } = req.body;
 
   const body = JSON.stringify({
     name,
     training_sessions,
+    training_log_id,
   });
+
+  console.log("Add training session body:");
+  console.log(body);
 
   try {
     const apiRes = await fetch(`${process.env.API_URL}/api/training-log/`, {
