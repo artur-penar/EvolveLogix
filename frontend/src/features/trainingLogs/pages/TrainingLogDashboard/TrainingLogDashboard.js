@@ -30,9 +30,16 @@ const TrainingLogDashboardPage = () => {
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
-    dispatch(getTrainingLogs());
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+    if (!trainingLogsData) {
+      dispatch(getTrainingLogs());
+      console.log("Training logs data is null, dispatching getTrainingLogs()");
+    }
+    console.log("Training logs data is not null, dispatching getExercises()");
     dispatch(getExercises());
-  }, [refreshKey]);
+  }, [refreshKey, selectedTrainingLog]);
 
   const eventsData = useMemo(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
@@ -51,23 +58,6 @@ const TrainingLogDashboardPage = () => {
       }
     }
   }, [trainingLogsData, selectedTrainingLog]);
-
-  // useEffect(() => {
-  //   if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
-  //     setEventsData(
-  //       trainingLogsData.flatMap((logData) =>
-  //         logData.training_sessions.map((session) => ({
-  //           title: session.comment,
-  //           date: session.date,
-  //           color: "green",
-  //           extendedProps: {
-  //             ...session,
-  //           },
-  //         }))
-  //       )
-  //     );
-  //   }
-  // }, [trainingLogsData]);
 
   const handleDateClick = (date) => {
     alert("Clicked on: " + date.dateStr);
@@ -126,12 +116,8 @@ const TrainingLogDashboardPage = () => {
     setMainModalIsOpen(false);
   };
 
-  console.log("Training log data!!!!!");
-  console.log(trainingLogsData);
-  console.log("Selected training log:");
+  console.log("TrainingLogDashboardPage");
   console.log(selectedTrainingLog);
-  console.log("Events data:");
-  console.log(eventsData);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 

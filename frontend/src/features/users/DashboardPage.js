@@ -1,18 +1,22 @@
+// External libraries
 import React, { useEffect, useState } from "react";
-import Layout from "components/shared/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsUserAuthenticated, selectUser } from "features/users/user";
-import { Navigate } from "react-router-dom";
-import log, {
+import { Navigate, useNavigate } from "react-router-dom";
+
+// Internal modules
+import Layout from "components/shared/Layout";
+import LoadingState from "components/shared/LoadingState";
+import {
   createTrainingLog,
   getTrainingLogs,
   setSelectedTrainingLog,
 } from "features/trainingLogs/log";
-import NewLogForm from "./components/NewLogForm";
-import LoadingState from "components/shared/LoadingState";
-import "./DashboardPage.css";
+
+import { selectIsUserAuthenticated, selectUser } from "features/users/user";
 import LogDetails from "./components/LogDetails";
 import LogSelector from "./components/LogSelector";
+import NewLogForm from "./components/NewLogForm";
+import "./DashboardPage.css";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -20,23 +24,38 @@ const DashboardPage = () => {
   const user = useSelector(selectUser);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
+  const selectedTrainingLogName =
+    useSelector((state) =>
+      state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
+    ) || null;
   const trainingLogss = [];
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
-  const [showNewLogForm, setShowNewLogForm] = useState(false);
+  const [isNewLogFormVisable, setIsNewLogFormVisable] = useState(false);
   // Redux dispatch
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Side effects
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(getTrainingLogs());
+    if (!isAuthenticated) {
+      navigate("/login");
     }
-  }, [dispatch, isAuthenticated]);
+
+    if (trainingLogs.length === 0) {
+      console.log("DashboardPage: dispatching getTrainingLogs()");
+      dispatch(getTrainingLogs());
+    } else {
+      console.log("DashboardPage: dont dispatch getTrainingLogs()");
+      console.log(trainingLogs);
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
-    if (trainingLogs.length > 0) {
+    if (selectedTrainingLogName) {
+      setSelectedLog(selectedTrainingLogName);
+    } else if (trainingLogs.length > 0) {
       const firstLogName = trainingLogs[0].name;
       setSelectedLog(firstLogName);
       dispatch(setSelectedTrainingLog(trainingLogs[0]));
@@ -52,8 +71,6 @@ const DashboardPage = () => {
     );
 
     setSelectedLog(selectedLogName);
-    console.log("Selected log:");
-    console.log(selectedLog);
     dispatch(setSelectedTrainingLog(selectedLog));
   };
 
@@ -69,9 +86,10 @@ const DashboardPage = () => {
       ) : (
         <div className="dashboard">
           <h1 className="dashboard-title">Dashboard</h1>
-          <h2 className="dashboard-subtitle">Current log:</h2>
+
           {trainingLogs.length > 0 ? (
             <>
+              <h2 className="dashboard-subtitle">Current log:</h2>
               <LogSelector
                 trainingLogs={trainingLogs}
                 selectedLog={selectedLog}
@@ -85,12 +103,12 @@ const DashboardPage = () => {
           <div className="create-log">
             <button
               className="dashboard-button"
-              onClick={() => setShowNewLogForm(!showNewLogForm)}
+              onClick={() => setIsNewLogFormVisable(!isNewLogFormVisable)}
             >
-              {showNewLogForm ? "Create New Log ʌ" : "Create New Log v"}
+              {isNewLogFormVisable ? "Create New Log ʌ" : "Create New Log v"}
             </button>
 
-            {showNewLogForm && (
+            {isNewLogFormVisable && (
               <NewLogForm
                 newLogName={newLogName}
                 setNewLogName={setNewLogName}
