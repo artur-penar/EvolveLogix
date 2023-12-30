@@ -63,7 +63,8 @@ export const addTrainingSession = createAsyncThunk(
       });
 
       const data = await res.json();
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
+        thunkAPI.dispatch(getTrainingLogs());
         return data;
       } else {
         return thunkAPI.rejectWithValue(data);
@@ -174,8 +175,13 @@ const logSlice = createSlice({
       })
       .addCase(addTrainingSession.fulfilled, (state, action) => {
         state.loading = false;
-        const { trainingSession } = action.payload;
-        state.trainingLogs.push(trainingSession[0]);
+        const newTrainingSession = action.payload;
+        const trainingLog = state.trainingLogs.find(
+          (log) => log.id === newTrainingSession.id
+        );
+        if (trainingLog) {
+          trainingLog.training_sessions.push(newTrainingSession);
+        }
       })
       .addCase(addTrainingSession.rejected, (state, action) => {
         state.loading = false;
