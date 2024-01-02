@@ -1,45 +1,62 @@
+// React related imports
 import React, { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+
+// Redux related imports
 import { useDispatch, useSelector } from "react-redux";
-import Layout from "components/shared/Layout";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import {
-  deleteTrainingSession,
-  getTrainingLogs,
-} from "features/trainingLogs/log";
-import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
+import { deleteTrainingSession, getTrainingLogs } from "features/trainingLogs/log";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { getExercises } from "features/trainingLogs/exercises";
+
+// Component imports
+import Layout from "components/shared/Layout";
+import FullCalendar from "@fullcalendar/react";
+import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
+import DeleteInfoModal from "./DeleteInfoModal";
+
+// Plugin imports
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+
+// Styles
 import "./TrainingLogDashboard.css";
 
 const TrainingLogDashboardPage = () => {
+  // Redux hooks
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
+  const selectedTrainingLog = useSelector((state) => state.log.selectedTrainingLog);
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
+
+  // Navigation hooks
+  const navigate = useNavigate();
+
+  // State hooks
   // const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
   const [mainModalIsOpen, setMainModalIsOpen] = useState(false);
+  const [deleteInfoModalIsOpen, setDeleteInfoModalIsOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
-  const [refreshKey, setRefreshKey] = useState(0); // reset key to force rerender on modal close
-  const selectedTrainingLog = useSelector(
-    (state) => state.log.selectedTrainingLog
-  );
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }
+
+    if (deleteMessage !== "") {
+      setDeleteInfoModalIsOpen(true);
+    } else {
+      setDeleteInfoModalIsOpen(false);
+    }
+
     if (!trainingLogsData) {
       dispatch(getTrainingLogs());
       console.log("Training logs data is null, dispatching getTrainingLogs()");
     }
     console.log("Training logs data is not null, dispatching getExercises()");
     dispatch(getExercises());
-  }, [refreshKey, selectedTrainingLog]);
+  }, [selectedTrainingLog, deleteMessage]);
 
   const eventsData = useMemo(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
@@ -117,13 +134,17 @@ const TrainingLogDashboardPage = () => {
   };
 
   console.log("TrainingLogDashboardPage");
-  console.log(selectedTrainingLog);
+  console.log("Delete message");
+  console.log(deleteMessage);
+  console.log("Is delete info modal open");
+  console.log(deleteInfoModalIsOpen);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
     <Layout title="PerformanceTracker| Training Log">
-      <h1>Training Log Dashboard</h1>
+      {/* <h1>Training Log Dashboard</h1> */}
+      <h1 className="log-name">Current log: {selectedTrainingLog.name}</h1>
       {loading || !trainingLogsData ? (
         <div
           style={{
@@ -151,9 +172,12 @@ const TrainingLogDashboardPage = () => {
             handleEdit={handleModalEditClick}
             handleDelete={handleModalDeleteClick}
             trainingSessionData={clickedEventData}
-            deleteMessage={deleteMessage}
             setMainModalIsOpen={setMainModalIsOpen}
-            setRefreshKey={setRefreshKey}
+          />
+          <DeleteInfoModal
+            isOpen={deleteInfoModalIsOpen}
+            deleteMessage={deleteMessage}
+            setDeleteMessage={setDeleteMessage}
           />
         </div>
       )}
