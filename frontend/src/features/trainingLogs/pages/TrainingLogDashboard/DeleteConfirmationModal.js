@@ -1,16 +1,11 @@
-import { useState } from "react";
 import Modal from "react-modal";
-import DeleteInfoModal from "./DeleteInfoModal";
 
 Modal.setAppElement("#root");
 const DeleteConfirmationModal = ({
   isOpen,
   handleDelete,
   setIsDeleteModalOpen,
-  deleteMessage,
-  setRefreshKey,
 }) => {
-  const [isDeleteInfoModalOpen, setIsDeleteInfoModalOpen] = useState(false);
   return (
     <div>
       <Modal
@@ -23,7 +18,6 @@ const DeleteConfirmationModal = ({
         <button
           className="react-modal-button"
           onClick={() => {
-            setIsDeleteInfoModalOpen(true);
             handleDelete();
           }}
         >
@@ -36,11 +30,6 @@ const DeleteConfirmationModal = ({
           Cancel
         </button>
       </Modal>
-      <DeleteInfoModal
-        isOpen={isDeleteInfoModalOpen}
-        deleteMessage={deleteMessage}
-        setRefreshKey={setRefreshKey}
-      />
     </div>
   );
 };

@@ -119,6 +119,7 @@ export const deleteTrainingSession = createAsyncThunk(
         }
       );
       if (res.status === 200 || res.status === 204) {
+        thunkAPI.dispatch(getTrainingLogs());
         return { sessionId };
       } else {
         const data = await res.json();

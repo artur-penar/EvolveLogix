@@ -1,13 +1,8 @@
-import { setRef } from "@fullcalendar/core/internal";
 import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-const DeleteInfoModal = ({
-  isOpen,
-  deleteMessage,
-  setRefreshKey,
-}) => {
+const DeleteInfoModal = ({ isOpen, deleteMessage, setDeleteMessage }) => {
   return (
     <div>
       <Modal
@@ -19,9 +14,7 @@ const DeleteInfoModal = ({
         <h2>{deleteMessage}</h2>
         <button
           className="react-modal-button"
-          onClick={() => {
-            setRefreshKey((oldKey) => oldKey + 1);
-          }}
+          onClick={() => setDeleteMessage("")}
         >
           Close
         </button>
