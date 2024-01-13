@@ -95,6 +95,7 @@ export const updateTrainingSession = createAsyncThunk(
       const data = await res.json();
 
       if (res.status === 200) {
+        thunkAPI.dispatch(getTrainingLogs());
         return data;
       } else {
         return thunkAPI.rejectWithValue(data);
