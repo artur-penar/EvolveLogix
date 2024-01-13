@@ -134,10 +134,7 @@ const TrainingLogDashboardPage = () => {
   };
 
   console.log("TrainingLogDashboardPage");
-  console.log("Delete message");
-  console.log(deleteMessage);
-  console.log("Is delete info modal open");
-  console.log(deleteInfoModalIsOpen);
+  console.log(trainingLogsData)
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
