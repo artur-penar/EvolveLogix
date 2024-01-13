@@ -78,12 +78,41 @@ class TrainingLogView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class TrainingSessionCreate(generics.CreateAPIView):
+    """
+    A view for creating a training session.
+    """
+    serializer_class = TrainingSessionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        training_log_id = request.data.get('training_log_id')
+        try:
+            training_log = TrainingLog.objects.get(
+                id=training_log_id, user=request.user)
+        except TrainingLog.DoesNotExist:
+            return Response({'error': 'Training log not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Adjust the data to include the training_log
+        data = request.data
+        training_sessions = data['training_sessions'][0]
+        training_sessions['training_log'] = training_log_id
+        print("CREATE TRAINING SESSION VIEW!!!!!!!!!!!!!!1")
+        print(training_sessions)
+
+        serializer = self.get_serializer(data=training_sessions)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 class TrainingSessionUpdateDelete(mixins.UpdateModelMixin, generics.DestroyAPIView):
     """
     A view for updating or deleting a training session.
 
     This view allows the updating or deletion of a specific training session by its ID.
     """
+    print("Update method! ")
     queryset = TrainingSession.objects.all()
     lookup_field = 'pk'
     serializer_class = TrainingSessionSerializer
