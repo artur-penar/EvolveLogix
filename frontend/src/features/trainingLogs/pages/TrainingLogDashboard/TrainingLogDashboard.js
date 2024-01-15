@@ -67,14 +67,29 @@ const TrainingLogDashboardPage = () => {
         (log) => log.name === selectedTrainingLog.name
       );
       if (selectedLogData) {
-        return selectedLogData.training_sessions.map((session) => ({
-          title: session.comment,
-          date: session.date,
-          color: session.is_completed ? "green" : "grey",
-          extendedProps: {
-            ...session,
-          },
-        }));
+        return selectedLogData.training_sessions.map((session) => {
+          const sessionDate = new Date(session.date);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // set time to 00:00:00 to compare only the date part
+
+          let color;
+          if (session.is_completed) {
+            color = "green";
+          } else if (sessionDate < today) {
+            color = "red";
+          } else {
+            color = "grey";
+          }
+
+          return {
+            title: session.comment,
+            date: session.date,
+            color: color,
+            extendedProps: {
+              ...session,
+            },
+          };
+        });
       }
     }
   }, [trainingLogsData, selectedTrainingLog]);
