@@ -4,7 +4,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 // Redux related imports
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTrainingSession, getTrainingLogs } from "features/trainingLogs/log";
+import {
+  deleteTrainingSession,
+  getTrainingLogs,
+} from "features/trainingLogs/log";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { getExercises } from "features/trainingLogs/exercises";
 
@@ -26,7 +29,9 @@ const TrainingLogDashboardPage = () => {
   const dispatch = useDispatch();
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-  const selectedTrainingLog = useSelector((state) => state.log.selectedTrainingLog);
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   // Navigation hooks
@@ -67,7 +72,7 @@ const TrainingLogDashboardPage = () => {
         return selectedLogData.training_sessions.map((session) => ({
           title: session.comment,
           date: session.date,
-          color: "green",
+          color: session.is_completed ? "green" : "grey",
           extendedProps: {
             ...session,
           },
@@ -83,10 +88,12 @@ const TrainingLogDashboardPage = () => {
 
   const handleEventClick = (e) => {
     setMainModalIsOpen(true);
-    const { id, date, comment, exercises } = e.event.extendedProps;
+    const { id, date, comment, exercises, is_completed } =
+      e.event.extendedProps;
     console.log("Data from handleEventClick");
-    console.log({ id, date, comment, exercises });
-    setClickedEventData({ id, date, comment, exercises });
+    console.log(e.event.extendedProps);
+    console.log({ id, date, comment, exercises, is_completed });
+    setClickedEventData({ id, date, comment, exercises, is_completed });
   };
 
   const handleModalEditClick = () => {
@@ -134,7 +141,7 @@ const TrainingLogDashboardPage = () => {
   };
 
   console.log("TrainingLogDashboardPage");
-  console.log(trainingLogsData)
+  console.log(trainingLogsData);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
