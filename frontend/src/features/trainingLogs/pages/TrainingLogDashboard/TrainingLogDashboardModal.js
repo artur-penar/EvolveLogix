@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import ViewTrainingSessionModal from "./ViewTrainingSessionModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import "./TrainingLogDashboardModal.css";
+import { useDispatch } from "react-redux";
+import { updateTrainingSession } from "features/trainingLogs/log";
 
 Modal.setAppElement("#root");
 
@@ -13,10 +15,19 @@ const TrainingLogDashboardModal = ({
   handleDelete,
   setMainModalIsOpen,
 }) => {
+  // Redux hooks
+  const dispatch = useDispatch();
+
+  // State hooks
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTrainingSessionComplete, setIsTrainingSessionComplete] =
     useState(false);
+
+  useEffect(() => {
+    if (trainingSessionData)
+      setIsTrainingSessionComplete(trainingSessionData.is_completed);
+  }, [trainingSessionData]);
 
   const closeViewModal = () => {
     setIsViewModalOpen(false);
@@ -24,6 +35,18 @@ const TrainingLogDashboardModal = ({
 
   const handleViewButtonClick = () => {
     setIsViewModalOpen(true);
+  };
+
+  const toggleIsTrainingSessionComplete = () => {
+    setIsTrainingSessionComplete(!isTrainingSessionComplete);
+
+    dispatch(
+      updateTrainingSession({
+        ...trainingSessionData,
+        is_completed: !isTrainingSessionComplete,
+      })
+    );
+    setMainModalIsOpen(false);
   };
 
   return (
@@ -36,9 +59,7 @@ const TrainingLogDashboardModal = ({
       >
         <button
           className="react-modal-button"
-          onClick={() =>
-            setIsTrainingSessionComplete(!isTrainingSessionComplete)
-          }
+          onClick={toggleIsTrainingSessionComplete}
         >
           Mark as {isTrainingSessionComplete ? "Incomplete" : "Complete"}
         </button>
