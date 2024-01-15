@@ -57,9 +57,7 @@ const TrainingLogDashboardPage = () => {
 
     if (!trainingLogsData) {
       dispatch(getTrainingLogs());
-      console.log("Training logs data is null, dispatching getTrainingLogs()");
     }
-    console.log("Training logs data is not null, dispatching getExercises()");
     dispatch(getExercises());
   }, [selectedTrainingLog, deleteMessage]);
 
@@ -90,14 +88,10 @@ const TrainingLogDashboardPage = () => {
     setMainModalIsOpen(true);
     const { id, date, comment, exercises, is_completed } =
       e.event.extendedProps;
-    console.log("Data from handleEventClick");
-    console.log(e.event.extendedProps);
-    console.log({ id, date, comment, exercises, is_completed });
     setClickedEventData({ id, date, comment, exercises, is_completed });
   };
 
   const handleModalEditClick = () => {
-    console.log(clickedEventData);
     const { id } = clickedEventData;
     const trainingData = clickedEventData;
 
@@ -105,16 +99,11 @@ const TrainingLogDashboardPage = () => {
   };
 
   const handleModalDeleteClick = async () => {
-    console.log("ID TO DLETE: " + clickedEventData.id);
-    console.log("Delete item comment: " + clickedEventData.comment);
-    console.log("Delete item date: " + clickedEventData.date);
     const trainingSessionIdToDelete = clickedEventData.id;
     try {
       const resultAction = await dispatch(
         deleteTrainingSession(trainingSessionIdToDelete)
       );
-      console.log("Delete Result action");
-      console.log(resultAction.payload);
 
       if (deleteTrainingSession.fulfilled.match(resultAction)) {
         setDeleteMessage(
@@ -133,15 +122,10 @@ const TrainingLogDashboardPage = () => {
         }
       }
     } catch (err) {
-      console.log(err);
       setDeleteMessage("Info from catch(err)\n" + err.message);
     }
-    console.log(deleteMessage);
     setMainModalIsOpen(false);
   };
-
-  console.log("TrainingLogDashboardPage");
-  console.log(trainingLogsData);
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
