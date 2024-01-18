@@ -36,47 +36,51 @@ const processExercises = (exercises) => {
  * It uses the useParams hook to get the id of the training session to be edited.
  */
 const EditTrainingSessionPage = () => {
-// Constants
-const EMPTY_STRING = "";
+  // Constants
+  const EMPTY_STRING = "";
 
-// React Router hooks
-const location = useLocation();
-const navigate = useNavigate();
+  // React Router hooks
+  const location = useLocation();
+  const navigate = useNavigate();
 
-// Data from location state
-const selectedEventTrainingData = location.state.trainingData;
-const {
-  date: trainingDate,
-  comment: trainingComment,
-  exercises: trainingExercises,
-} = selectedEventTrainingData;
+  // Data from location state
+  const selectedEventTrainingData = location.state.trainingData;
+  const {
+    description: trainingDescription,
+    date: trainingDate,
+    comment: trainingComment,
+    exercises: trainingExercises,
+  } = selectedEventTrainingData;
 
-// Processed exercises
-const processedExercises = processExercises(trainingExercises);
+  // Processed exercises
+  const processedExercises = processExercises(trainingExercises);
 
-// Redux hooks
-const dispatch = useDispatch();
-const isAuthenticated = useSelector(selectIsUserAuthenticated);
-const exercisesData = useSelector((state) => state.exercises.exercises);
+  // Redux hooks
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
+  const exercisesData = useSelector((state) => state.exercises.exercises);
 
-// Derived state
-const exerciseNameList = getExercisesNames(exercisesData);
+  // Derived state
+  const exerciseNameList = getExercisesNames(exercisesData);
 
-// Redux state
-const selectedTrainingLog = useSelector((state) => state.log.selectedTrainingLog);
-const logName = selectedTrainingLog.name;
+  // Redux state
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
+  const logName = selectedTrainingLog.name;
 
-// State hooks
-const [loading, setLoading] = useState(true);
-const [date, setDate] = useState(trainingDate);
-const [comment, setComment] = useState(trainingComment);
-const [editedExercises, setEditedExercises] = useState(processedExercises);
+  // State hooks
+  const [loading, setLoading] = useState(true);
+  const [date, setDate] = useState(trainingDate);
+  const [comment, setComment] = useState(trainingComment);
+  const [description, setDescription] = useState(trainingDescription);
+  const [editedExercises, setEditedExercises] = useState(processedExercises);
 
-// Side effects
-useEffect(() => {
-  dispatch(getTrainingLogs());
-  setLoading(false);
-}, []);
+  // Side effects
+  useEffect(() => {
+    dispatch(getTrainingLogs());
+    setLoading(false);
+  }, []);
 
   // Event handlers and other functions
 
@@ -160,12 +164,12 @@ useEffect(() => {
 
     const updatedData = {
       id: selectedEventTrainingData.id,
+      description: description,
       date: date,
       comment: comment,
       exercises: editedExercises,
     };
-    console.log("Updated data!");
-    console.log(updatedData);
+
     dispatch(updateTrainingSession(updatedData));
 
     navigate("/training-log");
@@ -188,7 +192,8 @@ useEffect(() => {
           <h1 className="h1-title">Edit Training Session</h1>
           <h2 className="h2-subtitle">Current log: {logName}</h2>
           <TrainingSessionForm
-            logName={logName}
+            description={description}
+            setDescription={setDescription}
             date={date}
             setDate={setDate}
             comment={comment}
