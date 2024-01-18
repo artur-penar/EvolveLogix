@@ -82,7 +82,7 @@ const TrainingLogDashboardPage = () => {
           }
 
           return {
-            title: session.comment,
+            title: session.description,
             date: session.date,
             color: color,
             extendedProps: {
@@ -101,15 +101,24 @@ const TrainingLogDashboardPage = () => {
 
   const handleEventClick = (e) => {
     setMainModalIsOpen(true);
-    const { id, date, comment, exercises, is_completed } =
+    const { id, description, date, comment, exercises, is_completed } =
       e.event.extendedProps;
-    setClickedEventData({ id, date, comment, exercises, is_completed });
+    setClickedEventData({
+      id,
+      description,
+      date,
+      comment,
+      exercises,
+      is_completed,
+    });
   };
 
   const handleModalEditClick = () => {
     const { id } = clickedEventData;
     const trainingData = clickedEventData;
 
+    console.log("handleModalEditClick");
+    console.log(trainingData);
     navigate(`/edit-training-session/${id}`, { state: { trainingData } });
   };
 
