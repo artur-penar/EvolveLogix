@@ -50,6 +50,7 @@ const AddTrainingSessionPage = () => {
     location.state?.selectedDate || new Date().toISOString().substring(0, 10)
   );
   const [comment, setComment] = useState("");
+  const [description, setDescription] = useState("");
   const [exercises, setExercises] = useState([initialExerciseState]);
 
   // Side effects
@@ -158,14 +159,14 @@ const AddTrainingSessionPage = () => {
       training_log_id: selectedTrainingLog.id,
       training_sessions: [
         {
+          description,
           date,
           comment,
           exercises: prepareExercisesForSubmission(exercises),
         },
       ],
     };
-    console.log("Add Training Session data to submit:");
-    console.log(dataToSubmit);
+
 
     dispatch(addTrainingSession(dataToSubmit));
     navigate("/training-log");
@@ -183,7 +184,8 @@ const AddTrainingSessionPage = () => {
           <h1 className="h1-title">Add Training Session</h1>
           <h2 className="h2-subtitle">Current log: {logName}</h2>
           <TrainingSessionForm
-            logName={logName}
+            description={description}
+            setDescription={setDescription}
             date={date}
             setDate={setDate}
             comment={comment}

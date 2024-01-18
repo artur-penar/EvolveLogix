@@ -117,8 +117,6 @@ const TrainingLogDashboardPage = () => {
     const { id } = clickedEventData;
     const trainingData = clickedEventData;
 
-    console.log("handleModalEditClick");
-    console.log(trainingData);
     navigate(`/edit-training-session/${id}`, { state: { trainingData } });
   };
 
