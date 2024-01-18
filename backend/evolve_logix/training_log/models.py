@@ -80,12 +80,13 @@ class TrainingSession(models.Model):
     """
     training_log = models.ForeignKey(
         TrainingLog, on_delete=models.CASCADE, related_name='training_sessions')
+    description = models.TextField(blank=True, null=True)
     date = models.DateField()
     comment = models.TextField(blank=True, null=True)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.training_log.user.user_name} - {self.training_log.name} - {self.date}"
+        return f"{self.training_log.user.user_name} - {self.training_log.name} - {self.description}: {self.date}"
 
 
 class ExerciseInSession(models.Model):
