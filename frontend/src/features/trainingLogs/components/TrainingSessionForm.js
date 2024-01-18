@@ -1,11 +1,12 @@
 import React from "react";
-import TrainingLogNameField from "./TrainingLogNameField";
+import DescriptionFiedl from "./DescriptionFeild";
 import DateField from "./DateField";
 import ExerciseField from "./ExerciseField";
 import CommentField from "./CommentField";
 
 const TrainingSessionForm = ({
-  logName,
+  description,
+  setDescription,
 
   date,
   setDate,
@@ -20,7 +21,10 @@ const TrainingSessionForm = ({
 }) => (
   <div className="add-training-container">
     <div className="field-container">
-      <TrainingLogNameField logName={logName} />
+      <DescriptionFiedl
+        description={description}
+        setDescription={setDescription}
+      />
       <DateField date={date} setDate={setDate} />
       <CommentField comment={comment} setComment={setComment} />
     </div>
