@@ -5,6 +5,7 @@ const ExerciseField = ({
   exercises,
   exerciseNameList,
   handleExerciseChange,
+  handleRemoveExercise,
   handleSetsNumberChange,
 }) => {
   console.log("ExercisesField");
@@ -60,7 +61,11 @@ const ExerciseField = ({
             </div>
           </div>
           <div className="delete-button-container">
-            <button className="btn btn-primary" type="button">
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => handleRemoveExercise(index)}
+            >
               X
             </button>
           </div>
