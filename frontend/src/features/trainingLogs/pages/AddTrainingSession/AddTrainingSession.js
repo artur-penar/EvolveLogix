@@ -126,6 +126,12 @@ const AddTrainingSessionPage = () => {
     setExercises([...exercises, initialExerciseState]);
   };
 
+  const handleRemoveExercise = (exerciseIndexToRemove) => {
+    setExercises(
+      exercises.filter((_, index) => index !== exerciseIndexToRemove)
+    );
+  };
+
   // Submission logic
   const checkForEmptyFields = () => {
     for (let exercise of exercises) {
@@ -167,7 +173,6 @@ const AddTrainingSessionPage = () => {
       ],
     };
 
-
     dispatch(addTrainingSession(dataToSubmit));
     navigate("/training-log");
   };
@@ -192,10 +197,11 @@ const AddTrainingSessionPage = () => {
             setComment={setComment}
             exercises={exercises}
             exerciseNameList={exerciseNames}
+            handleAddExercise={handleAddExercise}
+            handleRemoveExercise={handleRemoveExercise}
             handleExerciseChange={handleExerciseChange}
             handleSetsNumberChange={handleSetsNumberChange}
             handleSubmit={handleSubmit}
-            handleAddExercise={handleAddExercise}
           />
         </>
       )}
