@@ -59,7 +59,7 @@ const TrainingLogDashboardPage = () => {
       dispatch(getTrainingLogs());
     }
     dispatch(getExercises());
-  }, [selectedTrainingLog, deleteMessage]);
+  }, [selectedTrainingLog, deleteMessage, isAuthenticated]);
 
   const eventsData = useMemo(() => {
     if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
