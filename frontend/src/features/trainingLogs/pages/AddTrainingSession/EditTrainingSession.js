@@ -159,6 +159,12 @@ const EditTrainingSessionPage = () => {
     ]);
   };
 
+  const handleRemoveExercise = (exerciseIndexToRemove) => {
+    setEditedExercises(
+      editedExercises.filter((_, index) => index !== exerciseIndexToRemove)
+    );
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -200,10 +206,11 @@ const EditTrainingSessionPage = () => {
             setComment={setComment}
             exercises={editedExercises}
             exerciseNameList={exerciseNameList}
+            handleAddExercise={handleAddExercise}
+            handleRemoveExercise={handleRemoveExercise}
             handleExerciseChange={handleExerciseChange}
             handleSetsNumberChange={handleSetsNumberChange}
             handleSubmit={handleSubmit}
-            handleAddExercise={handleAddExercise}
           />
         </>
       )}
