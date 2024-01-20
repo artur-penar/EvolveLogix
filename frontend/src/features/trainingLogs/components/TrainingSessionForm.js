@@ -14,10 +14,11 @@ const TrainingSessionForm = ({
   setComment,
   exercises,
   exerciseNameList,
+  handleAddExercise,
+  handleRemoveExercise,
   handleExerciseChange,
   handleSetsNumberChange,
   handleSubmit,
-  handleAddExercise,
 }) => (
   <div className="add-training-container">
     <div className="field-container">
@@ -32,6 +33,7 @@ const TrainingSessionForm = ({
       <ExerciseField
         exercises={exercises}
         exerciseNameList={exerciseNameList}
+        handleRemoveExercise={handleRemoveExercise}
         handleExerciseChange={handleExerciseChange}
         handleSetsNumberChange={handleSetsNumberChange}
       />
