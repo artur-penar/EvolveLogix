@@ -7,7 +7,7 @@ const ExerciseField = ({
   handleExerciseChange,
   handleSetsNumberChange,
 }) => {
-  console.log("ExercisesField")
+  console.log("ExercisesField");
   console.log(exercises);
   return (
     <div>
@@ -58,6 +58,11 @@ const ExerciseField = ({
                 handleSetsNumberChange={handleSetsNumberChange}
               />
             </div>
+          </div>
+          <div className="delete-button-container">
+            <button className="btn btn-primary" type="button">
+              X
+            </button>
           </div>
         </div>
       ))}

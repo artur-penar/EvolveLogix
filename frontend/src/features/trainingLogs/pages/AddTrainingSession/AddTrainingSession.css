@@ -13,6 +13,7 @@
 }
 
 .exercise {
+  position: relative;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   padding: 10px;
@@ -95,4 +96,11 @@
   color: #666; /* Adjust as needed */
   margin-bottom: 20px; /* Adjust as needed */
   text-align: center; /* Adjust as needed */
+}
+
+.delete-button-container button {
+  background-color: red;
+  position: absolute;
+  top: 10px; /* adjust as needed */
+  right: 10px; /* adjust as needed */
 }
