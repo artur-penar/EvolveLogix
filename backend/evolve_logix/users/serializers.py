@@ -2,7 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core import exceptions
-from models import UserDetail
+from .models import UserDetail
 
 User = get_user_model()
 
