@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get("/api/users/detail/:id", async (req, res) => {
   const { id } = req.params;
+  const { access } = req.cookies;
 
   try {
     const apiRes = await fetch(
@@ -14,6 +15,9 @@ router.get("/api/users/detail/:id", async (req, res) => {
         method: "GET",
         headers: {
           Accept: "application/json",
+          Authorization: `Bearer ${access}`,
+          // 'Content-Type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest'
         },
       }
     );
