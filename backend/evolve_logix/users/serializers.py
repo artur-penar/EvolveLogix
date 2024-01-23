@@ -2,6 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core import exceptions
+from models import UserDetail
 
 User = get_user_model()
 
@@ -12,7 +13,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to define model and fields."""
         model = User
-        fields = ['email', 'user_name','password']
+        fields = ['email', 'user_name', 'password']
 
     def validate(self, data):
         """Handle password extra validation. Triggered automatically after UserCreateSerializer.is_valid() method
@@ -49,3 +50,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('email', 'user_name')
 
 # 49:00
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserDetail
+        fields = ['height', 'weight', 'calves', 'thigh',
+                  'hips', 'waist', 'chest', 'neck', 'arm', 'forearm']
