@@ -16,7 +16,7 @@ import {
   selectIsUserAuthenticated,
   selectUser,
 } from "features/users/user";
-import LogDetails from "./components/LogDetails";
+import LogDetails from "./components/UserDetail";
 import LogSelector from "./components/LogSelector";
 import NewLogForm from "./components/NewLogForm";
 import "./DashboardPage.css";
