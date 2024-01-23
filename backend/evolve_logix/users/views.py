@@ -1,9 +1,9 @@
-from rest_framework.views import APIView
+from rest_framework.views import APIView, generics
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from .serializers import UserCreateSerializer, UserSerializer
-from .models import UserProfile
+from .serializers import UserCreateSerializer, UserSerializer, UserDetailSerializer
+from .models import UserDetail
 
 
 class RegisterView(APIView):
@@ -38,6 +38,7 @@ class RetrieveUserView(APIView):
 
         return Response(user.data, status=status.HTTP_200_OK)
 
+
 class ListUserView(APIView):
     """List all users."""
 
@@ -47,3 +48,13 @@ class ListUserView(APIView):
         users = UserSerializer(users, many=True)
 
         return Response(users.data, status=status.HTTP_200_OK)
+
+
+class UserDetailCreateUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = UserDetail.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        """Retrieve the object."""
+        return UserDetail.objects.get_or_create(user=self.request.user)[0]
