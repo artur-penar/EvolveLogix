@@ -23,7 +23,8 @@ class UserProfileManager(BaseUserManager):
         """Create superuser profile."""
         # Remember to provide correct attributes in accurate place.
         # If not you will get trouble when you create superuser, and try to login to admin page.
-        user = self.create_user(email=email, user_name=user_name, password=password)
+        user = self.create_user(
+            email=email, user_name=user_name, password=password)
 
         user.is_superuser = True
         user.is_staff = True
@@ -54,7 +55,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
 
 class UserDetail(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
     height = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
     weight = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
     calves = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
