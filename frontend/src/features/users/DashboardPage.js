@@ -11,8 +11,11 @@ import {
   getTrainingLogs,
   setSelectedTrainingLog,
 } from "features/trainingLogs/log";
-
-import { selectIsUserAuthenticated, selectUser } from "features/users/user";
+import {
+  getUserDetail,
+  selectIsUserAuthenticated,
+  selectUser,
+} from "features/users/user";
 import LogDetails from "./components/LogDetails";
 import LogSelector from "./components/LogSelector";
 import NewLogForm from "./components/NewLogForm";
@@ -22,6 +25,7 @@ const DashboardPage = () => {
   // Redux state selectors
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
   const user = useSelector(selectUser);
+  const userDetail = useSelector((state) => state.user.userDetail);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const selectedTrainingLogName =
@@ -29,10 +33,12 @@ const DashboardPage = () => {
       state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
     ) || null;
   const trainingLogss = [];
+
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
   const [isNewLogFormVisable, setIsNewLogFormVisable] = useState(false);
+
   // Redux dispatch
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,6 +47,15 @@ const DashboardPage = () => {
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
+    }
+
+    if (!userDetail) {
+      console.log("DashboardPage: dispatching getUserDetail()");
+      console.log(user);
+      dispatch(getUserDetail(user.id));
+    } else {
+      console.log("DashboardPage: dont dispatch getUserDetail()");
+      console.log(userDetail);
     }
 
     if (trainingLogs.length === 0) {
@@ -95,7 +110,7 @@ const DashboardPage = () => {
                 selectedLog={selectedLog}
                 handleChange={handleChange}
               />
-              <LogDetails />
+              <LogDetails userDetail={userDetail} />
             </>
           ) : (
             <p>Log has no logs Create yout first log! </p>
