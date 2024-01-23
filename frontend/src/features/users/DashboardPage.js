@@ -16,10 +16,13 @@ import {
   selectIsUserAuthenticated,
   selectUser,
 } from "features/users/user";
-import LogDetails from "./components/UserDetail";
+import Header from "./components/DashboardHeader";
+import UserDetails from "./components/UserDetail";
 import LogSelector from "./components/LogSelector";
 import NewLogForm from "./components/NewLogForm";
 import "./DashboardPage.css";
+import Main from "./components/DashboardMain";
+import Footer from "./components/DashboardFooter";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -100,37 +103,24 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <h1 className="dashboard-title">Dashboard</h1>
-
+          <Header user={user} />
           {trainingLogs.length > 0 ? (
-            <>
-              <h2 className="dashboard-subtitle">Current log:</h2>
-              <LogSelector
-                trainingLogs={trainingLogs}
-                selectedLog={selectedLog}
-                handleChange={handleChange}
-              />
-              <LogDetails userDetail={userDetail} />
-            </>
+            <Main
+              trainingLogs={trainingLogs}
+              selectedLog={selectedLog}
+              handleChange={handleChange}
+              userDetail={userDetail}
+            />
           ) : (
             <p>Log has no logs Create yout first log! </p>
           )}
-          <div className="create-log">
-            <button
-              className="dashboard-button"
-              onClick={() => setIsNewLogFormVisable(!isNewLogFormVisable)}
-            >
-              {isNewLogFormVisable ? "Create New Log ʌ" : "Create New Log v"}
-            </button>
-
-            {isNewLogFormVisable && (
-              <NewLogForm
-                newLogName={newLogName}
-                setNewLogName={setNewLogName}
-                handleSubmit={handleSubmit}
-              />
-            )}
-          </div>
+          <Footer
+            isNewLogFormVisable={isNewLogFormVisable}
+            setIsNewLogFormVisable={setIsNewLogFormVisable}
+            newLogName={newLogName}
+            setNewLogName={setNewLogName}
+            handleSubmit={handleSubmit}
+          />
         </div>
       )}
     </Layout>
