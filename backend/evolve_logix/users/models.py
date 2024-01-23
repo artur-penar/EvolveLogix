@@ -34,8 +34,8 @@ class UserProfileManager(BaseUserManager):
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system."""
-    email = models.EmailField(max_length=255, unique=True)
-    user_name = models.CharField(max_length=255, default="user_name")
+    email = models.EmailField(max_length=155, unique=True)
+    user_name = models.CharField(max_length=155, default="user_name")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -51,3 +51,17 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Retrieve string representation."""
         return self.email
+
+
+class UserDetail(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    height = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    weight = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    calves = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    thigh = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    hips = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    waist = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    chest = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    neck = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    arm = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
+    forearm = models.DecimalField(max_digits=3, decimal_places=1, default=0.00)
