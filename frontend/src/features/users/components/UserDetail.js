@@ -1,6 +1,6 @@
 import React from "react";
 
-const LogDetails = ({ userDetail }) => (
+const UserDetails = ({ userDetail }) => (
   <div className="log-details">
     <div className="strength-records">
       {Object.entries(userDetail).map(([key, value]) => (
@@ -10,4 +10,4 @@ const LogDetails = ({ userDetail }) => (
   </div>
 );
 
-export default LogDetails;
+export default UserDetails;
