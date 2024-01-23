@@ -47,7 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'user_name')
+        fields = ('id', 'email', 'user_name')
 
 # 49:00
 
@@ -56,5 +56,5 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserDetail
-        fields = ['height', 'weight', 'calves', 'thigh',
+        fields = ['updated_at', 'height', 'weight', 'calves', 'thigh',
                   'hips', 'waist', 'chest', 'neck', 'arm', 'forearm']
