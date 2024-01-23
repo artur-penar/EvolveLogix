@@ -55,6 +55,29 @@ export const getUser = createAsyncThunk("users/me", async (_, thunkAPI) => {
   }
 });
 
+export const getUserDetail = createAsyncThunk(
+  "users/detail",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`api/users/detail/${id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      const data = await res.json();
+      if (res.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "users/login",
   async ({ email, password }, thunkAPI) => {
@@ -139,6 +162,7 @@ export const verifyAuth = createAsyncThunk(
 const initialState = {
   isAuthenticated: false,
   user: null,
+  userDetail: null,
   loading: false,
   registered: false,
 };
@@ -153,10 +177,10 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Register
       .addCase(register.pending, (state) => {
         state.loading = true;
       })
-
       .addCase(register.fulfilled, (state) => {
         state.registered = true;
         state.loading = false;
@@ -164,6 +188,8 @@ const userSlice = createSlice({
       .addCase(register.rejected, (state) => {
         state.loading = false;
       })
+
+      // Login
       .addCase(login.pending, (state) => {
         state.loading = true;
       })
@@ -173,6 +199,8 @@ const userSlice = createSlice({
       .addCase(login.rejected, (state) => {
         state.loading = false;
       })
+
+      // Get user
       .addCase(getUser.pending, (state) => {
         state.loading = true;
       })
@@ -183,6 +211,20 @@ const userSlice = createSlice({
       .addCase(getUser.rejected, (state) => {
         state.loading = false;
       })
+
+      // Get user detail
+      .addCase(getUserDetail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userDetail = action.payload;
+      })
+      .addCase(getUserDetail.rejected, (state) => {
+        state.loading = false;
+      })
+
+      // Verify auth
       .addCase(verifyAuth.pending, (state) => {
         state.loading = true;
       })
@@ -193,6 +235,8 @@ const userSlice = createSlice({
       .addCase(verifyAuth.rejected, (state) => {
         state.loading = false;
       })
+
+      // Logout
       .addCase(logout.pending, (state) => {
         state.loading = true;
       })
