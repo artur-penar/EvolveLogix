@@ -56,14 +56,67 @@ export const getUser = createAsyncThunk("users/me", async (_, thunkAPI) => {
 });
 
 export const getUserDetail = createAsyncThunk(
-  "users/detail",
-  async (id, thunkAPI) => {
+  "users/detail/all",
+  async (_, thunkAPI) => {
     try {
-      const res = await fetch(`api/users/detail/${id}`, {
+      const res = await fetch(`api/users/detail/all`, {
         method: "GET",
         headers: {
           Accept: "application/json",
         },
+      });
+
+      const data = await res.json();
+      if (res.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const createUserDetail = createAsyncThunk(
+  "users/detail/create",
+  async (userDetail, thunkAPI) => {
+    const body = JSON.stringify(userDetail);
+    try {
+      const res = await fetch(`api/users/detail/create`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      const data = await res.json();
+      if (res.status === 201) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateUserDetail = createAsyncThunk(
+  "users/update",
+  async (id, updatedUserDetail, thunkAPI) => {
+    const body = JSON.stringify(updatedUserDetail);
+
+    try {
+      const res = await fetch(`api/users/detail/${id}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
       });
 
       const data = await res.json();
@@ -221,6 +274,18 @@ const userSlice = createSlice({
         state.userDetail = action.payload;
       })
       .addCase(getUserDetail.rejected, (state) => {
+        state.loading = false;
+      })
+
+      // Create user detail
+      .addCase(createUserDetail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createUserDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userDetail = action.payload;
+      })
+      .addCase(createUserDetail.rejected, (state) => {
         state.loading = false;
       })
 
