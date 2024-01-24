@@ -22,3 +22,34 @@
 .details-container > * {
   flex: 1; /* This will make each child of details-container take up an equal amount of space */
 }
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  width: 100%; /* Adjust as needed */
+}
+
+.button:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+
+.details-container,
+.details-container input,
+.details-container label {
+  font-weight: normal;
+}
+
+.centered-input {
+  text-align: center;
+}
