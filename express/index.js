@@ -13,7 +13,12 @@ const logoutRoute = require("./routes/auth/logout");
 const registerRoute = require("./routes/auth/register");
 const meRoute = require("./routes/auth/me");
 const veryfiAuth = require("./routes/auth/verify");
+
+// User Detail functionality routes
 const userDetailRoute = require("./routes/auth/userDetail");
+const createUserDetailRoute = require("./routes/auth/createUserDetail");
+const updateUserDetailRoute = require("./routes/auth/updateUserDetail");
+
 // Training functionality routes
 const exercisesRoute = require("./routes/training_log/listExercises");
 const trainingLogRoute = require("./routes/training_log/trainingLog");
@@ -38,7 +43,12 @@ app.use(loginRoute);
 app.use(logoutRoute);
 app.use(meRoute);
 app.use(veryfiAuth);
+
+// User Detail functionality routes
 app.use(userDetailRoute);
+app.use(updateUserDetailRoute);
+app.use(createUserDetailRoute);
+
 // Training functionality routes
 app.use(exercisesRoute);
 app.use(trainingLogRoute);
