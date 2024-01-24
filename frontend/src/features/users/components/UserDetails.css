@@ -24,3 +24,8 @@
   font-weight: bold;
   text-decoration: underline;
 }
+
+form {
+  margin: 0;
+  padding: 0;
+}
