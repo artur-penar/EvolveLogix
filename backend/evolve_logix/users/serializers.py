@@ -49,12 +49,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'email', 'user_name')
 
-# 49:00
-
 
 class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserDetail
-        fields = ['updated_at', 'height', 'weight', 'calves', 'thigh',
-                  'hips', 'waist', 'chest', 'neck', 'arm', 'forearm']
+        fields = ['updated_at',  'weight', 'height', 'chest', 'arm', 'forearm', 'hips', 'calves', 'thigh',
+                  'waist',  'neck', ]
