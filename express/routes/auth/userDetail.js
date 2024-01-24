@@ -4,23 +4,19 @@ const fetch = (...args) =>
 
 const router = express.Router();
 
-router.get("/api/users/detail/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/api/users/detail/all", async (req, res) => {
   const { access } = req.cookies;
 
   try {
-    const apiRes = await fetch(
-      `${process.env.API_URL}/api/users/detail/${id}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${access}`,
-          // 'Content-Type': 'application/json',
-          // 'X-Requested-With': 'XMLHttpRequest'
-        },
-      }
-    );
+    const apiRes = await fetch(`${process.env.API_URL}/api/users/detail/all`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${access}`,
+        // 'Content-Type': 'application/json',
+        // 'X-Requested-With': 'XMLHttpRequest'
+      },
+    });
 
     const data = await apiRes.json();
 
