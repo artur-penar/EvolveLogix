@@ -1,8 +1,9 @@
 import React from "react";
+import "./UserDetails.css";
 
 const UserDetails = ({ userDetail }) => (
-  <div className="log-details">
-    <div className="strength-records">
+  <div className="user-details-container">
+    <div className="body-measurements">
       {Object.entries(userDetail).map(([key, value]) => (
         <p key={key}>{`${key}: ${value}`}</p>
       ))}

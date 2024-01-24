@@ -1,6 +1,6 @@
 import React from "react";
 import LogSelector from "./LogSelector";
-import UserDetails from "./UserDetail";
+import UserDetails from "./UserDetails";
 import "./DashboardMain.css";
 import StrengthRecords from "./StrengthRecord";
 

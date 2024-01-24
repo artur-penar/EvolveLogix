@@ -17,7 +17,7 @@ import {
   selectUser,
 } from "features/users/user";
 import Header from "./components/DashboardHeader";
-import UserDetails from "./components/UserDetail";
+import UserDetails from "./components/UserDetails";
 import LogSelector from "./components/LogSelector";
 import NewLogForm from "./components/NewLogForm";
 import "./DashboardPage.css";
