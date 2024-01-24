@@ -1,14 +1,23 @@
 /* DashboardMain.css */
 
 .log-selector-container {
-    display: flex;
-    align-items: center; /* This will vertically align the items in the middle */
-    gap: 100px; /* This will add a 10px gap between the items */
-  }
-  
-  .dashboard-subtitle {
-    font-size: 1.5em;
-    color: #666;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+  display: flex;
+  align-items: center; /* This will vertically align the items in the middle */
+  gap: 100px; /* This will add a 10px gap between the items */
+}
+
+.dashboard-subtitle {
+  font-size: 1.5em;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-container > * {
+  flex: 1; /* This will make each child of details-container take up an equal amount of space */
+}
