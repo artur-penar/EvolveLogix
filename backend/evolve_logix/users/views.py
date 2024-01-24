@@ -59,3 +59,11 @@ class UserDetailCreateUpdateView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         """Retrieve the object."""
         return UserDetail.objects.get_or_create(user=self.request.user)[0]
+
+class ListUserDetailsView(generics.ListAPIView):
+    queryset = UserDetail.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return UserDetail.objects.filter(user=self.request.user)
