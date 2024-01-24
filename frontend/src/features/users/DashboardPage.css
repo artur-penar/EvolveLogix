@@ -36,13 +36,6 @@ form button[type="submit"] {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-subtitle {
-  font-size: 1.5em;
-  color: #666;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .dashboard-button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -88,12 +81,6 @@ form button[type="submit"] {
   background-color: #f0f0f0;
   border-radius: 5px;
   margin-top: 20px;
-}
-
-.log-selector-container {
-  display: flex;
-  align-items: center; /* This will vertically align the items in the middle */
-  gap: 100px; /* This will add a 10px gap between the items */
 }
 
 .header-container {

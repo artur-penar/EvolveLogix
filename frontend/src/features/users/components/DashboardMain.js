@@ -1,6 +1,7 @@
 import React from "react";
 import LogSelector from "./LogSelector";
 import UserDetails from "./UserDetail";
+import "./DashboardMain.css";
 
 const Main = ({ trainingLogs, selectedLog, handleChange, userDetail }) => (
   <>
