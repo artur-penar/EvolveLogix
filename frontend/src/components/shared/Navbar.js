@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsUserAuthenticated } from "features/users/user";
 import { logout } from "features/users/user";
 import { Dropdown } from "react-bootstrap";
+import "./Navbar.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
