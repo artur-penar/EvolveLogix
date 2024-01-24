@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.views import APIView 
+from rest_framework.views import APIView
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
@@ -51,6 +51,15 @@ class ListUserView(APIView):
         return Response(users.data, status=status.HTTP_200_OK)
 
 
+class CreateUserDetailView(generics.CreateAPIView):
+    queryset = UserDetail.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 class UserDetailCreateUpdateView(generics.RetrieveUpdateAPIView):
     queryset = UserDetail.objects.all()
     serializer_class = UserDetailSerializer
@@ -59,6 +68,7 @@ class UserDetailCreateUpdateView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         """Retrieve the object."""
         return UserDetail.objects.get_or_create(user=self.request.user)[0]
+
 
 class ListUserDetailsView(generics.ListAPIView):
     queryset = UserDetail.objects.all()
