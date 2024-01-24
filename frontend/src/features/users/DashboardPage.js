@@ -17,9 +17,6 @@ import {
   selectUser,
 } from "features/users/user";
 import Header from "./components/DashboardHeader";
-import UserDetails from "./components/UserDetails";
-import LogSelector from "./components/LogSelector";
-import NewLogForm from "./components/NewLogForm";
 import "./DashboardPage.css";
 import Main from "./components/DashboardMain";
 import Footer from "./components/DashboardFooter";
@@ -55,7 +52,7 @@ const DashboardPage = () => {
     if (!userDetail) {
       console.log("DashboardPage: dispatching getUserDetail()");
       console.log(user);
-      dispatch(getUserDetail(user.id));
+      dispatch(getUserDetail());
     } else {
       console.log("DashboardPage: dont dispatch getUserDetail()");
       console.log(userDetail);
