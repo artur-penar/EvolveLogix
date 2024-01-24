@@ -1,5 +1,6 @@
 import React from "react";
 import NewLogForm from "./NewLogForm";
+import "./DashboardFooter.css";
 
 const Footer = ({
   isNewLogFormVisable,

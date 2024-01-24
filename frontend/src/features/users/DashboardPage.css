@@ -36,18 +36,7 @@ form button[type="submit"] {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
-.dashboard-button:hover {
-  background-color: #0056b3;
-}
 
 .log-details {
   margin-top: 20px;
@@ -74,12 +63,5 @@ form button[type="submit"] {
   padding: 5px 0;
   font-weight: bold;
   text-decoration: underline;
-}
-
-.create-log {
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  margin-top: 20px;
 }
 
