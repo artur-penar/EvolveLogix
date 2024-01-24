@@ -1,4 +1,5 @@
 import React from "react";
+import "./DashboardHeader.css";
 
 const Header = ({ user }) => (
   <div className="header-container">
