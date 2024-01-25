@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DetailDisplay from "./DetailDisplay";
 import "./UserDetails.css";
 import DetailEditForm from "./DetailEditForm";
@@ -6,7 +6,10 @@ import { createUserDetail, updateUserDetail } from "../user";
 import { useDispatch } from "react-redux";
 
 const UserDetails = ({ userDetail }) => {
-  const { updated_at, ...bodyMeasurements } = userDetail[userDetail.length - 1];
+  const [currentIndex, setCurrentIndex] = useState(userDetail.length - 1);
+
+  const { updated_at, ...bodyMeasurements } = userDetail[currentIndex];
+  const [formData, setFormData] = useState(bodyMeasurements);
   const updatedAtData = new Date(updated_at);
 
   // React hooks
@@ -14,14 +17,16 @@ const UserDetails = ({ userDetail }) => {
 
   // State data
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(bodyMeasurements);
+
+  useEffect(() => {
+    setFormData(bodyMeasurements);
+  }, [currentIndex]);
+
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSubmit = () => {
-    console.log("UserDetails: handleSubmit()");
-    console.log(formData);
     setIsEditing(false);
     dispatch(createUserDetail(formData));
   };
@@ -33,10 +38,38 @@ const UserDetails = ({ userDetail }) => {
     });
   };
 
+  // Prev and Next buttons
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex < userDetail.length - 1 ? prevIndex + 1 : prevIndex
+    );
+  };
+
+  console.log("UserDetails current index: " + currentIndex);
+  console.log(formData);
+  console.log(userDetail);
+
   return (
     <div className="user-details-container">
       <h3>User details:</h3>
-      <p>{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
+      <div className="user-details-header">
+        <p>{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
+        <div>
+          <button onClick={handlePrev} disabled={currentIndex === 0}>
+            Previous
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={currentIndex === userDetail.length - 1}
+          >
+            Next
+          </button>
+        </div>
+      </div>
       {isEditing ? (
         <DetailEditForm
           formData={formData}
