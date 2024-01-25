@@ -8,10 +8,11 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
     networks:
       - evolve_logix_network
 
-  
   django:
     build: ./backend/evolve_logix
     command: python manage.py runserver 0.0.0.0:8000
