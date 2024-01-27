@@ -64,16 +64,9 @@ class TrainingLogView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        training_log_id = request.data.get('training_log_id')
-        try:
-            training_log = TrainingLog.objects.get(
-                id=training_log_id, user=request.user)
-        except TrainingLog.DoesNotExist:
-            return Response({'error': 'Training log not found'}, status=status.HTTP_404_NOT_FOUND)
-
         serializer = TrainingLogSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user, training_log=training_log)
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
