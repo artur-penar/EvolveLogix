@@ -19,6 +19,9 @@ const userDetailRoute = require("./routes/auth/userDetail");
 const createUserDetailRoute = require("./routes/auth/createUserDetail");
 const updateUserDetailRoute = require("./routes/auth/updateUserDetail");
 
+// Strength Records functionality routes
+const strengthRecordsRoute = require("./routes/auth/strengthRecords");
+
 // Training functionality routes
 const exercisesRoute = require("./routes/training_log/listExercises");
 const trainingLogRoute = require("./routes/training_log/trainingLog");
@@ -48,6 +51,9 @@ app.use(veryfiAuth);
 app.use(userDetailRoute);
 app.use(updateUserDetailRoute);
 app.use(createUserDetailRoute);
+
+// Strength Records functionality routes
+app.use(strengthRecordsRoute);
 
 // Training functionality routes
 app.use(exercisesRoute);
