@@ -60,7 +60,7 @@ class CreateUserDetailView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class UserDetailCreateUpdateView(generics.RetrieveUpdateAPIView):
+class UserDetailRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = UserDetail.objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
