@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from .serializers import UserCreateSerializer, UserSerializer, UserDetailSerializer
-from .models import UserDetail
+from .serializers import UserCreateSerializer, UserSerializer, UserDetailSerializer, StrengthRecordSerializer
+from .models import UserDetail, StrengthRecord
 
 
 class RegisterView(APIView):
@@ -77,3 +77,12 @@ class ListUserDetailsView(generics.ListAPIView):
 
     def get_queryset(self):
         return UserDetail.objects.filter(user=self.request.user)
+
+
+class ListStrengthRecordsView(generics.ListAPIView):
+    queryset = StrengthRecord.objects.all()
+    serializer_class = StrengthRecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return StrengthRecord.objects.filter(user=self.request.user)
