@@ -153,44 +153,47 @@ const TrainingLogDashboardPage = () => {
 
   return (
     <Layout title="EvolveLogix| Training Log">
-      {/* <h1>Training Log Dashboard</h1> */}
-      <h1 className="log-name">Current log: {selectedTrainingLog.name}</h1>
-      {loading || !trainingLogsData ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div className="spinner-border" role="status">
-            <span className="sr-only"></span>
+      <div className="dashboard-content">
+        <div className="header-container">
+          <h1 className="log-name">Current log: {selectedTrainingLog.name}</h1>
+        </div>
+        {loading || !trainingLogsData ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div className="spinner-border" role="status">
+              <span className="sr-only"></span>
+            </div>
+            <h2>Loading...</h2>
           </div>
-          <h2>Loading...</h2>
-        </div>
-      ) : (
-        <div style={{ width: "800px", height: "600px" }}>
-          <FullCalendar
-            plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
-            initialView="dayGridMonth"
-            dateClick={handleDateClick}
-            eventClick={handleEventClick}
-            firstDay={1}
-            events={eventsData}
-          />
-          <TrainingLogDashboardModal
-            isOpen={mainModalIsOpen}
-            handleEdit={handleModalEditClick}
-            handleDelete={handleModalDeleteClick}
-            trainingSessionData={clickedEventData}
-            setMainModalIsOpen={setMainModalIsOpen}
-          />
-          <DeleteInfoModal
-            isOpen={deleteInfoModalIsOpen}
-            deleteMessage={deleteMessage}
-            setDeleteMessage={setDeleteMessage}
-          />
-        </div>
-      )}
+        ) : (
+          <div className="calendar-component">
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
+              initialView="dayGridMonth"
+              dateClick={handleDateClick}
+              eventClick={handleEventClick}
+              firstDay={1}
+              events={eventsData}
+            />
+            <TrainingLogDashboardModal
+              isOpen={mainModalIsOpen}
+              handleEdit={handleModalEditClick}
+              handleDelete={handleModalDeleteClick}
+              trainingSessionData={clickedEventData}
+              setMainModalIsOpen={setMainModalIsOpen}
+            />
+            <DeleteInfoModal
+              isOpen={deleteInfoModalIsOpen}
+              deleteMessage={deleteMessage}
+              setDeleteMessage={setDeleteMessage}
+            />
+          </div>
+        )}
+      </div>
     </Layout>
   );
 };
