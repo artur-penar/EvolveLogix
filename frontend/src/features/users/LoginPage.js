@@ -2,7 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Layout from "components/shared/Layout";
-import { login, resetRegistered, selectIsUserAuthenticated } from "features/users/user";
+import {
+  login,
+  resetRegistered,
+  selectIsUserAuthenticated,
+} from "features/users/user";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -35,36 +39,38 @@ const LoginPage = () => {
 
   return (
     <Layout title="PerformanceTracker | Login" content="Login page.">
-      <h1>Log into your account</h1>
-      <form className="mt-5" onSubmit={onSubmit}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="form-control"
-            type="email"
-            name="email"
-            onChange={onChange}
-            value={email}
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            onChange={onChange}
-            value={password}
-          />
-        </div>
-        <button className="btn btn-primary mt-4" type="submit">
-          Submit
-        </button>
-      </form>
+      <div className="dashboard">
+        <h1>Log into your account</h1>
+        <form className="mt-5" onSubmit={onSubmit}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="form-control"
+              type="email"
+              name="email"
+              onChange={onChange}
+              value={email}
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="form-control"
+              type="password"
+              name="password"
+              onChange={onChange}
+              value={password}
+            />
+          </div>
+          <button className="btn btn-primary mt-4" type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
     </Layout>
   );
 };
