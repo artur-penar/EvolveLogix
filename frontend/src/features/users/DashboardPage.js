@@ -3,9 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-// Internal modules
+// Styles
+import "./DashboardPage.css";
+
+// Shared components
 import Layout from "components/shared/Layout";
 import LoadingState from "components/shared/LoadingState";
+
+// Features
 import {
   createTrainingLog,
   getTrainingLogs,
@@ -16,8 +21,9 @@ import {
   selectIsUserAuthenticated,
   selectUser,
 } from "features/users/user";
+
+// Local components
 import Header from "./components/DashboardHeader";
-import "./DashboardPage.css";
 import Main from "./components/DashboardMain";
 import Footer from "./components/DashboardFooter";
 
