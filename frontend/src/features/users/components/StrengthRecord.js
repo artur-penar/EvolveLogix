@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DetailDisplay from "./DetailDisplay";
 import DetailEditForm from "./DetailEditForm";
+import { useDispatch, useSelector } from "react-redux";
 import "./StrengthRecords.css";
+import { getAllStrengthRecords } from "../strengthRecordSlice";
 
 const StrengthRecords = () => {
+  const dispatch = useDispatch();
+  const strengthRecords = useSelector((state) => state.strengthRecords);
+
+  useEffect(() => {
+    if (!strengthRecords) {
+      console.log("Strength record dispatching");
+      dispatch(getAllStrengthRecords());
+    } else {
+      console.log("Strength record already exists");
+      console.log(strengthRecords);
+    }
+  }, []);
+
   const userDetail = {
     "bench press": 100,
     deadlift: 200,
@@ -33,7 +48,6 @@ const StrengthRecords = () => {
       [event.target.name]: event.target.value,
     });
   };
-  console.log(bodyMeasurements);
 
   return (
     <div className="user-details-container">
