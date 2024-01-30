@@ -30,7 +30,7 @@ const RegisterPage = () => {
   if (registered) return <Navigate to="/login" />;
 
   return (
-    <Layout title="PerformanceTracker | Register" content="Register page.">
+    <Layout title="EvolveLogix| Register" content="Register page.">
       <div className="dashboard">
         <h1>Register</h1>
         <form className="mt-5" onSubmit={onSubmit}>
