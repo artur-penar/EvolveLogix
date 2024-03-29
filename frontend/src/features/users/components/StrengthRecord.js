@@ -7,12 +7,11 @@ import { getAllStrengthRecords } from "../strengthRecordSlice";
 
 const StrengthRecords = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLodaing, setIsDataLoading] = useState(true);
+  const [lastUpdateDate, setLastUpdateDate] = useState();
   const strengthRecords = useSelector(
     (state) => state.strengthRecordState.strengthRecords
   );
-
-  const [updatedAtData, setUpdatedAtData] = useState();
 
   useEffect(() => {
     if (strengthRecords.length === 0) {
@@ -21,16 +20,16 @@ const StrengthRecords = () => {
   }, []);
 
   useEffect(() => {
-    let processedRecords = {};
+    let processedStrengthRecords = {};
     if (strengthRecords.length > 0) {
-      processedRecords = strengthRecords.reduce((acc, record) => {
+      processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
         acc[exerciseName] = record.weight;
         acc.updated_at = record.record_date;
         return acc;
       }, {});
     } else {
-      processedRecords = {
+      processedStrengthRecords = {
         Squat: "0.0",
         "Bench press": "0.0",
         Deadlift: "0.0",
@@ -38,27 +37,27 @@ const StrengthRecords = () => {
       };
     }
 
-    const { updated_at, ...records } = processedRecords;
-    setUpdatedAtData(new Date(updated_at));
-    setFormData(records);
-    setIsLoading(false);
+    const { updated_at, ...records } = processedStrengthRecords;
+    setLastUpdateDate(new Date(updated_at));
+    setStrengthRecordsFormData(records);
+    setIsDataLoading(false);
   }, [strengthRecords]);
 
   // State data
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState([]);
+  const [isStrengthRecordEditing, setIsStrengthRecordEditing] = useState(false);
+  const [strengthRecordsFormData, setStrengthRecordsFormData] = useState([]);
 
   const handleEdit = () => {
-    setIsEditing(true);
+    setIsStrengthRecordEditing(true);
   };
 
   const handleSubmit = () => {
-    setIsEditing(false);
+    setIsStrengthRecordEditing(false);
   };
 
   const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
+    setStrengthRecordsFormData({
+      ...strengthRecordsFormData,
       [event.target.name]: event.target.value,
     });
   };
@@ -66,21 +65,21 @@ const StrengthRecords = () => {
   return (
     <div className="user-details-container">
       <h3>Strength Records:</h3>
-      {isLoading ? (
+      {isDataLodaing ? (
         <p>Loading</p>
       ) : (
         <>
-          <p>{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
-          {isEditing ? (
+          <p>{`Updated at: ${lastUpdateDate.toLocaleDateString()}`}</p>
+          {isStrengthRecordEditing ? (
             <DetailEditForm
-              formData={formData}
+              formData={strengthRecordsFormData}
               handleInputChange={handleInputChange}
               handleSubmit={handleSubmit}
             />
-          ) : isLoading ? (
+          ) : isDataLodaing ? (
             <p>Loading</p>
           ) : (
-            <DetailDisplay formData={formData} handleEdit={handleEdit} />
+            <DetailDisplay formData={strengthRecordsFormData} handleEdit={handleEdit} />
           )}
         </>
       )}
