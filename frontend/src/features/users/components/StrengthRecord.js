@@ -7,7 +7,7 @@ import { getAllStrengthRecords } from "../strengthRecordSlice";
 
 const StrengthRecords = () => {
   const dispatch = useDispatch();
-  const [isDataLodaing, setIsDataLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
   const strengthRecords = useSelector(
     (state) => state.strengthRecordState.strengthRecords
@@ -65,7 +65,7 @@ const StrengthRecords = () => {
   return (
     <div className="user-details-container">
       <h3>Strength Records:</h3>
-      {isDataLodaing ? (
+      {isDataLoading ? (
         <p>Loading</p>
       ) : (
         <>
@@ -76,7 +76,7 @@ const StrengthRecords = () => {
               handleInputChange={handleInputChange}
               handleSubmit={handleSubmit}
             />
-          ) : isDataLodaing ? (
+          ) : isDataLoading ? (
             <p>Loading</p>
           ) : (
             <DetailDisplay formData={strengthRecordsFormData} handleEdit={handleEdit} />

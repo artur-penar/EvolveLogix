@@ -8,19 +8,19 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 // Import the "registerRoute" module (assuming it handles registration)
-const loginRoute = require("./routes/auth/login");
-const logoutRoute = require("./routes/auth/logout");
-const registerRoute = require("./routes/auth/register");
-const meRoute = require("./routes/auth/me");
-const veryfiAuth = require("./routes/auth/verify");
+const loginRoute = require("./routes/user/login");
+const logoutRoute = require("./routes/user/logout");
+const registerRoute = require("./routes/user/register");
+const meRoute = require("./routes/user/me");
+const verifyAuth = require("./routes/user/verify");
 
 // User Detail functionality routes
-const userDetailRoute = require("./routes/auth/userDetail");
-const createUserDetailRoute = require("./routes/auth/createUserDetail");
-const updateUserDetailRoute = require("./routes/auth/updateUserDetail");
+const userDetailRoute = require("./routes/user/userDetail");
+const createUserDetailRoute = require("./routes/user/createUserDetail");
+const updateUserDetailRoute = require("./routes/user/updateUserDetail");
 
 // Strength Records functionality routes
-const strengthRecordsRoute = require("./routes/auth/strengthRecords");
+const strengthRecordsRoute = require("./routes/user/strengthRecords");
 
 // Training functionality routes
 const exercisesRoute = require("./routes/training_log/listExercises");
@@ -45,7 +45,7 @@ app.use(registerRoute);
 app.use(loginRoute);
 app.use(logoutRoute);
 app.use(meRoute);
-app.use(veryfiAuth);
+app.use(verifyAuth);
 
 // User Detail functionality routes
 app.use(userDetailRoute);
