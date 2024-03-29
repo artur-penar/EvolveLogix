@@ -16,19 +16,27 @@ const StrengthRecords = () => {
 
   useEffect(() => {
     if (strengthRecords.length === 0) {
-      console.log("Strength record dispatching");
       dispatch(getAllStrengthRecords());
-      console.log(strengthRecords);
     }
   }, []);
 
   useEffect(() => {
-    const processedRecords = strengthRecords.reduce((acc, record) => {
-      const exerciseName = record.exercise.name;
-      acc[exerciseName] = record.weight;
-      acc.updated_at = record.record_date;
-      return acc;
-    }, {});
+    let processedRecords = {};
+    if (strengthRecords.length > 0) {
+      processedRecords = strengthRecords.reduce((acc, record) => {
+        const exerciseName = record.exercise.name;
+        acc[exerciseName] = record.weight;
+        acc.updated_at = record.record_date;
+        return acc;
+      }, {});
+    } else {
+      processedRecords = {
+        Squat: "0.0",
+        "Bench press": "0.0",
+        Deadlift: "0.0",
+        updated_at: "2000-01-01T00:00:00.000Z",
+      };
+    }
 
     const { updated_at, ...records } = processedRecords;
     setUpdatedAtData(new Date(updated_at));
