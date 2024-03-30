@@ -15,9 +15,9 @@ const meRoute = require("./routes/user/me");
 const verifyAuth = require("./routes/user/verify");
 
 // User Detail functionality routes
-const userDetailRoute = require("./routes/user/userDetail");
-const createUserDetailRoute = require("./routes/user/createUserDetail");
-const updateUserDetailRoute = require("./routes/user/updateUserDetail");
+const userDetailsRoute = require("./routes/user/getUserDetails");
+const createUserDetailsRoute = require("./routes/user/createUserDetails");
+const updateUserDetailsRoute = require("./routes/user/updateUserDetails");
 
 // Strength Records functionality routes
 const strengthRecordsRoute = require("./routes/user/strengthRecords");
@@ -48,9 +48,9 @@ app.use(meRoute);
 app.use(verifyAuth);
 
 // User Detail functionality routes
-app.use(userDetailRoute);
-app.use(updateUserDetailRoute);
-app.use(createUserDetailRoute);
+app.use(userDetailsRoute);
+app.use(updateUserDetailsRoute);
+app.use(createUserDetailsRoute);
 
 // Strength Records functionality routes
 app.use(strengthRecordsRoute);
