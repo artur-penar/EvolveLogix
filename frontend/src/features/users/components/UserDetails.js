@@ -49,10 +49,6 @@ const UserDetails = ({ userDetail }) => {
     );
   };
 
-  console.log("UserDetails current index: " + currentIndex);
-  console.log(formData);
-  console.log(userDetail);
-
   return (
     <div className="user-details-container">
       <h3>User details:</h3>
