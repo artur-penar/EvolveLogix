@@ -62,6 +62,8 @@ const StrengthRecords = () => {
     });
   };
 
+  console.log("Strength records:" , strengthRecords);
+
   return (
     <div className="user-details-container">
       <h3>Strength Records:</h3>
