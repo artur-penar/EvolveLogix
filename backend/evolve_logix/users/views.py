@@ -79,6 +79,25 @@ class ListUserDetailsView(generics.ListAPIView):
         return UserDetail.objects.filter(user=self.request.user)
 
 
+class CreateStrengthRecordView(generics.CreateAPIView):
+    queryset = StrengthRecord.objects.all()
+    serializer_class = StrengthRecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class StrengthRecordRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = StrengthRecord.objects.all()
+    serializer_class = StrengthRecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        """Retrieve the object."""
+        return StrengthRecord.objects.get_or_create(user=self.request.user)[0]
+
+
 class ListStrengthRecordsView(generics.ListAPIView):
     queryset = StrengthRecord.objects.all()
     serializer_class = StrengthRecordSerializer
