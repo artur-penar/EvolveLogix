@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core import exceptions
 from .models import UserDetail, StrengthRecord
-from training_log.serializers import ExerciseSerializer
+from training_log.serializers import ExerciseSerializer, ExerciseNameSerializer
 
 User = get_user_model()
 
@@ -60,7 +60,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class StrengthRecordSerializer(serializers.ModelSerializer):
-    exercise = ExerciseSerializer()
+    exercise = ExerciseNameSerializer()
 
     class Meta:
         model = StrengthRecord

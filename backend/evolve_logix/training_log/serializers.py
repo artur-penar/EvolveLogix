@@ -20,6 +20,12 @@ class ExerciseSerializer(serializers.ModelSerializer):
         fields = ['name', 'description', 'muscle_group']
 
 
+class ExerciseNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ['name']
+
+
 class SetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Set
