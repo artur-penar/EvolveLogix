@@ -11,11 +11,16 @@ const Navbar = () => {
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
   const authLinks = (
     <>
-      <li className="nav-item">
-        <NavLink className="nav-link" to="/dashboard">
+      <Dropdown as="li" className="nav-item">
+        <Dropdown.Toggle as={NavLink} className="nav-link" to="/dashboard">
           Dashboard
-        </NavLink>
-      </li>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item as={NavLink} to="/view-logs">
+            Strength records
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       <Dropdown as="li" className="nav-item">
         <Dropdown.Toggle as={NavLink} className="nav-link" to="/training-log">
           Training log
@@ -25,10 +30,10 @@ const Navbar = () => {
             View Logs
           </Dropdown.Item>
           <Dropdown.Item as={NavLink} to="/add-log">
-            Add Log
+            Add training session
           </Dropdown.Item>
           <Dropdown.Item as={NavLink} to="/edit-log">
-            Edit Existing Log
+            Edit training session
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
