@@ -16,7 +16,7 @@ const Navbar = () => {
           Dashboard
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item as={NavLink} to="/view-logs">
+          <Dropdown.Item as={NavLink} to="/strength-records">
             Strength records
           </Dropdown.Item>
         </Dropdown.Menu>

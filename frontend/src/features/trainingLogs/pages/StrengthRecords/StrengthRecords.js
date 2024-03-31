@@ -1,11 +1,7 @@
 import React from "react";
 
 const StrengthRecords = () => {
-
-
-    return(<p></p>);
-
-
-}
+  return <p>Strength records!</p>;
+};
 
 export default StrengthRecords;
