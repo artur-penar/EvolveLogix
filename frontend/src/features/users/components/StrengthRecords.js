@@ -5,24 +5,24 @@ import { getAllStrengthRecords } from "../strengthRecordSlice";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
 
-const StrengthRecords = () => {
+const StrengthRecords = ({ strengthRecords }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
-  const strengthRecords = useSelector(
-    (state) => state.strengthRecords.strengthRecords
-  );
+  // const strengthRecords = useSelector((state) => state.strengthRecords.records);
 
-  useEffect(() => {
-    if (strengthRecords.length === 0) {
-      dispatch(getAllStrengthRecords());
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (strengthRecords.length === 0) {
+  //     dispatch(getAllStrengthRecords());
+  //   }
+  // }, []);
 
+  console.log("StrengthRecords component")
+  console.log(strengthRecords);
   useEffect(() => {
     let processedStrengthRecords = {};
-    if (strengthRecords.length > 0) {
+    if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
         acc[exerciseName] = record.weight;

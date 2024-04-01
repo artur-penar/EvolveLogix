@@ -26,6 +26,7 @@ import {
 import Header from "../../components/DashboardHeader";
 import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
+import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -34,9 +35,7 @@ const DashboardPage = () => {
   const userDetail = useSelector((state) => state.user.userDetail);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
-  const strengthRecords = useSelector(
-    (state) => state.strengthRecords.strengthRecords
-  );
+  const strengthRecords = useSelector((state) => state.strengthRecords.records);
 
   const selectedTrainingLogName =
     useSelector((state) =>
@@ -64,6 +63,10 @@ const DashboardPage = () => {
 
     if (trainingLogs.length === 0) {
       dispatch(getTrainingLogs());
+    }
+
+    if (strengthRecords.length === 0) {
+      dispatch(getAllStrengthRecords());
     }
   }, [isAuthenticated]);
 
@@ -106,9 +109,10 @@ const DashboardPage = () => {
               selectedLog={selectedLog}
               handleChange={handleChange}
               userDetail={userDetail}
+              strengthRecords={strengthRecords}
             />
           ) : (
-            <p>Log has no logs Create yout first log! </p>
+            <p>Log has no logs Create your first log! </p>
           )}
           <Footer
             isNewLogFormVisible={isNewLogFormVisible}

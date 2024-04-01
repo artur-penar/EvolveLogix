@@ -25,7 +25,7 @@ export const getAllStrengthRecords = createAsyncThunk(
 );
 
 const initialState = {
-  strengthRecords: [],
+  records: [],
   loading: false,
 };
 
@@ -34,7 +34,7 @@ const strengthRecordSlice = createSlice({
   initialState,
   reducers: {
     clearStrengthRecords: (state) => {
-      state.strengthRecords = [];
+      state.records = [];
     },
   },
   extraReducers: (builder) => {
@@ -43,7 +43,7 @@ const strengthRecordSlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllStrengthRecords.fulfilled, (state, action) => {
-        state.strengthRecords = action.payload;
+        state.records = action.payload;
         state.loading = false;
       })
       .addCase(getAllStrengthRecords.rejected, (state, action) => {

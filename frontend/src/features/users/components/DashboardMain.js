@@ -4,7 +4,7 @@ import UserDetails from "./UserDetails";
 import "./DashboardMain.css";
 import StrengthRecords from "./StrengthRecords";
 
-const Main = ({ trainingLogs, selectedLog, handleChange, userDetail }) => (
+const Main = ({ trainingLogs, selectedLog, handleChange, userDetail, strengthRecords }) => (
   <>
     <div className="log-selector-container">
       <h2 className="dashboard-subtitle" style={{ width: "40%" }}>
@@ -18,7 +18,7 @@ const Main = ({ trainingLogs, selectedLog, handleChange, userDetail }) => (
     </div>
     <div className="details-container">
       <UserDetails userDetail={userDetail} />
-      <StrengthRecords userDetail={userDetail} />
+      <StrengthRecords strengthRecords={strengthRecords} />
     </div>
   </>
 );

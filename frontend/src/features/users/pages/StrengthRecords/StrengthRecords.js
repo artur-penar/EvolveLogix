@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 // frontend/src/features/users/components/StrengthRecords.js
 const StrengthRecords = () => {
   const strengthRecords = useSelector(
-    (state) => state.strengthRecords.strengthRecords
+    (state) => state.strengthRecords.records
   );
 
   console.log("Strength Records page");
