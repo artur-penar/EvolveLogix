@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import DetailDisplay from "./DetailDisplay";
-import DetailEditForm from "./DetailEditForm";
 import { useDispatch, useSelector } from "react-redux";
-import "./StrengthRecords.css";
 import { getAllStrengthRecords } from "../strengthRecordSlice";
+import { useNavigate } from "react-router-dom";
+import "./StrengthRecords.css";
 
 const StrengthRecords = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
   const strengthRecords = useSelector(
@@ -49,20 +50,10 @@ const StrengthRecords = () => {
 
   const handleEdit = () => {
     setIsStrengthRecordEditing(true);
+    navigate("/strength-records");
   };
 
-  const handleSubmit = () => {
-    setIsStrengthRecordEditing(false);
-  };
-
-  const handleInputChange = (event) => {
-    setStrengthRecordsFormData({
-      ...strengthRecordsFormData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  console.log("Strength records:" , strengthRecords);
+  console.log("Strength records:", strengthRecords);
 
   return (
     <div className="user-details-container">
@@ -72,17 +63,11 @@ const StrengthRecords = () => {
       ) : (
         <>
           <p>{`Updated at: ${lastUpdateDate.toLocaleDateString()}`}</p>
-          {isStrengthRecordEditing ? (
-            <DetailEditForm
-              formData={strengthRecordsFormData}
-              handleInputChange={handleInputChange}
-              handleSubmit={handleSubmit}
-            />
-          ) : isDataLoading ? (
-            <p>Loading</p>
-          ) : (
-            <DetailDisplay formData={strengthRecordsFormData} handleEdit={handleEdit} />
-          )}
+
+          <DetailDisplay
+            formData={strengthRecordsFormData}
+            handleEdit={handleEdit}
+          />
         </>
       )}
     </div>
