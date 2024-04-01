@@ -38,7 +38,7 @@ const LoginPage = () => {
   if (isAuthenticated) return <Navigate to="/dashboard" />;
 
   return (
-    <Layout title="EvolveLogix| Login" content="Login page.">
+    <Layout title="EvolveLogix | Login" content="Login page.">
       <div className="dashboard">
         <h1>Log into your account</h1>
         <form className="mt-5" onSubmit={onSubmit}>
