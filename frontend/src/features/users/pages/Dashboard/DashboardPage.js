@@ -97,7 +97,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <Layout title="EvolveLogix| Dashboard">
+    <Layout title="EvolveLogix | Dashboard">
       {loading || !user ? (
         <LoadingState />
       ) : (

@@ -152,7 +152,7 @@ const TrainingLogDashboardPage = () => {
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <Layout title="EvolveLogix| Training Log">
+    <Layout title="EvolveLogix | Training Log">
       <div className="dashboard-content">
         <div className="header-container">
           <h1 className="log-name">Current log: {selectedTrainingLog.name}</h1>
