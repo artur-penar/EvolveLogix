@@ -45,15 +45,11 @@ const StrengthRecords = () => {
   }, [strengthRecords]);
 
   // State data
-  const [isStrengthRecordEditing, setIsStrengthRecordEditing] = useState(false);
   const [strengthRecordsFormData, setStrengthRecordsFormData] = useState([]);
 
   const handleEdit = () => {
-    setIsStrengthRecordEditing(true);
     navigate("/strength-records");
   };
-
-  console.log("Strength records:", strengthRecords);
 
   return (
     <div className="user-details-container">
