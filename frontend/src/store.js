@@ -9,7 +9,7 @@ export const store = configureStore({
     user: userReducer,
     log: logReducer,
     exercises: exercisesReducer,
-    strengthRecordState: strengthRecordSlice,
+    strengthRecords: strengthRecordSlice,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

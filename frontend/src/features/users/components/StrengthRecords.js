@@ -11,7 +11,7 @@ const StrengthRecords = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
   const strengthRecords = useSelector(
-    (state) => state.strengthRecordState.strengthRecords
+    (state) => state.strengthRecords.strengthRecords
   );
 
   useEffect(() => {

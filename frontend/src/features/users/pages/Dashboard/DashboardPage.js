@@ -34,6 +34,10 @@ const DashboardPage = () => {
   const userDetail = useSelector((state) => state.user.userDetail);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
+  const strengthRecords = useSelector(
+    (state) => state.strengthRecords.strengthRecords
+  );
+
   const selectedTrainingLogName =
     useSelector((state) =>
       state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
