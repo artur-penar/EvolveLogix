@@ -6,9 +6,9 @@ const StrengthRecords = () => {
   return (
     <Layout title={"EvolveLogix | Records"}>
       <div className="strength-records">
-      <div className="header-container">
-<h1>Strength Records</h1>
-      </div>
+        <div className="records-header-container">
+          <h1>Strength Records</h1>
+        </div>
         <p>Strength records!</p>
       </div>
     </Layout>
