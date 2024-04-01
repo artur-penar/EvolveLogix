@@ -38,7 +38,6 @@ const DashboardPage = () => {
     useSelector((state) =>
       state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
     ) || null;
-  const trainingLogss = [];
 
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
