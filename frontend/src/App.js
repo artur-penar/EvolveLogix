@@ -9,10 +9,10 @@ import ExerciseListPage from "features/trainingLogs/pages/ExerciseListPage";
 import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogsPage";
 import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 // user components
-import DashboardPage from "features/users/DashboardPage";
-import HomePage from "features/users/HomePage";
-import LoginPage from "features/users/LoginPage";
-import RegisterPage from "features/users/RegisterPage";
+import DashboardPage from "features/users/pages/Dashboard/DashboardPage";
+import HomePage from "features/users/pages/HomePage/HomePage";
+import LoginPage from "features/users/pages/LoginPage/LoginPage";
+import RegisterPage from "features/users/pages/RegisterPage/RegisterPage";
 
 // Import actions
 import { verifyAuth } from "features/users/user";
@@ -20,7 +20,7 @@ import EditTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSess
 
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
-import StrengthRecords from "features/trainingLogs/pages/StrengthRecords/StrengthRecords";
+import StrengthRecords from "features/users/pages/StrengthRecords/StrengthRecords";
 
 const App = () => {
   const dispatch = useDispatch();

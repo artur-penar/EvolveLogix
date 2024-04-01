@@ -23,9 +23,9 @@ import {
 } from "features/users/user";
 
 // Local components
-import Header from "./components/DashboardHeader";
-import Main from "./components/DashboardMain";
-import Footer from "./components/DashboardFooter";
+import Header from "../../components/DashboardHeader";
+import Main from "../../components/DashboardMain";
+import Footer from "../../components/DashboardFooter";
 
 const DashboardPage = () => {
   // Redux state selectors
