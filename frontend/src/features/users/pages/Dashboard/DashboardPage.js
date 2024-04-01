@@ -43,7 +43,7 @@ const DashboardPage = () => {
   // State variables
   const [selectedLog, setSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
-  const [isNewLogFormVisable, setIsNewLogFormVisable] = useState(false);
+  const [isNewLogFormVisible, setIsNewLogFormVisible] = useState(false);
 
   // Redux dispatch
   const dispatch = useDispatch();
@@ -56,20 +56,11 @@ const DashboardPage = () => {
     }
 
     if (!userDetail) {
-      console.log("DashboardPage: dispatching getUserDetail()");
-      console.log(user);
       dispatch(getUserDetail());
-    } else {
-      console.log("DashboardPage: dont dispatch getUserDetail()");
-      console.log(userDetail);
     }
 
     if (trainingLogs.length === 0) {
-      console.log("DashboardPage: dispatching getTrainingLogs()");
       dispatch(getTrainingLogs());
-    } else {
-      console.log("DashboardPage: dont dispatch getTrainingLogs()");
-      console.log(trainingLogs);
     }
   }, [isAuthenticated]);
 
@@ -97,7 +88,6 @@ const DashboardPage = () => {
 
   const handleSubmit = () => {
     dispatch(createTrainingLog({ name: newLogName }));
-    console.log("Submited");
   };
 
   return (
@@ -118,8 +108,8 @@ const DashboardPage = () => {
             <p>Log has no logs Create yout first log! </p>
           )}
           <Footer
-            isNewLogFormVisable={isNewLogFormVisable}
-            setIsNewLogFormVisable={setIsNewLogFormVisable}
+            isNewLogFormVisible={isNewLogFormVisible}
+            setIsNewLogFormVisible={setIsNewLogFormVisible}
             newLogName={newLogName}
             setNewLogName={setNewLogName}
             handleSubmit={handleSubmit}
