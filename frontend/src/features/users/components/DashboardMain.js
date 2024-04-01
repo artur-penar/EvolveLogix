@@ -2,7 +2,7 @@ import React from "react";
 import LogSelector from "./LogSelector";
 import UserDetails from "./UserDetails";
 import "./DashboardMain.css";
-import StrengthRecords from "./StrengthRecords";
+import Records from "./Records";
 
 const Main = ({ trainingLogs, selectedLog, handleChange, userDetail, strengthRecords }) => (
   <>
@@ -18,7 +18,7 @@ const Main = ({ trainingLogs, selectedLog, handleChange, userDetail, strengthRec
     </div>
     <div className="details-container">
       <UserDetails userDetail={userDetail} />
-      <StrengthRecords strengthRecords={strengthRecords} />
+      <Records strengthRecords={strengthRecords} />
     </div>
   </>
 );

@@ -1,25 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DetailDisplay from "./DetailDisplay";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllStrengthRecords } from "../strengthRecordSlice";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
 
-const StrengthRecords = ({ strengthRecords }) => {
-  const dispatch = useDispatch();
+const Records = ({ strengthRecords }) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
-  // const strengthRecords = useSelector((state) => state.strengthRecords.records);
 
-  // useEffect(() => {
-  //   if (strengthRecords.length === 0) {
-  //     dispatch(getAllStrengthRecords());
-  //   }
-  // }, []);
-
-  console.log("StrengthRecords component")
-  console.log(strengthRecords);
   useEffect(() => {
     let processedStrengthRecords = {};
     if (strengthRecords) {
@@ -70,4 +58,4 @@ const StrengthRecords = ({ strengthRecords }) => {
   );
 };
 
-export default StrengthRecords;
+export default Records;
