@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import DetailDisplay from "./DetailDisplay";
+import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
 
-const Records = ({ strengthRecords }) => {
+const Records = ({ strengthRecords, simple }) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
@@ -13,8 +13,10 @@ const Records = ({ strengthRecords }) => {
     if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
-        acc[exerciseName] = record.weight;
-        acc.updated_at = record.record_date;
+        acc[exerciseName] = {
+          weight: record.weight,
+          record_date: record.record_date,
+        };
         return acc;
       }, {});
     } else {
@@ -22,9 +24,11 @@ const Records = ({ strengthRecords }) => {
         Squat: "0.0",
         "Bench press": "0.0",
         Deadlift: "0.0",
-        updated_at: "2000-01-01T00:00:00.000Z",
       };
     }
+
+    console.log("Records processed records!");
+    console.log(processedStrengthRecords);
 
     const { updated_at, ...records } = processedStrengthRecords;
     setLastUpdateDate(new Date(updated_at));
@@ -46,11 +50,10 @@ const Records = ({ strengthRecords }) => {
         <p>Loading</p>
       ) : (
         <>
-          <p>{`Updated at: ${lastUpdateDate.toLocaleDateString()}`}</p>
-
-          <DetailDisplay
+          <RecordDisplay
             formData={strengthRecordsFormData}
             handleEdit={handleEdit}
+            simple={simple}
           />
         </>
       )}
