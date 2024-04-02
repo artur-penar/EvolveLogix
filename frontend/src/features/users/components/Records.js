@@ -45,7 +45,7 @@ const Records = ({ strengthRecords, simple }) => {
 
   return (
     <div className="user-details-container">
-      <h3>Strength Records:</h3>
+      {simple && <h3>Strength Records:</h3>}
       {isDataLoading ? (
         <p>Loading</p>
       ) : (
