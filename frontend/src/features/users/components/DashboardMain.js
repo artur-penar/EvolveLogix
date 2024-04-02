@@ -18,7 +18,7 @@ const Main = ({ trainingLogs, selectedLog, handleChange, userDetail, strengthRec
     </div>
     <div className="details-container">
       <UserDetails userDetail={userDetail} />
-      <Records strengthRecords={strengthRecords} />
+      <Records strengthRecords={strengthRecords} simple={true}/>
     </div>
   </>
 );
