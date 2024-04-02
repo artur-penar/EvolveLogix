@@ -17,7 +17,6 @@ const StrengthRecords = () => {
           <h1>Strength Records</h1>
         </div>
         <Records strengthRecords={strengthRecords}></Records>
-        <p>Strength records!</p>
       </div>
     </Layout>
   );
