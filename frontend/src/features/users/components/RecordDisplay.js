@@ -20,13 +20,7 @@ const RecordDisplay = ({ formData, handleEdit, simple }) => (
             marginBottom: "10px",
           }}
         >
-          <input
-            className="centered-input"
-            type="text"
-            name={key}
-            value={key}
-            disabled
-          />
+        <label>{key}</label>
           <input
             className="centered-input"
             type="number"
@@ -51,6 +45,9 @@ const RecordDisplay = ({ formData, handleEdit, simple }) => (
           Edit
         </button>
       )}
+      {simple && (<button className="dashboard-button" onClick={handleEdit}>
+        Go To
+      </button>)}
     </div>
   );
   
