@@ -13,10 +13,13 @@ const Records = ({ strengthRecords, simple }) => {
     if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
-        acc[exerciseName] = {
+        if (!acc[exerciseName]) {
+          acc[exerciseName] = [];
+        }
+        acc[exerciseName].push({
           weight: record.weight,
           record_date: record.record_date,
-        };
+        });
         return acc;
       }, {});
     } else {
@@ -26,9 +29,6 @@ const Records = ({ strengthRecords, simple }) => {
         Deadlift: "0.0",
       };
     }
-
-    console.log("Records processed records!");
-    console.log(processedStrengthRecords);
 
     const { updated_at, ...records } = processedStrengthRecords;
     setLastUpdateDate(new Date(updated_at));
