@@ -3,7 +3,7 @@ import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
 
-const Records = ({ strengthRecords, simple }) => {
+const Records = ({ strengthRecords, simple, styleClassName}) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [lastUpdateDate, setLastUpdateDate] = useState();
@@ -54,6 +54,7 @@ const Records = ({ strengthRecords, simple }) => {
             formData={strengthRecordsFormData}
             handleEdit={handleEdit}
             simple={simple}
+            styleClassName={styleClassName}
           />
         </>
       )}
