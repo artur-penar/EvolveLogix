@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import "./RecordDisplay.css";
 
-const RecordDisplay = ({ formData, handleEdit, simple }) => {
+const RecordDisplay = ({ formData, handleEdit, simple, styleClassName }) => {
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -22,35 +23,21 @@ const RecordDisplay = ({ formData, handleEdit, simple }) => {
   };
 
   return (
-    <div className="body-measurements">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "10px",
-        }}
-      >
-        <label style={{ width: "20%" }}>Exercise:</label>
-        <label style={{ width: "20%" }}>Weight:</label>
-        {!simple && <label style={{ width: "20%" }}>Record Date:</label>}
-        {!simple && <label>Prev/Next:</label>}
+    <div className={styleClassName}>
+      <div className="record-container">
+        <label className="record-label">Exercise:</label>
+        <label className="record-label">Weight:</label>
+        {!simple && <label className="record-label">Record Date:</label>}
+        {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
       {Object.entries(formData).map(([key, data]) => (
-        <div
-          key={key}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "10px",
-          }}
-        >
-          <label style={{ width: "20%" }}>{key}</label>
+        <div key={key} className="record-container">
+          <label className="record-label">{key}</label>
           <input
             className="centered-input"
             type="number"
             name={key}
             value={data[currentIndex[key]].weight}
-            style={{ width: "20%" }}
             disabled
             min="0"
           />
@@ -66,7 +53,7 @@ const RecordDisplay = ({ formData, handleEdit, simple }) => {
             />
           )}
           {!simple && (
-            <div style={{ display: "flex" }}>
+            <div className="flex-container">
               <button
                 onClick={() => handlePrev(key)}
                 disabled={currentIndex[key] === 0}
