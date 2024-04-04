@@ -2,7 +2,7 @@ import React from "react";
 import LogSelector from "./LogSelector";
 import UserDetails from "./UserDetails";
 import "./DashboardMain.css";
-import Records from "./Records";
+import Records from "./StrengthRecords/Records";
 
 const Main = ({ trainingLogs, selectedLog, handleChange, userDetail, strengthRecords }) => (
   <>

@@ -1,0 +1,42 @@
+.record-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.record-label {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  width: 25%;
+}
+
+.record-content{
+  color: #333;
+  text-align: center;
+  width: 25%;
+}
+
+.centered-input {
+  width: 25%;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  width: 25%;
+}
+
+.header-container {
+  background-color: #fff; /* White background to match other components */
+  color: #333; /* Dark text color for contrast */
+  padding: 20px;
+  margin: 10px 0;
+  margin-bottom : 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px; /* Increased border radius to match other components */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
+}
