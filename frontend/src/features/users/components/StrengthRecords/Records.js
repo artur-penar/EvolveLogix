@@ -3,41 +3,41 @@ import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
 
-const Records = ({ strengthRecords, simple, styleClassName}) => {
+const Records = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const [lastUpdateDate, setLastUpdateDate] = useState();
+  // State data
+  const [strengthRecordsFormData, setStrengthRecordsFormData] = useState([]);
+  const defaultStrengthRecords = {
+    Squat: "0.0",
+    "Bench press": "0.0",
+    Deadlift: "0.0",
+  };
 
   useEffect(() => {
     let processedStrengthRecords = {};
+    const powerlifts = ["Squat", "Bench press", "Deadlift"];
     if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
-        if (!acc[exerciseName]) {
-          acc[exerciseName] = [];
+        if (powerlifts.includes(exerciseName)) {
+          if (!acc[exerciseName]) {
+            acc[exerciseName] = [];
+          }
+          acc[exerciseName].push({
+            weight: record.weight,
+            record_date: record.record_date,
+          });
         }
-        acc[exerciseName].push({
-          weight: record.weight,
-          record_date: record.record_date,
-        });
         return acc;
       }, {});
     } else {
-      processedStrengthRecords = {
-        Squat: "0.0",
-        "Bench press": "0.0",
-        Deadlift: "0.0",
-      };
+      processedStrengthRecords = defaultStrengthRecords;
     }
 
-    const { updated_at, ...records } = processedStrengthRecords;
-    setLastUpdateDate(new Date(updated_at));
-    setStrengthRecordsFormData(records);
+    setStrengthRecordsFormData(processedStrengthRecords);
     setIsDataLoading(false);
   }, [strengthRecords]);
-
-  // State data
-  const [strengthRecordsFormData, setStrengthRecordsFormData] = useState([]);
 
   const handleEdit = () => {
     navigate("/strength-records");
@@ -50,6 +50,12 @@ const Records = ({ strengthRecords, simple, styleClassName}) => {
         <p>Loading</p>
       ) : (
         <>
+          <RecordDisplay
+            formData={strengthRecordsFormData}
+            handleEdit={handleEdit}
+            simple={simple}
+            styleClassName={styleClassName}
+          />
           <RecordDisplay
             formData={strengthRecordsFormData}
             handleEdit={handleEdit}
