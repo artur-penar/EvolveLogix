@@ -27,6 +27,7 @@ import Header from "../../components/DashboardHeader";
 import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
 import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
+import { getExercises } from "features/trainingLogs/exercises";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -68,6 +69,7 @@ const DashboardPage = () => {
     if (strengthRecords.length === 0) {
       dispatch(getAllStrengthRecords());
     }
+    dispatch(getExercises());
   }, [isAuthenticated]);
 
   useEffect(() => {
