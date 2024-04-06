@@ -91,16 +91,12 @@ const RecordDisplay = ({
           )}
         </div>
       ))}
-      {!simple && (
+      {/* {!simple && (
         <button className="dashboard-button" onClick={handleEdit}>
           Update
         </button>
-      )}
-      {simple && (
-        <button className="dashboard-button" onClick={handleEdit}>
-          Go To
-        </button>
-      )}
+      )} */}
+     
     </div>
   );
 };

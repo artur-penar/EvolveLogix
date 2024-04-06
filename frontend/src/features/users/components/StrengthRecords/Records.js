@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
-import exercises from "features/trainingLogs/exercises";
 
 const Records = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
@@ -75,6 +74,22 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
             simple={simple}
             styleClassName={styleClassName}
           />
+          {simple && (
+            <button className="dashboard-button" onClick={handleEdit}>
+              Go To
+            </button>
+          )}
+          {!simple && (
+            <button
+              style={{
+                display: "block",
+                margin: "0 auto",
+                borderRadius: "10px",
+              }}
+            >
+              Add new record
+            </button>
+          )}
         </>
       )}
     </div>
