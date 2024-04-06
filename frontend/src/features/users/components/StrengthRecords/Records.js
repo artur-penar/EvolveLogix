@@ -10,10 +10,15 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
   // State data
   const [powerliftsRecords, setPowerliftsRecords] = useState();
   const [otherLiftsRecords, setOtherLiftsRecords] = useState();
+  const [isAddNewRecordVisible, setIsAddNewRecordVisible] = useState(false);
   const defaultPowerliftsRecords = {
     Squat: "0.0",
     "Bench press": "0.0",
     Deadlift: "0.0",
+  };
+
+  const handleAddNewRecord = () => {
+    setIsAddNewRecordVisible(true);
   };
 
   useEffect(() => {
@@ -61,8 +66,6 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
         <p>Loading</p>
       ) : (
         <>
-        <NewStrengthRecord/>
-       
           <RecordDisplay
             formData={powerliftsRecords}
             isPowerlifts={true}
@@ -77,13 +80,17 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
             simple={simple}
             styleClassName={styleClassName}
           />
+
+          {isAddNewRecordVisible && <NewStrengthRecord />}
+
           {simple && (
             <button className="dashboard-button" onClick={handleEdit}>
               Go To
             </button>
           )}
-          {!simple && (
+          {!simple && !isAddNewRecordVisible && (
             <button
+              onClick={handleAddNewRecord}
               style={{
                 display: "block",
                 margin: "0 auto",
