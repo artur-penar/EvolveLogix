@@ -2,7 +2,9 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core import exceptions
-from .models import UserDetail, StrengthRecord
+
+
+from .models import UserDetail, StrengthRecord, Exercise
 from training_log.serializers import ExerciseSerializer, ExerciseNameSerializer
 
 User = get_user_model()
@@ -60,7 +62,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class StrengthRecordSerializer(serializers.ModelSerializer):
-    exercise = ExerciseNameSerializer()
+    exercise = serializers.SlugRelatedField(
+        queryset=Exercise.objects.all(),
+        slug_field='name'
+    )
 
     class Meta:
         model = StrengthRecord
