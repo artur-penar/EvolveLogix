@@ -9,7 +9,6 @@ import {
   getTrainingLogs,
 } from "features/trainingLogs/log";
 import { selectIsUserAuthenticated } from "features/users/user";
-import { getExercises } from "features/trainingLogs/exercises";
 
 // Component imports
 import Layout from "components/shared/Layout";
@@ -58,7 +57,6 @@ const TrainingLogDashboardPage = () => {
     if (!trainingLogsData) {
       dispatch(getTrainingLogs());
     }
-    dispatch(getExercises());
   }, [selectedTrainingLog, deleteMessage, isAuthenticated]);
 
   const eventsData = useMemo(() => {
