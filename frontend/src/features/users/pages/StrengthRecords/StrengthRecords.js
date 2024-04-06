@@ -16,7 +16,7 @@ const StrengthRecords = () => {
         <div className="records-header-container">
           <h1>Strength Records</h1>
         </div>
-        <Records strengthRecords={strengthRecords}></Records>
+        <Records strengthRecords={strengthRecords} styleClassName={"strength-records-container"}></Records>
       </div>
     </Layout>
   );
