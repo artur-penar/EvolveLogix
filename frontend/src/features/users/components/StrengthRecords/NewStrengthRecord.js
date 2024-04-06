@@ -1,9 +1,35 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { selectExerciseNames } from "features/trainingLogs/exercises";
+import { createStrengthRecord } from "features/users/strengthRecordSlice";
 
 const NewStrengthRecord = () => {
+  const dispatch = useDispatch();
+  const exercises = useSelector((state) => state.exercises.exercises);
   const exercisesList = useSelector(selectExerciseNames);
+  const [exerciseName, setExerciseName] = useState(exercisesList[0]);
+  const [weight, setWeight] = useState(0);
+
+  console.log(exercises);
+
+  const handleExerciseChange = (e) => {
+    setExerciseName(e.target.value);
+  };
+
+  const handleWeightChange = (e) => {
+    setWeight(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    const date = new Date();
+    const exerciseObject = exercises.find((ex) => ex.name === exerciseName);
+    console.log("Exercise object: ", exerciseObject);
+    if (exerciseObject) {
+      dispatch(createStrengthRecord({ date, exercise: exerciseName, weight }));
+    } else {
+      console.error("No exercise found with name: ", exerciseName);
+    }
+  };
 
   return (
     <div
@@ -28,7 +54,12 @@ const NewStrengthRecord = () => {
           }}
         >
           <p>Exercise:</p>
-          <select className="form-control" style={{ width: "60%" }}>
+          <select
+            className="form-control"
+            value={exerciseName}
+            onChange={handleExerciseChange}
+            style={{ width: "60%" }}
+          >
             {exercisesList.map((name, i) => (
               <option key={i} value={name}>
                 {name}
@@ -49,11 +80,14 @@ const NewStrengthRecord = () => {
             type="number"
             step="0.25"
             min="0"
+            value={weight}
+            onChange={handleWeightChange}
             style={{ width: "60%" }}
           ></input>
         </div>
       </div>
       <button
+        onClick={handleSubmit}
         style={{
           display: "block",
           margin: "0 auto",
