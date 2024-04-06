@@ -10,7 +10,7 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
   // State data
   const [powerliftsRecords, setPowerliftsRecords] = useState();
   const [otherLiftsRecords, setOtherLiftsRecords] = useState();
-  const defaultStrengthRecords = {
+  const defaultPowerliftsRecords = {
     Squat: "0.0",
     "Bench press": "0.0",
     Deadlift: "0.0",
@@ -32,7 +32,7 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
         return acc;
       }, {});
     } else {
-      processedStrengthRecords = defaultStrengthRecords;
+      processedStrengthRecords = defaultPowerliftsRecords;
     }
     const processedPowerlifts = Object.fromEntries(
       Object.entries(processedStrengthRecords).filter((exercise) =>

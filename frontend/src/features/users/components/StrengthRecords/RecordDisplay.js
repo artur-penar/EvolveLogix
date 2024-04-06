@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
 
-const RecordDisplay = ({ formData, handleEdit, simple, styleClassName }) => {
+const RecordDisplay = ({
+  formData,
+  isPowerlifts,
+  handleEdit,
+  simple,
+  styleClassName,
+}) => {
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -24,7 +30,11 @@ const RecordDisplay = ({ formData, handleEdit, simple, styleClassName }) => {
 
   return (
     <div className={styleClassName}>
-      {!simple && <h4 className="header-container">Powerlifts</h4>}
+      {!simple && (
+        <h4 className="header-container">
+          {isPowerlifts ? "Powerlifts" : "Others"}
+        </h4>
+      )}
       <div className="record-container">
         <label className="record-label">Exercise:</label>
         <label className="record-label">Weight:</label>
