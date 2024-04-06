@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
+import NewStrengthRecord from "./NewStrengthRecord";
 
 const Records = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
@@ -60,6 +61,8 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
         <p>Loading</p>
       ) : (
         <>
+        <NewStrengthRecord/>
+       
           <RecordDisplay
             formData={powerliftsRecords}
             isPowerlifts={true}
