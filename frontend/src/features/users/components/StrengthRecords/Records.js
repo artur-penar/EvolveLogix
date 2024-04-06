@@ -26,7 +26,7 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
     const powerlifts = ["Squat", "Bench press", "Deadlift"];
     if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
-        const exerciseName = record.exercise.name;
+        const exerciseName = record.exercise;
         if (!acc[exerciseName]) {
           acc[exerciseName] = [];
         }
