@@ -9,15 +9,18 @@ router.post("/api/users/strength-records/create", async (req, res) => {
   const strengthRecord = req.body; // This is where the createUserDetail object will come from
 
   try {
-    const apiRes = await fetch(`${process.env.API_URL}/api/users/detail/create`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${access}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(strengthRecord), // Send the createUserDetail object as the request body
-    });
+    const apiRes = await fetch(
+      `${process.env.API_URL}/api/users/strength-records/create`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${access}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(strengthRecord), // Send the createUserDetail object as the request body
+      }
+    );
 
     const data = await apiRes.json();
 
