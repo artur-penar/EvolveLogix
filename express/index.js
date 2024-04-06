@@ -21,6 +21,7 @@ const updateUserDetailsRoute = require("./routes/user/updateUserDetails");
 
 // Strength Records functionality routes
 const strengthRecordsRoute = require("./routes/user/strengthRecords");
+const createStrengthRecordsRoute = require("./routes/user/createStrengthRecord");
 
 // Training functionality routes
 const exercisesRoute = require("./routes/training_log/listExercises");
@@ -29,6 +30,7 @@ const addTrainingSessionRoute = require("./routes/training_log/addTrainingSessio
 const deleteTrainingSessionRoute = require("./routes/training_log/deleteTrainingSession");
 const updateTrainingSessionRoute = require("./routes/training_log/updateTrainingSession");
 const createTrainingLogRoute = require("./routes/training_log/createTrainingLog");
+const { create } = require("domain");
 // Create an instance of the Express application
 const app = express();
 
@@ -54,6 +56,7 @@ app.use(createUserDetailsRoute);
 
 // Strength Records functionality routes
 app.use(strengthRecordsRoute);
+app.use(createStrengthRecordsRoute);
 
 // Training functionality routes
 app.use(exercisesRoute);
