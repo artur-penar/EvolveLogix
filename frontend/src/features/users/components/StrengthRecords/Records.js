@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
 import "./StrengthRecords.css";
+import exercises from "features/trainingLogs/exercises";
 
 const Records = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   // State data
-  const [strengthRecordsFormData, setStrengthRecordsFormData] = useState([]);
+  const [powerliftsRecords, setPowerliftsRecords] = useState();
+  const [otherLiftsRecords, setOtherLiftsRecords] = useState();
   const defaultStrengthRecords = {
     Squat: "0.0",
     "Bench press": "0.0",
@@ -20,22 +22,31 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
     if (strengthRecords) {
       processedStrengthRecords = strengthRecords.reduce((acc, record) => {
         const exerciseName = record.exercise.name;
-        if (powerlifts.includes(exerciseName)) {
-          if (!acc[exerciseName]) {
-            acc[exerciseName] = [];
-          }
-          acc[exerciseName].push({
-            weight: record.weight,
-            record_date: record.record_date,
-          });
+        if (!acc[exerciseName]) {
+          acc[exerciseName] = [];
         }
+        acc[exerciseName].push({
+          weight: record.weight,
+          record_date: record.record_date,
+        });
         return acc;
       }, {});
     } else {
       processedStrengthRecords = defaultStrengthRecords;
     }
+    const processedPowerlifts = Object.fromEntries(
+      Object.entries(processedStrengthRecords).filter((exercise) =>
+        powerlifts.includes(exercise[0])
+      )
+    );
+    const processedOtherLifts = Object.fromEntries(
+      Object.entries(processedStrengthRecords).filter(
+        (exercise) => !powerlifts.includes(exercise[0])
+      )
+    );
 
-    setStrengthRecordsFormData(processedStrengthRecords);
+    setPowerliftsRecords(processedPowerlifts);
+    setOtherLiftsRecords(processedOtherLifts);
     setIsDataLoading(false);
   }, [strengthRecords]);
 
@@ -51,13 +62,15 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
       ) : (
         <>
           <RecordDisplay
-            formData={strengthRecordsFormData}
+            formData={powerliftsRecords}
+            isPowerlifts={true}
             handleEdit={handleEdit}
             simple={simple}
             styleClassName={styleClassName}
           />
           <RecordDisplay
-            formData={strengthRecordsFormData}
+            formData={otherLiftsRecords}
+            isPowerlifts={false}
             handleEdit={handleEdit}
             simple={simple}
             styleClassName={styleClassName}
