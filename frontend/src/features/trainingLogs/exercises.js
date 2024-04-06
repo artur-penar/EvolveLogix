@@ -51,3 +51,4 @@ const exercisesSlice = createSlice({
 });
 
 export default exercisesSlice.reducer;
+export const selectExerciseNames = state => state.exercises.exercises.map(exercise => exercise.name);
