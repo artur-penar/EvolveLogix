@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
 
-const RecordDisplay = ({
-  formData,
-  isPowerlifts,
-  simple,
-  styleClassName,
-}) => {
+const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -34,6 +29,18 @@ const RecordDisplay = ({
           {isPowerlifts ? "Powerlifts" : "Others"}
         </h4>
       )}
+      <div
+        style={{
+          display: "flex",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          justifyContent: "center",
+          marginBottom: "10px",
+          alignItems: "center",
+          padding: "5px",
+        }}
+      >
+        <h5>{simple && isPowerlifts ? "Powerlifts" : "Others"}</h5>
+      </div>
       <div className="record-container">
         <label className="record-label" style={{ textAlign: "left" }}>
           Exercise:
