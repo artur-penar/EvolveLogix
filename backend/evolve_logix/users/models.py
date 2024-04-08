@@ -77,6 +77,25 @@ class StrengthRecord(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     record_date = models.DateTimeField(auto_now_add=True)
+    percent_increase = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f'{self.user.user_name} {self.record_date} - {self.exercise.name} - {self.weight}kg'
+
+    def save(self, *args, **kwargs):
+        # Get the previous record for the same exercise and user
+        previous_record = StrengthRecord.objects.filter(
+            user=self.user,
+            exercise=self.exercise,
+            record_date__lt=self.record_date
+        ).order_by('-record_date').first()
+
+        # If there is a previous record, calculate the percentage increase
+        if previous_record is not None:
+            increase = self.weight - previous_record.weight
+            self.percent_increase = (
+                increase / previous_record.weight) * 100
+        else:
+            self.percent_increase = None
+        super().save(*args, **kwargs)
