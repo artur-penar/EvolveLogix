@@ -46,7 +46,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Handle to return only two fields email and user_user_name to prevent display password on the scrren."""
+    """Handle to return only two fields email and user_user_name to prevent display password on the screen."""
 
     class Meta:
         model = User
@@ -69,4 +69,5 @@ class StrengthRecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StrengthRecord
-        fields = ['record_date', 'exercise', 'weight']
+        fields = ['record_date', 'exercise', 'weight', 'percent_increase']
+        read_only_fields = ['record_date']
