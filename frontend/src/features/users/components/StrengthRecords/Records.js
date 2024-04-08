@@ -62,7 +62,20 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
 
   return (
     <div className="user-details-container">
-      {simple && <h3>Strength Records:</h3>}
+      {simple && (
+        <div
+          style={{
+            display: "flex",
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+            justifyContent: "center",
+            marginBottom: "10px",
+            alignItems: "center",
+            padding: "5px",
+          }}
+        >
+          <h3>Strength Records</h3>
+        </div>
+      )}
       {isDataLoading ? (
         <p>Loading</p>
       ) : (
