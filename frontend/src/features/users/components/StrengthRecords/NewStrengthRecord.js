@@ -22,10 +22,16 @@ const NewStrengthRecord = () => {
 
   const handleSubmit = (e) => {
     const date = new Date();
+    const dateString = date.toISOString().split("T")[0];
     const exerciseObject = exercises.find((ex) => ex.name === exerciseName);
-    console.log("Exercise object: ", exerciseObject);
     if (exerciseObject) {
-      dispatch(createStrengthRecord({ date, exercise: exerciseName, weight }));
+      dispatch(
+        createStrengthRecord({
+          record_date: dateString,
+          exercise: exerciseName,
+          weight: weight,
+        })
+      );
     } else {
       console.error("No exercise found with name: ", exerciseName);
     }
