@@ -38,6 +38,7 @@ const RecordDisplay = ({
       <div className="record-container">
         <label className="record-label">Exercise:</label>
         <label className="record-label">Weight:</label>
+        <label className="record-label">Increase:</label>
         {!simple && <label className="record-label">Record Date:</label>}
         {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
@@ -46,6 +47,13 @@ const RecordDisplay = ({
           <label className="record-content">{key}</label>
           <label className="record-content">
             {data[currentIndex[key]].weight}kg
+          </label>
+          <label className="record-content">
+            🔺
+            {data[currentIndex[key]].percent_increase !== null
+              ? data[currentIndex[key]].percent_increase
+              : 0}
+            %
           </label>
           {!simple && (
             <label className="record-content">
@@ -96,7 +104,6 @@ const RecordDisplay = ({
           Update
         </button>
       )} */}
-     
     </div>
   );
 };
