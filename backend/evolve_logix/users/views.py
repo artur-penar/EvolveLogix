@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework import permissions, status
@@ -85,7 +86,7 @@ class CreateStrengthRecordView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, record_date=timezone.now())
 
 
 class StrengthRecordRetrieveUpdateView(generics.RetrieveUpdateAPIView):
