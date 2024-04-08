@@ -96,9 +96,13 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
                 display: "block",
                 margin: "0 auto",
                 borderRadius: "10px",
+                marginTop: "10px",
+                backgroundColor: "#007bff",
+                padding: "10px 20px",
+                color: "white",
               }}
             >
-              Add new record
+              Add record
             </button>
           )}
         </>
