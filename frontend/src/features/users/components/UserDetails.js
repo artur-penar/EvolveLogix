@@ -51,7 +51,18 @@ const UserDetails = ({ userDetail }) => {
 
   return (
     <div className="user-details-container">
-      <h3>User details:</h3>
+      <div
+        style={{
+          display: "flex",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          justifyContent: "center",
+          marginBottom: "10px",
+          alignItems: "center",
+          padding: "5px",
+        }}
+      >
+        <h3>User details:</h3>
+      </div>
       <div className="user-details-header">
         <p>{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
         <div>
