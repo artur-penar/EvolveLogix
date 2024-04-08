@@ -33,6 +33,7 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
         acc[exerciseName].push({
           weight: record.weight,
           record_date: record.record_date,
+          percent_increase: record.percent_increase,
         });
         return acc;
       }, {});
