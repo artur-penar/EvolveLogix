@@ -4,7 +4,6 @@ import "./RecordDisplay.css";
 const RecordDisplay = ({
   formData,
   isPowerlifts,
-  handleEdit,
   simple,
   styleClassName,
 }) => {
@@ -36,7 +35,9 @@ const RecordDisplay = ({
         </h4>
       )}
       <div className="record-container">
-        <label className="record-label">Exercise:</label>
+        <label className="record-label" style={{ textAlign: "left" }}>
+          Exercise:
+        </label>
         <label className="record-label">Weight:</label>
         <label className="record-label">Increase:</label>
         {!simple && <label className="record-label">Record Date:</label>}
@@ -44,7 +45,9 @@ const RecordDisplay = ({
       </div>
       {Object.entries(formData).map(([key, data]) => (
         <div key={key} className="record-container">
-          <label className="record-content">{key}</label>
+          <label className="record-content" style={{ textAlign: "left" }}>
+            {key}
+          </label>
           <label className="record-content">
             {data[currentIndex[key]].weight}kg
           </label>
@@ -62,25 +65,7 @@ const RecordDisplay = ({
               ).toLocaleDateString()}
             </label>
           )}
-          {/* <input
-            className="centered-input"
-            type="number"
-            name={key}
-            value={data[currentIndex[key]].weight}
-            disabled
-            min="0"
-          /> */}
-          {/* {!simple && (
-            <input
-              className="centered-input"
-              type="text"
-              name={`${key}_date`}
-              value={new Date(
-                data[currentIndex[key]].record_date
-              ).toLocaleDateString()}
-              disabled
-            />
-          )} */}
+
           {!simple && (
             <div className="flex-container">
               <button
@@ -99,11 +84,6 @@ const RecordDisplay = ({
           )}
         </div>
       ))}
-      {/* {!simple && (
-        <button className="dashboard-button" onClick={handleEdit}>
-          Update
-        </button>
-      )} */}
     </div>
   );
 };
