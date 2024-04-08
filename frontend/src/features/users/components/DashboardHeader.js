@@ -3,8 +3,7 @@ import "./DashboardHeader.css";
 
 const Header = ({ user }) => (
   <div className="header-container">
-    <h3>Dashboard</h3>
-    <h3>{user.email}</h3>
+    <h1>Dashboard</h1>
   </div>
 );
 
