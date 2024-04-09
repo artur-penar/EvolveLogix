@@ -39,7 +39,7 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
           padding: "5px",
         }}
       >
-        <h5>{simple && isPowerlifts ? "Powerlifts" : "Others"}</h5>
+        {simple && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
       </div>
       <div className="record-container">
         <label className="record-label" style={{ textAlign: "left" }}>
