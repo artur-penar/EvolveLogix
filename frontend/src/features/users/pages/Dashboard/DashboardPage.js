@@ -104,7 +104,7 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <Header user={user} />
+          <Header />
           {trainingLogs.length > 0 ? (
             <Main
               trainingLogs={trainingLogs}
