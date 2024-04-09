@@ -21,6 +21,7 @@ import EditTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSess
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
 import StrengthRecords from "features/users/pages/StrengthRecords/StrengthRecords";
+import TrainingCycle from "features/trainingLogs/pages/TrainingCycle/TrainingCycle";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,15 +31,15 @@ const App = () => {
 
   return (
     <div
-      // style={{
-        // backgroundColor: "green", // This will set the background color to green
-        // backgroundImage: `url(${backgroundImage})`,
-        // backgroundRepeat: "no-repeat",
-        // backgroundPosition: "center center",
-        // backgroundAttachment: "fixed",
-        // backgroundSize: "cover",
-        // height: "100vh",
-      // }}
+    // style={{
+    // backgroundColor: "green", // This will set the background color to green
+    // backgroundImage: `url(${backgroundImage})`,
+    // backgroundRepeat: "no-repeat",
+    // backgroundPosition: "center center",
+    // backgroundAttachment: "fixed",
+    // backgroundSize: "cover",
+    // height: "100vh",
+    // }}
     >
       <Router>
         <Routes>
@@ -50,7 +51,8 @@ const App = () => {
           <Route path="/training-log" element={<TrainingLogDashboardPage />} />
           <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
           <Route path="/add-log" element={<AddTrainingSessionPage />} />
-          <Route path="/strength-records" element={<StrengthRecords/>} />
+          <Route path="/strength-records" element={<StrengthRecords />} />
+          <Route path="/training-cycle" element={<TrainingCycle />} />
           <Route
             path="/edit-training-session/:id"
             element={<EditTrainingSessionPage />}
