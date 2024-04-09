@@ -1,9 +1,9 @@
 import React from "react";
-import "./DashboardHeader.css";
+import "./PageHeader.css";
 
-const Header = () => (
+const Header = ({ headerContent }) => (
   <div className="header-container">
-    <h1>Dashboard</h1>
+    <h1>{headerContent}</h1>
   </div>
 );
 

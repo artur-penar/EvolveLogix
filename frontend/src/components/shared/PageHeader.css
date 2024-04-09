@@ -5,7 +5,7 @@
   margin: 10px 0;
   margin-bottom : 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-radius: 10px; /* Increased border radius to match other components */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */

@@ -23,7 +23,7 @@ import {
 } from "features/users/user";
 
 // Local components
-import Header from "../../components/DashboardHeader";
+import Header from "../../../../components/shared/PageHeader";
 import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
 import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
@@ -104,7 +104,7 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <Header />
+          <Header headerContent={"Dashboard"}/>
           {trainingLogs.length > 0 ? (
             <Main
               trainingLogs={trainingLogs}
