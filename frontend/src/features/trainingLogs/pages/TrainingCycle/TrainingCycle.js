@@ -27,61 +27,71 @@ const TrainingCycle = () => {
 
   return (
     <Layout title="EvolveLogix | Training cycle">
-      <div className="training-cycle-content">
+      <div className="tc-cycle-content">
         <PageHeader headerContent={"Training Cycle"} />
-        <label>Macrocycle:</label>
-        <select
-          className="form-control"
-          value={macrocycle}
-          onChange={handleMacrocycleChange}
-          style={{ width: "60%" }}
-        >
-          {macrocycles.map((name, i) => (
-            <option key={i} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-        <label>Mesocycle:</label>
-        <select
-          className="form-control"
-          value={mesocycle}
-          onChange={handleMesocycleChange}
-          style={{ width: "60%" }}
-        >
-          {mesocycles.map((name, i) => (
-            <option key={i} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-        <label>Phase</label>
-        <select
-          className="form-control"
-          value={phase}
-          onChange={handlePhaseChange}
-          style={{ width: "60%" }}
-        >
-          {phases.map((name, i) => (
-            <option key={i} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-        <label>Duration:</label>
-        <select
-          className="form-control"
-          value={macrocycle}
-          onChange={handleMacrocycleChange}
-          style={{ width: "60%" }}
-        >
-          {[...Array(10).keys()].map((name, i) => (
-            <option key={i} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-        <label>Weeks</label>
+        <div className="tc-select-container">
+          <div className="tc-select-group">
+            <label className="tc-select-label">Macrocycle:</label>
+            <select
+              className="form-control tc-select-control"
+              value={macrocycle}
+              onChange={handleMacrocycleChange}
+            >
+              {macrocycles.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="tc-select-group">
+            <label className="tc-select-label">Phase:</label>
+            <select
+              className="form-control tc-select-control"
+              value={phase}
+              onChange={handlePhaseChange}
+            >
+              {phases.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="tc-select-container">
+          <div className="tc-select-group">
+            <label className="tc-select-label">Mesocycle:</label>
+            <select
+              className="form-control tc-select-control"
+              value={mesocycle}
+              onChange={handleMesocycleChange}
+            >
+              {mesocycles.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="tc-select-group">
+            <label className="tc-select-label">Duration in weeks:</label>
+            <select
+              className="form-control tc-select-control"
+              value={macrocycle}
+              onChange={handleMacrocycleChange}
+            >
+              {[...Array(10).keys()].map((number, i) => (
+                <option key={i} value={number}>
+                  {number + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <p>hahaha</p>
       </div>
     </Layout>
   );
