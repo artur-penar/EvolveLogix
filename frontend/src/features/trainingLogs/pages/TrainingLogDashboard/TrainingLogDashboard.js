@@ -12,6 +12,7 @@ import { selectIsUserAuthenticated } from "features/users/user";
 
 // Component imports
 import Layout from "components/shared/Layout";
+import PageHeader from "components/shared/PageHeader";
 import FullCalendar from "@fullcalendar/react";
 import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
 import DeleteInfoModal from "./DeleteInfoModal";
@@ -152,9 +153,7 @@ const TrainingLogDashboardPage = () => {
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="dashboard-content">
-        <div className="header-container">
-          <h1 className="log-name">Current log: {selectedTrainingLog.name}</h1>
-        </div>
+        <PageHeader headerContent={"Training Log"} />
         {loading || !trainingLogsData ? (
           <div
             style={{
