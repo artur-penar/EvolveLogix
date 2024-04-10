@@ -5,8 +5,8 @@ import { useEffect } from "react";
 // Import components
 // trainingLogs components
 import AddTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSession";
-import ExerciseListPage from "features/trainingLogs/pages/ExerciseListPage";
-import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogsPage";
+import ExerciseListPage from "features/trainingLogs/pages/ExerciseList/ExerciseList";
+import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogs/ViewTrainingLogs";
 import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 // user components
 import DashboardPage from "features/users/pages/Dashboard/DashboardPage";
@@ -16,7 +16,7 @@ import RegisterPage from "features/users/pages/RegisterPage/RegisterPage";
 
 // Import actions
 import { verifyAuth } from "features/users/user";
-import EditTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/EditTrainingSession";
+import EditTrainingSessionPage from "features/trainingLogs/pages/EditTrainingSession/EditTrainingSession";
 
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
