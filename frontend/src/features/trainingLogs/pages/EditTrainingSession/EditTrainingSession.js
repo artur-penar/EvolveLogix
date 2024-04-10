@@ -7,7 +7,7 @@ import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { getTrainingLogs, updateTrainingSession } from "../../log";
 import Layout from "components/shared/Layout";
 import LoadingState from "components/shared/LoadingState";
-import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
+import TrainingSessionForm from "features/trainingLogs/sharedComponents/TrainingSessionForm";
 import { selectIsUserAuthenticated } from "features/users/user";
 import "./AddTrainingSession.css";
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTrainingLogs } from "../log";
+import { getTrainingLogs } from "../../log";
 import Layout from "components/shared/Layout";
-import "./ViewTrainingLogsPage.css";
+import "./ViewTrainingLogs.css";
 
 const ViewTrainingLogsPage = () => {
   const dispatch = useDispatch();

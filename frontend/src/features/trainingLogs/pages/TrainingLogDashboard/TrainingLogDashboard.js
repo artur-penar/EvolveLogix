@@ -14,8 +14,8 @@ import { selectIsUserAuthenticated } from "features/users/user";
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
 import FullCalendar from "@fullcalendar/react";
-import TrainingLogDashboardModal from "./TrainingLogDashboardModal";
-import DeleteInfoModal from "./DeleteInfoModal";
+import TrainingLogDashboardModal from "./Modals/TrainingLogDashboardModal";
+import DeleteInfoModal from "./Modals/DeleteInfoModal";
 
 // Plugin imports
 import dayGridPlugin from "@fullcalendar/daygrid";

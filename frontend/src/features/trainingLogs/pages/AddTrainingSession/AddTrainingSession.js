@@ -8,7 +8,7 @@ import { addTrainingSession, getTrainingLogs } from "../../log";
 import { selectIsUserAuthenticated } from "features/users/user";
 import Layout from "components/shared/Layout";
 import LoadingState from "components/shared/LoadingState";
-import TrainingSessionForm from "features/trainingLogs/components/TrainingSessionForm";
+import TrainingSessionForm from "features/trainingLogs/sharedComponents/TrainingSessionForm";
 import "./AddTrainingSession.css";
 
 // Function to get exercise names
