@@ -190,7 +190,7 @@ const EditTrainingSessionPage = () => {
 
   // JSX return
   return (
-    <Layout title="Gym-Support | Training Log">
+    <Layout title="EvolveLogix | Training Log">
       {loading ? (
         <LoadingState />
       ) : (

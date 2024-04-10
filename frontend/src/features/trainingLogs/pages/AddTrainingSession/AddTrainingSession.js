@@ -181,7 +181,7 @@ const AddTrainingSessionPage = () => {
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <Layout title="Gym-Support | Training Log">
+    <Layout title="EvolveLogix | Training Log">
       {loading ? (
         <LoadingState />
       ) : (
