@@ -68,6 +68,20 @@ const TrainingCycle = () => {
             </option>
           ))}
         </select>
+        <label>Duration:</label>
+        <select
+          className="form-control"
+          value={macrocycle}
+          onChange={handleMacrocycleChange}
+          style={{ width: "60%" }}
+        >
+          {[...Array(10).keys()].map((name, i) => (
+            <option key={i} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <label>Weeks</label>
       </div>
     </Layout>
   );
