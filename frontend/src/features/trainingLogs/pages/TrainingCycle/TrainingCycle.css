@@ -26,3 +26,13 @@
   flex: 1;
   text-align: center;
 }
+
+.tc-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem; /* adjust as needed */
+}
+
+.tc-button {
+  padding: 5px;
+}

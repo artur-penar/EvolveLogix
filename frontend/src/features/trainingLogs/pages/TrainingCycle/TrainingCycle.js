@@ -13,6 +13,12 @@ const TrainingCycle = () => {
   const macrocycles = ["2024Cycle", "Quadrennial"];
   const [macrocycle, setMacrocycle] = useState(macrocycles[0]);
 
+  const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+
+  const handleCreateCycleClick = () => {
+    setIsCreateCycleVisible(true);
+  };
+
   const handlePhaseChange = (e) => {
     setPhase(e.target.value);
   };
@@ -91,7 +97,14 @@ const TrainingCycle = () => {
             </select>
           </div>
         </div>
-        <p>hahaha</p>
+        {!isCreateCycleVisible && (
+          <div className="tc-button-container">
+            <button className="tc-button" onClick={handleCreateCycleClick}>
+              Create Cycle
+            </button>
+          </div>
+        )}
+        {isCreateCycleVisible && <div>hahaha</div>}
       </div>
     </Layout>
   );
