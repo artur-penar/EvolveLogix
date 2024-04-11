@@ -2,6 +2,7 @@ import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
 import React, { useState } from "react";
 import "./TrainingCycle.css";
+import TrainingCycleForm from "./TrainingCycleForm";
 
 const TrainingCycle = () => {
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
@@ -35,68 +36,18 @@ const TrainingCycle = () => {
     <Layout title="EvolveLogix | Training cycle">
       <div className="tc-cycle-content">
         <PageHeader headerContent={"Training Cycle"} />
-        <div className="tc-select-container">
-          <div className="tc-select-group">
-            <label className="tc-select-label">Macrocycle:</label>
-            <select
-              className="form-control tc-select-control"
-              value={macrocycle}
-              onChange={handleMacrocycleChange}
-            >
-              {macrocycles.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="tc-select-group">
-            <label className="tc-select-label">Phase:</label>
-            <select
-              className="form-control tc-select-control"
-              value={phase}
-              onChange={handlePhaseChange}
-            >
-              {phases.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+        <TrainingCycleForm
+          macrocycle={macrocycle}
+          macrocycles={macrocycles}
+          mesocycle={mesocycle}
+          mesocycles={mesocycles}
+          phase={phase}
+          phases={phases}
+          handleMacrocycleChange={handleMacrocycleChange}
+          handleMesocycleChange={handleMesocycleChange}
+          handlePhaseChange={handlePhaseChange}
+        />
 
-        <div className="tc-select-container">
-          <div className="tc-select-group">
-            <label className="tc-select-label">Mesocycle:</label>
-            <select
-              className="form-control tc-select-control"
-              value={mesocycle}
-              onChange={handleMesocycleChange}
-            >
-              {mesocycles.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="tc-select-group">
-            <label className="tc-select-label">Duration in weeks:</label>
-            <select
-              className="form-control tc-select-control"
-              value={macrocycle}
-              onChange={handleMacrocycleChange}
-            >
-              {[...Array(10).keys()].map((number, i) => (
-                <option key={i} value={number}>
-                  {number + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
         {!isCreateCycleVisible && (
           <div className="tc-button-container">
             <button className="tc-button" onClick={handleCreateCycleClick}>
