@@ -3,6 +3,7 @@ import PageHeader from "components/shared/PageHeader";
 import React, { useState } from "react";
 import "./TrainingCycle.css";
 import TrainingCycleForm from "./TrainingCycleForm";
+import CreateNewCycle from "./CreateNewCycle";
 
 const TrainingCycle = () => {
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
@@ -55,7 +56,7 @@ const TrainingCycle = () => {
             </button>
           </div>
         )}
-        {isCreateCycleVisible && <div>hahaha</div>}
+        {isCreateCycleVisible && <CreateNewCycle />}
       </div>
     </Layout>
   );
