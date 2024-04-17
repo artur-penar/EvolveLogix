@@ -1,5 +1,6 @@
 import React from "react";
 import SetField from "./SetField";
+import "./ExerciseField.css";
 
 const ExerciseField = ({
   exercises,

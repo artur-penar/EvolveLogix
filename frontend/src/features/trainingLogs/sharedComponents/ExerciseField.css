@@ -1,0 +1,18 @@
+.exercise {
+  position: relative;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.exercise-set-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.exercise-left-panel {
+  padding-right: 10px;
+  width: 15%;
+}
