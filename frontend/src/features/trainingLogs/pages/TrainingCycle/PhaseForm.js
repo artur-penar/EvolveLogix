@@ -10,17 +10,9 @@ const PhaseForm = () => {
       <div className="phase-week-container">
         <label>Day 1:</label>
         {Array.from({ length: weeks }, (_, i) => i + 1).map((week) => (
-          <div>
+          <div className="phase-week-container">
             <div key={week} className="week">
               <label>Week {week}</label>
-            </div>
-            <div style={{ display: "flex", alignContent: "row" }}>
-              <select className="form-control"></select>
-              <p>x</p>
-              <input className="form-control" type="number" />
-              <p>kg</p>
-              <input className="phase-input" type="number" />
-              <p>reps</p>
             </div>
           </div>
         ))}
