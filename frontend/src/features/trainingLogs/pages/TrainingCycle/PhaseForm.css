@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .phase-week-container {
@@ -33,7 +34,7 @@
 }
 
 .phase-input {
-  width: 50px;
-  height: 20px;
+  width: 40px;
+  height: 25px;
   font-size: 14px;
 }

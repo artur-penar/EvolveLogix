@@ -1,8 +1,8 @@
 import React from "react";
 import "./PhaseForm.css";
 
-const PhaseForm = () => {
-  const weeks = 4;
+const PhaseForm = ( {weeks}) => {
+  // const weeks = 4;
   const fields = ["Squat", "Bench", "Deadlift", "Overhead press"];
   return (
     <div className="phase-form-container">

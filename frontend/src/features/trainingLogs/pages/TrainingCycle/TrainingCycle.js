@@ -16,6 +16,10 @@ const TrainingCycle = () => {
   const macrocycles = ["2024Cycle", "Quadrennial"];
   const [macrocycle, setMacrocycle] = useState(macrocycles[0]);
 
+  const [trainingDays, setTrainingDays] = useState(0);
+
+  const [weeks, setWeeks] = useState(0);
+
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
 
   const handleCreateCycleClick = () => {
@@ -34,6 +38,14 @@ const TrainingCycle = () => {
     setMacrocycle(e.target.value);
   };
 
+  const handleTrainingDaysChange = (e) => {
+    setTrainingDays(e.target.value);
+  };
+
+  const handleWeeksChange = (e) => {
+    setWeeks(e.target.value);
+  };
+
   return (
     <Layout title="EvolveLogix | Training cycle">
       <div className="tc-cycle-content">
@@ -45,9 +57,13 @@ const TrainingCycle = () => {
           mesocycles={mesocycles}
           phase={phase}
           phases={phases}
+          trainingDays={trainingDays}
+          weeks={weeks}
           handleMacrocycleChange={handleMacrocycleChange}
           handleMesocycleChange={handleMesocycleChange}
           handlePhaseChange={handlePhaseChange}
+          handleTrainingDaysChange={handleTrainingDaysChange}
+          handleWeeksChange={handleWeeksChange}
         />
 
         {!isCreateCycleVisible && (
@@ -58,7 +74,7 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
-        <PhaseForm />
+        <PhaseForm weeks={weeks} />
       </div>
     </Layout>
   );
