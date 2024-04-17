@@ -1,8 +1,9 @@
 import React from "react";
-import DescriptionFiedl from "./DescriptionFeild";
+import DescriptionField from "./DescriptionField";
 import DateField from "./DateField";
 import ExerciseField from "./ExerciseField";
 import CommentField from "./CommentField";
+import "./TrainingSessionForm.css";
 
 const TrainingSessionForm = ({
   description,
@@ -22,7 +23,7 @@ const TrainingSessionForm = ({
 }) => (
   <div className="add-training-container">
     <div className="field-container">
-      <DescriptionFiedl
+      <DescriptionField
         description={description}
         setDescription={setDescription}
       />
