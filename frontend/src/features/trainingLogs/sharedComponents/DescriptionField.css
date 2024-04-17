@@ -1,0 +1,10 @@
+.description-form-label {
+  font-weight: bold;
+}
+
+.description-form-control {
+  width: 80%;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
