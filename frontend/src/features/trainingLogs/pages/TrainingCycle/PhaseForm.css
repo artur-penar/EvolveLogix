@@ -22,11 +22,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between; /* Distributes space evenly between the weeks */
-  flex-wrap: wrap; /* Allows the weeks to wrap to the next line if they don't fit */
+  align-items: center; /* Centers the items vertically */
 }
 
 .week {
   flex: 1; /* Each week will take up an equal amount of space */
+  display: flex;
+  justify-content: center; /* Centers the inputs horizontally */
+  text-align: center; /* Centers the labels */
 }
 
 .phase-input {
