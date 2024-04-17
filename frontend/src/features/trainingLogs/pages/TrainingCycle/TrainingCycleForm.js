@@ -8,12 +8,16 @@ const TrainingCycleForm = ({
   mesocycles,
   phase,
   phases,
+  trainingDays,
+  weeks,
   handleMacrocycleChange,
   handleMesocycleChange,
   handlePhaseChange,
+  handleTrainingDaysChange,
+  handleWeeksChange,
 }) => {
   return (
-    <div>
+    <div className="tcf-parent-container">
       <div className="tcf-select-container">
         <div className="tcf-select-group">
           <label className="tcf-select-label">Macrocycle:</label>
@@ -65,10 +69,24 @@ const TrainingCycleForm = ({
           <label className="tcf-select-label">Duration in weeks:</label>
           <select
             className="form-control tcf-select-control"
-            value={macrocycle}
-            onChange={handleMacrocycleChange}
+            value={weeks}
+            onChange={handleWeeksChange}
           >
             {[...Array(10).keys()].map((number, i) => (
+              <option key={i} value={number}>
+                {number + 1}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Training days:</label>
+          <select
+            className="form-control tcf-select-control"
+            value={trainingDays}
+            onChange={handleTrainingDaysChange}
+          >
+            {[...Array(7).keys()].map((number, i) => (
               <option key={i} value={number}>
                 {number + 1}
               </option>
