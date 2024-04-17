@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import "./TrainingCycle.css";
 import TrainingCycleForm from "./TrainingCycleForm";
 import CreateNewCycle from "./CreateNewCycle";
+import PhaseForm from "./PhaseForm";
 
 const TrainingCycle = () => {
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
@@ -57,6 +58,7 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
+        <PhaseForm />
       </div>
     </Layout>
   );

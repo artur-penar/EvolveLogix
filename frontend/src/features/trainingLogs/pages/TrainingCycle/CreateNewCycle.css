@@ -23,21 +23,21 @@
   align-items: center;
 }
 
-.form-container {
+.cycle-form-container {
   display: flex;
   flex-direction: column;
   width: 40%;
   align-items: center;
 }
 
-.form-group {
+.cycle-form-group {
   display: flex;
   width: 100%;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.form-control {
+.cycle-form-control {
   width: 60%;
 }
 

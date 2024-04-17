@@ -1,0 +1,20 @@
+.tcf-select-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tcf-select-group {
+  display: flex;
+  align-items: center;
+  width: 45%;
+}
+
+.tcf-select-label {
+  margin-right: 1rem;
+}
+
+.tcf-select-control {
+    flex: 1;
+    text-align: center;
+  }

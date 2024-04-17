@@ -1,4 +1,5 @@
 import React from "react";
+import "./TrainingCycleForm.css";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -13,11 +14,11 @@ const TrainingCycleForm = ({
 }) => {
   return (
     <div>
-      <div className="tc-select-container">
-        <div className="tc-select-group">
-          <label className="tc-select-label">Macrocycle:</label>
+      <div className="tcf-select-container">
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Macrocycle:</label>
           <select
-            className="form-control tc-select-control"
+            className="form-control tcf-select-control"
             value={macrocycle}
             onChange={handleMacrocycleChange}
           >
@@ -28,10 +29,10 @@ const TrainingCycleForm = ({
             ))}
           </select>
         </div>
-        <div className="tc-select-group">
-          <label className="tc-select-label">Phase:</label>
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Phase:</label>
           <select
-            className="form-control tc-select-control"
+            className="form-control tcf-select-control"
             value={phase}
             onChange={handlePhaseChange}
           >
@@ -44,11 +45,11 @@ const TrainingCycleForm = ({
         </div>
       </div>
 
-      <div className="tc-select-container">
-        <div className="tc-select-group">
-          <label className="tc-select-label">Mesocycle:</label>
+      <div className="tcf-select-container">
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Mesocycle:</label>
           <select
-            className="form-control tc-select-control"
+            className="form-control tcf-select-control"
             value={mesocycle}
             onChange={handleMesocycleChange}
           >
@@ -60,10 +61,10 @@ const TrainingCycleForm = ({
           </select>
         </div>
 
-        <div className="tc-select-group">
-          <label className="tc-select-label">Duration in weeks:</label>
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Duration in weeks:</label>
           <select
-            className="form-control tc-select-control"
+            className="form-control tcf-select-control"
             value={macrocycle}
             onChange={handleMacrocycleChange}
           >
