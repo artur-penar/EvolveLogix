@@ -1,7 +1,7 @@
 import React from "react";
 import "./PhaseForm.css";
 
-const PhaseForm = ({ weekNumber, trainingDays }) => {
+const PhaseForm = ({ weekNumber, trainingDays, dayExercisesNumber }) => {
   // const weeks = 4;
   const exercisesNameList = ["Squat", "Bench", "Deadlift", "Overhead press"];
   const exercisesNumber = 3;
@@ -79,7 +79,11 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             </div>
             {renderWeekLabels(weekNumber)}
           </div>
-          {renderWeekComponents(exercisesNumber, weekNumber, exercisesNameList)}
+          {renderWeekComponents(
+            dayExercisesNumber,
+            weekNumber,
+            exercisesNameList
+          )}
           <div className="button-container">
             <button>Add exercise</button>
           </div>
