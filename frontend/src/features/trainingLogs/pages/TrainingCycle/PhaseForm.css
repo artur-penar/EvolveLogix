@@ -24,6 +24,7 @@
   flex-direction: row;
   justify-content: space-between; /* Distributes space evenly between the weeks */
   align-items: center; /* Centers the items vertically */
+  margin-bottom: 1rem;
 }
 
 .week {
@@ -34,7 +35,9 @@
 }
 
 .phase-input {
-  width: 40px;
+  width: 45px;
   height: 25px;
   font-size: 14px;
+  text-align: center;
+  margin: 0 0.1rem;
 }
