@@ -1,11 +1,37 @@
 import React from "react";
 import "./PhaseForm.css";
 
-const PhaseForm = ({ weeks, trainingDays }) => {
+const PhaseForm = ({ weekNumber, trainingDays }) => {
   // const weeks = 4;
-  const fields = ["Squat", "Bench", "Deadlift", "Overhead press"];
-  const exercises = 3;
-  // const trainingDays = 3;
+  const exercisesNameList = ["Squat", "Bench", "Deadlift", "Overhead press"];
+  const exercisesNumber = 3;
+
+  const renderWeekLabels = (weeks) =>
+    Array.from(
+      {
+        length: parseInt(weeks, 10) + 1,
+      },
+      (_, i) => i + 1
+    ).map((week) => (
+      <div key={week} className="week">
+        {" "}
+        <label>Week {week}</label>
+      </div>
+    ));
+
+  const renderSelectExerciseField = (exercisesNameList) => {
+    return (
+      <div className="week">
+        <select className="exercise-select">
+          {exercisesNameList.map((exerciseName) => (
+            <option key={exerciseName} value={exerciseName}>
+              {exerciseName}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  };
 
   return (
     <div className="phase-form-container">
@@ -19,29 +45,14 @@ const PhaseForm = ({ weeks, trainingDays }) => {
             <div className="week">
               <label>Day {day}:</label>
             </div>
-            {Array.from(
-              { length: parseInt(weeks, 10) + 1 },
-              (_, i) => i + 1
-            ).map((week) => (
-              <div key={week} className="week">
-                <label>Week {week}</label>
-              </div>
-            ))}
+            {renderWeekLabels(weekNumber)}
           </div>
-          {Array.from({ length: exercises }, (_, i) => i + 1).map(
+          {Array.from({ length: exercisesNumber }, (_, i) => i + 1).map(
             (exercise) => (
               <div key={exercise} className="phase-week-container">
-                <div className="week">
-                  <select className="exercise-select">
-                    {fields.map((field) => (
-                      <option key={field} value={field}>
-                        {field}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {renderSelectExerciseField(exercisesNameList)}
                 {Array.from(
-                  { length: parseInt(weeks, 10) + 1 },
+                  { length: parseInt(weekNumber, 10) + 1 },
                   (_, i) => i + 1
                 ).map((week) => (
                   <div key={week} className="week">

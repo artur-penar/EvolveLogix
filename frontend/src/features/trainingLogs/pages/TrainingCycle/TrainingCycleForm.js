@@ -9,7 +9,7 @@ const TrainingCycleForm = ({
   phase,
   phases,
   trainingDays,
-  weeks,
+  weekNumber,
   handleMacrocycleChange,
   handleMesocycleChange,
   handlePhaseChange,
@@ -69,7 +69,7 @@ const TrainingCycleForm = ({
           <label className="tcf-select-label">Duration in weeks:</label>
           <select
             className="form-control tcf-select-control"
-            value={weeks}
+            value={weekNumber}
             onChange={handleWeeksChange}
           >
             {[...Array(10).keys()].map((number, i) => (

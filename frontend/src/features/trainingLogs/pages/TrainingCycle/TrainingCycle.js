@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
-import React, { useState } from "react";
-import "./TrainingCycle.css";
 import TrainingCycleForm from "./TrainingCycleForm";
 import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
+import "./TrainingCycle.css";
 
 const TrainingCycle = () => {
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
@@ -18,7 +18,7 @@ const TrainingCycle = () => {
 
   const [trainingDays, setTrainingDays] = useState(0);
 
-  const [weeks, setWeeks] = useState(0);
+  const [weekNumber, setWeekNumber] = useState(0);
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
 
@@ -43,7 +43,7 @@ const TrainingCycle = () => {
   };
 
   const handleWeeksChange = (e) => {
-    setWeeks(e.target.value);
+    setWeekNumber(e.target.value);
   };
 
   return (
@@ -58,7 +58,7 @@ const TrainingCycle = () => {
           phase={phase}
           phases={phases}
           trainingDays={trainingDays}
-          weeks={weeks}
+          weekNumber={weekNumber}
           handleMacrocycleChange={handleMacrocycleChange}
           handleMesocycleChange={handleMesocycleChange}
           handlePhaseChange={handlePhaseChange}
@@ -74,7 +74,7 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
-        <PhaseForm weeks={weeks} trainingDays={trainingDays} />
+        <PhaseForm weekNumber={weekNumber} trainingDays={trainingDays} />
       </div>
     </Layout>
   );
