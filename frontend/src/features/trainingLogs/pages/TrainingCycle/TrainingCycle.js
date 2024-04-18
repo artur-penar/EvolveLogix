@@ -74,7 +74,7 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
-        <PhaseForm weeks={weeks} />
+        <PhaseForm weeks={weeks} trainingDays={trainingDays} />
       </div>
     </Layout>
   );
