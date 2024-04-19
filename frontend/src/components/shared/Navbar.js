@@ -22,6 +22,16 @@ const Navbar = () => {
         </Dropdown.Menu>
       </Dropdown>
       <Dropdown as="li" className="nav-item">
+        <Dropdown.Toggle as={NavLink} className="nav-link" to="/training-cycle">
+          Training cycle
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item as={NavLink} to="/strength-records">
+            Create
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      <Dropdown as="li" className="nav-item">
         <Dropdown.Toggle as={NavLink} className="nav-link" to="/training-log">
           Training log
         </Dropdown.Toggle>
