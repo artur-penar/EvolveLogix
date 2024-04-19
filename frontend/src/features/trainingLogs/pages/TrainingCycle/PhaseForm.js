@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./PhaseForm.css";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
+import "./PhaseForm.css";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -23,13 +23,24 @@ const PhaseForm = ({
     Array(trainingDays + 1).fill(1)
   );
 
-  console.log(exercisesPerDay);
+  useEffect(() => {
+    setExercisesPerDay((prevState) => {
+      // Create a new array with a length of trainingDays + 1
+      // Fill it with 1s, but overwrite those 1s with the existing values from prevState where they exist
+      const numberTrainingDays = Number(trainingDays) + 1;
+      return Array.from(
+        { length: numberTrainingDays },
+        (v, i) => prevState[i] || 1
+      );
+    });
+  }, [trainingDays]);
 
   const handleAddExercise2 = (dayIndex) => {
     setExercisesPerDay((prevState) => {
       // Ensure dayIndex is within the bounds of the array
+      dayIndex = dayIndex - 1;
       dayIndex = Math.min(dayIndex, prevState.length - 1);
-  
+
       const newState = [...prevState];
       newState[dayIndex] += 1;
       return newState;
