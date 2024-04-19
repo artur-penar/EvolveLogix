@@ -12,12 +12,7 @@ const selectExerciseNames = createSelector(
   (exercises) => exercises.map((exercise) => exercise.name)
 );
 
-const PhaseForm = ({
-  weekNumber,
-  trainingDays,
-  dayExercisesNumber,
-  handleAddExercise,
-}) => {
+const PhaseForm = ({ weekNumber, trainingDays }) => {
   const exercisesNameList = useSelector(selectExerciseNames);
   const [exercisesPerDay, setExercisesPerDay] = useState(
     Array(trainingDays + 1).fill(1)

@@ -18,7 +18,6 @@ const TrainingCycle = () => {
 
   const [trainingDays, setTrainingDays] = useState(0);
   const [weekNumber, setWeekNumber] = useState(0);
-  const [dayExercisesNumber, setDayExerciseNumber] = useState(1);
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
 
@@ -44,10 +43,6 @@ const TrainingCycle = () => {
 
   const handleWeeksChange = (e) => {
     setWeekNumber(e.target.value);
-  };
-
-  const handleAddExercise = () => {
-    setDayExerciseNumber(dayExercisesNumber + 1);
   };
 
   return (
@@ -78,12 +73,7 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
-        <PhaseForm
-          weekNumber={weekNumber}
-          trainingDays={trainingDays}
-          dayExercisesNumber={dayExercisesNumber}
-          handleAddExercise={handleAddExercise}
-        />
+        <PhaseForm weekNumber={weekNumber} trainingDays={trainingDays} />
       </div>
     </Layout>
   );
