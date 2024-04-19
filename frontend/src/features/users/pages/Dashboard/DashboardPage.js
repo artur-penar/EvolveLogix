@@ -104,7 +104,7 @@ const DashboardPage = () => {
         <LoadingState />
       ) : (
         <div className="dashboard">
-          <Header headerContent={"Dashboard"}/>
+          <Header headerContent={"Dashboard"} />
           {trainingLogs.length > 0 ? (
             <Main
               trainingLogs={trainingLogs}

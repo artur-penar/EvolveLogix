@@ -46,6 +46,10 @@ const TrainingCycle = () => {
     setWeekNumber(e.target.value);
   };
 
+  const handleAddExercise = () => {
+    setDayExerciseNumber(dayExercisesNumber + 1);
+  };
+
   return (
     <Layout title="EvolveLogix | Training cycle">
       <div className="tc-cycle-content">
@@ -78,6 +82,7 @@ const TrainingCycle = () => {
           weekNumber={weekNumber}
           trainingDays={trainingDays}
           dayExercisesNumber={dayExercisesNumber}
+          handleAddExercise={handleAddExercise}
         />
       </div>
     </Layout>

@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PhaseForm.css";
+import { useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 
-const PhaseForm = ({ weekNumber, trainingDays, dayExercisesNumber }) => {
-  // const weeks = 4;
-  const exercisesNameList = ["Squat", "Bench", "Deadlift", "Overhead press"];
-  const exercisesNumber = 3;
+// Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
+// And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
+const selectExercisesState = (state) => state.exercises.exercises;
 
+const selectExerciseNames = createSelector(
+  [selectExercisesState],
+  (exercises) => exercises.map((exercise) => exercise.name)
+);
+
+const PhaseForm = ({
+  weekNumber,
+  trainingDays,
+  dayExercisesNumber,
+  handleAddExercise,
+}) => {
+  const exercisesNameList = useSelector(selectExerciseNames);
+  const [exercisesPerDay, setExercisesPerDay] = useState(
+    Array(trainingDays + 1).fill(1)
+  );
+
+  console.log(exercisesPerDay);
+
+  const handleAddExercise2 = (dayIndex) => {
+    setExercisesPerDay((prevState) => {
+      // Ensure dayIndex is within the bounds of the array
+      dayIndex = Math.min(dayIndex, prevState.length - 1);
+  
+      const newState = [...prevState];
+      newState[dayIndex] += 1;
+      return newState;
+    });
+  };
   const renderWeekLabels = (weeksNumber) =>
     Array.from(
       {
@@ -80,12 +109,14 @@ const PhaseForm = ({ weekNumber, trainingDays, dayExercisesNumber }) => {
             {renderWeekLabels(weekNumber)}
           </div>
           {renderWeekComponents(
-            dayExercisesNumber,
+            exercisesPerDay[trainingDay - 1],
             weekNumber,
             exercisesNameList
           )}
           <div className="button-container">
-            <button>Add exercise</button>
+            <button onClick={() => handleAddExercise2(trainingDay)}>
+              Add exercise
+            </button>
           </div>
         </div>
       ))}
