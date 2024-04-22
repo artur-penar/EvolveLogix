@@ -14,12 +14,37 @@ const selectExerciseNames = createSelector(
 
 const PhaseForm = ({ weekNumber, trainingDays }) => {
   const exercisesNameList = useSelector(selectExerciseNames);
-  const [exercisesPerDay, setExercisesPerDay] = useState(
-    Array(trainingDays + 1).fill(1)
-  );
+
+  useEffect(() => {
+    Array.from({ length: parseInt(trainingDays, 10) + 1 }, (_, i) => i).map(
+      (trainingDayIndex) => {
+        if (!weeklyExercisePlan[trainingDayIndex]) {
+          setWeeklyExercisePlan((prevState) => {
+            const newState = [...prevState];
+            newState.push({
+              dayNumber: trainingDayIndex + 1,
+              exercises: [
+                {
+                  name: "Squat",
+                  weeks: [
+                    {
+                      weight: 100,
+                      reps: 10,
+                      sets: 5,
+                    },
+                  ],
+                },
+              ],
+            });
+            return newState;
+          });
+        }
+      }
+    );
+  }, [trainingDays]);
 
   // Now work on the days array
-  const initialDayData = [
+  const initialWeeklyExercisePlan = [
     {
       dayNumber: 1,
       exercises: [
@@ -39,26 +64,15 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     // Add more days here...
   ];
 
-  const [days, setDays] = useState(initialDayData);
-
-  useEffect(() => {
-    setExercisesPerDay((prevState) => {
-      // Create a new array with a length of trainingDays + 1
-      // Fill it with 1s, but overwrite those 1s with the existing values from prevState where they exist
-      const numberTrainingDays = Number(trainingDays) + 1;
-      return Array.from(
-        { length: numberTrainingDays },
-        (v, i) => prevState[i] || 1
-      );
-    });
-  }, [trainingDays]);
+  const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
+    initialWeeklyExercisePlan
+  );
 
   const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
-    setDays((prevState) => {
+    setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
       newState[dayIndex].exercises[exerciseIndex].name = newExerciseName;
-      console.log("New state");
-      console.log(newState);
+
       return newState;
     });
   };
@@ -66,7 +80,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   // Work end here
 
   const handleAddExercise = (dayIndex) => {
-    setDays((prevState) => {
+    setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
       newState[dayIndex].exercises.push({
         name: "Squat",
@@ -81,17 +95,42 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       return newState;
     });
 
-    setExercisesPerDay((prevState) => {
-      // Ensure dayIndex is within the bounds of the array
-      dayIndex = dayIndex;
-      dayIndex = Math.min(dayIndex, prevState.length - 1);
+    console.log("Add exercise into list");
+  };
 
+  const handleWeightChange = (
+    dayIndex,
+    exerciseIndex,
+    weekIndex,
+    newWeight
+  ) => {
+    setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
-      newState[dayIndex] += 1;
+      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].weight =
+        newWeight;
 
       return newState;
     });
-    console.log("Add exercise into list");
+  };
+
+  const handleRepsChange = (dayIndex, exerciseIndex, weekIndex, newReps) => {
+    setWeeklyExercisePlan((prevState) => {
+      const newState = [...prevState];
+      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].reps =
+        newReps;
+
+      return newState;
+    });
+  };
+
+  const handleSetsChange = (dayIndex, exerciseIndex, weekIndex, newSets) => {
+    setWeeklyExercisePlan((prevState) => {
+      const newState = [...prevState];
+      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].sets =
+        newSets;
+
+      return newState;
+    });
   };
 
   const renderWeekLabels = (weeksNumber) =>
@@ -111,11 +150,10 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     exerciseIndex,
     dayIndex
   ) => {
-    if (!days[dayIndex] || !days[dayIndex].exercises[exerciseIndex]) {
-      return null;
-    }
-
-    if (!days[dayIndex].exercises || !days[dayIndex].exercises[exerciseIndex]) {
+    if (
+      !weeklyExercisePlan[dayIndex] ||
+      !weeklyExercisePlan[dayIndex].exercises[exerciseIndex]
+    ) {
       return null;
     }
 
@@ -123,7 +161,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       <div className="exercise-select-container">
         <select
           className="exercise-select"
-          value={days[dayIndex].exercises[exerciseIndex].name}
+          value={weeklyExercisePlan[dayIndex].exercises[exerciseIndex].name}
           onChange={(e) =>
             handleExerciseChange(dayIndex, exerciseIndex, e.target.value)
           }
@@ -141,9 +179,19 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const renderWeightSelect = (trainingDayIndex, exerciseIndex, weekNumber) => (
     <select
       className="input"
-      // value={
-      //   days[trainingDayIndex].exercises[exerciseIndex].weeks[weekNumber].weight
-      // }
+      value={
+        weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex].weeks[
+          weekNumber
+        ].weight
+      }
+      onChange={(e) => {
+        handleWeightChange(
+          trainingDayIndex,
+          exerciseIndex,
+          weekNumber,
+          e.target.value
+        );
+      }}
     >
       {Array.from({ length: 100 }, (_, i) => i + 1).map((weightInPercent) => (
         <option key={weightInPercent} value={weightInPercent}>
@@ -158,8 +206,12 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     weekNumber,
     exercisesNameList,
     trainingDayIndex
-  ) =>
-    Array.from({ length: exercisesNumber }, (_, i) => i).map(
+  ) => {
+    if (!weeklyExercisePlan[trainingDayIndex]) {
+      return null;
+    }
+
+    return Array.from({ length: exercisesNumber }, (_, i) => i).map(
       (exerciseIndex) => (
         <div key={exerciseIndex} className="week-container">
           {renderSelectExerciseField(
@@ -174,41 +226,72 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             <div key={week} className="exercise-inputs-container">
               {renderWeightSelect(trainingDayIndex, exerciseIndex, weekNumber)}
               <label>x</label>
-              <input className="input" type="text" placeholder="reps" />
+              <input
+                className="input"
+                type="text"
+                value={
+                  weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex]
+                    .weeks[weekNumber].reps
+                }
+                onChange={(e) => {
+                  handleRepsChange(
+                    trainingDayIndex,
+                    exerciseIndex,
+                    weekNumber,
+                    e.target.value
+                  );
+                }}
+                placeholder="reps"
+              />
               <label>x</label>
-              <input className="input" type="text" placeholder="sets" />
+              <input
+                className="input"
+                type="text"
+                value={
+                  weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex]
+                    .weeks[weekNumber].sets
+                }
+                onChange={(e) => {
+                  handleSetsChange(
+                    trainingDayIndex,
+                    exerciseIndex,
+                    weekNumber,
+                    e.target.value
+                  );
+                }}
+                placeholder="sets"
+              />
             </div>
           ))}
         </div>
       )
     );
+  };
 
   return (
     <div className="form-container">
       <h4 className="header-container">Phase programming</h4>
-      {Array.from({ length: parseInt(trainingDays, 10) + 1 }, (_, i) => i).map(
-        (trainingDayIndex) => (
-          <div className="training-day-container" key={trainingDayIndex}>
-            <div className="week-container">
-              <div className="week-label">
-                <label>Day {trainingDayIndex + 1}:</label>
-              </div>
-              {renderWeekLabels(weekNumber)}
+      {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
+        <div className="training-day-container" key={trainingDayIndex}>
+          <div className="week-container">
+            <div className="week-label">
+              <label>Day {trainingDayIndex + 1}:</label>
             </div>
-            {renderWeekComponents(
-              days[trainingDayIndex].exercises.length,
-              weekNumber,
-              exercisesNameList,
-              trainingDayIndex
-            )}
-            <div className="button-container">
-              <button onClick={() => handleAddExercise(trainingDayIndex)}>
-                Add exercise
-              </button>
-            </div>
+            {renderWeekLabels(weekNumber)}
           </div>
-        )
-      )}
+          {renderWeekComponents(
+            weeklyExercisePlan[trainingDayIndex].exercises.length,
+            weekNumber,
+            exercisesNameList,
+            trainingDayIndex
+          )}
+          <div className="button-container">
+            <button onClick={() => handleAddExercise(trainingDayIndex)}>
+              Add exercise
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
