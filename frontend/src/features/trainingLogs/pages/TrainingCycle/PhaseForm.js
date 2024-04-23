@@ -13,37 +13,11 @@ const selectExerciseNames = createSelector(
 );
 
 const PhaseForm = ({ weekNumber, trainingDays }) => {
+  const totalWeeks = parseInt(weekNumber, 10) + 1;
+  const totalTrainingDays = parseInt(trainingDays, 10) + 1;
+
+  const [stateChanged, setStateChanged] = useState(0);
   const exercisesNameList = useSelector(selectExerciseNames);
-
-  useEffect(() => {
-    Array.from({ length: parseInt(trainingDays, 10) + 1 }, (_, i) => i).map(
-      (trainingDayIndex) => {
-        if (!weeklyExercisePlan[trainingDayIndex]) {
-          setWeeklyExercisePlan((prevState) => {
-            const newState = [...prevState];
-            newState.push({
-              dayNumber: trainingDayIndex + 1,
-              exercises: [
-                {
-                  name: "Squat",
-                  weeks: [
-                    {
-                      weight: 100,
-                      reps: 10,
-                      sets: 5,
-                    },
-                  ],
-                },
-              ],
-            });
-            return newState;
-          });
-        }
-      }
-    );
-  }, [trainingDays]);
-
-  // Now work on the days array
   const initialWeeklyExercisePlan = [
     {
       dayNumber: 1,
@@ -67,6 +41,76 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
   );
+  useEffect(() => {
+    Array.from({ length: totalTrainingDays }, (_, i) => i).forEach(
+      (trainingDayIndex) => {
+        setWeeklyExercisePlan((prevState) => {
+          if (!prevState[trainingDayIndex]) {
+            return [
+              ...prevState,
+              {
+                dayNumber: trainingDayIndex + 1,
+                exercises: [
+                  {
+                    name: "Squat",
+                    weeks: [
+                      {
+                        weight: 100,
+                        reps: 10,
+                        sets: 5,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ];
+          } else if (prevState.length > totalTrainingDays) {
+            return prevState.slice(0, totalTrainingDays);
+          } else {
+            return prevState;
+          }
+        });
+      }
+    );
+    setStateChanged(stateChanged + 1);
+  }, [trainingDays]);
+
+  useEffect(() => {
+    Array.from({ length: totalWeeks }, (_, i) => i + 1).forEach(
+      (trainingWeekIndex) => {
+        console.log("Use effect called");
+        console.log("Week number", trainingWeekIndex);
+        console.log("Total weeks", totalWeeks);
+
+        setWeeklyExercisePlan((prevState) => {
+          const newState = [...prevState];
+          newState.forEach((day, dayIndex) => {
+            day.exercises.forEach((exercise, exerciseIndex) => {
+              if (exercise.weeks.length < trainingWeekIndex) {
+                newState[dayIndex].exercises[exerciseIndex].weeks.push({
+                  weight: 100,
+                  reps: 10,
+                  sets: 5,
+                });
+              } else if (exercise.weeks.length > totalWeeks) {
+                newState[dayIndex].exercises[exerciseIndex].weeks =
+                  exercise.weeks.slice(0, totalWeeks);
+              }
+            });
+          });
+          console.log("New state", newState);
+
+          return newState;
+        });
+      }
+    );
+  }, [weekNumber, stateChanged]);
+
+  // Now work on the days array
+
+  useEffect(() => {
+    // Perform actions here after weeklyExercisePlan has updated
+  }, [weeklyExercisePlan]);
 
   const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
     setWeeklyExercisePlan((prevState) => {
@@ -92,10 +136,9 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           },
         ],
       });
+      setStateChanged(stateChanged + 1);
       return newState;
     });
-
-    console.log("Add exercise into list");
   };
 
   const handleWeightChange = (
@@ -136,7 +179,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const renderWeekLabels = (weeksNumber) =>
     Array.from(
       {
-        length: parseInt(weeksNumber, 10) + 1,
+        length: weeksNumber,
       },
       (_, i) => i + 1
     ).map((week) => (
@@ -176,19 +219,25 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     );
   };
 
-  const renderWeightSelect = (trainingDayIndex, exerciseIndex, weekNumber) => (
+  const renderWeightSelect = (trainingDayIndex, exerciseIndex, weekIndex) => (
     <select
       className="input"
       value={
+        weeklyExercisePlan[trainingDayIndex] &&
+        weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex] &&
         weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex].weeks[
-          weekNumber
-        ].weight
+          weekIndex
+        ]
+          ? weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex].weeks[
+              weekIndex
+            ].weight
+          : 0
       }
       onChange={(e) => {
         handleWeightChange(
           trainingDayIndex,
           exerciseIndex,
-          weekNumber,
+          weekIndex,
           e.target.value
         );
       }}
@@ -219,25 +268,22 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             exerciseIndex,
             trainingDayIndex
           )}
-          {Array.from(
-            { length: parseInt(weekNumber, 10) + 1 },
-            (_, i) => i + 1
-          ).map((week) => (
-            <div key={week} className="exercise-inputs-container">
-              {renderWeightSelect(trainingDayIndex, exerciseIndex, weekNumber)}
+          {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
+            <div key={weekIndex} className="exercise-inputs-container">
+              {renderWeightSelect(trainingDayIndex, exerciseIndex, weekIndex)}
               <label>x</label>
               <input
                 className="input"
                 type="text"
                 value={
-                  weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex]
-                    .weeks[weekNumber].reps
+                  weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                    ?.weeks[weekIndex]?.reps || 0
                 }
                 onChange={(e) => {
                   handleRepsChange(
                     trainingDayIndex,
                     exerciseIndex,
-                    weekNumber,
+                    weekIndex,
                     e.target.value
                   );
                 }}
@@ -248,14 +294,14 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
                 className="input"
                 type="text"
                 value={
-                  weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex]
-                    .weeks[weekNumber].sets
+                  weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                    ?.weeks[weekIndex]?.sets || 0
                 }
                 onChange={(e) => {
                   handleSetsChange(
                     trainingDayIndex,
                     exerciseIndex,
-                    weekNumber,
+                    weekIndex,
                     e.target.value
                   );
                 }}
@@ -277,11 +323,11 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             <div className="week-label">
               <label>Day {trainingDayIndex + 1}:</label>
             </div>
-            {renderWeekLabels(weekNumber)}
+            {renderWeekLabels(totalWeeks)}
           </div>
           {renderWeekComponents(
             weeklyExercisePlan[trainingDayIndex].exercises.length,
-            weekNumber,
+            totalWeeks,
             exercisesNameList,
             trainingDayIndex
           )}
