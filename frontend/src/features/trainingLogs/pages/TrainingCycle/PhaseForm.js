@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import "./PhaseForm.css";
 import { getExercises } from "features/trainingLogs/exercises";
+import WeekLabels from "./components/WeekLabels";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -14,12 +15,13 @@ const selectExerciseNames = createSelector(
 );
 
 const PhaseForm = ({ weekNumber, trainingDays }) => {
+  const dispatch = useDispatch();
+  const exercisesNameList = useSelector(selectExerciseNames);
+  const [stateChanged, setStateChanged] = useState(0);
+
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
-  const dispatch = useDispatch();
 
-  const [stateChanged, setStateChanged] = useState(0);
-  const exercisesNameList = useSelector(selectExerciseNames);
   const initialWeeklyExercisePlan = [
     {
       dayNumber: 1,
@@ -39,9 +41,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     },
     // Add more days here...
   ];
-
-  console.log("Select exercise names");
-  console.log(exercisesNameList);
 
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
@@ -96,7 +95,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               }
             });
           });
-          console.log("New state", newState);
 
           return newState;
         });
@@ -119,6 +117,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       const newExercise = weeklyExercisePlan[0].exercises[0];
       newState[dayIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
+
       return newState;
     });
   };
@@ -158,18 +157,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  const renderWeekLabels = (weeksNumber) =>
-    Array.from(
-      {
-        length: weeksNumber,
-      },
-      (_, i) => i + 1
-    ).map((week) => (
-      <div key={week} className="week-label">
-        <label>Week {week}</label>
-      </div>
-    ));
-
   const renderSelectExerciseField = (
     exercisesNameList,
     exerciseIndex,
@@ -205,15 +192,9 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     <select
       className="input"
       value={
-        weeklyExercisePlan[trainingDayIndex] &&
-        weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex] &&
-        weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex].weeks[
+        weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]?.weeks[
           weekIndex
-        ]
-          ? weeklyExercisePlan[trainingDayIndex].exercises[exerciseIndex].weeks[
-              weekIndex
-            ].weight
-          : 0
+        ]?.weight || 0
       }
       onChange={(e) => {
         handleWeightChange(
@@ -305,7 +286,8 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             <div className="week-label">
               <label>Day {trainingDayIndex + 1}:</label>
             </div>
-            {renderWeekLabels(totalWeeks)}
+
+            <WeekLabels weeksNumber={totalWeeks} />
           </div>
           {renderWeekComponents(
             weeklyExercisePlan[trainingDayIndex].exercises.length,
