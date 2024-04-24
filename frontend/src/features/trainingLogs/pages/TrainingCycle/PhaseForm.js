@@ -5,6 +5,7 @@ import "./PhaseForm.css";
 import { getExercises } from "features/trainingLogs/exercises";
 import WeekLabels from "./components/WeekLabels";
 import SelectExerciseField from "./components/SelectExerciseField";
+import WeightSelectField from "./components/WeightSelectField";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -133,7 +134,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     newWeight
   ) => {
     setWeeklyExercisePlan((prevState) => {
-      const newState = [...prevState];
+      const newState = JSON.parse(JSON.stringify(prevState));
       newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].weight =
         newWeight;
 
@@ -161,31 +162,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  const renderWeightSelect = (trainingDayIndex, exerciseIndex, weekIndex) => (
-    <select
-      className="input"
-      value={
-        weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]?.weeks[
-          weekIndex
-        ]?.weight || 0
-      }
-      onChange={(e) => {
-        handleWeightChange(
-          trainingDayIndex,
-          exerciseIndex,
-          weekIndex,
-          e.target.value
-        );
-      }}
-    >
-      {Array.from({ length: 100 }, (_, i) => i + 1).map((weightInPercent) => (
-        <option key={weightInPercent} value={weightInPercent}>
-          {weightInPercent}%
-        </option>
-      ))}
-    </select>
-  );
-
   const renderWeekComponents = (
     exercisesNumber,
     weekNumber,
@@ -208,7 +184,13 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           />
           {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
             <div key={weekIndex} className="exercise-inputs-container">
-              {renderWeightSelect(trainingDayIndex, exerciseIndex, weekIndex)}
+              <WeightSelectField
+                weeklyExercisePlan={weeklyExercisePlan}
+                handleWeightChange={handleWeightChange}
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
+              />
               <label>x</label>
               <input
                 className="input"
