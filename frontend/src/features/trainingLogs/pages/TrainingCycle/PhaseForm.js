@@ -4,6 +4,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import "./PhaseForm.css";
 import { getExercises } from "features/trainingLogs/exercises";
 import WeekLabels from "./components/WeekLabels";
+import SelectExerciseField from "./components/SelectExerciseField";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -157,37 +158,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  const renderSelectExerciseField = (
-    exercisesNameList,
-    exerciseIndex,
-    dayIndex
-  ) => {
-    if (
-      !weeklyExercisePlan[dayIndex] ||
-      !weeklyExercisePlan[dayIndex].exercises[exerciseIndex]
-    ) {
-      return null;
-    }
-
-    return (
-      <div className="exercise-select-container">
-        <select
-          className="exercise-select"
-          value={weeklyExercisePlan[dayIndex].exercises[exerciseIndex].name}
-          onChange={(e) =>
-            handleExerciseChange(dayIndex, exerciseIndex, e.target.value)
-          }
-        >
-          {exercisesNameList.map((exerciseName) => (
-            <option key={exerciseName} value={exerciseName}>
-              {exerciseName}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  };
-
   const renderWeightSelect = (trainingDayIndex, exerciseIndex, weekIndex) => (
     <select
       className="input"
@@ -226,11 +196,17 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     return Array.from({ length: exercisesNumber }, (_, i) => i).map(
       (exerciseIndex) => (
         <div key={exerciseIndex} className="week-container">
-          {renderSelectExerciseField(
+          {/* {renderSelectExerciseField(
             exercisesNameList,
             exerciseIndex,
             trainingDayIndex
-          )}
+          )} */}
+          <SelectExerciseField
+            weeklyExercisePlan={weeklyExercisePlan}
+            exercisesNameList={exercisesNameList}
+            exerciseIndex={exerciseIndex}
+            dayIndex={trainingDayIndex}
+          />
           {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
             <div key={weekIndex} className="exercise-inputs-container">
               {renderWeightSelect(trainingDayIndex, exerciseIndex, weekIndex)}
