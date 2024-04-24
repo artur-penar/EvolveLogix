@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import "./PhaseForm.css";
+import { getExercises } from "features/trainingLogs/exercises";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -15,6 +16,7 @@ const selectExerciseNames = createSelector(
 const PhaseForm = ({ weekNumber, trainingDays }) => {
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
+  const dispatch = useDispatch();
 
   const [stateChanged, setStateChanged] = useState(0);
   const exercisesNameList = useSelector(selectExerciseNames);
@@ -38,30 +40,30 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     // Add more days here...
   ];
 
+  console.log("Select exercise names");
+  console.log(exercisesNameList);
+
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
   );
+
+  useEffect(() => {
+    if (!exercisesNameList.length) {
+      dispatch(getExercises());
+    }
+  }, [exercisesNameList]);
+
   useEffect(() => {
     Array.from({ length: totalTrainingDays }, (_, i) => i).forEach(
       (trainingDayIndex) => {
         setWeeklyExercisePlan((prevState) => {
           if (!prevState[trainingDayIndex]) {
+            const initialExercises = initialWeeklyExercisePlan[0].exercises;
             return [
               ...prevState,
               {
                 dayNumber: trainingDayIndex + 1,
-                exercises: [
-                  {
-                    name: "Squat",
-                    weeks: [
-                      {
-                        weight: 100,
-                        reps: 10,
-                        sets: 5,
-                      },
-                    ],
-                  },
-                ],
+                exercises: initialExercises,
               },
             ];
           } else if (prevState.length > totalTrainingDays) {
@@ -78,20 +80,16 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   useEffect(() => {
     Array.from({ length: totalWeeks }, (_, i) => i + 1).forEach(
       (trainingWeekIndex) => {
-        console.log("Use effect called");
-        console.log("Week number", trainingWeekIndex);
-        console.log("Total weeks", totalWeeks);
-
         setWeeklyExercisePlan((prevState) => {
           const newState = [...prevState];
           newState.forEach((day, dayIndex) => {
             day.exercises.forEach((exercise, exerciseIndex) => {
               if (exercise.weeks.length < trainingWeekIndex) {
-                newState[dayIndex].exercises[exerciseIndex].weeks.push({
-                  weight: 100,
-                  reps: 10,
-                  sets: 5,
-                });
+                const newWeekLoad = weeklyExercisePlan[0].exercises[0].weeks[0];
+
+                newState[dayIndex].exercises[exerciseIndex].weeks.push(
+                  newWeekLoad
+                );
               } else if (exercise.weeks.length > totalWeeks) {
                 newState[dayIndex].exercises[exerciseIndex].weeks =
                   exercise.weeks.slice(0, totalWeeks);
@@ -106,12 +104,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     );
   }, [weekNumber, stateChanged]);
 
-  // Now work on the days array
-
-  useEffect(() => {
-    // Perform actions here after weeklyExercisePlan has updated
-  }, [weeklyExercisePlan]);
-
   const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
     setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
@@ -121,21 +113,11 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  // Work end here
-
   const handleAddExercise = (dayIndex) => {
     setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
-      newState[dayIndex].exercises.push({
-        name: "Squat",
-        weeks: [
-          {
-            weight: 100,
-            reps: 10,
-            sets: 5,
-          },
-        ],
-      });
+      const newExercise = weeklyExercisePlan[0].exercises[0];
+      newState[dayIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
       return newState;
     });
