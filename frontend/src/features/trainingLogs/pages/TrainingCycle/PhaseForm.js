@@ -6,6 +6,7 @@ import { getExercises } from "features/trainingLogs/exercises";
 import WeekLabels from "./components/WeekLabels";
 import SelectExerciseField from "./components/SelectExerciseField";
 import WeightSelectField from "./components/WeightSelectField";
+import ExerciseParameterInput from "./components/ExerciseParameterInput";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -144,7 +145,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   const handleRepsChange = (dayIndex, exerciseIndex, weekIndex, newReps) => {
     setWeeklyExercisePlan((prevState) => {
-      const newState = [...prevState];
+      const newState = JSON.parse(JSON.stringify(prevState));
       newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].reps =
         newReps;
 
@@ -154,7 +155,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   const handleSetsChange = (dayIndex, exerciseIndex, weekIndex, newSets) => {
     setWeeklyExercisePlan((prevState) => {
-      const newState = [...prevState];
+      const newState = JSON.parse(JSON.stringify(prevState));
       newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].sets =
         newSets;
 
@@ -192,39 +193,27 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
                 weekIndex={weekIndex}
               />
               <label>x</label>
-              <input
-                className="input"
-                type="text"
+              <ExerciseParameterInput
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
                 value={
                   weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
-                    ?.weeks[weekIndex]?.reps || 0
+                    ?.weeks[weekIndex]?.reps
                 }
-                onChange={(e) => {
-                  handleRepsChange(
-                    trainingDayIndex,
-                    exerciseIndex,
-                    weekIndex,
-                    e.target.value
-                  );
-                }}
+                handleChange={handleRepsChange}
                 placeholder="reps"
               />
               <label>x</label>
-              <input
-                className="input"
-                type="text"
+              <ExerciseParameterInput
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
                 value={
                   weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
-                    ?.weeks[weekIndex]?.sets || 0
+                    ?.weeks[weekIndex]?.sets
                 }
-                onChange={(e) => {
-                  handleSetsChange(
-                    trainingDayIndex,
-                    exerciseIndex,
-                    weekIndex,
-                    e.target.value
-                  );
-                }}
+                handleChange={handleSetsChange}
                 placeholder="sets"
               />
             </div>
