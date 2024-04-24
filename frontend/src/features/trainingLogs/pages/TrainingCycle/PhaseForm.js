@@ -105,7 +105,10 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
     setWeeklyExercisePlan((prevState) => {
-      const newState = [...prevState];
+      // Create a deep copy of the state
+      const newState = JSON.parse(JSON.stringify(prevState));
+
+      // Update the exercise name
       newState[dayIndex].exercises[exerciseIndex].name = newExerciseName;
 
       return newState;
@@ -115,7 +118,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const handleAddExercise = (dayIndex) => {
     setWeeklyExercisePlan((prevState) => {
       const newState = [...prevState];
-      const newExercise = weeklyExercisePlan[0].exercises[0];
+      const newExercise = initialWeeklyExercisePlan[0].exercises[0];
       newState[dayIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
 
@@ -196,16 +199,12 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     return Array.from({ length: exercisesNumber }, (_, i) => i).map(
       (exerciseIndex) => (
         <div key={exerciseIndex} className="week-container">
-          {/* {renderSelectExerciseField(
-            exercisesNameList,
-            exerciseIndex,
-            trainingDayIndex
-          )} */}
           <SelectExerciseField
             weeklyExercisePlan={weeklyExercisePlan}
             exercisesNameList={exercisesNameList}
             exerciseIndex={exerciseIndex}
             dayIndex={trainingDayIndex}
+            handleExerciseChange={handleExerciseChange}
           />
           {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
             <div key={weekIndex} className="exercise-inputs-container">
