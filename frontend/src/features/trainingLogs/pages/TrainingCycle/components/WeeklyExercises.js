@@ -13,10 +13,9 @@ const WeeklyExercises = ({
   handleWeightChange,
   handleRepsChange,
   handleSetsChange,
+  displayWeightInPercent,
 }) => {
-  console.log("Training day index: ", trainingDayIndex);
   if (!weeklyExercisePlan[trainingDayIndex]) {
-    console.log("Training day index: ", trainingDayIndex);
     return null;
   }
 
@@ -32,12 +31,17 @@ const WeeklyExercises = ({
         />
         {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
           <div key={weekIndex} className="exercise-inputs-container">
-            <WeightSelectField
-              weeklyExercisePlan={weeklyExercisePlan}
-              handleWeightChange={handleWeightChange}
+            <ExerciseParameterInput
               trainingDayIndex={trainingDayIndex}
               exerciseIndex={exerciseIndex}
               weekIndex={weekIndex}
+              value={
+                weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                  ?.weeks[weekIndex]?.weight
+              }
+              handleChange={handleWeightChange}
+              placeholder="weight"
+              displayWeightInPercent={displayWeightInPercent}
             />
             <label>x</label>
             <ExerciseParameterInput

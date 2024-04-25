@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
-const PhaseOption = () => {
+const PhaseOption = ({ displayWeightInPercent, setDisplayWeightInPercent }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <div style={{
+    <div
+      style={{
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-        marginBottom: "1rem"
-    }}>
+        marginBottom: "1rem",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -18,8 +20,8 @@ const PhaseOption = () => {
         <label>
           <input
             type="checkbox"
-            checked={isChecked}
-            onChange={(e) => setIsChecked(e.target.checked)}
+            checked={displayWeightInPercent}
+            onChange={(e) => setDisplayWeightInPercent(e.target.checked)}
             style={{ marginRight: "0.5rem" }}
           />
           Weight in percent of 1RM

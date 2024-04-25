@@ -21,6 +21,9 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const exercisesNameList = useSelector(selectExerciseNames);
   const [stateChanged, setStateChanged] = useState(0);
 
+  // PhaseOption component states
+  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
+
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
 
@@ -47,6 +50,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
   );
+  console.log(weeklyExercisePlan);
 
   useEffect(() => {
     if (!exercisesNameList.length) {
@@ -165,7 +169,10 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   return (
     <div className="form-container">
       <h4 className="header-container">Phase programming</h4>
-      <PhaseOption />
+      <PhaseOption
+        displayWeightInPercent={displayWeightInPercent}
+        setDisplayWeightInPercent={setDisplayWeightInPercent}
+      />
       {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
         <div className="training-day-container" key={trainingDayIndex}>
           <div className="week-container">
@@ -188,6 +195,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             handleWeightChange={handleWeightChange}
             handleRepsChange={handleRepsChange}
             handleSetsChange={handleSetsChange}
+            displayWeightInPercent={displayWeightInPercent}
           />
 
           <div className="button-container">
