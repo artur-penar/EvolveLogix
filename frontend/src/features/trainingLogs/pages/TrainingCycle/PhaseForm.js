@@ -7,6 +7,7 @@ import WeekLabels from "./components/WeekLabels";
 import SelectExerciseField from "./components/SelectExerciseField";
 import WeightSelectField from "./components/WeightSelectField";
 import ExerciseParameterInput from "./components/ExerciseParameterInput";
+import WeeklyExercises from "./components/WeeklyExercises";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -87,7 +88,8 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           newState.forEach((day, dayIndex) => {
             day.exercises.forEach((exercise, exerciseIndex) => {
               if (exercise.weeks.length < trainingWeekIndex) {
-                const newWeekLoad = weeklyExercisePlan[0].exercises[0].weeks[0];
+                const newWeekLoad =
+                  initialWeeklyExercisePlan[0].exercises[0].weeks[0];
 
                 newState[dayIndex].exercises[exerciseIndex].weeks.push(
                   newWeekLoad
@@ -235,12 +237,21 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
             <WeekLabels weeksNumber={totalWeeks} />
           </div>
-          {renderWeekComponents(
-            weeklyExercisePlan[trainingDayIndex].exercises.length,
-            totalWeeks,
-            exercisesNameList,
-            trainingDayIndex
-          )}
+
+          <WeeklyExercises
+            weeklyExercisePlan={weeklyExercisePlan}
+            weekNumber={totalWeeks}
+            exercisesNumber={
+              weeklyExercisePlan[trainingDayIndex].exercises.length
+            }
+            exercisesNameList={exercisesNameList}
+            trainingDayIndex={trainingDayIndex}
+            handleExerciseChange={handleExerciseChange}
+            handleWeightChange={handleWeightChange}
+            handleRepsChange={handleRepsChange}
+            handleSetsChange={handleSetsChange}
+          />
+
           <div className="button-container">
             <button onClick={() => handleAddExercise(trainingDayIndex)}>
               Add exercise
