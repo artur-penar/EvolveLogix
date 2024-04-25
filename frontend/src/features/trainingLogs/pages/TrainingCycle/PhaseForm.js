@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
-import "./PhaseForm.css";
 import { getExercises } from "features/trainingLogs/exercises";
 import WeekLabels from "./components/WeekLabels";
-import SelectExerciseField from "./components/SelectExerciseField";
-import WeightSelectField from "./components/WeightSelectField";
-import ExerciseParameterInput from "./components/ExerciseParameterInput";
 import WeeklyExercises from "./components/WeeklyExercises";
+import "./PhaseForm.css";
+import PhaseOption from "./components/PhaseOption";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -34,9 +32,9 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           name: "Squat",
           weeks: [
             {
-              weight: 100,
-              reps: 10,
-              sets: 5,
+              weight: 0,
+              reps: 0,
+              sets: 0,
             },
           ],
         },
@@ -84,7 +82,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     Array.from({ length: totalWeeks }, (_, i) => i + 1).forEach(
       (trainingWeekIndex) => {
         setWeeklyExercisePlan((prevState) => {
-          const newState = JSON.parse(JSON.stringify(prevState));
+          const newState = [...prevState];
           newState.forEach((day, dayIndex) => {
             day.exercises.forEach((exercise, exerciseIndex) => {
               if (exercise.weeks.length < trainingWeekIndex) {
@@ -109,8 +107,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
     setWeeklyExercisePlan((prevState) => {
-      // Create a deep copy of the state
-      const newState = JSON.parse(JSON.stringify(prevState));
+      const newState = [...prevState];
 
       // Update the exercise name
       newState[dayIndex].exercises[exerciseIndex].name = newExerciseName;
@@ -165,69 +162,10 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  const renderWeekComponents = (
-    exercisesNumber,
-    weekNumber,
-    exercisesNameList,
-    trainingDayIndex
-  ) => {
-    if (!weeklyExercisePlan[trainingDayIndex]) {
-      return null;
-    }
-
-    return Array.from({ length: exercisesNumber }, (_, i) => i).map(
-      (exerciseIndex) => (
-        <div key={exerciseIndex} className="week-container">
-          <SelectExerciseField
-            weeklyExercisePlan={weeklyExercisePlan}
-            exercisesNameList={exercisesNameList}
-            exerciseIndex={exerciseIndex}
-            dayIndex={trainingDayIndex}
-            handleExerciseChange={handleExerciseChange}
-          />
-          {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
-            <div key={weekIndex} className="exercise-inputs-container">
-              <WeightSelectField
-                weeklyExercisePlan={weeklyExercisePlan}
-                handleWeightChange={handleWeightChange}
-                trainingDayIndex={trainingDayIndex}
-                exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
-              />
-              <label>x</label>
-              <ExerciseParameterInput
-                trainingDayIndex={trainingDayIndex}
-                exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
-                value={
-                  weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
-                    ?.weeks[weekIndex]?.reps
-                }
-                handleChange={handleRepsChange}
-                placeholder="reps"
-              />
-              <label>x</label>
-              <ExerciseParameterInput
-                trainingDayIndex={trainingDayIndex}
-                exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
-                value={
-                  weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
-                    ?.weeks[weekIndex]?.sets
-                }
-                handleChange={handleSetsChange}
-                placeholder="sets"
-              />
-            </div>
-          ))}
-        </div>
-      )
-    );
-  };
-
   return (
     <div className="form-container">
       <h4 className="header-container">Phase programming</h4>
+      <PhaseOption />
       {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
         <div className="training-day-container" key={trainingDayIndex}>
           <div className="week-container">
