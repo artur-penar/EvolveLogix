@@ -83,7 +83,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     Array.from({ length: totalWeeks }, (_, i) => i + 1).forEach(
       (trainingWeekIndex) => {
         setWeeklyExercisePlan((prevState) => {
-          const newState = [...prevState];
+          const newState = JSON.parse(JSON.stringify(prevState));
           newState.forEach((day, dayIndex) => {
             day.exercises.forEach((exercise, exerciseIndex) => {
               if (exercise.weeks.length < trainingWeekIndex) {
