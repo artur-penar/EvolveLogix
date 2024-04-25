@@ -33,23 +33,7 @@ const TrainingCycleForm = ({
             ))}
           </select>
         </div>
-        <div className="tcf-select-group">
-          <label className="tcf-select-label">Phase:</label>
-          <select
-            className="form-control tcf-select-control"
-            value={phase}
-            onChange={handlePhaseChange}
-          >
-            {phases.map((name, i) => (
-              <option key={i} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
 
-      <div className="tcf-select-container">
         <div className="tcf-select-group">
           <label className="tcf-select-label">Mesocycle:</label>
           <select
@@ -64,7 +48,23 @@ const TrainingCycleForm = ({
             ))}
           </select>
         </div>
+      </div>
 
+      <div className="tcf-select-container">
+        <div className="tcf-select-group">
+          <label className="tcf-select-label">Phase:</label>
+          <select
+            className="form-control tcf-select-control"
+            value={phase}
+            onChange={handlePhaseChange}
+          >
+            {phases.map((name, i) => (
+              <option key={i} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="tcf-select-group">
           <label className="tcf-select-label">Duration in weeks:</label>
           <select
