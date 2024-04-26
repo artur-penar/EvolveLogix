@@ -8,9 +8,6 @@ const StrengthRecords = () => {
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
   const isLoading = useSelector((state) => state.strengthRecords.loading);
 
-  console.log("Strength Records page");
-  console.log(strengthRecords);
-
   return (
     <Layout title={"EvolveLogix | Records"}>
       <div className="strength-records">
