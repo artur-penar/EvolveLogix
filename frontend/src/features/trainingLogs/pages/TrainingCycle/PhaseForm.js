@@ -6,6 +6,7 @@ import WeekLabels from "./components/WeekLabels";
 import WeeklyExercises from "./components/WeeklyExercises";
 import "./PhaseForm.css";
 import PhaseOption from "./components/PhaseOption";
+import RecordDisplay from "features/users/components/StrengthRecords/RecordDisplay";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -17,16 +18,9 @@ const selectExerciseNames = createSelector(
 );
 
 const PhaseForm = ({ weekNumber, trainingDays }) => {
-  const dispatch = useDispatch();
-  const exercisesNameList = useSelector(selectExerciseNames);
-  const [stateChanged, setStateChanged] = useState(0);
-
-  // PhaseOption component states
-  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
-
+  const powerlifts_exercises = ["Squat", "Bench press", "Deadlift"];
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
-
   const initialWeeklyExercisePlan = [
     {
       dayNumber: 1,
@@ -47,10 +41,43 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     // Add more days here...
   ];
 
+  // useState hooks
+  const [stateChanged, setStateChanged] = useState(0);
+  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
   );
-  console.log(weeklyExercisePlan);
+
+  // useSelector hooks
+  const dispatch = useDispatch();
+  const exercisesNameList = useSelector(selectExerciseNames);
+  const strengthRecords = useSelector((state) => state.strengthRecords.records);
+
+  // Derived state
+  const powerlifts = strengthRecords.filter((record) =>
+    powerlifts_exercises.includes(record.exercise)
+  );
+
+  const powerliftsArray = Object.entries(powerlifts).map(
+    ([exercise, data]) => ({
+      ...data,
+      exercise,
+    })
+  );
+
+  // Debugging logs
+  const latestPowerlifts = powerlifts.reduce((latest, record) => {
+    console.log("Record", record);
+    console.log("Latest", latest);
+    if (
+      !latest[record.exercise] ||
+      record.record_date > latest[record.exercise][0].record_date
+    ) {
+      latest[record.exercise] = [];
+      latest[record.exercise].push(record);
+    }
+    return latest;
+  }, {});
 
   useEffect(() => {
     if (!exercisesNameList.length) {
@@ -173,6 +200,14 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
         displayWeightInPercent={displayWeightInPercent}
         setDisplayWeightInPercent={setDisplayWeightInPercent}
       />
+      {/* <div className="training-day-container">
+        <RecordDisplay
+          formData={latestPowerlifts}
+          isPowerlifts={true}
+          simple={true}
+          styleClassName="record-display-container"
+        />
+      </div> */}
       {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
         <div className="training-day-container" key={trainingDayIndex}>
           <div className="week-container">
