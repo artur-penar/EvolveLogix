@@ -1,6 +1,5 @@
 import React from "react";
 import SelectExerciseField from "./SelectExerciseField";
-import WeightSelectField from "./WeightSelectField";
 import ExerciseParameterInput from "./ExerciseParameterInput";
 
 const WeeklyExercises = ({
