@@ -6,6 +6,9 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
 
+  console.log("formData");
+  console.log(formData);
+
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
   const handlePrev = (exerciseName) => {
@@ -50,25 +53,25 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
         {!simple && <label className="record-label">Record Date:</label>}
         {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
-      {Object.entries(formData).map(([key, data]) => (
-        <div key={key} className="record-container">
+      {Object.entries(formData).map(([recordIndex, data]) => (
+        <div key={recordIndex} className="record-container">
           <label className="record-content" style={{ textAlign: "left" }}>
-            {key}
+            {recordIndex}
           </label>
           <label className="record-content">
-            {data[currentIndex[key]].weight}kg
+            {data[currentIndex[recordIndex]].weight}kg
           </label>
           <label className="record-content">
             🔺
-            {data[currentIndex[key]].percent_increase !== null
-              ? data[currentIndex[key]].percent_increase
+            {data[currentIndex[recordIndex]].percent_increase !== null
+              ? data[currentIndex[recordIndex]].percent_increase
               : 0}
             %
           </label>
           {!simple && (
             <label className="record-content">
               {new Date(
-                data[currentIndex[key]].record_date
+                data[currentIndex[recordIndex]].record_date
               ).toLocaleDateString()}
             </label>
           )}
@@ -76,14 +79,16 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
           {!simple && (
             <div className="flex-container">
               <button
-                onClick={() => handlePrev(key)}
-                disabled={currentIndex[key] === 0}
+                onClick={() => handlePrev(recordIndex)}
+                disabled={currentIndex[recordIndex] === 0}
               >
                 &lt;
               </button>
               <button
-                onClick={() => handleNext(key)}
-                disabled={currentIndex[key] >= initialIndex[key]}
+                onClick={() => handleNext(recordIndex)}
+                disabled={
+                  currentIndex[recordIndex] >= initialIndex[recordIndex]
+                }
               >
                 &gt;
               </button>
