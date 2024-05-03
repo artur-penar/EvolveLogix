@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
 
-const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
+const RecordDisplay = ({
+  formData,
+  isPowerlifts,
+  simple,
+  isCycleVersion,
+  styleClassName,
+}) => {
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -49,7 +55,7 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
           Exercise:
         </label>
         <label className="record-label">Weight:</label>
-        <label className="record-label">Increase:</label>
+        {!isCycleVersion && <label className="record-label">Increase:</label>}
         {!simple && <label className="record-label">Record Date:</label>}
         {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
@@ -61,13 +67,15 @@ const RecordDisplay = ({ formData, isPowerlifts, simple, styleClassName }) => {
           <label className="record-content">
             {data[currentIndex[recordIndex]].weight}kg
           </label>
-          <label className="record-content">
-            🔺
-            {data[currentIndex[recordIndex]].percent_increase !== null
-              ? data[currentIndex[recordIndex]].percent_increase
-              : 0}
-            %
-          </label>
+          {!isCycleVersion && (
+            <label className="record-content">
+              🔺
+              {data[currentIndex[recordIndex]].percent_increase !== null
+                ? data[currentIndex[recordIndex]].percent_increase
+                : 0}
+              %
+            </label>
+          )}
           {!simple && (
             <label className="record-content">
               {new Date(
