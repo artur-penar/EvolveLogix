@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
-const PhaseOption = ({ displayWeightInPercent, setDisplayWeightInPercent }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
+const PhaseOption = ({
+  displayWeightInPercent,
+  setDisplayWeightInPercent,
+  displayRecords,
+  setDisplayRecords,
+}) => {
   return (
     <div
       style={{
@@ -29,8 +32,8 @@ const PhaseOption = ({ displayWeightInPercent, setDisplayWeightInPercent }) => {
         <label>
           <input
             type="checkbox"
-            checked={isChecked}
-            onChange={(e) => setIsChecked(e.target.checked)}
+            checked={displayRecords}
+            onChange={(e) => setDisplayRecords(e.target.checked)}
             style={{ marginRight: "0.5rem" }}
           />
           Show Powerlift 1RM's
