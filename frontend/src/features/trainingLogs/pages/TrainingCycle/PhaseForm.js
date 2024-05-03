@@ -44,6 +44,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
+  const [displayRecords, setDisplayRecords] = useState(false);
   const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
     initialWeeklyExercisePlan
   );
@@ -56,13 +57,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   // Derived state
   const powerlifts = strengthRecords.filter((record) =>
     powerlifts_exercises.includes(record.exercise)
-  );
-
-  const powerliftsArray = Object.entries(powerlifts).map(
-    ([exercise, data]) => ({
-      ...data,
-      exercise,
-    })
   );
 
   // Debugging logs
@@ -199,15 +193,17 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       <PhaseOption
         displayWeightInPercent={displayWeightInPercent}
         setDisplayWeightInPercent={setDisplayWeightInPercent}
+        displayPowerliftsRecords={displayRecords}
+        setDisplayPowerliftsRecords={setDisplayRecords}
       />
-      {/* <div className="training-day-container">
+      {displayRecords && (
         <RecordDisplay
           formData={latestPowerlifts}
           isPowerlifts={true}
           simple={true}
-          styleClassName="record-display-container"
+          styleClassName={"record-display-container"}
         />
-      </div> */}
+      )}
       {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
         <div className="training-day-container" key={trainingDayIndex}>
           <div className="week-container">
