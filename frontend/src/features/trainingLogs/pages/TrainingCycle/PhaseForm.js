@@ -152,37 +152,19 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
-  const handleWeightChange = (
+  const handleExerciseDetailChange = (
     dayIndex,
     exerciseIndex,
     weekIndex,
-    newWeight
+    newValue,
+    detailType
   ) => {
     setWeeklyExercisePlan((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
-      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].weight =
-        newWeight;
-
-      return newState;
-    });
-  };
-
-  const handleRepsChange = (dayIndex, exerciseIndex, weekIndex, newReps) => {
-    setWeeklyExercisePlan((prevState) => {
-      const newState = JSON.parse(JSON.stringify(prevState));
-      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].reps =
-        newReps;
-
-      return newState;
-    });
-  };
-
-  const handleSetsChange = (dayIndex, exerciseIndex, weekIndex, newSets) => {
-    setWeeklyExercisePlan((prevState) => {
-      const newState = JSON.parse(JSON.stringify(prevState));
-      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex].sets =
-        newSets;
-
+      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex][detailType] =
+        newValue;
+      console.log("HandleExerciseDetailChange", newState);
+      console.log("DetailType", detailType);
       return newState;
     });
   };
@@ -224,9 +206,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             exercisesNameList={exercisesNameList}
             trainingDayIndex={trainingDayIndex}
             handleExerciseChange={handleExerciseChange}
-            handleWeightChange={handleWeightChange}
-            handleRepsChange={handleRepsChange}
-            handleSetsChange={handleSetsChange}
+            handleExerciseDetailChange={handleExerciseDetailChange}
             displayWeightInPercent={displayWeightInPercent}
           />
 
