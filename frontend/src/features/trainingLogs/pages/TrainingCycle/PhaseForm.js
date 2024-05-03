@@ -193,14 +193,15 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       <PhaseOption
         displayWeightInPercent={displayWeightInPercent}
         setDisplayWeightInPercent={setDisplayWeightInPercent}
-        displayPowerliftsRecords={displayRecords}
-        setDisplayPowerliftsRecords={setDisplayRecords}
+        displayRecords={displayRecords}
+        setDisplayRecords={setDisplayRecords}
       />
       {displayRecords && (
         <RecordDisplay
           formData={latestPowerlifts}
           isPowerlifts={true}
           simple={true}
+          isCycleVersion={true}
           styleClassName={"record-display-container"}
         />
       )}
