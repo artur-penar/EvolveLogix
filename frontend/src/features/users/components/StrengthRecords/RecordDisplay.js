@@ -12,10 +12,8 @@ const RecordDisplay = ({
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
 
-  console.log("formData");
-  console.log(formData);
-
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const justifyContentStyle = isCycleVersion ? "space-evenly" : "space-between";
 
   const handlePrev = (exerciseName) => {
     setCurrentIndex((prevState) => ({
@@ -38,19 +36,13 @@ const RecordDisplay = ({
           {isPowerlifts ? "Powerlifts" : "Others"}
         </h4>
       )}
-      <div
-        style={{
-          display: "flex",
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          justifyContent: "center",
-          marginBottom: "10px",
-          alignItems: "center",
-          padding: "5px",
-        }}
-      >
+      <div className="simple-header-container">
         {simple && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
       </div>
-      <div className="record-container">
+      <div
+        className="record-container"
+        style={{ justifyContent: justifyContentStyle }}
+      >
         <label className="record-label" style={{ textAlign: "left" }}>
           Exercise:
         </label>
@@ -60,7 +52,11 @@ const RecordDisplay = ({
         {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
       {Object.entries(formData).map(([recordIndex, data]) => (
-        <div key={recordIndex} className="record-container">
+        <div
+          key={recordIndex}
+          className="record-container"
+          style={{ justifyContent: justifyContentStyle }}
+        >
           <label className="record-content" style={{ textAlign: "left" }}>
             {recordIndex}
           </label>
