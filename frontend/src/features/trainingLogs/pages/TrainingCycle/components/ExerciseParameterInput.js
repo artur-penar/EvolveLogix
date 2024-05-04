@@ -6,7 +6,7 @@ const ExerciseParameterInput = ({
   weekIndex,
   value,
   handleChange,
-  placeholder,
+  detailType,
   displayWeightInPercent,
 }) => {
   if (displayWeightInPercent) {
@@ -19,7 +19,8 @@ const ExerciseParameterInput = ({
             trainingDayIndex,
             exerciseIndex,
             weekIndex,
-            e.target.value
+            e.target.value,
+            detailType
           )
         }
         style={{ width: "auto" }}
@@ -42,10 +43,11 @@ const ExerciseParameterInput = ({
             trainingDayIndex,
             exerciseIndex,
             weekIndex,
-            e.target.value
+            e.target.value,
+            detailType
           )
         }
-        placeholder={placeholder}
+        placeholder={detailType}
       />
     );
   }
