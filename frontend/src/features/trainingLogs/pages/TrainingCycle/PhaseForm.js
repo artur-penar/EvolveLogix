@@ -179,13 +179,26 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
         setDisplayRecords={setDisplayRecords}
       />
       {displayRecords && (
-        <RecordDisplay
-          formData={latestPowerlifts}
-          isPowerlifts={true}
-          simple={true}
-          isCycleVersion={true}
-          styleClassName={"record-display-container"}
-        />
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: 1 }}>
+            <RecordDisplay
+              formData={latestPowerlifts}
+              isPowerlifts={true}
+              simple={true}
+              isCycleVersion={true}
+              styleClassName={"training-day-container"}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <RecordDisplay
+              formData={latestPowerlifts}
+              isPowerlifts={false}
+              simple={true}
+              isCycleVersion={true}
+              styleClassName={"training-day-container"}
+            />
+          </div>
+        </div>
       )}
       {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
         <div className="training-day-container" key={trainingDayIndex}>
