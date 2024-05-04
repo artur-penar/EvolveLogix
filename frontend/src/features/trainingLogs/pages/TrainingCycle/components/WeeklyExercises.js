@@ -9,9 +9,7 @@ const WeeklyExercises = ({
   exercisesNameList,
   trainingDayIndex,
   handleExerciseChange,
-  handleWeightChange,
-  handleRepsChange,
-  handleSetsChange,
+  handleExerciseDetailChange,
   displayWeightInPercent,
 }) => {
   if (!weeklyExercisePlan[trainingDayIndex]) {
@@ -38,8 +36,8 @@ const WeeklyExercises = ({
                 weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.weight
               }
-              handleChange={handleWeightChange}
-              placeholder="weight"
+              handleChange={handleExerciseDetailChange}
+              detailType="weight"
               displayWeightInPercent={displayWeightInPercent}
             />
             <label>x</label>
@@ -51,8 +49,8 @@ const WeeklyExercises = ({
                 weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.reps
               }
-              handleChange={handleRepsChange}
-              placeholder="reps"
+              handleChange={handleExerciseDetailChange}
+              detailType="reps"
             />
             <label>x</label>
             <ExerciseParameterInput
@@ -63,8 +61,8 @@ const WeeklyExercises = ({
                 weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.sets
               }
-              handleChange={handleSetsChange}
-              placeholder="sets"
+              handleChange={handleExerciseDetailChange}
+              detailType="sets"
             />
           </div>
         ))}
