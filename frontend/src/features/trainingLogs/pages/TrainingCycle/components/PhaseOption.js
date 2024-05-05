@@ -36,7 +36,7 @@ const PhaseOption = ({
             onChange={(e) => setDisplayRecords(e.target.checked)}
             style={{ marginRight: "0.5rem" }}
           />
-          Show Powerlift 1RM's
+          Show Strength Records
         </label>
       </div>
     </div>
