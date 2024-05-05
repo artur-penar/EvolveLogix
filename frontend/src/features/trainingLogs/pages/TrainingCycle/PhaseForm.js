@@ -10,6 +10,7 @@ import RecordDisplay from "features/users/components/StrengthRecords/RecordDispl
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
+const POWERLIFTS_EXERCISES = ["Squat", "Bench press", "Deadlift"];
 const selectExercisesState = (state) => state.exercises.exercises;
 
 const selectExerciseNames = createSelector(
@@ -17,8 +18,20 @@ const selectExerciseNames = createSelector(
   (exercises) => exercises.map((exercise) => exercise.name)
 );
 
+const getLatestRecords = (records) => {
+  return records.reduce((latest, record) => {
+    if (
+      !latest[record.exercise] ||
+      record.record_date > latest[record.exercise][0].record_date
+    ) {
+      latest[record.exercise] = [];
+      latest[record.exercise].push(record);
+    }
+    return latest;
+  }, {});
+};
+
 const PhaseForm = ({ weekNumber, trainingDays }) => {
-  const powerlifts_exercises = ["Squat", "Bench press", "Deadlift"];
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
   const initialWeeklyExercisePlan = [
@@ -35,10 +48,8 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             },
           ],
         },
-        // Add more exercises here...
       ],
     },
-    // Add more days here...
   ];
 
   // useState hooks
@@ -56,22 +67,14 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   // Derived state
   const powerlifts = strengthRecords.filter((record) =>
-    powerlifts_exercises.includes(record.exercise)
+    POWERLIFTS_EXERCISES.includes(record.exercise)
+  );
+  const otherExercises = strengthRecords.filter(
+    (record) => !POWERLIFTS_EXERCISES.includes(record.exercise)
   );
 
-  // Debugging logs
-  const latestPowerlifts = powerlifts.reduce((latest, record) => {
-    console.log("Record", record);
-    console.log("Latest", latest);
-    if (
-      !latest[record.exercise] ||
-      record.record_date > latest[record.exercise][0].record_date
-    ) {
-      latest[record.exercise] = [];
-      latest[record.exercise].push(record);
-    }
-    return latest;
-  }, {});
+  const latestPowerlifts = getLatestRecords(powerlifts);
+  const latestOtherExercises = getLatestRecords(otherExercises);
 
   useEffect(() => {
     if (!exercisesNameList.length) {
@@ -191,7 +194,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           </div>
           <div style={{ flex: 1 }}>
             <RecordDisplay
-              formData={latestPowerlifts}
+              formData={latestOtherExercises}
               isPowerlifts={false}
               simple={true}
               isCycleVersion={true}
