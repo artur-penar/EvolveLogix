@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
+import { current } from "@reduxjs/toolkit";
 
 const RecordDisplay = ({
   formData,
@@ -51,55 +52,54 @@ const RecordDisplay = ({
         {!simple && <label className="record-label">Record Date:</label>}
         {!simple && <label className="record-label">Prev/Next:</label>}
       </div>
-      {Object.entries(formData).map(([recordIndex, data]) => (
-        <div
-          key={recordIndex}
-          className="record-container"
-          style={{ justifyContent: justifyContentStyle }}
-        >
-          <label className="record-content" style={{ textAlign: "left" }}>
-            {recordIndex}
-          </label>
-          <label className="record-content">
-            {data[currentIndex[recordIndex]].weight}kg
-          </label>
-          {!isCycleVersion && (
-            <label className="record-content">
-              🔺
-              {data[currentIndex[recordIndex]].percent_increase !== null
-                ? data[currentIndex[recordIndex]].percent_increase
-                : 0}
-              %
+      {Object.entries(formData).map(([recordIndex, data]) => {
+        const currentData = data[currentIndex[recordIndex]];
+        return (
+          <div
+            key={recordIndex}
+            className="record-container"
+            style={{ justifyContent: justifyContentStyle }}
+          >
+            <label className="record-content" style={{ textAlign: "left" }}>
+              {recordIndex}
             </label>
-          )}
-          {!simple && (
-            <label className="record-content">
-              {new Date(
-                data[currentIndex[recordIndex]].record_date
-              ).toLocaleDateString()}
-            </label>
-          )}
+            <label className="record-content">{currentData.weight}kg</label>
+            {!isCycleVersion && (
+              <label className="record-content">
+                🔺
+                {currentData.percent_increase !== null
+                  ? currentData.percent_increase
+                  : 0}
+                %
+              </label>
+            )}
+            {!simple && (
+              <label className="record-content">
+                {new Date(currentData.record_date).toLocaleDateString()}
+              </label>
+            )}
 
-          {!simple && (
-            <div className="flex-container">
-              <button
-                onClick={() => handlePrev(recordIndex)}
-                disabled={currentIndex[recordIndex] === 0}
-              >
-                &lt;
-              </button>
-              <button
-                onClick={() => handleNext(recordIndex)}
-                disabled={
-                  currentIndex[recordIndex] >= initialIndex[recordIndex]
-                }
-              >
-                &gt;
-              </button>
-            </div>
-          )}
-        </div>
-      ))}
+            {!simple && (
+              <div className="flex-container">
+                <button
+                  onClick={() => handlePrev(recordIndex)}
+                  disabled={currentIndex[recordIndex] === 0}
+                >
+                  &lt;
+                </button>
+                <button
+                  onClick={() => handleNext(recordIndex)}
+                  disabled={
+                    currentIndex[recordIndex] >= initialIndex[recordIndex]
+                  }
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
