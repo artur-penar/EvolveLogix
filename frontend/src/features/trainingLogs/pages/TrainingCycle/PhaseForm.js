@@ -192,7 +192,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               styleClassName={"training-day-container"}
             />
           </div>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, marginLeft: "5px"}}>
             <RecordDisplay
               formData={latestOtherExercises}
               isPowerlifts={false}

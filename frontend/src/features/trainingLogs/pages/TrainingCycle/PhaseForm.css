@@ -32,6 +32,7 @@
   display: flex;
   justify-content: center; /* Centers the inputs horizontally */
   text-align: center; /* Centers the labels */
+  margin-top: 1rem;
 }
 .exercise-select-container {
   flex: 1; /* Each week will take up an equal amount of space */
