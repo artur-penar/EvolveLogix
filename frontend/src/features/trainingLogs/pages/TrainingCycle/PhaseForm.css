@@ -57,8 +57,9 @@
 }
 
 .training-day-container {
-  margin-bottom: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-left: 1rem;
+  margin-bottom: 1rem;
 }
 
 .input {
@@ -81,5 +82,10 @@
 
 .training-phase-form {
   overflow-x: auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pf-record-display {
+  margin-bottom: 1rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

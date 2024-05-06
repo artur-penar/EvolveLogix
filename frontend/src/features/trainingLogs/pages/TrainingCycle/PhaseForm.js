@@ -189,7 +189,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               isPowerlifts={true}
               simple={true}
               isCycleVersion={true}
-              styleClassName={"training-day-container"}
+              styleClassName={"pf-record-display"}
             />
           </div>
           <div style={{ flex: 1, marginLeft: "5px" }}>
@@ -198,7 +198,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               isPowerlifts={false}
               simple={true}
               isCycleVersion={true}
-              styleClassName={"training-day-container"}
+              styleClassName={"pf-record-display"}
             />
           </div>
         </div>
