@@ -45,5 +45,9 @@
   display: block;
   margin: 0 auto;
   margin-top: 10px;
-  border-radius: 10px;
+  min-width: 180px;
+}
+
+.submit-button button {
+  min-width: 180px;
 }

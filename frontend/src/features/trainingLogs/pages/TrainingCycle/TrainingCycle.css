@@ -34,5 +34,5 @@
 }
 
 .tc-button {
-  padding: 5px;
+  min-width: 180px;
 }

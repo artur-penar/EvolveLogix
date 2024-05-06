@@ -227,10 +227,19 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               displayWeightInPercent={displayWeightInPercent}
             />
 
-            <div className="button-container">
-              <button onClick={() => handleAddExercise(trainingDayIndex)}>
-                Add exercise
-              </button>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${
+                  totalWeeks + 1
+                }, minmax(180px, 1fr))`,
+              }}
+            >
+              <div className="button-container">
+                <button onClick={() => handleAddExercise(trainingDayIndex)}>
+                  Add exercise
+                </button>
+              </div>
             </div>
           </div>
         ))}
