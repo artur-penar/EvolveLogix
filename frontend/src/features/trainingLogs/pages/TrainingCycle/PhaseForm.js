@@ -192,7 +192,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
               styleClassName={"training-day-container"}
             />
           </div>
-          <div style={{ flex: 1, marginLeft: "5px"}}>
+          <div style={{ flex: 1, marginLeft: "5px" }}>
             <RecordDisplay
               formData={latestOtherExercises}
               isPowerlifts={false}
@@ -203,36 +203,38 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           </div>
         </div>
       )}
-      {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
-        <div className="training-day-container" key={trainingDayIndex}>
-          <div className="week-container">
-            <div className="week-label">
-              <label>Day {trainingDayIndex + 1}:</label>
+      <div className="training-phase-form">
+        {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
+          <div className="training-day-container" key={trainingDayIndex}>
+            <div className="week-container">
+              <div className="week-label">
+                <label>Day {trainingDayIndex + 1}:</label>
+              </div>
+
+              <WeekLabels weeksNumber={totalWeeks} />
             </div>
 
-            <WeekLabels weeksNumber={totalWeeks} />
-          </div>
+            <WeeklyExercises
+              weeklyExercisePlan={weeklyExercisePlan}
+              weekNumber={totalWeeks}
+              exercisesNumber={
+                weeklyExercisePlan[trainingDayIndex].exercises.length
+              }
+              exercisesNameList={exercisesNameList}
+              trainingDayIndex={trainingDayIndex}
+              handleExerciseChange={handleExerciseChange}
+              handleExerciseDetailChange={handleExerciseDetailChange}
+              displayWeightInPercent={displayWeightInPercent}
+            />
 
-          <WeeklyExercises
-            weeklyExercisePlan={weeklyExercisePlan}
-            weekNumber={totalWeeks}
-            exercisesNumber={
-              weeklyExercisePlan[trainingDayIndex].exercises.length
-            }
-            exercisesNameList={exercisesNameList}
-            trainingDayIndex={trainingDayIndex}
-            handleExerciseChange={handleExerciseChange}
-            handleExerciseDetailChange={handleExerciseDetailChange}
-            displayWeightInPercent={displayWeightInPercent}
-          />
-
-          <div className="button-container">
-            <button onClick={() => handleAddExercise(trainingDayIndex)}>
-              Add exercise
-            </button>
+            <div className="button-container">
+              <button onClick={() => handleAddExercise(trainingDayIndex)}>
+                Add exercise
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
