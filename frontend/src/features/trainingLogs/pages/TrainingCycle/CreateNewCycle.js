@@ -3,12 +3,12 @@ import "./CreateNewCycle.css";
 
 const CreateNewCycle = () => {
   return (
-    <div className="new-cycle-container">
-      <h4 className="header-container">Create new cycle</h4>
-      <div className="cycle-form-container">
-        <div className="cycle-form-group">
+    <div className="cnc-container">
+      <h4 className="cnc-header-container">Create new cycle</h4>
+      <div className="cnc-form-container">
+        <div className="cnc-form-group">
           <label for="cycle">Cycle:</label>
-          <select id="cycle" className="cycle-form-control">
+          <select id="cycle" className="form-control">
             {["Macrocycle", "Mesocycle"].map((name, i) => (
               <option key={i} value={name}>
                 {name}
@@ -17,13 +17,9 @@ const CreateNewCycle = () => {
           </select>
         </div>
 
-        <div className="cycle-form-group">
+        <div className="cnc-form-group">
           <label for="name">Name:</label>
-          <input
-            id="name"
-            type="text"
-            className="cycle-form-control"
-          ></input>
+          <input id="name" type="text" className="form-control"></input>
         </div>
       </div>
       <button className="submit-button">Submit</button>
