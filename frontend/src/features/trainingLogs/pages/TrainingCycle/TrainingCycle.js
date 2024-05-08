@@ -5,6 +5,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
 import "./TrainingCycle.css";
+import CycleTimeline from "./CycleTimeline";
 
 const TrainingCycle = () => {
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
@@ -17,7 +18,9 @@ const TrainingCycle = () => {
   const [macrocycle, setMacrocycle] = useState(macrocycles[0]);
 
   const [trainingDays, setTrainingDays] = useState(0);
-  const [weekNumber, setWeekNumber] = useState(0);
+  const [phaseDurationInWeeks, setPhaseDurationInWeeks] = useState(0);
+
+  const [mesocycleDurationInWeeks, setMesocycleDurationInWeeks] = useState(0);
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
 
@@ -41,8 +44,12 @@ const TrainingCycle = () => {
     setTrainingDays(e.target.value);
   };
 
-  const handleWeeksChange = (e) => {
-    setWeekNumber(e.target.value);
+  const handlePhaseDurationChange = (e) => {
+    setPhaseDurationInWeeks(e.target.value);
+  };
+
+  const handleMesocycleDurationChange = (e) => {
+    setMesocycleDurationInWeeks(e.target.value);
   };
 
   return (
@@ -57,13 +64,16 @@ const TrainingCycle = () => {
           phase={phase}
           phases={phases}
           trainingDays={trainingDays}
-          weekNumber={weekNumber}
+          phaseDurationInWeeks={phaseDurationInWeeks}
+          mesocycleDurationInWeeks={mesocycleDurationInWeeks}
+          handleMesocycleDurationChange={handleMesocycleDurationChange}
           handleMacrocycleChange={handleMacrocycleChange}
           handleMesocycleChange={handleMesocycleChange}
           handlePhaseChange={handlePhaseChange}
           handleTrainingDaysChange={handleTrainingDaysChange}
-          handleWeeksChange={handleWeeksChange}
+          handlePhaseDurationChange={handlePhaseDurationChange}
         />
+        {/* <CycleTimeline trainingCycle={trainingCycle} /> */}
 
         {!isCreateCycleVisible && (
           <div className="tc-button-container">
@@ -73,7 +83,10 @@ const TrainingCycle = () => {
           </div>
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
-        <PhaseForm weekNumber={weekNumber} trainingDays={trainingDays} />
+        <PhaseForm
+          weekNumber={phaseDurationInWeeks}
+          trainingDays={trainingDays}
+        />
       </div>
     </Layout>
   );
