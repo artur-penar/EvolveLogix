@@ -146,7 +146,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
 
   const handleAddExercise = (dayIndex) => {
     setWeeklyExercisePlan((prevState) => {
-      const newState = [...prevState];
+      const newState = JSON.parse(JSON.stringify(prevState));
       const newExercise = initialWeeklyExercisePlan[0].exercises[0];
       newState[dayIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
