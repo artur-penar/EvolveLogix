@@ -1,15 +1,26 @@
-.tcf-parent-container {
+.tcf-macrocycle-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
+  margin-bottom: 2px;
+}
+
+.tcf-select-group-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 
 .tcf-select-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: 45%;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
+  padding: 2rem;
 }
 
 .tcf-select-group {
