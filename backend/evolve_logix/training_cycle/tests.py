@@ -8,4 +8,9 @@ from datetime import date
 class MesocycleModelTest(TestCase):
     def setUp(self):
         self.mesocycle = Mesocycle.objects.create(
-            name='Test Mesocycle', start_date=date.today(), end_date=date.today())
+            name='Test Mesocycle', start_date=date.today())
+
+    def test_mesocycle_creation(self):
+        self.assertEqual(self.mesocycle.name, 'Test Mesocycle')
+        self.assertEqual(self.mesocycle.start_date, date.today())
+        self.assertEqual(self.mesocycle.end_date, None)
