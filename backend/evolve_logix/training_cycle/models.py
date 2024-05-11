@@ -39,9 +39,10 @@ class Microcycle(models.Model):
 
     class Meta:
         unique_together = ('phase', 'order')
-    
+
     def __str__(self):
         return f"Macrocycle {self.order}"
+
 
 class TrainingSession(models.Model):
     """
@@ -52,7 +53,8 @@ class TrainingSession(models.Model):
         date (DateField): The date of the training session.
         comment (TextField, optional): A comment about the training session (default is None).
     """
-    microcycle = models.ForeignKey(Microcycle, on_delete=models.CASCADE, related_name='training_sessions')
+    microcycle = models.ForeignKey(
+        Microcycle, on_delete=models.CASCADE, related_name='training_sessions')
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
@@ -60,3 +62,15 @@ class TrainingSession(models.Model):
 
     def __str__(self):
         return f"Training Session {self.order}"
+
+
+class ExerciseInSession(models.Model):
+    training_session = models.ForeignKey(
+        TrainingSession, on_delete=models.CASCADE, related_name='exercises')
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    weight = models.FloatField(null=True, blank=True)
+    repetitions = models.PositiveIntegerField(null=True, blank=True)
+    sets = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.exercise.name} x {self.weight} x {self.repetitions} x {self.sets}"
