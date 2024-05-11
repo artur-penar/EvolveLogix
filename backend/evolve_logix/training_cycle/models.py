@@ -1,4 +1,5 @@
 from django.db import models
+from training_log.models import Exercise
 
 # Create your models here.
 
@@ -41,3 +42,21 @@ class Microcycle(models.Model):
     
     def __str__(self):
         return f"Macrocycle {self.order}"
+
+class TrainingSession(models.Model):
+    """
+    A model representing a training session.
+
+    Attributes:
+        training_log (ForeignKey): The training log associated with the training session.
+        date (DateField): The date of the training session.
+        comment (TextField, optional): A comment about the training session (default is None).
+    """
+    microcycle = models.ForeignKey(Microcycle, on_delete=models.CASCADE, related_name='training_sessions')
+    order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('microcycle', 'order')
+
+    def __str__(self):
+        return f"Training Session {self.order}"

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Mesocycle, Macrocycle, Phase, Microcycle
+from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession
 from datetime import date
 
 # Create your tests here.
@@ -58,3 +58,23 @@ class MicrocycleModelTest(TestCase):
         self.assertEqual(self.microcycle.phase, self.phase)
         self.assertEqual(self.microcycle_2.order, 3)
         self.assertEqual(self.microcycle_2.phase, self.phase)
+
+
+class TrainingSessionModelTest(TestCase):
+    def setUp(self):
+        mesocycle = Mesocycle.objects.create(name='Mesocycle')
+        macrocycle = Macrocycle.objects.create(
+            mesocycle=mesocycle, name='Macrocycle')
+        phase = Phase.objects.create(
+            macrocycle=macrocycle, name='Phase')
+        self.microcycle = Microcycle.objects.create(
+            phase=phase, order=1)
+        self.training_session = TrainingSession.objects.create(
+            microcycle=self.microcycle, order=1)
+        self.training_session_2 = TrainingSession.objects.create(
+            microcycle=self.microcycle, order=2)
+
+    def test_training_session_creation(self):
+        print(self.training_session)
+        self.assertEqual(self.training_session.order, 1)
+        self.assertEqual(self.training_session.microcycle, self.microcycle)
