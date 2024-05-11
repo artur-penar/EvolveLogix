@@ -30,3 +30,14 @@ class Phase(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Microcycle(models.Model):
+    phase = models.ForeignKey(Phase, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('phase', 'order')
+    
+    def __str__(self):
+        return f"Macrocycle {self.order}"
