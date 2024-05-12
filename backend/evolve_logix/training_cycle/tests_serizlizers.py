@@ -1,6 +1,7 @@
 from rest_framework.test import APITestCase
 from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
-from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer, MicrocycleSerializer, TrainingSessionSerializer
+from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer, MicrocycleSerializer, TrainingSessionSerializer, ExerciseInSessionSerializer
+from training_log.models import Exercise, MuscleGroup
 from datetime import date
 
 # Create your tests here.
@@ -197,4 +198,77 @@ class TrainingSessionSerializerTest(APITestCase):
         self.assertEqual(data['microcycle'],
                          self.training_session.microcycle.id)
         print("Training Session Serializer Test Passed!")
+        print(data)
+
+
+class ExerciseInSessionSerializerTest(APITestCase):
+    def setUp(self):
+        mesocycle_attributes = {
+            'name': 'Mesocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.mesocycle = Mesocycle.objects.create(**mesocycle_attributes)
+
+        macrocycle_attributes = {
+            'mesocycle': self.mesocycle,
+            'name': 'Macrocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+
+        phase_attributes = {
+            'macrocycle': self.macrocycle,
+            'type': 'Hypertrophy',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.phase = Phase.objects.create(**phase_attributes)
+
+        microcycle_attributes = {
+            'phase': self.phase,
+            'order': 1
+        }
+        self.microcycle = Microcycle.objects.create(**microcycle_attributes)
+
+        training_session_attributes = {
+            'microcycle': self.microcycle,
+            'order': 1,
+        }
+        self.training_session = TrainingSession.objects.create(
+            **training_session_attributes)
+        muscle_group = MuscleGroup.objects.create(name='Chest')
+        bench_press = Exercise.objects.create(name="Bench Press")
+        bench_press.muscle_group.add(muscle_group)
+
+        exercise_in_session_attributes = {
+            'training_session': self.training_session,
+            'exercise': bench_press,
+            'sets': 3,
+            'repetitions': 10,
+            'weight': 100
+        }
+        self.exercise_in_session = ExerciseInSession.objects.create(
+            **exercise_in_session_attributes)
+
+        self.serializer = ExerciseInSessionSerializer(
+            instance=self.exercise_in_session)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(
+            ['id', 'training_session', 'exercise', 'sets', 'repetitions', 'weight']))
+
+    def test_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['training_session'],
+                         self.exercise_in_session.training_session.id)
+        self.assertEqual(data['exercise'],
+                         self.exercise_in_session.exercise.id)
+        self.assertEqual(data['sets'], self.exercise_in_session.sets)
+        self.assertEqual(data['repetitions'],
+                         self.exercise_in_session.repetitions)
+        self.assertEqual(data['weight'], self.exercise_in_session.weight)
+        print("Exercise In Session Serializer Test Passed!")
         print(data)
