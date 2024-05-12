@@ -144,3 +144,57 @@ class MicrocycleSerializerTest(APITestCase):
         data = self.serializer.data
         self.assertEqual(data['order'], self.microcycle.order)
         self.assertEqual(data['phase'], self.microcycle.phase.id)
+
+
+class TrainingSessionSerializerTest(APITestCase):
+    def setUp(self):
+        mesocycle_attributes = {
+            'name': 'Mesocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.mesocycle = Mesocycle.objects.create(**mesocycle_attributes)
+
+        macrocycle_attributes = {
+            'mesocycle': self.mesocycle,
+            'name': 'Macrocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+
+        phase_attributes = {
+            'macrocycle': self.macrocycle,
+            'type': 'Hypertrophy',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.phase = Phase.objects.create(**phase_attributes)
+
+        microcycle_attributes = {
+            'phase': self.phase,
+            'order': 1
+        }
+        self.microcycle = Microcycle.objects.create(**microcycle_attributes)
+
+        training_session_attributes = {
+            'microcycle': self.microcycle,
+            'order': 1,
+        }
+        self.training_session = TrainingSession.objects.create(
+            **training_session_attributes)
+
+        self.serializer = TrainingSessionSerializer(
+            instance=self.training_session)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(
+            ['id', 'microcycle', 'order']))
+
+    def test_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['microcycle'],
+                         self.training_session.microcycle.id)
+        print("Training Session Serializer Test Passed!")
+        print(data)
