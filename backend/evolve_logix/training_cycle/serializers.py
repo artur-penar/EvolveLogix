@@ -24,3 +24,9 @@ class MicrocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Microcycle
         fields = '__all__'
+
+
+class TrainingSessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingSession
+        fields = '__all__'
