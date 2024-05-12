@@ -18,3 +18,9 @@ class PhaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phase
         fields = ['id', 'macrocycle', 'type', 'start_date', 'end_date']
+
+
+class MicrocycleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Microcycle
+        fields = '__all__'
