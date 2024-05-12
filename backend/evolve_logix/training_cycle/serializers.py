@@ -12,3 +12,9 @@ class MacrocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Macrocycle
         fields = ['id', 'mesocycle', 'name', 'start_date', 'end_date']
+
+
+class PhaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Phase
+        fields = ['id', 'macrocycle', 'type', 'start_date', 'end_date']

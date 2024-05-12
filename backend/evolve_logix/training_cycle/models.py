@@ -24,8 +24,17 @@ class Macrocycle(models.Model):
 
 
 class Phase(models.Model):
+    PHASE_TYPES = (
+        ('Hypertrophy', 'Hypertrophy'),
+        ('Strength', 'Strength'),
+        ('Peak', 'Peak'),
+        ('Deload', 'Deload'),
+        ('Conditioning', 'Conditioning')
+    )
+
     macrocycle = models.ForeignKey(Macrocycle, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    type = models.CharField(
+        max_length=200, choices=PHASE_TYPES, default='Hypertrophy')
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 

@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework.test import APITestCase
 from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from training_log.models import Exercise
-from .serializers import MesocycleSerializer, MacrocycleSerializer
+from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer
 from datetime import date
 
 # Create your tests here.
@@ -36,10 +36,10 @@ class PhaseModelTest(TestCase):
         self.macrocycle = Macrocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
-            macrocycle=self.macrocycle, name='Phase')
+            macrocycle=self.macrocycle, type='Hypertrophy')
 
     def test_phase_creation(self):
-        self.assertEqual(self.phase.name, 'Phase')
+        self.assertEqual(self.phase.type, 'Hypertrophy')
         self.assertEqual(self.phase.macrocycle, self.macrocycle)
 
 
@@ -49,7 +49,7 @@ class MicrocycleModelTest(TestCase):
         self.macrocycle = Macrocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
-            macrocycle=self.macrocycle, name='Phase')
+            macrocycle=self.macrocycle, type='Hypertrophy')
         self.microcycle = Microcycle.objects.create(
             phase=self.phase, order=1)
         self.microcycle_2 = Microcycle.objects.create(
@@ -68,7 +68,7 @@ class TrainingSessionModelTest(TestCase):
         macrocycle = Macrocycle.objects.create(
             mesocycle=mesocycle, name='Macrocycle')
         phase = Phase.objects.create(
-            macrocycle=macrocycle, name='Phase')
+            macrocycle=macrocycle, type='Hypertrophy')
         self.microcycle = Microcycle.objects.create(
             phase=phase, order=1)
         self.training_session = TrainingSession.objects.create(
@@ -98,7 +98,7 @@ class ExerciseInSessionModelTest(TestCase):
         macrocycle = Macrocycle.objects.create(
             mesocycle=mesocycle, name='Comp prep')
         phase = Phase.objects.create(
-            macrocycle=macrocycle, name='Phase')
+            macrocycle=macrocycle, type='Hypertrophy')
         microcycle = Microcycle.objects.create(
             phase=phase, order=1)
         return TrainingSession.objects.create(
@@ -179,3 +179,45 @@ class MacrocycleSerializerTest(APITestCase):
     def test_content(self):
         data = self.serializer.data
         self.assertEqual(data['name'], self.macrocycle.name)
+
+
+class PhaseSerializerTest(APITestCase):
+    def setUp(self):
+        mesocycle_attributes = {
+            'name': 'Mesocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.mesocycle = Mesocycle.objects.create(**mesocycle_attributes)
+
+        macrocycle_attributes = {
+            'mesocycle': self.mesocycle,
+            'name': 'Macrocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+
+        phase_attributes = {
+            'macrocycle': self.macrocycle,
+            'type': 'Hypertrophy',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.phase = Phase.objects.create(**phase_attributes)
+
+        self.serializer = PhaseSerializer(instance=self.phase)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(
+            ['id', 'macrocycle', 'type', 'start_date', 'end_date']))
+
+    def test_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['type'], self.phase.type)
+        self.assertEqual(data['start_date'], self.phase.start_date.isoformat())
+        self.assertEqual(data['end_date'], self.phase.end_date)
+
+        print("Phase Serializer Test Passed!")
+        print(data)
