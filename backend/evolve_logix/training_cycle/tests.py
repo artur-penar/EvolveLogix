@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework.test import APITestCase
 from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from training_log.models import Exercise
-from .serializers import MesocycleSerializer
+from .serializers import MesocycleSerializer, MacrocycleSerializer
 from datetime import date
 
 # Create your tests here.
@@ -26,7 +26,6 @@ class MacrocycleModelTest(TestCase):
             mesocycle=self.mesocycle, name='Macrocycle')
 
     def test_macrocycle_creation(self):
-        print(self.macrocycle.__dict__)
         self.assertEqual(self.macrocycle.name, 'Macrocycle')
         self.assertEqual(self.macrocycle.mesocycle, self.mesocycle)
 
@@ -128,7 +127,7 @@ class ExerciseInSessionModelTest(TestCase):
         self.assertEqual(exercise_in_session.sets, 3)
 
 
-class MesocycleSerializerTestcase(APITestCase):
+class MesocycleSerializerTest(APITestCase):
     def setUp(self):
         self.mesocycle_attributes = {
             'name': 'Test Mesocycle',
@@ -143,10 +142,40 @@ class MesocycleSerializerTestcase(APITestCase):
         data = self.serializer.data
         self.assertEqual(set(data.keys()), set(
             ['id', 'name', 'start_date', 'end_date']))
-        print(self.serializer.data)
 
     def test_content(self):
-            data = self.serializer.data
-            self.assertEqual(data['name'], self.mesocycle_attributes['name'])
-            self.assertEqual(data['start_date'], self.mesocycle_attributes['start_date'].isoformat())
-            self.assertEqual(data['end_date'], self.mesocycle_attributes['end_date'])
+        data = self.serializer.data
+        self.assertEqual(data['name'], self.mesocycle_attributes['name'])
+        self.assertEqual(
+            data['start_date'], self.mesocycle_attributes['start_date'].isoformat())
+        self.assertEqual(data['end_date'],
+                         self.mesocycle_attributes['end_date'])
+
+
+class MacrocycleSerializerTest(APITestCase):
+    def setUp(self):
+        mesocycle_attributes = {
+            'name': 'Mesocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.mesocycle = Mesocycle.objects.create(**mesocycle_attributes)
+
+        macrocycle_attributes = {
+            'mesocycle': self.mesocycle,
+            'name': 'Macrocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+
+        self.serializer = MacrocycleSerializer(instance=self.macrocycle)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(
+            ['id', 'mesocycle', 'name', 'start_date', 'end_date']))
+
+    def test_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['name'], self.macrocycle.name)
