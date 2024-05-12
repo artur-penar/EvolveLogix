@@ -1,6 +1,8 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
 from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from training_log.models import Exercise
+from .serializers import MesocycleSerializer
 from datetime import date
 
 # Create your tests here.
@@ -82,6 +84,17 @@ class TrainingSessionModelTest(TestCase):
 
 class ExerciseInSessionModelTest(TestCase):
     def setUp(self):
+        self.session_1 = self.create_session(order=1)
+        self.session_2 = self.create_session(order=2)
+
+        self.squat_in_session_1 = self.create_exercise_in_session(
+            session=self.session_1, exercise_name='Squat', weight=100)
+        self.bench_press_in_session_1 = self.create_exercise_in_session(
+            session=self.session_1, exercise_name='Bench press', weight=100)
+        self.squat_in_session_2 = self.create_exercise_in_session(
+            session=self.session_2, exercise_name='Squat', weight=200)
+
+    def create_session(self, order):
         mesocycle = Mesocycle.objects.create(name='2024Cycle')
         macrocycle = Macrocycle.objects.create(
             mesocycle=mesocycle, name='Comp prep')
@@ -89,30 +102,51 @@ class ExerciseInSessionModelTest(TestCase):
             macrocycle=macrocycle, name='Phase')
         microcycle = Microcycle.objects.create(
             phase=phase, order=1)
-        session_1 = TrainingSession.objects.create(
-            microcycle=microcycle, order=1)
-        session_2 = TrainingSession.objects.create(
-            microcycle=microcycle, order=2)
-        
-        self.squat_in_session_1 = ExerciseInSession.objects.create(
-            training_session=session_1, exercise=Exercise.objects.create(name='Squat'), weight=100, repetitions=10, sets=3)
-        self.bench_press_in_session_1 = ExerciseInSession.objects.create(
-            training_session=session_1, exercise=Exercise.objects.create(name='Bench press'), weight=100, repetitions=10, sets=3)
+        return TrainingSession.objects.create(
+            microcycle=microcycle, order=order)
 
-        self.squat_in_session_2 = ExerciseInSession.objects.create(
-            training_session=session_2, exercise=Exercise.objects.create(name='Squat'), weight=200, repetitions=10, sets=3)
+    def create_exercise_in_session(self, session, exercise_name, weight):
+        return ExerciseInSession.objects.create(
+            training_session=session,
+            exercise=Exercise.objects.create(name=exercise_name),
+            weight=weight,
+            repetitions=10,
+            sets=3)
 
     def test_exercise_in_session_creation(self):
-        print(self.squat_in_session_2.__dict__)
-        self.assertEqual(self.squat_in_session_1.training_session.order, 1)
+        self.assertExerciseInSession(
+            self.squat_in_session_1, self.session_1, 'Squat', 100)
+        self.assertExerciseInSession(
+            self.bench_press_in_session_1, self.session_1, 'Bench press', 100)
+
+    def assertExerciseInSession(self, exercise_in_session, session, exercise_name, weight):
         self.assertEqual(
-            self.squat_in_session_1.exercise.name, 'Squat')
-        self.assertEqual(self.squat_in_session_1.weight, 100)
-        self.assertEqual(self.squat_in_session_1.repetitions, 10)
-        self.assertEqual(self.squat_in_session_1.sets, 3)
-        self.assertEqual(self.bench_press_in_session_1.training_session.order, 1)
-        self.assertEqual(
-            self.bench_press_in_session_1.exercise.name, 'Bench press')
-        self.assertEqual(self.bench_press_in_session_1.weight, 100)
-        self.assertEqual(self.bench_press_in_session_1.repetitions, 10)
-        self.assertEqual(self.bench_press_in_session_1.sets, 3)
+            exercise_in_session.training_session.order, session.order)
+        self.assertEqual(exercise_in_session.exercise.name, exercise_name)
+        self.assertEqual(exercise_in_session.weight, weight)
+        self.assertEqual(exercise_in_session.repetitions, 10)
+        self.assertEqual(exercise_in_session.sets, 3)
+
+
+class MesocycleSerializerTestcase(APITestCase):
+    def setUp(self):
+        self.mesocycle_attributes = {
+            'name': 'Test Mesocycle',
+            'start_date': date.today(),
+            'end_date': None
+        }
+
+        self.mesocycle = Mesocycle.objects.create(**self.mesocycle_attributes)
+        self.serializer = MesocycleSerializer(instance=self.mesocycle)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(
+            ['id', 'name', 'start_date', 'end_date']))
+        print(self.serializer.data)
+
+    def test_content(self):
+            data = self.serializer.data
+            self.assertEqual(data['name'], self.mesocycle_attributes['name'])
+            self.assertEqual(data['start_date'], self.mesocycle_attributes['start_date'].isoformat())
+            self.assertEqual(data['end_date'], self.mesocycle_attributes['end_date'])

@@ -1,9 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, TrainingLog
-
-from rest_framework import serializers
 from .models import TrainingLog, TrainingSession, ExerciseInSession, Set, Exercise, MuscleGroup
-from django.db.models import Max
 
 
 class MuscleGroupSerializer(serializers.ModelSerializer):
