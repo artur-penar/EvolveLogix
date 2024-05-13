@@ -3,13 +3,19 @@ from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, E
 from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer, MicrocycleSerializer, TrainingSessionSerializer, ExerciseInSessionSerializer
 from training_log.models import Exercise, MuscleGroup
 from datetime import date
+from django.contrib.auth import get_user_model
 
 # Create your tests here.
 
 
 class MesocycleSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
         self.mesocycle_attributes = {
+            'user': user,
             'name': 'Test Mesocycle',
             'start_date': date.today(),
             'end_date': None
@@ -34,7 +40,11 @@ class MesocycleSerializerTest(APITestCase):
 
 class MacrocycleSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
         mesocycle_attributes = {
+            'user': user,
             'name': 'Mesocycle',
             'start_date': date.today(),
             'end_date': None
@@ -63,7 +73,12 @@ class MacrocycleSerializerTest(APITestCase):
 
 class PhaseSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
         mesocycle_attributes = {
+            'user': user,
             'name': 'Mesocycle',
             'start_date': date.today(),
             'end_date': None
@@ -105,7 +120,12 @@ class PhaseSerializerTest(APITestCase):
 
 class MicrocycleSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
         mesocycle_attributes = {
+            'user': user,
             'name': 'Mesocycle',
             'start_date': date.today(),
             'end_date': None
@@ -149,7 +169,11 @@ class MicrocycleSerializerTest(APITestCase):
 
 class TrainingSessionSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
         mesocycle_attributes = {
+            'user': user,
             'name': 'Mesocycle',
             'start_date': date.today(),
             'end_date': None
@@ -203,7 +227,12 @@ class TrainingSessionSerializerTest(APITestCase):
 
 class ExerciseInSessionSerializerTest(APITestCase):
     def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
         mesocycle_attributes = {
+            'user': user,
             'name': 'Mesocycle',
             'start_date': date.today(),
             'end_date': None

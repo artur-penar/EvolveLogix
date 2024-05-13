@@ -2,12 +2,18 @@ from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, E
 from training_log.models import Exercise
 from django.test import TestCase
 from datetime import date
+from django.contrib.auth import get_user_model
 
 
 class MesocycleModelTest(TestCase):
     def setUp(self):
-        self.mesocycle = Mesocycle.objects.create(
-            name='Test Mesocycle', start_date=date.today())
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
+        self.mesocycle = Mesocycle.objects.create(user=user,
+                                                  name='Test Mesocycle', start_date=date.today())
 
     def test_mesocycle_creation(self):
         self.assertEqual(self.mesocycle.name, 'Test Mesocycle')
@@ -17,7 +23,14 @@ class MesocycleModelTest(TestCase):
 
 class MacrocycleModelTest(TestCase):
     def setUp(self):
-        self.mesocycle = Mesocycle.objects.create(name='Mesocycle')
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
+        self.mesocycle = Mesocycle.objects.create(user=user,
+                                                  name='Test Mesocycle', start_date=date.today())
+
         self.macrocycle = Macrocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
 
@@ -28,7 +41,14 @@ class MacrocycleModelTest(TestCase):
 
 class PhaseModelTest(TestCase):
     def setUp(self):
-        self.mesocycle = Mesocycle.objects.create(name='Mesocycle')
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
+        self.mesocycle = Mesocycle.objects.create(user=user,
+                                                  name='Test Mesocycle', start_date=date.today())
+
         self.macrocycle = Macrocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
@@ -41,7 +61,14 @@ class PhaseModelTest(TestCase):
 
 class MicrocycleModelTest(TestCase):
     def setUp(self):
-        self.mesocycle = Mesocycle.objects.create(name='Mesocycle')
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
+        self.mesocycle = Mesocycle.objects.create(user=user,
+                                                  name='Test Mesocycle', start_date=date.today())
+
         self.macrocycle = Macrocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
@@ -60,7 +87,14 @@ class MicrocycleModelTest(TestCase):
 
 class TrainingSessionModelTest(TestCase):
     def setUp(self):
-        mesocycle = Mesocycle.objects.create(name='Mesocycle')
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpass')
+
+        mesocycle = Mesocycle.objects.create(user=user,
+                                             name='Test Mesocycle', start_date=date.today())
+
         macrocycle = Macrocycle.objects.create(
             mesocycle=mesocycle, name='Macrocycle')
         phase = Phase.objects.create(
@@ -79,8 +113,9 @@ class TrainingSessionModelTest(TestCase):
 
 class ExerciseInSessionModelTest(TestCase):
     def setUp(self):
-        self.session_1 = self.create_session(order=1)
-        self.session_2 = self.create_session(order=2)
+
+        self.session_1 = self.create_session(order=1, email='testuser')
+        self.session_2 = self.create_session(order=2, email='testuser2')
 
         self.squat_in_session_1 = self.create_exercise_in_session(
             session=self.session_1, exercise_name='Squat', weight=100)
@@ -89,8 +124,15 @@ class ExerciseInSessionModelTest(TestCase):
         self.squat_in_session_2 = self.create_exercise_in_session(
             session=self.session_2, exercise_name='Squat', weight=200)
 
-    def create_session(self, order):
-        mesocycle = Mesocycle.objects.create(name='2024Cycle')
+    def create_session(self, order, email):
+        # Create a User object
+        User = get_user_model()
+        user = User.objects.create_user(
+            email=f'{email}@example.com', user_name='Test User', password='testpass')
+
+        mesocycle = Mesocycle.objects.create(user=user,
+                                             name='Test Mesocycle', start_date=date.today())
+
         macrocycle = Macrocycle.objects.create(
             mesocycle=mesocycle, name='Comp prep')
         phase = Phase.objects.create(

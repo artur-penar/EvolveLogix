@@ -1,10 +1,13 @@
 from django.db import models
+from evolve_logix import settings
 from training_log.models import Exercise
 
 # Create your models here.
 
 
 class Mesocycle(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
