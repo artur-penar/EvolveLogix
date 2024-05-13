@@ -5,7 +5,7 @@ from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, E
 class MesocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mesocycle
-        fields = ['id', 'name', 'start_date', 'end_date']
+        fields = ['id', 'user_id', 'name', 'start_date', 'end_date']
 
 
 class MacrocycleSerializer(serializers.ModelSerializer):
