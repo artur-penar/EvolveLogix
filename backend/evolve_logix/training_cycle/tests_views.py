@@ -4,6 +4,7 @@ from .models import Mesocycle
 from django.contrib.auth import get_user_model
 
 
+
 class MesocycleListCreateViewTest(TestCase):
     def setUp(self):
         # Create a UserProfile object
@@ -100,9 +101,10 @@ class MesocycleRetrieveUpdateDestroyViewTest(TestCase):
         User = get_user_model()
         self.user = User.objects.create_user(email='testuser2@example.com',
                                              user_name='Test User 2', password='testpass2')
-        Mesocycle.objects.create(
+        self.mesocycle1 = Mesocycle.objects.create(
             name='Mesocycle 1', user=self.user)
-        Mesocycle.objects.create(name='Mesocycle 2', user=self.user)
+        self.mesocycle2 = Mesocycle.objects.create(
+            name='Mesocycle 2', user=self.user)
 
     def obtain_login_token(self):
         # Obtain a JWT for the test user
@@ -118,6 +120,34 @@ class MesocycleRetrieveUpdateDestroyViewTest(TestCase):
 
         # Send a GET request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
         response = self.client.get(
-            reverse('mesocycle-detail', kwargs={'pk': 10}), HTTP_AUTHORIZATION=f'Bearer {token}')
+            reverse('mesocycle-detail', kwargs={'pk': self.mesocycle2.pk}), HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['name'], 'Mesocycle 2')
+
+    def test_update_mesocycle(self):
+        print("Mesocycle 2 id: ", self.mesocycle2.pk)
+        token = self.obtain_login_token()
+
+        # Send a PUT request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.put(
+            reverse('mesocycle-detail', kwargs={'pk': self.mesocycle1.pk}), data={'name': 'Updated Mesocycle 1'}, HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json'
+        )
+        print("Response ", response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Updated Mesocycle 1')
+
+        response = self.client.get(reverse('mesocycle-detail', kwargs={'pk': self.mesocycle1.pk}),
+                                   HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Updated Mesocycle 1')
+
+    def test_delete_mesocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a DELETE request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.delete(
+            reverse('mesocycle-detail', kwargs={'pk': self.mesocycle1.pk}), HTTP_AUTHORIZATION=f'Bearer {token}')
+        print("Remove response ", response.data)
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Mesocycle.objects.count(), 1)
