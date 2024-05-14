@@ -92,3 +92,32 @@ class MesocycleListCreateViewTest(TestCase):
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['name'], 'Mesocycle 1')
         self.assertEqual(response.data[1]['name'], 'Mesocycle 3')
+
+
+class MesocycleRetrieveUpdateDestroyViewTest(TestCase):
+    def setUp(self):
+        # Create a UserProfile object
+        User = get_user_model()
+        self.user = User.objects.create_user(email='testuser2@example.com',
+                                             user_name='Test User 2', password='testpass2')
+        Mesocycle.objects.create(
+            name='Mesocycle 1', user=self.user)
+        Mesocycle.objects.create(name='Mesocycle 2', user=self.user)
+
+    def obtain_login_token(self):
+        # Obtain a JWT for the test user
+        response = self.client.post(reverse('token_obtain_pair'), data={
+            'email': 'testuser2@example.com',
+            'password': 'testpass2',
+        })
+        self.assertEqual(response.status_code, 200)
+        return response.data['access']
+
+    def test_retrieve_mesocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a GET request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.get(
+            reverse('mesocycle-detail', kwargs={'pk': 10}), HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Mesocycle 2')

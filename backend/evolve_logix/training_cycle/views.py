@@ -13,3 +13,11 @@ class MesocycleListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class MesocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mesocycle.objects.all()
+    serializer_class = MesocycleSerializer
+    
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
