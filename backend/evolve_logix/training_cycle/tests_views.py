@@ -45,7 +45,9 @@ class MesocycleListCreateViewTest(BaseTest):
 
         # Send a POST request to the MesocycleListCreateView with the JWT in the Authorization header
         response = self.client.post(reverse('mesocycle-list-create'), data={
-            'name': 'Mesocycle 3'},
+            'name': 'Mesocycle 3',
+            'user': self.user.pk
+        },
             HTTP_AUTHORIZATION=f'Bearer {token}',
             content_type='application/json'
         )
@@ -71,7 +73,9 @@ class MesocycleListCreateViewTest(BaseTest):
 
         # Send a POST request to the MesocycleListCreateView with the JWT in the Authorization header
         response = self.client.post(reverse('mesocycle-list-create'), data={
-            'name': 'Mesocycle 3'},
+            'name': 'Mesocycle 3',
+            'user': self.user.pk,
+        },
             HTTP_AUTHORIZATION=f'Bearer {token}',
             content_type='application/json'
         )
@@ -89,7 +93,7 @@ class MesocycleListCreateViewTest(BaseTest):
         # Check that the response contains the two Mesocycle objects that belong to the user
         self.assertEqual(len(response.data), 3)
         self.assertEqual(response.data[0]['name'], 'Mesocycle 1')
-        self.assertEqual(response.data[1]['name'], 'Mesocycle 3')
+        self.assertEqual(response.data[1]['name'], 'Mesocycle 2')
 
 
 class MesocycleRetrieveUpdateDestroyViewTest(BaseTest):
@@ -108,7 +112,8 @@ class MesocycleRetrieveUpdateDestroyViewTest(BaseTest):
 
         # Send a PUT request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
         response = self.client.put(
-            reverse('mesocycle-detail', kwargs={'pk': self.mesocycle1.pk}), data={'name': 'Updated Mesocycle 1'}, HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json'
+            reverse('mesocycle-detail', kwargs={'pk': self.mesocycle1.pk}),
+            data={'name': 'Updated Mesocycle 1', 'user': self.user.pk}, HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['name'], 'Updated Mesocycle 1')
