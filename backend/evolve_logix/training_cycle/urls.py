@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     MesocycleListCreateView, MesocycleRetrieveUpdateDestroyView,
     MacrocycleListCreateView, MacrocycleRetrieveUpdateDestroyView,
-    PhaseListCreateView, PhaseRetrieveUpdateDestroyView,
+    PhaseListCreateView, PhaseRetrieveUpdateDestroyView, MicrocycleListCreateView
 )
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
     path('phases/', PhaseListCreateView.as_view(), name='phase-list-create'),
     path('phases/<int:pk>/',
          PhaseRetrieveUpdateDestroyView.as_view(), name='phase-detail'),
+    path('microcycles/', MicrocycleListCreateView.as_view(),
+         name='microcycle-list-create'),
 ]

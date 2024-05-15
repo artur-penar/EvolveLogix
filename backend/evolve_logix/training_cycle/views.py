@@ -1,6 +1,9 @@
 from rest_framework import generics
-from .models import Mesocycle, Macrocycle, Phase
-from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer
+from .models import Mesocycle, Macrocycle, Phase, Microcycle
+from .serializers import (
+    MesocycleSerializer, MacrocycleSerializer, PhaseSerializer,
+    MicrocycleSerializer
+)
 
 # Create your views here.
 
@@ -48,3 +51,10 @@ class PhaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(macrocycle__mesocycle__user=self.request.user)
+
+
+class MicrocycleListCreateView(generics.ListCreateAPIView):
+    serializer_class = MicrocycleSerializer
+
+    def get_queryset(self):
+        return Microcycle.objects.filter(phase__macrocycle__mesocycle__user=self.request.user)
