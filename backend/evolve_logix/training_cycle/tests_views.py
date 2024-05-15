@@ -161,5 +161,39 @@ class MacrocycleListCreateViewTest(BaseTest):
             HTTP_AUTHORIZATION=f'Bearer {token}',
             content_type='application/json')
 
-        print("Macrocycle create test: ", response.data)
         self.assertEqual(response.status_code, 201)
+
+
+class MacrocycleRetrieveUpdateDestroyViewTest(BaseTest):
+    def test_retrieve_macrocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a GET request to the MacrocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.get(
+            reverse('macrocycle-detail', kwargs={'pk': self.macrocycle1.pk}), HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_macrocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a PUT request to the MacrocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.put(
+            reverse('macrocycle-detail', kwargs={'pk': self.macrocycle1.pk}),
+            data={'name': 'Updated Macrocycle 1', 'mesocycle': self.mesocycle1.pk,
+                  'start_date': datetime.date.today()},
+            HTTP_AUTHORIZATION=f'Bearer {token}',
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_macrocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a DELETE request to the MacrocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.delete(
+            reverse('macrocycle-detail', kwargs={'pk': self.macrocycle1.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {token}'
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Macrocycle.objects.count(), 1)
