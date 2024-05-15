@@ -1,7 +1,7 @@
 import datetime
 from django.test import TestCase
 from django.urls import reverse
-from .models import Mesocycle, Macrocycle
+from .models import Mesocycle, Macrocycle, Phase
 from django.contrib.auth import get_user_model
 
 
@@ -22,6 +22,12 @@ class BaseTest(TestCase):
         self.macrocycle2 = Macrocycle.objects.create(
             name='Macrocycle 2', mesocycle=self.mesocycle2
         )
+
+        self.phase = Phase.objects.create(
+            type='Hypertrophy', macrocycle=self.macrocycle1)
+
+        self.phase2 = Phase.objects.create(
+            type='Strength', macrocycle=self.macrocycle2)
 
     def obtain_login_token(self):
         # Obtain a JWT for the test user
@@ -197,3 +203,29 @@ class MacrocycleRetrieveUpdateDestroyViewTest(BaseTest):
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Macrocycle.objects.count(), 1)
+
+
+class PhaseListCreateViewTest(BaseTest):
+    def test_list_phases(self):
+        token = self.obtain_login_token()
+
+        # Send a GET request to the PhaseListCreateView with the JWT in the Authorization header
+        response = self.client.get(reverse('phase-list-create'),
+                                   HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 2)
+
+    def test_create_phase(self):
+        token = self.obtain_login_token()
+
+        # Send a POST request to the PhaseListCreateView with the JWT in the Authorization header
+        response = self.client.post(reverse('phase-list-create'), data={
+            'type': 'Peak',
+            'macrocycle': self.macrocycle1.pk,
+            'start_date': datetime.date.today(),
+        },
+            HTTP_AUTHORIZATION=f'Bearer {token}',
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Phase.objects.count(), 3)

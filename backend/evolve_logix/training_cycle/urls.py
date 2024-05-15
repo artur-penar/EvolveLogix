@@ -1,5 +1,9 @@
 from django.urls import path
-from .views import MesocycleListCreateView, MesocycleRetrieveUpdateDestroyView, MacrocycleListCreateView, MacrocycleRetrieveUpdateDestroyView
+from .views import (
+    MesocycleListCreateView, MesocycleRetrieveUpdateDestroyView,
+    MacrocycleListCreateView, MacrocycleRetrieveUpdateDestroyView,
+    PhaseListCreateView
+)
 
 urlpatterns = [
     path('mesocycles/', MesocycleListCreateView.as_view(),
@@ -10,4 +14,5 @@ urlpatterns = [
          name='macrocycle-list-create'),
     path('macrocycles/<int:pk>/',
          MacrocycleRetrieveUpdateDestroyView.as_view(), name='macrocycle-detail'),
+    path('phases/', PhaseListCreateView.as_view(), name='phase-list-create'),
 ]
