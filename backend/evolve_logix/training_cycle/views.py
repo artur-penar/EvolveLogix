@@ -40,3 +40,11 @@ class PhaseListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Phase.objects.filter(macrocycle__mesocycle__user=self.request.user)
+
+
+class PhaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Phase.objects.all()
+    serializer_class = PhaseSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(macrocycle__mesocycle__user=self.request.user)
