@@ -253,3 +253,29 @@ class MicrocycleListCreateViewTest(BaseTest):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+
+
+class MicrocycleRetrieveUpdateDestroyViewTest(BaseTest):
+    def test_retrieve_microcycle(self):
+        response = self.client.get(
+            reverse('microcycle-detail', kwargs={'pk': self.microcycle.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_microcycle(self):
+        response = self.client.put(
+            reverse('microcycle-detail', kwargs={'pk': self.microcycle.pk}),
+            data={'phase': self.phase2.pk},
+            HTTP_AUTHORIZATION=f'Bearer {self.token}',
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+
+    def test_delete_microcycle(self):
+        response = self.client.delete(
+            reverse('microcycle-detail', kwargs={'pk': self.microcycle.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 204)

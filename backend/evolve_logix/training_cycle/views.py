@@ -75,3 +75,11 @@ class MicrocycleListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Microcycle.objects.filter(phase__macrocycle__mesocycle__user=self.request.user)
+
+
+class MicrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Microcycle.objects.all()
+    serializer_class = MicrocycleSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(phase__macrocycle__mesocycle__user=self.request.user)
