@@ -20,3 +20,8 @@ class MesocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return self.queryset.filter(user=self.request.user)
 
 
+class MacrocycleListCreateView(generics.ListCreateAPIView):
+    serializer_class = MacrocycleSerializer
+
+    def get_queryset(self):
+        return Macrocycle.objects.filter(mesocycle__user=self.request.user)

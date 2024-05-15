@@ -1,6 +1,7 @@
+import datetime
 from django.test import TestCase
 from django.urls import reverse
-from .models import Mesocycle
+from .models import Mesocycle, Macrocycle
 from django.contrib.auth import get_user_model
 
 
@@ -14,6 +15,13 @@ class BaseTest(TestCase):
             name='Mesocycle 1', user=self.user)
         self.mesocycle2 = Mesocycle.objects.create(
             name='Mesocycle 2', user=self.user)
+
+        self.macrocycle1 = Macrocycle.objects.create(
+            name='Macrocycle 1', mesocycle=self.mesocycle1)
+
+        self.macrocycle2 = Macrocycle.objects.create(
+            name='Macrocycle 2', mesocycle=self.mesocycle2
+        )
 
     def obtain_login_token(self):
         # Obtain a JWT for the test user
@@ -54,7 +62,6 @@ class MesocycleListCreateViewTest(BaseTest):
 
         # Check that the response has a status code of 201 (Created)
         self.assertEqual(response.status_code, 201)
-        print("Response ", response.data)
 
     def test_integration_mesocycle_list_create_view(self):
         # Obtain a JWT for the test user
@@ -107,7 +114,6 @@ class MesocycleRetrieveUpdateDestroyViewTest(BaseTest):
         self.assertEqual(response.data['name'], 'Mesocycle 2')
 
     def test_update_mesocycle(self):
-        print("Mesocycle 2 id: ", self.mesocycle2.pk)
         token = self.obtain_login_token()
 
         # Send a PUT request to the MesocycleRetrieveUpdateDestroyView with the JWT in the Authorization header
@@ -132,3 +138,28 @@ class MesocycleRetrieveUpdateDestroyViewTest(BaseTest):
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Mesocycle.objects.count(), 1)
+
+
+class MacrocycleListCreateViewTest(BaseTest):
+    def test_list_macrocycles(self):
+        token = self.obtain_login_token()
+
+        # Send a GET request to the MacrocycleListCreateView with the JWT in the Authorization header
+        response = self.client.get(reverse('macrocycle-list-create'),
+                                   HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_macrocycle(self):
+        token = self.obtain_login_token()
+
+        # Send a POST request to the MacrocycleListCreateView with the JWT in the Authorization header
+        response = self.client.post(reverse('macrocycle-list-create'), data={
+            'name': 'Macrocycle 3',
+            'mesocycle': self.mesocycle1.pk,
+            'start_date': datetime.date.today(),
+        },
+            HTTP_AUTHORIZATION=f'Bearer {token}',
+            content_type='application/json')
+
+        print("Macrocycle create test: ", response.data)
+        self.assertEqual(response.status_code, 201)
