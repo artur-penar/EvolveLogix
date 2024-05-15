@@ -1,4 +1,5 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
 from .models import Mesocycle, Macrocycle, Phase, Microcycle
 from .serializers import (
     MesocycleSerializer, MacrocycleSerializer, PhaseSerializer,
@@ -55,6 +56,22 @@ class PhaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
 class MicrocycleListCreateView(generics.ListCreateAPIView):
     serializer_class = MicrocycleSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            phase = Phase.objects.get(pk=request.data['phase'])
+        except Phase.DoesNotExist:
+            return Response({'error': 'Phase not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        order = Microcycle.objects.filter(phase=phase).count() + 1
+
+        microcycle = Microcycle.objects.create(
+            phase=phase,
+            order=order,
+        )
+
+        serializer = self.get_serializer(microcycle)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
         return Microcycle.objects.filter(phase__macrocycle__mesocycle__user=self.request.user)

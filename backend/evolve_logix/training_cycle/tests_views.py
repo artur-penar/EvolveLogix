@@ -29,13 +29,9 @@ class BaseTest(TestCase):
         self.phase2 = Phase.objects.create(
             type='Strength', macrocycle=self.macrocycle2)
 
-        self.microcycle = Microcycle.objects.create(
-            phase=self.phase, order=1
-        )
+        self.microcycle = Microcycle.objects.create(phase=self.phase, order=1)
 
-        self.microcycle2 = Microcycle.objects.create(
-            phase=self.phase, order=2
-        )
+        self.microcycle2 = Microcycle.objects.create(phase=self.phase, order=2)
 
         self.token = self.obtain_login_token()
 
@@ -252,7 +248,6 @@ class MicrocycleListCreateViewTest(BaseTest):
     def test_create_microcycle(self):
         response = self.client.post(reverse('microcycle-list-create'), data={
             'phase': self.phase.pk,
-            'order': 3
         },
             HTTP_AUTHORIZATION=f'Bearer {self.token}',
             content_type='application/json'
