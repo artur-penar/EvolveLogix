@@ -107,3 +107,11 @@ class TrainingSessionListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return TrainingSession.objects.filter(microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+
+
+class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TrainingSession.objects.all()
+    serializer_class = TrainingSessionSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(microcycle__phase__macrocycle__mesocycle__user=self.request.user)

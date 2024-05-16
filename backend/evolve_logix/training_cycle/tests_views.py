@@ -296,5 +296,33 @@ class TrainingSessionListCreateViewTest(BaseTest):
                                     data={'microcycle': self.microcycle.pk})
 
         self.assertEqual(response.status_code, 201)
-        print(TrainingSession.objects)
         self.assertEqual(TrainingSession.objects.count(), 2)
+
+
+class TrainingSessionRetrieveUpdateDestroyViewTest(BaseTest):
+    def test_retrieve_training_session(self):
+        response = self.client.get(
+            reverse('training-session-detail',
+                    kwargs={'pk': self.training_session.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_training_session(self):
+        response = self.client.put(
+            reverse('training-session-detail',
+                    kwargs={'pk': self.training_session.pk}),
+            data={'microcycle': self.microcycle2.pk},
+            HTTP_AUTHORIZATION=f'Bearer {self.token}',
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_training_session(self):
+        response = self.client.delete(
+            reverse('training-session-detail',
+                    kwargs={'pk': self.training_session.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(TrainingSession.objects.count(), 0)
