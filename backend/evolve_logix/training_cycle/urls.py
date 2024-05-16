@@ -3,7 +3,7 @@ from .views import (
     MesocycleListCreateView, MesocycleRetrieveUpdateDestroyView,
     MacrocycleListCreateView, MacrocycleRetrieveUpdateDestroyView,
     PhaseListCreateView, PhaseRetrieveUpdateDestroyView, MicrocycleListCreateView,
-    MicrocycleRetrieveUpdateDestroyView
+    MicrocycleRetrieveUpdateDestroyView, TrainingSessionListCreateView
 )
 
 urlpatterns = [
@@ -22,4 +22,6 @@ urlpatterns = [
          name='microcycle-list-create'),
     path('microcycles/<int:pk>/', MicrocycleRetrieveUpdateDestroyView.as_view(),
          name='microcycle-detail'),
+    path('training-sessions/', TrainingSessionListCreateView.as_view(),
+         name='training-session-list-create'),
 ]

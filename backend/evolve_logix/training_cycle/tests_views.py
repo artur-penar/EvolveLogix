@@ -1,7 +1,7 @@
 import datetime
 from django.test import TestCase
 from django.urls import reverse
-from .models import Mesocycle, Macrocycle, Phase, Microcycle
+from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession
 from django.contrib.auth import get_user_model
 
 
@@ -32,6 +32,9 @@ class BaseTest(TestCase):
         self.microcycle = Microcycle.objects.create(phase=self.phase, order=1)
 
         self.microcycle2 = Microcycle.objects.create(phase=self.phase, order=2)
+
+        self.training_session = TrainingSession.objects.create(
+            microcycle=self.microcycle, order=1)
 
         self.token = self.obtain_login_token()
 
@@ -279,3 +282,19 @@ class MicrocycleRetrieveUpdateDestroyViewTest(BaseTest):
             HTTP_AUTHORIZATION=f'Bearer {self.token}'
         )
         self.assertEqual(response.status_code, 204)
+
+
+class TrainingSessionListCreateViewTest(BaseTest):
+    def test_list_training_sessions(self):
+        response = self.client.get(reverse('training-session-list-create'),
+                                   HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+
+    def test_create_training_session(self):
+        response = self.client.post(reverse('training-session-list-create'),
+                                    data={'microcycle': self.microcycle.pk})
+
+        self.assertEqual(response.status_code, 201)
+        print(TrainingSession.objects)
+        self.assertEqual(TrainingSession.objects.count(), 2)
