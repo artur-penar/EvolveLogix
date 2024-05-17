@@ -1,7 +1,9 @@
 import datetime
 from django.test import TestCase
 from django.urls import reverse
-from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession
+from training_log.models import Exercise, MuscleGroup
+from .models import (Mesocycle, Macrocycle, Phase,
+                     Microcycle, TrainingSession, ExerciseInSession)
 from django.contrib.auth import get_user_model
 
 
@@ -35,6 +37,17 @@ class BaseTest(TestCase):
 
         self.training_session = TrainingSession.objects.create(
             microcycle=self.microcycle, order=1)
+
+        muscle_group = MuscleGroup.objects.create(name="Pectorals")
+
+        bench_press = Exercise.objects.create(
+            name='Bench Press')
+
+        bench_press.muscle_group.add(muscle_group)
+
+        self.exercise_in_session = ExerciseInSession.objects.create(
+            exercise=bench_press, training_session=self.training_session, weight=100, sets=3, repetitions=10
+        )
 
         self.token = self.obtain_login_token()
 
@@ -326,3 +339,44 @@ class TrainingSessionRetrieveUpdateDestroyViewTest(BaseTest):
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(TrainingSession.objects.count(), 0)
+
+
+class ExerciseInSessionListCreateViewTest(BaseTest):
+    def test_list_exercise_in_session(self):
+        response = self.client.get(reverse('exercise-in-session-list-create'),
+                                   HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_valid_data(self):
+        # Create a POST request with valid data
+        data = {
+            'exercise': Exercise.objects.first().pk,
+            'training_session': TrainingSession.objects.first().pk,
+            'weight': 200,
+            'repetitions': 10,
+            'sets': 3
+
+        }
+        response = self.client.post(reverse('exercise-in-session-list-create'),
+                                    data=data,
+                                    HTTP_AUTHORIZATION=f'Bearer {self.token}',
+                                    content_type='application/json'
+                                    )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(ExerciseInSession.objects.count(), 2)
+
+    def post_post_invalid_data(self):
+        # Create a POST request with invalid data
+        data = {
+            'exercise': Exercise.objects.first().pk,
+            'training_session': TrainingSession.objects.first().pk,
+            'weight': 200,
+            'repetitions': 10,
+        }
+        response = self.client.post(reverse('exercise-in-session-list-create'),
+                                    data=data,
+                                    HTTP_AUTHORIZATION=f'Bearer {self.token}',
+                                    content_type='application/json'
+                                    )
+        self.assertEqual(response.status_code, 400)

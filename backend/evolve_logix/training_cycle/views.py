@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from training_log.models import Exercise
 from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from .serializers import (
     MesocycleSerializer, MacrocycleSerializer, PhaseSerializer,
@@ -115,3 +116,33 @@ class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
 
     def get_queryset(self):
         return self.queryset.filter(microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+
+
+class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
+    serializer_class = ExerciseInSessionSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            training_session = TrainingSession.objects.get(
+                pk=request.data['training_session'])
+        except TrainingSession.DoesNotExist:
+            return Response({'error': 'Training session not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        exercise = Exercise.objects.get(pk=request.data['exercise'])
+        weight = request.data.get('weight')
+        repetitions = request.data.get('repetitions')
+        sets = request.data.get('sets')
+
+        exercise_in_session = ExerciseInSession.objects.create(
+            training_session=training_session,
+            exercise=exercise,
+            weight=weight,
+            repetitions=repetitions,
+            sets=sets
+        )
+
+        serializer = self.get_serializer(exercise_in_session)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def get_queryset(self):
+        return ExerciseInSession.objects.filter(training_session__microcycle__phase__macrocycle__mesocycle__user=self.request.user)
