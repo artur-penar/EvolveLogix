@@ -241,6 +241,9 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             </div>
           </div>
         ))}
+        <div className="button-container">
+          <button>Add phase</button>
+        </div>
       </div>
     </div>
   );
