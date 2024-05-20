@@ -146,3 +146,10 @@ class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return ExerciseInSession.objects.filter(training_session__microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+
+class ExerciseInSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ExerciseInSession.objects.all()
+    serializer_class = ExerciseInSessionSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(training_session__microcycle__phase__macrocycle__mesocycle__user=self.request.user)

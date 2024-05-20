@@ -380,3 +380,40 @@ class ExerciseInSessionListCreateViewTest(BaseTest):
                                     content_type='application/json'
                                     )
         self.assertEqual(response.status_code, 400)
+
+
+class ExerciseInSessionRetrieveUpdateDestroyViewTest(BaseTest):
+    def test_retrieve_exercise_in_session(self):
+        response = self.client.get(
+            reverse('exercise-in-session-detail',
+                    kwargs={'pk': self.exercise_in_session.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_exercise_in_session(self):
+        data = {
+            'training_session': self.exercise_in_session.training_session.id,
+            'exercise': self.exercise_in_session.exercise.id,
+            'weight': 150,
+            'repetitions': self.exercise_in_session.repetitions,
+            'sets': self.exercise_in_session.sets
+        }
+        response = self.client.put(
+            reverse('exercise-in-session-detail',
+                    kwargs={'pk': self.exercise_in_session.pk}),
+            data=data,
+            HTTP_AUTHORIZATION=f'Bearer {self.token}',
+            content_type='application/json'
+        )
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_exercise_in_session(self):
+        response = self.client.delete(
+            reverse('exercise-in-session-detail',
+                    kwargs={'pk': self.exercise_in_session.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(ExerciseInSession.objects.count(), 0)
