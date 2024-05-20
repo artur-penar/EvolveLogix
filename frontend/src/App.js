@@ -10,7 +10,7 @@ import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogs/V
 import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 
 // trainingCycle components
-import TrainingCycle from "features/trainingLogs/pages/TrainingCycle/TrainingCycle";
+import TrainingCycle from "features/trainingCycle/pages/TrainingCycle/TrainingCycle";
 
 // user components
 import DashboardPage from "features/users/pages/Dashboard/DashboardPage";
