@@ -8,7 +8,7 @@ const WeekLabels = ({ weeksNumber }) =>
     (_, i) => i + 1
   ).map((week) => (
     <div key={week} className="week-label">
-      <label>Week {week}</label>
+      <label>Week: {week}</label>
     </div>
   ));
 export default WeekLabels;

@@ -34,7 +34,7 @@ const getLatestRecords = (records) => {
 const PhaseForm = ({ weekNumber, trainingDays }) => {
   const totalWeeks = parseInt(weekNumber, 10) + 1;
   const totalTrainingDays = parseInt(trainingDays, 10) + 1;
-  const initialWeeklyExercisePlan = [
+  const initialPhasePlan = [
     {
       dayNumber: 1,
       exercises: [
@@ -56,9 +56,8 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
-  const [weeklyExercisePlan, setWeeklyExercisePlan] = useState(
-    initialWeeklyExercisePlan
-  );
+  const [weeklyExercisePlan, setWeeklyExercisePlan] =
+    useState(initialPhasePlan);
 
   // useSelector hooks
   const dispatch = useDispatch();
@@ -87,7 +86,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       (trainingDayIndex) => {
         setWeeklyExercisePlan((prevState) => {
           if (!prevState[trainingDayIndex]) {
-            const initialExercises = initialWeeklyExercisePlan[0].exercises;
+            const initialExercises = initialPhasePlan[0].exercises;
             return [
               ...prevState,
               {
@@ -114,8 +113,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           newState.forEach((day, dayIndex) => {
             day.exercises.forEach((exercise, exerciseIndex) => {
               if (exercise.weeks.length < trainingWeekIndex) {
-                const newWeekLoad =
-                  initialWeeklyExercisePlan[0].exercises[0].weeks[0];
+                const newWeekLoad = initialPhasePlan[0].exercises[0].weeks[0];
 
                 newState[dayIndex].exercises[exerciseIndex].weeks.push(
                   newWeekLoad
@@ -147,7 +145,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   const handleAddExercise = (dayIndex) => {
     setWeeklyExercisePlan((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
-      const newExercise = initialWeeklyExercisePlan[0].exercises[0];
+      const newExercise = initialPhasePlan[0].exercises[0];
       newState[dayIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
 
@@ -208,7 +206,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           <div className="training-day-container" key={trainingDayIndex}>
             <div className="week-container">
               <div className="week-label">
-                <label>Day {trainingDayIndex + 1}:</label>
+                <label>Day: {trainingDayIndex + 1}</label>
               </div>
 
               <WeekLabels weeksNumber={totalWeeks} />
