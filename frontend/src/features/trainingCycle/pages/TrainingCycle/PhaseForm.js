@@ -170,6 +170,13 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     });
   };
 
+  const handleAddPhase = () => {
+    const phasePlan = weeklyExercisePlan;
+    phasePlan.map((obj) => {
+      console.log(obj);
+    });
+  };
+
   return (
     <div className="form-container">
       <h4 className="header-container">Phase programming</h4>
@@ -241,7 +248,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
             </div>
           </div>
         ))}
-        <div className="button-container">
+        <div className="button-container" onClick={handleAddPhase}>
           <button>Add phase</button>
         </div>
       </div>
