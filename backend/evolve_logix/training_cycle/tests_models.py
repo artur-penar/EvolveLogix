@@ -1,4 +1,4 @@
-from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
+from .models import Mesocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from training_log.models import Exercise
 from django.test import TestCase
 from datetime import date
@@ -31,12 +31,12 @@ class MacrocycleModelTest(TestCase):
         self.mesocycle = Mesocycle.objects.create(user=user,
                                                   name='Test Mesocycle', start_date=date.today())
 
-        self.macrocycle = Macrocycle.objects.create(
+        self.macrocycle = Mesocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
 
     def test_macrocycle_creation(self):
         self.assertEqual(self.macrocycle.name, 'Macrocycle')
-        self.assertEqual(self.macrocycle.mesocycle, self.mesocycle)
+        self.assertEqual(self.macrocycle.macrocycle, self.mesocycle)
 
 
 class PhaseModelTest(TestCase):
@@ -49,14 +49,14 @@ class PhaseModelTest(TestCase):
         self.mesocycle = Mesocycle.objects.create(user=user,
                                                   name='Test Mesocycle', start_date=date.today())
 
-        self.macrocycle = Macrocycle.objects.create(
+        self.macrocycle = Mesocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
             macrocycle=self.macrocycle, type='Hypertrophy')
 
     def test_phase_creation(self):
         self.assertEqual(self.phase.type, 'Hypertrophy')
-        self.assertEqual(self.phase.macrocycle, self.macrocycle)
+        self.assertEqual(self.phase.mesocycle, self.macrocycle)
 
 
 class MicrocycleModelTest(TestCase):
@@ -69,7 +69,7 @@ class MicrocycleModelTest(TestCase):
         self.mesocycle = Mesocycle.objects.create(user=user,
                                                   name='Test Mesocycle', start_date=date.today())
 
-        self.macrocycle = Macrocycle.objects.create(
+        self.macrocycle = Mesocycle.objects.create(
             mesocycle=self.mesocycle, name='Macrocycle')
         self.phase = Phase.objects.create(
             macrocycle=self.macrocycle, type='Hypertrophy')
@@ -95,7 +95,7 @@ class TrainingSessionModelTest(TestCase):
         mesocycle = Mesocycle.objects.create(user=user,
                                              name='Test Mesocycle', start_date=date.today())
 
-        macrocycle = Macrocycle.objects.create(
+        macrocycle = Mesocycle.objects.create(
             mesocycle=mesocycle, name='Macrocycle')
         phase = Phase.objects.create(
             macrocycle=macrocycle, type='Hypertrophy')
@@ -133,7 +133,7 @@ class ExerciseInSessionModelTest(TestCase):
         mesocycle = Mesocycle.objects.create(user=user,
                                              name='Test Mesocycle', start_date=date.today())
 
-        macrocycle = Macrocycle.objects.create(
+        macrocycle = Mesocycle.objects.create(
             mesocycle=mesocycle, name='Comp prep')
         phase = Phase.objects.create(
             macrocycle=macrocycle, type='Hypertrophy')

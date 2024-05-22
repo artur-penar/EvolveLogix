@@ -1,5 +1,5 @@
 from rest_framework.test import APITestCase
-from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
+from .models import Mesocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from .serializers import MesocycleSerializer, MacrocycleSerializer, PhaseSerializer, MicrocycleSerializer, TrainingSessionSerializer, ExerciseInSessionSerializer
 from training_log.models import Exercise, MuscleGroup
 from datetime import date
@@ -57,7 +57,7 @@ class MacrocycleSerializerTest(APITestCase):
             'start_date': date.today(),
             'end_date': None
         }
-        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+        self.macrocycle = Mesocycle.objects.create(**macrocycle_attributes)
 
         self.serializer = MacrocycleSerializer(instance=self.macrocycle)
 
@@ -91,7 +91,7 @@ class PhaseSerializerTest(APITestCase):
             'start_date': date.today(),
             'end_date': None
         }
-        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+        self.macrocycle = Mesocycle.objects.create(**macrocycle_attributes)
 
         phase_attributes = {
             'macrocycle': self.macrocycle,
@@ -138,7 +138,7 @@ class MicrocycleSerializerTest(APITestCase):
             'start_date': date.today(),
             'end_date': None
         }
-        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+        self.macrocycle = Mesocycle.objects.create(**macrocycle_attributes)
 
         phase_attributes = {
             'macrocycle': self.macrocycle,
@@ -186,7 +186,7 @@ class TrainingSessionSerializerTest(APITestCase):
             'start_date': date.today(),
             'end_date': None
         }
-        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+        self.macrocycle = Mesocycle.objects.create(**macrocycle_attributes)
 
         phase_attributes = {
             'macrocycle': self.macrocycle,
@@ -245,7 +245,7 @@ class ExerciseInSessionSerializerTest(APITestCase):
             'start_date': date.today(),
             'end_date': None
         }
-        self.macrocycle = Macrocycle.objects.create(**macrocycle_attributes)
+        self.macrocycle = Mesocycle.objects.create(**macrocycle_attributes)
 
         phase_attributes = {
             'macrocycle': self.macrocycle,

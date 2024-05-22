@@ -5,7 +5,7 @@ from training_log.models import Exercise
 # Create your models here.
 
 
-class Mesocycle(models.Model):
+class Macrocycle(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -16,8 +16,8 @@ class Mesocycle(models.Model):
         return self.name
 
 
-class Macrocycle(models.Model):
-    mesocycle = models.ForeignKey(Mesocycle, on_delete=models.CASCADE)
+class Mesocycle(models.Model):
+    macrocycle = models.ForeignKey(Macrocycle, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -35,14 +35,14 @@ class Phase(models.Model):
         ('Conditioning', 'Conditioning')
     )
 
-    macrocycle = models.ForeignKey(Macrocycle, on_delete=models.CASCADE)
+    mesocycle = models.ForeignKey(Mesocycle, on_delete=models.CASCADE)
     type = models.CharField(
         max_length=200, choices=PHASE_TYPES, default='Hypertrophy')
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.mesocycle.name} - {self.type}"
 
 
 class Microcycle(models.Model):
@@ -53,7 +53,7 @@ class Microcycle(models.Model):
         unique_together = ('phase', 'order')
 
     def __str__(self):
-        return f"Macrocycle {self.order}"
+        return f"Microcycle {self.order}"
 
 
 class TrainingSession(models.Model):

@@ -1,23 +1,23 @@
 from rest_framework import serializers
-from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
-
-
-class MesocycleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Mesocycle
-        fields = ['id', 'user', 'name', 'start_date', 'end_date']
+from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 
 
 class MacrocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Macrocycle
-        fields = ['id', 'mesocycle', 'name', 'start_date', 'end_date']
+        fields = ['id', 'user', 'name', 'start_date', 'end_date']
+
+
+class MesocycleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mesocycle
+        fields = ['id', 'macrocycle', 'name', 'start_date', 'end_date']
 
 
 class PhaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phase
-        fields = ['id', 'macrocycle', 'type', 'start_date', 'end_date']
+        fields = ['id', 'mesocycle', 'type', 'start_date', 'end_date']
 
 
 class MicrocycleSerializer(serializers.ModelSerializer):

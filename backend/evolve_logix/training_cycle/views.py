@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from training_log.models import Exercise
-from .models import Mesocycle, Macrocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
+from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from .serializers import (
     MesocycleSerializer, MacrocycleSerializer, PhaseSerializer,
     MicrocycleSerializer, TrainingSessionSerializer, ExerciseInSessionSerializer
@@ -10,26 +10,11 @@ from .serializers import (
 # Create your views here.
 
 
-class MesocycleListCreateView(generics.ListCreateAPIView):
-    serializer_class = MesocycleSerializer
-
-    def get_queryset(self):
-        return Mesocycle.objects.filter(user=self.request.user)
-
-
-class MesocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Mesocycle.objects.all()
-    serializer_class = MesocycleSerializer
-
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
-
-
 class MacrocycleListCreateView(generics.ListCreateAPIView):
     serializer_class = MacrocycleSerializer
 
     def get_queryset(self):
-        return Macrocycle.objects.filter(mesocycle__user=self.request.user)
+        return Macrocycle.objects.filter(user=self.request.user)
 
 
 class MacrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -37,14 +22,29 @@ class MacrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     serializer_class = MacrocycleSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(mesocycle__user=self.request.user)
+        return self.queryset.filter(user=self.request.user)
+
+
+class MesocycleListCreateView(generics.ListCreateAPIView):
+    serializer_class = MesocycleSerializer
+
+    def get_queryset(self):
+        return Mesocycle.objects.filter(macrocycle__user=self.request.user)
+
+
+class MesocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mesocycle.objects.all()
+    serializer_class = MesocycleSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(macrocycle__user=self.request.user)
 
 
 class PhaseListCreateView(generics.ListCreateAPIView):
     serializer_class = PhaseSerializer
 
     def get_queryset(self):
-        return Phase.objects.filter(macrocycle__mesocycle__user=self.request.user)
+        return Phase.objects.filter(mesocycle__macrocycle__user=self.request.user)
 
 
 class PhaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -52,7 +52,7 @@ class PhaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhaseSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(macrocycle__mesocycle__user=self.request.user)
+        return self.queryset.filter(mesocycle__macrocycle__user=self.request.user)
 
 
 class MicrocycleListCreateView(generics.ListCreateAPIView):
@@ -75,7 +75,7 @@ class MicrocycleListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return Microcycle.objects.filter(phase__macrocycle__mesocycle__user=self.request.user)
+        return Microcycle.objects.filter(phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class MicrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -83,7 +83,7 @@ class MicrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     serializer_class = MicrocycleSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(phase__macrocycle__mesocycle__user=self.request.user)
+        return self.queryset.filter(phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class TrainingSessionListCreateView(generics.ListCreateAPIView):
@@ -107,7 +107,7 @@ class TrainingSessionListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return TrainingSession.objects.filter(microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+        return TrainingSession.objects.filter(microcycle__phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -115,7 +115,7 @@ class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
     serializer_class = TrainingSessionSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+        return self.queryset.filter(microcycle__phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
@@ -145,11 +145,12 @@ class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return ExerciseInSession.objects.filter(training_session__microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+        return ExerciseInSession.objects.filter(training_session__microcycle__phase__mesocycle__macrocycle__user=self.request.user)
+
 
 class ExerciseInSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ExerciseInSession.objects.all()
     serializer_class = ExerciseInSessionSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(training_session__microcycle__phase__macrocycle__mesocycle__user=self.request.user)
+        return self.queryset.filter(training_session__microcycle__phase__mesocycle__macrocycle__user=self.request.user)
