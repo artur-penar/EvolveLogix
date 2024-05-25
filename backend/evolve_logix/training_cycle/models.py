@@ -45,17 +45,6 @@ class Phase(models.Model):
         return f"{self.mesocycle.name} - {self.type}"
 
 
-class Microcycle(models.Model):
-    phase = models.ForeignKey(Phase, on_delete=models.CASCADE)
-    order = models.PositiveIntegerField(default=1)
-
-    class Meta:
-        unique_together = ('phase', 'order')
-
-    def __str__(self):
-        return f"Microcycle {self.order}"
-
-
 class TrainingSession(models.Model):
     """
     A model representing a training session.
@@ -65,12 +54,11 @@ class TrainingSession(models.Model):
         date (DateField): The date of the training session.
         comment (TextField, optional): A comment about the training session (default is None).
     """
-    microcycle = models.ForeignKey(
-        Microcycle, on_delete=models.CASCADE, related_name='training_sessions')
+    phase = models.ForeignKey(Phase, on_delete=models.CASCADE, default=1)
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
-        unique_together = ('microcycle', 'order')
+        unique_together = ('phase', 'order')
 
     def __str__(self):
         return f"Training Session {self.order}"
@@ -80,9 +68,21 @@ class ExerciseInSession(models.Model):
     training_session = models.ForeignKey(
         TrainingSession, on_delete=models.CASCADE, related_name='exercises')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.training_session} - {self.exercise}"
+
+
+class Microcycle(models.Model):
+    exercise_in_session = models.ForeignKey(
+        ExerciseInSession, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField(default=1)
     weight = models.FloatField(null=True, blank=True)
     repetitions = models.PositiveIntegerField(null=True, blank=True)
     sets = models.PositiveIntegerField(null=True, blank=True)
 
+    class Meta:
+        unique_together = ('exercise_in_session', 'order')
+
     def __str__(self):
-        return f"{self.exercise.name} x {self.weight} x {self.repetitions} x {self.sets}"
+        return f"Microcycle {self.order} - {self.exercise_in_session.exercise.name}"
