@@ -30,12 +30,8 @@ class BaseTest(TestCase):
         self.phase2 = Phase.objects.create(
             type='Strength', mesocycle=self.mesocycle2)
 
-        self.microcycle = Microcycle.objects.create(phase=self.phase, order=1)
-
-        self.microcycle2 = Microcycle.objects.create(phase=self.phase, order=2)
-
         self.training_session = TrainingSession.objects.create(
-            microcycle=self.microcycle, order=1)
+            phase=self.phase, order=1)
 
         muscle_group = MuscleGroup.objects.create(name="Pectorals")
 
@@ -45,8 +41,10 @@ class BaseTest(TestCase):
         bench_press.muscle_group.add(muscle_group)
 
         self.exercise_in_session = ExerciseInSession.objects.create(
-            exercise=bench_press, training_session=self.training_session, weight=100, sets=3, repetitions=10
-        )
+            exercise=bench_press, training_session=self.training_session)
+
+        self.microcycle = Microcycle.objects.create(
+            exercise_in_session=self.exercise_in_session, order=1, weight=100, repetitions=10, sets=3)
 
         self.token = self.obtain_login_token()
 
@@ -66,7 +64,6 @@ class MacrocycleListCreateViewTest(BaseTest):
         response = self.client.get(reverse('macrocycle-list-create'),
                                    HTTP_AUTHORIZATION=f'Bearer {self.token}')
         print("Macrocycle list response")
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
     def test_create_macrocycle(self):
