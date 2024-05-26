@@ -75,7 +75,7 @@ class MicrocycleListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return Microcycle.objects.filter(phase__mesocycle__macrocycle__user=self.request.user)
+        return Microcycle.objects.filter(exercise_in_session__training_session__phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class MicrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -83,7 +83,7 @@ class MicrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     serializer_class = MicrocycleSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(phase__mesocycle__macrocycle__user=self.request.user)
+        return self.queryset.filter(exercise_in_session__training_session__phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class TrainingSessionListCreateView(generics.ListCreateAPIView):
@@ -107,7 +107,7 @@ class TrainingSessionListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return TrainingSession.objects.filter(microcycle__phase__mesocycle__macrocycle__user=self.request.user)
+        return TrainingSession.objects.filter(phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -115,7 +115,7 @@ class TrainingSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
     serializer_class = TrainingSessionSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(microcycle__phase__mesocycle__macrocycle__user=self.request.user)
+        return self.queryset.filter(phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
@@ -145,7 +145,7 @@ class ExerciseInSessionListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return ExerciseInSession.objects.filter(training_session__microcycle__phase__mesocycle__macrocycle__user=self.request.user)
+        return ExerciseInSession.objects.filter(training_session__phase__mesocycle__macrocycle__user=self.request.user)
 
 
 class ExerciseInSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -153,4 +153,4 @@ class ExerciseInSessionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyA
     serializer_class = ExerciseInSessionSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(training_session__microcycle__phase__mesocycle__macrocycle__user=self.request.user)
+        return self.queryset.filter(training_session__phase__mesocycle__macrocycle__user=self.request.user)
