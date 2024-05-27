@@ -9,11 +9,11 @@ class MicrocycleSerializer(serializers.ModelSerializer):
 
 
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
-    microcycle_set = MicrocycleSerializer(many=True, read_only=True)
+    microcycles = MicrocycleSerializer(many=True, read_only=True)
 
     class Meta:
         model = ExerciseInSession
-        fields = ['id', 'training_session', 'exercise', 'microcycle_set']
+        fields = ['id', 'training_session', 'exercise', 'microcycles']
 
 
 class TrainingSessionSerializer(serializers.ModelSerializer):
@@ -26,27 +26,28 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
 
 class PhaseSerializer(serializers.ModelSerializer):
-    trainingsession_set = TrainingSessionSerializer(many=True, read_only=True)
+    training_sessions = TrainingSessionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Phase
         fields = ['id', 'mesocycle', 'type', 'start_date',
-                  'end_date', 'trainingsession_set']
+                  'end_date', 'training_sessions']
+        
 
 
 class MesocycleSerializer(serializers.ModelSerializer):
-    phase_set = PhaseSerializer(many=True, read_only=True)
+    phases = PhaseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Mesocycle
         fields = ['id', 'macrocycle', 'name',
-                  'start_date', 'end_date', 'phase_set']
+                  'start_date', 'end_date', 'phases']
 
 
 class MacrocycleSerializer(serializers.ModelSerializer):
-    mesocycle_set = MesocycleSerializer(many=True, read_only=True)
+    mesocycles = MesocycleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Macrocycle
         fields = ['id', 'user',
-                  'name', 'start_date', 'end_date', 'mesocycle_set']
+                  'name', 'start_date', 'end_date', 'mesocycles']
