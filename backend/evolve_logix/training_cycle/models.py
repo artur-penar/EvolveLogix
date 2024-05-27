@@ -17,7 +17,8 @@ class Macrocycle(models.Model):
 
 
 class Mesocycle(models.Model):
-    macrocycle = models.ForeignKey(Macrocycle, on_delete=models.CASCADE)
+    macrocycle = models.ForeignKey(
+        Macrocycle, on_delete=models.CASCADE, related_name='mesocycles')
     name = models.CharField(max_length=200)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -35,7 +36,8 @@ class Phase(models.Model):
         ('Conditioning', 'Conditioning')
     )
 
-    mesocycle = models.ForeignKey(Mesocycle, on_delete=models.CASCADE)
+    mesocycle = models.ForeignKey(
+        Mesocycle, on_delete=models.CASCADE, related_name='phases')
     type = models.CharField(
         max_length=200, choices=PHASE_TYPES, default='Hypertrophy')
     start_date = models.DateField(null=True, blank=True)
@@ -54,7 +56,8 @@ class TrainingSession(models.Model):
         date (DateField): The date of the training session.
         comment (TextField, optional): A comment about the training session (default is None).
     """
-    phase = models.ForeignKey(Phase, on_delete=models.CASCADE, default=1)
+    phase = models.ForeignKey(
+        Phase, on_delete=models.CASCADE, default=1, related_name='training_sessions')
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
@@ -75,7 +78,7 @@ class ExerciseInSession(models.Model):
 
 class Microcycle(models.Model):
     exercise_in_session = models.ForeignKey(
-        ExerciseInSession, on_delete=models.CASCADE)
+        ExerciseInSession, on_delete=models.CASCADE, related_name='microcycles')
     order = models.PositiveIntegerField(default=1)
     weight = models.FloatField(null=True, blank=True)
     repetitions = models.PositiveIntegerField(null=True, blank=True)
