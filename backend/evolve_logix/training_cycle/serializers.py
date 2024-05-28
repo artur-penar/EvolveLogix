@@ -5,20 +5,23 @@ from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, E
 class MicrocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Microcycle
-        fields = '__all__'
+        fields = ['weight', 'repetitions', 'sets', 'exercise_in_session']
+        extra_kwargs = {'exercise_in_session': {'required': False}}
 
 
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
-    microcycles = MicrocycleSerializer(many=True, read_only=True)
+    microcycles = MicrocycleSerializer(many=True)
 
     class Meta:
         model = ExerciseInSession
         fields = ['id', 'training_session', 'exercise', 'microcycles']
+        extra_kwargs = {
+            'training_session': {'required': False}
+        }
 
 
 class TrainingSessionSerializer(serializers.ModelSerializer):
-    exercises = ExerciseInSessionSerializer(
-        many=True, read_only=True)
+    exercises = ExerciseInSessionSerializer(many=True)
 
     class Meta:
         model = TrainingSession
@@ -26,13 +29,32 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
 
 
 class PhaseSerializer(serializers.ModelSerializer):
-    training_sessions = TrainingSessionSerializer(many=True, read_only=True)
+    training_sessions = TrainingSessionSerializer(many=True)
 
     class Meta:
         model = Phase
         fields = ['id', 'mesocycle', 'type', 'start_date',
                   'end_date', 'training_sessions']
-        
+
+    def create(self, validated_data):
+        training_sessions_data = validated_data.pop('training_sessions')
+        phase = Phase.objects.create(**validated_data)
+        for training_session_order, training_session_data in enumerate(training_sessions_data, start=1):
+            exercises_data = training_session_data.pop('exercises')
+            training_session_data['phase'] = phase
+            training_session_data['order'] = training_session_order
+            training_session = TrainingSession.objects.create(
+                **training_session_data)
+            for exercise_data in exercises_data:
+                microcycles_data = exercise_data.pop('microcycles')
+                exercise_data['training_session'] = training_session
+                exercise = ExerciseInSession.objects.create(**exercise_data)
+                for microcycle_order, microcycle_data in enumerate(microcycles_data, start=1):
+                    microcycle_data['exercise_in_session'] = exercise
+                    microcycle_data['order'] = microcycle_order
+                    microcycle = Microcycle.objects.create(**microcycle_data)
+
+        return phase
 
 
 class MesocycleSerializer(serializers.ModelSerializer):
