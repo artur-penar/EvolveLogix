@@ -88,4 +88,4 @@ class Microcycle(models.Model):
         unique_together = ('exercise_in_session', 'order')
 
     def __str__(self):
-        return f"Microcycle {self.order} - {self.exercise_in_session.exercise.name}"
+        return f"Microcycle {self.order} - {self.exercise_in_session.exercise.name}: weight:{self.weight}, reps:{self.repetitions}, sets:{self.sets}"
