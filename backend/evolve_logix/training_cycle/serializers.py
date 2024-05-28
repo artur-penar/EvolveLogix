@@ -5,8 +5,9 @@ from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, E
 class MicrocycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Microcycle
-        fields = ['weight', 'repetitions', 'sets', 'exercise_in_session']
-        extra_kwargs = {'exercise_in_session': {'required': False}}
+        fields = ['id', 'order',  'exercise_in_session', 'weight',
+                  'repetitions', 'sets']
+        read_only_fields = ['exercise_in_session', 'order']
 
 
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
