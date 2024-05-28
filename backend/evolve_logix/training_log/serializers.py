@@ -15,6 +15,11 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercise
         fields = ['name', 'description', 'muscle_group']
 
+        extra_kwargs = {
+            'description': {'required': False},
+            'muscle_group': {'required': False}
+        }
+
 
 class ExerciseNameSerializer(serializers.ModelSerializer):
     class Meta:
