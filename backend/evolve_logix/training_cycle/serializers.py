@@ -57,6 +57,48 @@ class PhaseSerializer(serializers.ModelSerializer):
 
         return phase
 
+    def update(self, instance, validated_data):
+        training_sessions_data = validated_data.pop('training_sessions')
+        instance = super().update(instance, validated_data)
+
+        for training_session_order, training_session_data in enumerate(training_sessions_data, start=1):
+            exercises_data = training_session_data.pop('exercises')
+            training_session_data['phase'] = instance
+            training_session_data['order'] = training_session_order
+            training_session, created = TrainingSession.objects.update_or_create(
+                defaults=training_session_data, phase=instance, order=training_session_order)
+            updated_microcycles_ids = []
+            for exercise_data in exercises_data:
+                print(exercise_data)
+                microcycles_data = exercise_data.pop('microcycles')
+                exercise_data['training_session'] = training_session
+                exercise_data['exercise'] = exercise_data['exercise']
+                exercise, created = ExerciseInSession.objects.update_or_create(
+                    defaults=exercise_data, training_session=training_session, exercise=exercise_data['exercise'])
+                for microcycle_order, microcycle_data in enumerate(microcycles_data, start=1):
+                    microcycle_data['exercise_in_session'] = exercise
+                    microcycle_data['order'] = microcycle_order
+                    microcycle, created = Microcycle.objects.update_or_create(
+                        defaults=microcycle_data, exercise_in_session=exercise, order=microcycle_order)
+
+                    updated_microcycles_ids.append(microcycle.id)
+            Microcycle.objects.filter(exercise_in_session__training_session=training_session).exclude(
+                id__in=updated_microcycles_ids).delete()
+
+        print("Instance after update")
+        print(instance.__dict__)
+        for training_session in instance.training_sessions.all():
+            print(training_session)
+            print(training_session.__dict__)
+            for exercise in training_session.exercises.all():
+                print(exercise)
+                print(exercise.__dict__)
+                for microcycle in exercise.microcycles.all():
+                    print(microcycle)
+                    print(microcycle.__dict__)
+
+        return instance
+
 
 class MesocycleSerializer(serializers.ModelSerializer):
     phases = PhaseSerializer(many=True, read_only=True)
