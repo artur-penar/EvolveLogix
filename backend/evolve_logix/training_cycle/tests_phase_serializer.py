@@ -71,6 +71,7 @@ class BaseTest(TestCase):
                                 },
                             ],
                         },
+
                     ],
                 },
             ],
@@ -107,7 +108,7 @@ class BaseTest(TestCase):
 
 class PhaseSerializerTest(BaseTest):
     def test_create(self):
-        serializer = PhaseSerializer(data=self.data)
+        serializer = PhaseSerializer(data=self.data2)
         self.validate_and_save(serializer)
         self.print_phase_details()
 
@@ -119,7 +120,7 @@ class PhaseSerializerTest(BaseTest):
     def print_phase_details(self):
         print(f"Phase ID: {self.phase.id}")
         self.assertEqual(self.phase.training_sessions.count(),
-                         len(self.data['training_sessions']))
+                         len(self.data2['training_sessions']))
         for i, training_session in enumerate(self.phase.training_sessions.all(), start=1):
             print(f"\nTraining Session {i} ID: {training_session.id}")
             self.print_exercise_details(training_session)
@@ -140,10 +141,12 @@ class PhaseSerializerTest(BaseTest):
 
     def test_update(self):
         self.validated_data = self.get_validated_data()
-        serializer = PhaseSerializer(data=self.data)
+        serializer = PhaseSerializer(data=self.data2)
         self.validate_and_save(serializer)
         serializer = PhaseSerializer(instance=self.phase)
         updated_phase = serializer.update(self.phase, self.validated_data)
+        print('Updated Phase')
+        print(updated_phase)
 
     def get_validated_data(self):
         return {
@@ -159,6 +162,20 @@ class PhaseSerializerTest(BaseTest):
                             'microcycles': [
                                 {
                                     'weight': 200,
+                                    'repetitions': 10,
+                                    'sets': 3,
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    'exercises': [
+                        {
+                            'exercise': self.deadlift,
+                            'microcycles': [
+                                {
+                                    'weight': 300,
                                     'repetitions': 10,
                                     'sets': 3,
                                 },

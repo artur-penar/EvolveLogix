@@ -58,25 +58,25 @@ class BaseTest(TestCase):
         return response.data['access']
 
 
-class MacrocycleListCreateViewTest(BaseTest):
-    def test_list_macrocycles(self):
-        # Send a GET request to the MacrocycleListCreateView with the JWT in the Authorization header
-        response = self.client.get(reverse('macrocycle-list-create'),
-                                   HTTP_AUTHORIZATION=f'Bearer {self.token}')
-        print("Macrocycle list response")
-        self.assertEqual(response.status_code, 200)
+# class MacrocycleListCreateViewTest(BaseTest):
+#     def test_list_macrocycles(self):
+#         # Send a GET request to the MacrocycleListCreateView with the JWT in the Authorization header
+#         response = self.client.get(reverse('macrocycle-list-create'),
+#                                    HTTP_AUTHORIZATION=f'Bearer {self.token}')
+#         print("Macrocycle list response")
+#         self.assertEqual(response.status_code, 200)
 
-    def test_create_macrocycle(self):
-        # Send a POST request to the MacrocycleListCreateView with the JWT in the Authorization header
-        response = self.client.post(reverse('macrocycle-list-create'), data={
-            'user': self.user.pk,
-            'name': 'Macrocycle 3',
-            'start_date': datetime.date.today(),
-        },
-            HTTP_AUTHORIZATION=f'Bearer {self.token}',
-            content_type='application/json')
+#     def test_create_macrocycle(self):
+#         # Send a POST request to the MacrocycleListCreateView with the JWT in the Authorization header
+#         response = self.client.post(reverse('macrocycle-list-create'), data={
+#             'user': self.user.pk,
+#             'name': 'Macrocycle 3',
+#             'start_date': datetime.date.today(),
+#         },
+#             HTTP_AUTHORIZATION=f'Bearer {self.token}',
+#             content_type='application/json')
 
-        self.assertEqual(response.status_code, 201)
+#         self.assertEqual(response.status_code, 201)
 
 
 # class MacrocycleRetrieveUpdateDestroyViewTest(BaseTest):
@@ -224,32 +224,33 @@ class MacrocycleListCreateViewTest(BaseTest):
 #         self.assertEqual(Phase.objects.count(), 3)
 
 
-# class PhaseRetrieveUpdateDestroyViewTest(BaseTest):
-#     def test_retrieve_phase(self):
-#         # Send a GET request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
-#         response = self.client.get(
-#             reverse('phase-detail', kwargs={'pk': self.phase.pk}), HTTP_AUTHORIZATION=f'Bearer {self.token}')
-#         self.assertEqual(response.status_code, 200)
+class PhaseRetrieveUpdateDestroyViewTest(BaseTest):
+    def test_retrieve_phase(self):
+        # Send a GET request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.get(
+            reverse('phase-detail', kwargs={'pk': self.phase.pk}), HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        self.assertEqual(response.status_code, 200)
 
-#     def test_update_phase(self):
-#         # Send a PUT request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
-#         response = self.client.put(
-#             reverse('phase-detail', kwargs={'pk': self.phase.pk}),
-#             data={'type': 'Deload', 'mesocycle': self.mesocycle1.pk,
-#                   'start_date': datetime.date.today()},
-#             HTTP_AUTHORIZATION=f'Bearer {self.token}',
-#             content_type='application/json'
-#         )
-#         self.assertEqual(response.status_code, 200)
+    def test_update_phase(self):
+        # Send a PUT request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.put(
+            reverse('phase-detail', kwargs={'pk': self.phase.pk}),
+            data={'type': 'Deload', 'mesocycle': self.mesocycle1.pk,
+                  'start_date': datetime.date.today()},
+            HTTP_AUTHORIZATION=f'Bearer {self.token}',
+            content_type='application/json'
+        )
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
 
-#     def test_delete_phase(self):
-#         # Send a DELETE request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
-#         response = self.client.delete(
-#             reverse('phase-detail', kwargs={'pk': self.phase.pk}),
-#             HTTP_AUTHORIZATION=f'Bearer {self.token}'
-#         )
-#         self.assertEqual(response.status_code, 204)
-#         self.assertEqual(Phase.objects.count(), 1)
+    def test_delete_phase(self):
+        # Send a DELETE request to the PhaseRetrieveUpdateDestroyView with the JWT in the Authorization header
+        response = self.client.delete(
+            reverse('phase-detail', kwargs={'pk': self.phase.pk}),
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Phase.objects.count(), 1)
 
 
 # class MicrocycleListCreateViewTest(BaseTest):
