@@ -7,52 +7,93 @@ from .models import (Macrocycle, Mesocycle, Phase,
                      Microcycle, TrainingSession, ExerciseInSession)
 from django.contrib.auth import get_user_model
 from .serializers import PhaseSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 class BaseTest(TestCase):
     def setUp(self):
+        self.setup_user()
+        self.setup_macros_and_mesos()
+        self.setup_exercises()
+        self.setup_phase()
+        self.token = self.obtain_login_token()
+
+    def setup_user(self):
         User = get_user_model()
         self.user = User.objects.create_user(
             email='testuser@example.com', user_name='Test User', password='testpass')
 
+    def setup_macros_and_mesos(self):
         self.macrocycle1 = Macrocycle.objects.create(
             name='Macrocycle 1', user=self.user)
-
         self.macrocycle2 = Macrocycle.objects.create(
             name='Macrocycle 2', user=self.user)
-
         self.mesocycle1 = Mesocycle.objects.create(
             name='Mesocycle 1', macrocycle=self.macrocycle1)
         self.mesocycle2 = Mesocycle.objects.create(
             name='Mesocycle 2', macrocycle=self.macrocycle2)
 
-        # self.phase = Phase.objects.create(
-        #     type='Hypertrophy', mesocycle=self.mesocycle1)
-
-        # self.phase2 = Phase.objects.create(
-        #     type='Strength', mesocycle=self.mesocycle2)
-
-        # self.training_session = TrainingSession.objects.create(
-        #     phase=self.phase, order=1)
-
+    def setup_exercises(self):
         muscle_group = MuscleGroup.objects.create(name="Pectorals")
-
-        self.bench_press = Exercise.objects.create(
-            name='Bench Press')
-
+        self.bench_press = Exercise.objects.create(name='Bench Press')
         self.squat = Exercise.objects.create(name='Squat')
         self.deadlift = Exercise.objects.create(name='Deadlift')
         self.ohp = Exercise.objects.create(name='Overhead Press')
-
         self.bench_press.muscle_group.add(muscle_group)
 
-        # self.exercise_in_session = ExerciseInSession.objects.create(
-        # exercise=bench_press, training_session=self.training_session)
+    def setup_phase(self):
+        self.phase = None
+        self.data = self.get_data(self.bench_press.id)
+        self.data2 = self.get_data(self.bench_press.id, self.squat.id)
 
-        # self.microcycle = Microcycle.objects.create(
-        #     exercise_in_session=self.exercise_in_session, order=1, weight=100, repetitions=10, sets=3)
-
-        self.token = self.obtain_login_token()
+    def get_data(self, bench_press_id, squat_id=None):
+        data = {
+            'mesocycle': self.mesocycle1.id,
+            'type': 'Hypertrophy',  # 'Hypertrophy', 'Strength', 'Peak', 'Deload', 'Conditioning
+            'start_date': '2022-01-01',
+            'end_date': '2022-12-31',
+            'training_sessions': [
+                {
+                    'exercises': [
+                        {
+                            'exercise': bench_press_id,
+                            'microcycles': [
+                                {
+                                    'weight': 100,
+                                    'repetitions': 10,
+                                    'sets': 3,
+                                },
+                                {
+                                    'weight': 120,
+                                    'repetitions': 8,
+                                    'sets': 3,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }
+        if squat_id:
+            data['training_sessions'][0]['exercises'].append(
+                {
+                    'exercise': squat_id,
+                    'microcycles': [
+                        {
+                            'weight': 140,
+                            'repetitions': 10,
+                            'sets': 3,
+                        },
+                        {
+                            'weight': 160,
+                            'repetitions': 8,
+                            'sets': 3,
+                        },
+                    ],
+                }
+            )
+        return data
 
     def obtain_login_token(self):
         # Obtain a JWT for the test user
@@ -66,186 +107,72 @@ class BaseTest(TestCase):
 
 class PhaseSerializerTest(BaseTest):
     def test_create(self):
-        data = {
-            'mesocycle': self.mesocycle1.id,
-            'type': 'Hypertrophy',  # 'Hypertrophy', 'Strength', 'Peak', 'Deload', 'Conditioning
-            'start_date': '2022-01-01',
-            'end_date': '2022-12-31',
-            'training_sessions': [
-                {
-                    'exercises': [
-                        {
-                            'exercise': self.bench_press.id,
-                            'microcycles': [
-                                {
-                                    'weight': 100,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 120,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                        {
-                            'exercise': self.squat.id,
-                            'microcycles': [
-                                {
-                                    'weight': 140,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 160,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    'exercises': [
-                        {
-                            'exercise': self.deadlift.id,
-                            'microcycles': [
-                                {
-                                    'weight': 180,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 200,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                        {
-                            'exercise': self.ohp.id,
-                            'microcycles': [
-                                {
-                                    'weight': 60,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 80,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        }
+        serializer = PhaseSerializer(data=self.data)
+        self.validate_and_save(serializer)
+        self.print_phase_details()
 
-        updated_data = {
-            'mesocycle': self.mesocycle1.id,
-            'type': 'Hypertrophy',  # 'Hypertrophy', 'Strength', 'Peak', 'Deload', 'Conditioning
-            'start_date': '2022-01-01',
-            'end_date': '2022-12-31',
-            'training_sessions': [
-                {
-                    'exercises': [
-                        {
-                            'exercise': self.bench_press.id,
-                            'microcycles': [
-                                {
-                                    'weight': 100,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 120,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                        {
-                            'exercise': self.squat.id,
-                            'microcycles': [
-                                {
-                                    'weight': 140,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 160,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    'exercises': [
-                        {
-                            'exercise': self.deadlift.id,
-                            'microcycles': [
-                                {
-                                    'weight': 180,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 200,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                        {
-                            'exercise': self.ohp.id,
-                            'microcycles': [
-                                {
-                                    'weight': 60,
-                                    'repetitions': 10,
-                                    'sets': 3,
-                                },
-                                {
-                                    'weight': 80,
-                                    'repetitions': 8,
-                                    'sets': 3,
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        }
-
-        serializer = PhaseSerializer(data=data)
-
+    def validate_and_save(self, serializer):
         if not serializer.is_valid():
             print(serializer.errors)
+        self.phase = serializer.save()
 
-        phase = serializer.save()
-
-        serializer = PhaseSerializer(instance=phase, data=updated_data)
-        if not serializer.is_valid():
-            print(serializer.errors)
-
-        updated_phase = serializer.save()
-
-        print(f"Phase ID: {phase.id}")
-        self.assertEqual(phase.training_sessions.count(),
-                         len(data['training_sessions']))
-        for i, training_session in enumerate(phase.training_sessions.all(), start=1):
+    def print_phase_details(self):
+        print(f"Phase ID: {self.phase.id}")
+        self.assertEqual(self.phase.training_sessions.count(),
+                         len(self.data['training_sessions']))
+        for i, training_session in enumerate(self.phase.training_sessions.all(), start=1):
             print(f"\nTraining Session {i} ID: {training_session.id}")
+            self.print_exercise_details(training_session)
 
-            # Iterate over all exercises in the training session
-            for j, exercise_in_session in enumerate(training_session.exercises.all(), start=1):
-                print(f"\n\tExercise {j}: {exercise_in_session.exercise}")
+    def print_exercise_details(self, training_session):
+        # Iterate over all exercises in the training session
+        for j, exercise_in_session in enumerate(training_session.exercises.all(), start=1):
+            print(f"\n\tExercise {j}: {exercise_in_session.exercise}")
+            self.print_microcycle_details(exercise_in_session)
 
-                # Iterate over all microcycles of the exercise
-                for k, microcycle in enumerate(exercise_in_session.microcycles.all(), start=1):
-                    print(f"\n\t\tMicrocycle {k} ID: {microcycle.id}")
-                    print(f"\t\tWeight: {microcycle.weight}")
-                    print(f"\t\tRepetitions: {microcycle.repetitions}")
-                    print(f"\t\tSets: {microcycle.sets}")
+    def print_microcycle_details(self, exercise_in_session):
+        # Iterate over all microcycles of the exercise
+        for k, microcycle in enumerate(exercise_in_session.microcycles.all(), start=1):
+            print(f"\n\t\tMicrocycle {k} ID: {microcycle.id}")
+            print(f"\t\tWeight: {microcycle.weight}")
+            print(f"\t\tRepetitions: {microcycle.repetitions}")
+            print(f"\t\tSets: {microcycle.sets}")
+
+    def test_update(self):
+        self.validated_data = self.get_validated_data()
+        serializer = PhaseSerializer(data=self.data)
+        self.validate_and_save(serializer)
+        serializer = PhaseSerializer(instance=self.phase)
+        updated_phase = serializer.update(self.phase, self.validated_data)
+
+    def get_validated_data(self):
+        return {
+            'mesocycle': self.mesocycle1,
+            'type': 'Peak',  # 'Hypertrophy', 'Strength', 'Peak', 'Deload', 'Conditioning
+            'start_date': '2023-01-01',
+            'end_date': '2023-12-31',
+            'training_sessions': [
+                {
+                    'exercises': [
+                        {
+                            'exercise': self.bench_press,
+                            'microcycles': [
+                                {
+                                    'weight': 200,
+                                    'repetitions': 10,
+                                    'sets': 3,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }
+
+
+class PhaseViewTest(BaseTest):
+    def test_create(self):
+        response = self.client.post(reverse('phase-list-create'), data=self.data,
+                                    HTTP_AUTHORIZATION=f'Bearer {self.token}',
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 201)
