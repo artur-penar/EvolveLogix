@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
 import TrainingCycleForm from "./TrainingCycleForm";
@@ -6,8 +6,20 @@ import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
 import "./TrainingCycle.css";
 import CycleTimeline from "./CycleTimeline";
+import { useDispatch, useSelector } from "react-redux";
+import { getTrainingCycles } from "features/trainingCycle/trainingCycle";
 
 const TrainingCycle = () => {
+  const dispatch = useDispatch();
+  const trainingCycleState = useSelector(
+    (state) => state.trainingCycle.trainingCycles
+  );
+
+  console.log(trainingCycleState);
+  useEffect(() => {
+    dispatch(getTrainingCycles());
+  }, []);
+
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
   const [phase, setPhase] = useState(phases[0]);
 
