@@ -22,7 +22,7 @@ const TrainingCycle = () => {
   );
 
   useEffect(() => {
-    dispatch(getTrainingCycles());
+    if (trainingCycleState.length === 0) dispatch(getTrainingCycles());
   }, []);
 
   const selectedMacrocycle = useSelector(
