@@ -5,9 +5,15 @@ import TrainingCycleForm from "./TrainingCycleForm";
 import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
 import "./TrainingCycle.css";
-import CycleTimeline from "./CycleTimeline";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrainingCycles } from "features/trainingCycle/trainingCycle";
+import {
+  getTrainingCycles,
+  setSelectedMacrocycle,
+} from "features/trainingCycle/trainingCycle";
+
+const getMacrocycleNames = (trainingCycles) => {
+  return trainingCycles.map((macrocycle) => macrocycle.name);
+};
 
 const TrainingCycle = () => {
   const dispatch = useDispatch();
@@ -15,10 +21,13 @@ const TrainingCycle = () => {
     (state) => state.trainingCycle.trainingCycles
   );
 
-  console.log(trainingCycleState);
   useEffect(() => {
     dispatch(getTrainingCycles());
   }, []);
+
+  const selectedMacrocycle = useSelector(
+    (state) => state.trainingCycle.selectedMacrocycle
+  );
 
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
   const [phase, setPhase] = useState(phases[0]);
@@ -26,7 +35,7 @@ const TrainingCycle = () => {
   const mesocycles = ["Competition prep", "Off-season", "Transition"];
   const [mesocycle, setMesocycle] = useState(mesocycles[0]);
 
-  const macrocycles = ["2024Cycle", "Quadrennial"];
+  const macrocycles = getMacrocycleNames(trainingCycleState);
   const [macrocycle, setMacrocycle] = useState(macrocycles[0]);
 
   const [trainingDays, setTrainingDays] = useState(0);
@@ -35,6 +44,14 @@ const TrainingCycle = () => {
   const [mesocycleDurationInWeeks, setMesocycleDurationInWeeks] = useState(0);
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+
+  useEffect(() => {
+    dispatch(setSelectedMacrocycle(macrocycle));
+  }, [macrocycle]);
+
+  useEffect(() => {
+    console.log(selectedMacrocycle);
+  }, [selectedMacrocycle]);
 
   const handleCreateCycleClick = () => {
     setIsCreateCycleVisible(true);
@@ -50,6 +67,7 @@ const TrainingCycle = () => {
 
   const handleMacrocycleChange = (e) => {
     setMacrocycle(e.target.value);
+    setSelectedMacrocycle(e.target.value);
   };
 
   const handleTrainingDaysChange = (e) => {
