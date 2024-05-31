@@ -9,7 +9,7 @@ router.get("/api/training-cycle", async (req, res) => {
 
   try {
     const apiRes = await fetch(
-      `${process.env.API_URL}/api/training-cycle/macrocycles`,
+      `${process.env.API_URL}/api/training-cycle/macrocycles/`,
       {
         method: "GET",
         headers: {
