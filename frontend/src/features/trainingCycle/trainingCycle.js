@@ -24,6 +24,7 @@ export const getTrainingCycles = createAsyncThunk(
 
 const initialState = {
   trainingCycles: [],
+  selectedMacrocycle: null,
   loading: false,
   error: null,
 };
@@ -31,7 +32,11 @@ const initialState = {
 const trainingCycleSlice = createSlice({
   name: "trainingCycle",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedMacrocycle: (state, action) => {
+      state.selectedMacrocycle = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTrainingCycles.pending, (state) => {
@@ -48,5 +53,7 @@ const trainingCycleSlice = createSlice({
       });
   }, // Add a closing parenthesis here
 });
+
+export const { setSelectedMacrocycle } = trainingCycleSlice.actions;
 
 export default trainingCycleSlice.reducer;
