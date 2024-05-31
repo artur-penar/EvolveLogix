@@ -10,6 +10,7 @@ import {
   getTrainingCycles,
   setSelectedMacrocycle,
 } from "features/trainingCycle/trainingCycle";
+import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 
 const getMacrocycleNames = (trainingCycles) => {
   return trainingCycles.map((macrocycle) => macrocycle.name);
@@ -17,9 +18,7 @@ const getMacrocycleNames = (trainingCycles) => {
 
 const TrainingCycle = () => {
   const dispatch = useDispatch();
-  const trainingCycleState = useSelector(
-    (state) => state.trainingCycle.trainingCycles
-  );
+  const trainingCycleState = useTrainingCycle();
 
   useEffect(() => {
     if (trainingCycleState.length === 0) dispatch(getTrainingCycles());
@@ -48,10 +47,6 @@ const TrainingCycle = () => {
   useEffect(() => {
     dispatch(setSelectedMacrocycle(macrocycle));
   }, [macrocycle]);
-
-  useEffect(() => {
-    console.log(selectedMacrocycle);
-  }, [selectedMacrocycle]);
 
   const handleCreateCycleClick = () => {
     setIsCreateCycleVisible(true);
