@@ -6,11 +6,9 @@ import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
 import "./TrainingCycle.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTrainingCycles,
-  setSelectedMacrocycle,
-} from "features/trainingCycle/trainingCycle";
+import { setSelectedMacrocycle } from "features/trainingCycle/trainingCycle";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
+import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 
 const getMacrocycleNames = (trainingCycles) => {
   return trainingCycles.map((macrocycle) => macrocycle.name);
@@ -20,61 +18,34 @@ const TrainingCycle = () => {
   const dispatch = useDispatch();
   const trainingCycleState = useTrainingCycle();
 
-  useEffect(() => {
-    if (trainingCycleState.length === 0) dispatch(getTrainingCycles());
-  }, []);
-
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
   );
 
-  const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
-  const [phase, setPhase] = useState(phases[0]);
-
-  const mesocycles = ["Competition prep", "Off-season", "Transition"];
-  const [mesocycle, setMesocycle] = useState(mesocycles[0]);
-
   const macrocycles = getMacrocycleNames(trainingCycleState);
-  const [macrocycle, setMacrocycle] = useState(macrocycles[0]);
-
-  const [trainingDays, setTrainingDays] = useState(0);
-  const [phaseDurationInWeeks, setPhaseDurationInWeeks] = useState(0);
-
-  const [mesocycleDurationInWeeks, setMesocycleDurationInWeeks] = useState(0);
+  const mesocycles = ["Competition prep", "Off-season", "Transition"];
+  const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
 
+  const initialValues = {
+    macrocycle: macrocycles[0],
+    mesocycle: mesocycles[0],
+    phase: phases[0],
+    trainingDays: 1,
+    phaseDurationInWeeks: 1,
+    mesocycleDurationInWeeks: 1,
+  };
+
+  const [values, handleInputChange] = useFormControls(initialValues);
+  console.log(values);
+
   useEffect(() => {
-    dispatch(setSelectedMacrocycle(macrocycle));
-  }, [macrocycle]);
+    dispatch(setSelectedMacrocycle(values["macrocycle"]));
+  }, [values["macrocycle"]]);
 
   const handleCreateCycleClick = () => {
     setIsCreateCycleVisible(true);
-  };
-
-  const handlePhaseChange = (e) => {
-    setPhase(e.target.value);
-  };
-
-  const handleMesocycleChange = (e) => {
-    setMesocycle(e.target.value);
-  };
-
-  const handleMacrocycleChange = (e) => {
-    setMacrocycle(e.target.value);
-    setSelectedMacrocycle(e.target.value);
-  };
-
-  const handleTrainingDaysChange = (e) => {
-    setTrainingDays(e.target.value);
-  };
-
-  const handlePhaseDurationChange = (e) => {
-    setPhaseDurationInWeeks(e.target.value);
-  };
-
-  const handleMesocycleDurationChange = (e) => {
-    setMesocycleDurationInWeeks(e.target.value);
   };
 
   return (
@@ -82,21 +53,21 @@ const TrainingCycle = () => {
       <div className="tc-cycle-content">
         <PageHeader headerContent={"Training Cycle"} />
         <TrainingCycleForm
-          macrocycle={macrocycle}
+          macrocycle={values["macrocycle"]}
           macrocycles={macrocycles}
-          mesocycle={mesocycle}
+          mesocycle={values["mesocycle"]}
           mesocycles={mesocycles}
-          phase={phase}
+          phase={values["phase"]}
           phases={phases}
-          trainingDays={trainingDays}
-          phaseDurationInWeeks={phaseDurationInWeeks}
-          mesocycleDurationInWeeks={mesocycleDurationInWeeks}
-          handleMesocycleDurationChange={handleMesocycleDurationChange}
-          handleMacrocycleChange={handleMacrocycleChange}
-          handleMesocycleChange={handleMesocycleChange}
-          handlePhaseChange={handlePhaseChange}
-          handleTrainingDaysChange={handleTrainingDaysChange}
-          handlePhaseDurationChange={handlePhaseDurationChange}
+          trainingDays={values["trainingDays"]}
+          phaseDurationInWeeks={values["phaseDurationInWeeks"]}
+          mesocycleDurationInWeeks={values["mesocycleDurationInWeeks"]}
+          handleMesocycleDurationChange={handleInputChange}
+          handleMacrocycleChange={handleInputChange}
+          handleMesocycleChange={handleInputChange}
+          handlePhaseChange={handleInputChange}
+          handleTrainingDaysChange={handleInputChange}
+          handlePhaseDurationChange={handleInputChange}
         />
         {/* <CycleTimeline trainingCycle={trainingCycle} /> */}
 
@@ -109,8 +80,8 @@ const TrainingCycle = () => {
         )}
         {isCreateCycleVisible && <CreateNewCycle />}
         <PhaseForm
-          weekNumber={phaseDurationInWeeks}
-          trainingDays={trainingDays}
+          weekNumber={values["phaseDurationInWeeks"]}
+          trainingDays={values["trainingDays"]}
         />
       </div>
     </Layout>
