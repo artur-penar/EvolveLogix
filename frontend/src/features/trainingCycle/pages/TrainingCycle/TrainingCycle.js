@@ -32,9 +32,9 @@ const TrainingCycle = () => {
     macrocycle: macrocycles[0],
     mesocycle: mesocycles[0],
     phase: phases[0],
-    trainingDays: 1,
-    phaseDurationInWeeks: 1,
-    mesocycleDurationInWeeks: 1,
+    trainingDays: 0,
+    phaseDurationInWeeks: 0,
+    mesocycleDurationInWeeks: 0,
   };
 
   const [values, handleInputChange] = useFormControls(initialValues);
