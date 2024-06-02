@@ -14,6 +14,13 @@ const getMacrocycleNames = (trainingCycles) => {
   return trainingCycles.map((macrocycle) => macrocycle.name);
 };
 
+const getMacrocycleIdByName = (macrocycleName, trainingCycles) => {
+  const macrocycle = trainingCycles.find(
+    (macrocycle) => macrocycle.name === macrocycleName
+  );
+  return macrocycle ? macrocycle.id : null;
+};
+
 const TrainingCycle = () => {
   const dispatch = useDispatch();
   const trainingCycleState = useTrainingCycle();
@@ -78,7 +85,14 @@ const TrainingCycle = () => {
             </button>
           </div>
         )}
-        {isCreateCycleVisible && <CreateNewCycle />}
+        {isCreateCycleVisible && (
+          <CreateNewCycle
+            selectedMacrocycle={getMacrocycleIdByName(
+              selectedMacrocycle,
+              trainingCycleState
+            )}
+          />
+        )}
         <PhaseForm
           weekNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
