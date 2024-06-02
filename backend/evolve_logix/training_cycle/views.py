@@ -16,6 +16,9 @@ class MacrocycleListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         return Macrocycle.objects.filter(user=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class MacrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Macrocycle.objects.all()
