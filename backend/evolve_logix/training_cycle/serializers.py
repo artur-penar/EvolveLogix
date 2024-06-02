@@ -112,5 +112,5 @@ class MacrocycleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Macrocycle
-        fields = ['id', 'user',
+        fields = ['id',
                   'name', 'start_date', 'end_date', 'mesocycles']
