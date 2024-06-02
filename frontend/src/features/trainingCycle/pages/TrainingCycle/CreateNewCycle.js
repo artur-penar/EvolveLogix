@@ -20,8 +20,6 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
   };
 
   const handleSubmit = () => {
-    console.log(cycleType, cycleName);
-    console.log(selectedMacrocycle);
     if (cycleType === "Macrocycle") {
       dispatch(createMacrocycle(cycleName));
     } else {
