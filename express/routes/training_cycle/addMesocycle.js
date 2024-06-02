@@ -5,17 +5,18 @@ const fetch = (...args) =>
 const router = express.Router();
 router.use(express.json());
 
-router.post("/api/training-cycle/macrocycles/", async (req, res) => {
+router.post("/api/training-cycle/mesocycles/", async (req, res) => {
   const { access } = req.cookies;
-  const { name } = req.body;
+  const { name, macrocycle } = req.body;
 
   const body = JSON.stringify({
     name,
+    macrocycle,
   });
 
   try {
     const apiRes = await fetch(
-      `${process.env.API_URL}/api/training-cycle/macrocycles/`,
+      `${process.env.API_URL}/api/training-cycle/mesocycles/`,
       {
         method: "POST",
         headers: {
@@ -29,6 +30,8 @@ router.post("/api/training-cycle/macrocycles/", async (req, res) => {
 
     const data = await apiRes.json();
 
+    console.log(data);
+
     return res.status(apiRes.status).json(data);
   } catch (error) {
     return res.status(500).json({
@@ -36,5 +39,4 @@ router.post("/api/training-cycle/macrocycles/", async (req, res) => {
     });
   }
 });
-
 module.exports = router;

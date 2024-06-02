@@ -34,6 +34,8 @@ const createTrainingLogRoute = require("./routes/training_log/createTrainingLog"
 // Training Cycle functionality routes
 const trainingCycleRoute = require("./routes/training_cycle/getTrainingCycles");
 const createMacrocycleRoute = require("./routes/training_cycle/createMacrocycle");
+const addMesoCycleRoute = require("./routes/training_cycle/addMesocycle");
+
 // Create an instance of the Express application
 const app = express();
 
@@ -72,6 +74,7 @@ app.use(createTrainingLogRoute);
 // Training Cycle functionality routes
 app.use(trainingCycleRoute);
 app.use(createMacrocycleRoute);
+app.use(addMesoCycleRoute);
 
 // Catch-all route to serve the HTML file for client-side routing
 app.get("*", (req, res) => {
