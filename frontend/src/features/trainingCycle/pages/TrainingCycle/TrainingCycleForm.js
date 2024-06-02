@@ -31,6 +31,7 @@ const TrainingCycleForm = ({
           <label className="tcf-select-label">Macrocycle:</label>
           <select
             className="form-control tcf-select-control"
+            name="macrocycle"
             value={macrocycle}
             onChange={handleMacrocycleChange}
           >
@@ -48,6 +49,7 @@ const TrainingCycleForm = ({
             <label className="tcf-select-label">Mesocycle:</label>
             <select
               className="form-control tcf-select-control"
+              name="mesocycle"
               value={mesocycle}
               onChange={handleMesocycleChange}
             >
@@ -62,6 +64,7 @@ const TrainingCycleForm = ({
             <label className="tcf-select-label">Duration in weeks:</label>
             <select
               className="form-control tcf-select-control"
+              name="mesocycleDurationInWeeks"
               value={mesocycleDurationInWeeks}
               onChange={handleMesocycleDurationChange}
             >
@@ -79,6 +82,7 @@ const TrainingCycleForm = ({
             <label className="tcf-select-label">Phase:</label>
             <select
               className="form-control tcf-select-control"
+              name="phase"
               value={phase}
               onChange={handlePhaseChange}
             >
@@ -93,6 +97,7 @@ const TrainingCycleForm = ({
             <label className="tcf-select-label">Duration in weeks:</label>
             <select
               className="form-control tcf-select-control"
+              name="phaseDurationInWeeks"
               value={phaseDurationInWeeks}
               onChange={handlePhaseDurationChange}
             >
@@ -107,6 +112,7 @@ const TrainingCycleForm = ({
             <label className="tcf-select-label">Training days:</label>
             <select
               className="form-control tcf-select-control"
+              name="trainingDays"
               value={trainingDays}
               onChange={handleTrainingDaysChange}
             >
