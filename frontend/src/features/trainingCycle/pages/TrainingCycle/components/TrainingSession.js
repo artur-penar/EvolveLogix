@@ -2,8 +2,8 @@ import React from "react";
 import SelectExerciseField from "./SelectExerciseField";
 import ExerciseParameterInput from "./ExerciseParameterInput";
 
-const WeeklyExercises = ({
-  weeklyExercisePlan,
+const TrainingSession = ({
+  phaseTrainingProgram,
   weekNumber,
   exercisesNumber,
   exercisesNameList,
@@ -12,7 +12,7 @@ const WeeklyExercises = ({
   handleExerciseDetailChange,
   displayWeightInPercent,
 }) => {
-  if (!weeklyExercisePlan[trainingDayIndex]) {
+  if (!phaseTrainingProgram[trainingDayIndex]) {
     return null;
   }
 
@@ -20,7 +20,7 @@ const WeeklyExercises = ({
     (exerciseIndex) => (
       <div key={exerciseIndex} className="week-container">
         <SelectExerciseField
-          weeklyExercisePlan={weeklyExercisePlan}
+          phaseTrainingProgram={phaseTrainingProgram}
           exercisesNameList={exercisesNameList}
           exerciseIndex={exerciseIndex}
           dayIndex={trainingDayIndex}
@@ -33,7 +33,7 @@ const WeeklyExercises = ({
               exerciseIndex={exerciseIndex}
               weekIndex={weekIndex}
               value={
-                weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.weight
               }
               handleChange={handleExerciseDetailChange}
@@ -46,7 +46,7 @@ const WeeklyExercises = ({
               exerciseIndex={exerciseIndex}
               weekIndex={weekIndex}
               value={
-                weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.reps
               }
               handleChange={handleExerciseDetailChange}
@@ -58,7 +58,7 @@ const WeeklyExercises = ({
               exerciseIndex={exerciseIndex}
               weekIndex={weekIndex}
               value={
-                weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
                   ?.weeks[weekIndex]?.sets
               }
               handleChange={handleExerciseDetailChange}
@@ -71,4 +71,4 @@ const WeeklyExercises = ({
   );
 };
 
-export default WeeklyExercises;
+export default TrainingSession;
