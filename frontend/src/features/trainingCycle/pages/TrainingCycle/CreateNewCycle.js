@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./CreateNewCycle.css";
 import { useDispatch } from "react-redux";
-import { createMacrocycle } from "features/trainingCycle/trainingCycle";
+import {
+  addMesocycle,
+  createMacrocycle,
+} from "features/trainingCycle/trainingCycle";
 
-const CreateNewCycle = () => {
+const CreateNewCycle = ({ selectedMacrocycle }) => {
   const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
@@ -18,7 +21,14 @@ const CreateNewCycle = () => {
 
   const handleSubmit = () => {
     console.log(cycleType, cycleName);
-    if (cycleType === "Macrocycle") dispatch(createMacrocycle(cycleName));
+    console.log(selectedMacrocycle);
+    if (cycleType === "Macrocycle") {
+      dispatch(createMacrocycle(cycleName));
+    } else {
+      dispatch(
+        addMesocycle({ name: cycleName, macrocycle: selectedMacrocycle })
+      );
+    }
   };
 
   return (
