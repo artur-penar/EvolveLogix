@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "./CreateNewCycle.css";
+import { useDispatch } from "react-redux";
+import { createMacrocycle } from "features/trainingCycle/trainingCycle";
 
 const CreateNewCycle = () => {
+  const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
 
@@ -15,7 +18,9 @@ const CreateNewCycle = () => {
 
   const handleSubmit = () => {
     console.log(cycleType, cycleName);
+    if (cycleType === "Macrocycle") dispatch(createMacrocycle(cycleName));
   };
+
   return (
     <div className="cnc-container">
       <h4 className="cnc-header-container">Create new cycle</h4>
