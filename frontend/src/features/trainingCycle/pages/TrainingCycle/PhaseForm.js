@@ -7,29 +7,16 @@ import WeeklyExercises from "./components/WeeklyExercises";
 import "./PhaseForm.css";
 import PhaseOption from "./components/PhaseOption";
 import RecordDisplay from "features/users/components/StrengthRecords/RecordDisplay";
+import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
-const POWERLIFTS_EXERCISES = ["Squat", "Bench press", "Deadlift"];
 const selectExercisesState = (state) => state.exercises.exercises;
 
 const selectExerciseNames = createSelector(
   [selectExercisesState],
   (exercises) => exercises.map((exercise) => exercise.name)
 );
-
-const getLatestRecords = (records) => {
-  return records.reduce((latest, record) => {
-    if (
-      !latest[record.exercise] ||
-      record.record_date > latest[record.exercise][0].record_date
-    ) {
-      latest[record.exercise] = [];
-      latest[record.exercise].push(record);
-    }
-    return latest;
-  }, {});
-};
 
 const PhaseForm = ({ weekNumber, trainingDays }) => {
   const totalWeeks = parseInt(weekNumber, 10) + 1;
@@ -62,18 +49,6 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   // useSelector hooks
   const dispatch = useDispatch();
   const exercisesNameList = useSelector(selectExerciseNames);
-  const strengthRecords = useSelector((state) => state.strengthRecords.records);
-
-  // Derived state
-  const powerlifts = strengthRecords.filter((record) =>
-    POWERLIFTS_EXERCISES.includes(record.exercise)
-  );
-  const otherExercises = strengthRecords.filter(
-    (record) => !POWERLIFTS_EXERCISES.includes(record.exercise)
-  );
-
-  const latestPowerlifts = getLatestRecords(powerlifts);
-  const latestOtherExercises = getLatestRecords(otherExercises);
 
   useEffect(() => {
     if (!exercisesNameList.length) {
@@ -186,28 +161,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
         displayRecords={displayRecords}
         setDisplayRecords={setDisplayRecords}
       />
-      {displayRecords && (
-        <div style={{ display: "flex" }}>
-          <div style={{ flex: 1 }}>
-            <RecordDisplay
-              formData={latestPowerlifts}
-              isPowerlifts={true}
-              simple={true}
-              isCycleVersion={true}
-              styleClassName={"pf-record-display"}
-            />
-          </div>
-          <div style={{ flex: 1, marginLeft: "5px" }}>
-            <RecordDisplay
-              formData={latestOtherExercises}
-              isPowerlifts={false}
-              simple={true}
-              isCycleVersion={true}
-              styleClassName={"pf-record-display"}
-            />
-          </div>
-        </div>
-      )}
+      {displayRecords && <RecordsDisplayContainer />}
       <div className="training-phase-form">
         {weeklyExercisePlan.map((weeklyPlan, trainingDayIndex) => (
           <div className="training-day-container" key={trainingDayIndex}>
