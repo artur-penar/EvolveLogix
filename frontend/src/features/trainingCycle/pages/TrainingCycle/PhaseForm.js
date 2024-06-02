@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { getExercises } from "features/trainingLogs/exercises";
-import WeekLabels from "./components/WeekLabels";
-import TrainingSession from "./components/TrainingSession";
-import "./PhaseForm.css";
 import PhaseOption from "./components/PhaseOption";
-import RecordDisplay from "features/users/components/StrengthRecords/RecordDisplay";
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
+import TrainingSessionContainer from "./components/TrainingSessionContainer";
+import "./PhaseForm.css";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -166,45 +164,19 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
       />
       {displayRecords && <RecordsDisplayContainer />}
       <div className="training-phase-form">
-        {phaseTrainingProgram.map((_, trainingDayIndex) => (
-          <div className="training-day-container" key={trainingDayIndex}>
-            <div className="week-container">
-              <div className="week-label">
-                <label>Day: {trainingDayIndex + 1}</label>
-              </div>
-
-              <WeekLabels weeksNumber={totalWeeks} />
-            </div>
-
-            <TrainingSession
-              phaseTrainingProgram={phaseTrainingProgram}
-              weekNumber={totalWeeks}
-              exercisesNumber={
-                phaseTrainingProgram[trainingDayIndex].exercises.length
-              }
-              exercisesNameList={exercisesNameList}
-              trainingDayIndex={trainingDayIndex}
-              handleExerciseChange={handleExerciseChange}
-              handleExerciseDetailChange={handleExerciseDetailChange}
-              displayWeightInPercent={displayWeightInPercent}
-            />
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${
-                  totalWeeks + 1
-                }, minmax(180px, 1fr))`,
-              }}
-            >
-              <div className="button-container">
-                <button onClick={() => handleAddExercise(trainingDayIndex)}>
-                  Add exercise
-                </button>
-              </div>
-            </div>
-          </div>
+        {phaseTrainingProgram.map((_, trainingSessionIndex) => (
+          <TrainingSessionContainer
+            trainingSessionIndex={trainingSessionIndex}
+            totalWeeks={totalWeeks}
+            phaseTrainingProgram={phaseTrainingProgram}
+            exercisesNameList={exercisesNameList}
+            handleExerciseChange={handleExerciseChange}
+            handleExerciseDetailChange={handleExerciseDetailChange}
+            handleAddExercise={handleAddExercise}
+            displayWeightInPercent={displayWeightInPercent}
+          />
         ))}
+
         <div className="button-container" onClick={handleAddPhase}>
           <button>Add phase</button>
         </div>
