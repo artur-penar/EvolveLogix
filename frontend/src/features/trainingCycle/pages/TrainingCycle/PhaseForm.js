@@ -16,16 +16,19 @@ const selectExerciseNames = createSelector(
   (exercises) => exercises.map((exercise) => exercise.name)
 );
 
-const PhaseForm = ({ weekNumber, trainingDays }) => {
-  const totalWeeks = parseInt(weekNumber, 10) + 1;
-  const totalTrainingDays = parseInt(trainingDays, 10) + 1;
+const PhaseForm = ({
+  weeksNumber: microcyclesNumber,
+  trainingDays: trainingSessions,
+}) => {
+  const totalMicrocyclesNumber = parseInt(microcyclesNumber, 10) + 1;
+  const totalTrainingSessionsNumber = parseInt(trainingSessions, 10) + 1;
   const initialPhaseProgram = [
     {
       dayNumber: 1,
       exercises: [
         {
           name: "Squat",
-          weeks: [
+          microcycles: [
             {
               weight: 0,
               reps: 0,
@@ -66,26 +69,28 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
           dayNumber: i + 1,
           exercises: initialExercises,
         };
-      } else if (prevState.length > totalTrainingDays) {
-        return prevState.slice(0, totalTrainingDays);
       } else {
         return prevState[i];
       }
     });
   };
 
-  const updateTrainingWeeks = (prevState, totalWeeks, newWeekLoad) => {
+  const updateTrainingWeeks = (
+    prevState,
+    totalMicrocycles,
+    newMicrocycleLoad
+  ) => {
     return prevState.map((day) => {
       day.exercises = day.exercises.map((exercise) => {
-        if (exercise.weeks.length < totalWeeks) {
+        if (exercise.microcycles.length < totalMicrocycles) {
           return {
             ...exercise,
-            weeks: [...exercise.weeks, newWeekLoad],
+            microcycles: [...exercise.microcycles, newMicrocycleLoad],
           };
-        } else if (exercise.weeks.length > totalWeeks) {
+        } else if (exercise.microcycles.length > totalMicrocycles) {
           return {
             ...exercise,
-            weeks: exercise.weeks.slice(0, totalWeeks),
+            microcycles: exercise.microcycles.slice(0, totalMicrocycles),
           };
         } else {
           return exercise;
@@ -100,34 +105,44 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   useEffect(() => {
     const initialExercises = initialPhaseProgram[0].exercises;
     setPhaseTrainingProgram((prevState) =>
-      updateTrainingDays(prevState, totalTrainingDays, initialExercises)
+      updateTrainingDays(
+        prevState,
+        totalTrainingSessionsNumber,
+        initialExercises
+      )
     );
     setStateChanged(stateChanged + 1);
-  }, [trainingDays]);
+  }, [trainingSessions]);
 
   useEffect(() => {
-    const newWeekLoad = initialPhaseProgram[0].exercises[0].weeks[0];
+    const newMicrocycleLoad =
+      initialPhaseProgram[0].exercises[0].microcycles[0];
     setPhaseTrainingProgram((prevState) =>
-      updateTrainingWeeks(prevState, totalWeeks, newWeekLoad)
+      updateTrainingWeeks(prevState, totalMicrocyclesNumber, newMicrocycleLoad)
     );
-  }, [weekNumber, stateChanged]);
+  }, [microcyclesNumber, stateChanged]);
 
-  const handleExerciseChange = (dayIndex, exerciseIndex, newExerciseName) => {
+  const handleExerciseChange = (
+    trainingSessionIndex,
+    exerciseIndex,
+    newExerciseName
+  ) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = [...prevState];
 
       // Update the exercise name
-      newState[dayIndex].exercises[exerciseIndex].name = newExerciseName;
+      newState[trainingSessionIndex].exercises[exerciseIndex].name =
+        newExerciseName;
 
       return newState;
     });
   };
 
-  const handleAddExercise = (dayIndex) => {
+  const handleAddExercise = (trainingSessionIndex) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
       const newExercise = initialPhaseProgram[0].exercises[0];
-      newState[dayIndex].exercises.push(newExercise);
+      newState[trainingSessionIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
 
       return newState;
@@ -135,16 +150,17 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
   };
 
   const handleExerciseDetailChange = (
-    dayIndex,
+    trainingSessionIndex,
     exerciseIndex,
-    weekIndex,
+    microcycleIndex,
     newValue,
     detailType
   ) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
-      newState[dayIndex].exercises[exerciseIndex].weeks[weekIndex][detailType] =
-        newValue;
+      newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[microcycleIndex][
+        detailType
+      ] = newValue;
       console.log("HandleExerciseDetailChange", newState);
       console.log("DetailType", detailType);
       return newState;
@@ -174,7 +190,7 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
         {phaseTrainingProgram.map((_, trainingSessionIndex) => (
           <TrainingSessionContainer
             trainingSessionIndex={trainingSessionIndex}
-            totalWeeks={totalWeeks}
+            totalMicrocyclesNumber={totalMicrocyclesNumber}
             phaseTrainingProgram={phaseTrainingProgram}
             exercisesNameList={exercisesNameList}
             handleExerciseChange={handleExerciseChange}

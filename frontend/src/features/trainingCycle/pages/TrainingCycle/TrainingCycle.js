@@ -94,7 +94,7 @@ const TrainingCycle = () => {
           />
         )}
         <PhaseForm
-          weekNumber={values["phaseDurationInWeeks"]}
+          weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
         />
       </div>

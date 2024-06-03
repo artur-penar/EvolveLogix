@@ -4,7 +4,7 @@ import ExerciseParameterInput from "./ExerciseParameterInput";
 
 const TrainingSession = ({
   phaseTrainingProgram,
-  weekNumber,
+  totalMicrocyclesNumber,
   exercisesNumber,
   exercisesNameList,
   trainingDayIndex,
@@ -26,46 +26,51 @@ const TrainingSession = ({
           dayIndex={trainingDayIndex}
           handleExerciseChange={handleExerciseChange}
         />
-        {Array.from({ length: weekNumber }, (_, i) => i).map((weekIndex) => (
-          <div key={weekIndex} className="exercise-inputs-container">
-            <ExerciseParameterInput
-              trainingDayIndex={trainingDayIndex}
-              exerciseIndex={exerciseIndex}
-              weekIndex={weekIndex}
-              value={
-                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
-                  ?.weeks[weekIndex]?.weight
-              }
-              handleChange={handleExerciseDetailChange}
-              detailType="weight"
-              displayWeightInPercent={displayWeightInPercent}
-            />
-            <label>x</label>
-            <ExerciseParameterInput
-              trainingDayIndex={trainingDayIndex}
-              exerciseIndex={exerciseIndex}
-              weekIndex={weekIndex}
-              value={
-                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
-                  ?.weeks[weekIndex]?.reps
-              }
-              handleChange={handleExerciseDetailChange}
-              detailType="reps"
-            />
-            <label>x</label>
-            <ExerciseParameterInput
-              trainingDayIndex={trainingDayIndex}
-              exerciseIndex={exerciseIndex}
-              weekIndex={weekIndex}
-              value={
-                phaseTrainingProgram[trainingDayIndex]?.exercises[exerciseIndex]
-                  ?.weeks[weekIndex]?.sets
-              }
-              handleChange={handleExerciseDetailChange}
-              detailType="sets"
-            />
-          </div>
-        ))}
+        {Array.from({ length: totalMicrocyclesNumber }, (_, i) => i).map(
+          (weekIndex) => (
+            <div key={weekIndex} className="exercise-inputs-container">
+              <ExerciseParameterInput
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
+                value={
+                  phaseTrainingProgram[trainingDayIndex]?.exercises[
+                    exerciseIndex
+                  ]?.microcycles[weekIndex]?.weight
+                }
+                handleChange={handleExerciseDetailChange}
+                detailType="weight"
+                displayWeightInPercent={displayWeightInPercent}
+              />
+              <label>x</label>
+              <ExerciseParameterInput
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
+                value={
+                  phaseTrainingProgram[trainingDayIndex]?.exercises[
+                    exerciseIndex
+                  ]?.microcycles[weekIndex]?.reps
+                }
+                handleChange={handleExerciseDetailChange}
+                detailType="reps"
+              />
+              <label>x</label>
+              <ExerciseParameterInput
+                trainingDayIndex={trainingDayIndex}
+                exerciseIndex={exerciseIndex}
+                weekIndex={weekIndex}
+                value={
+                  phaseTrainingProgram[trainingDayIndex]?.exercises[
+                    exerciseIndex
+                  ]?.microcycles[weekIndex]?.sets
+                }
+                handleChange={handleExerciseDetailChange}
+                detailType="sets"
+              />
+            </div>
+          )
+        )}
       </div>
     )
   );

@@ -11,9 +11,8 @@ const WeightSelectField = ({
     <select
       className="input"
       value={
-        weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]?.weeks[
-          weekIndex
-        ]?.weight || 0
+        weeklyExercisePlan[trainingDayIndex]?.exercises[exerciseIndex]
+          ?.microcycles[weekIndex]?.weight || 0
       }
       onChange={(e) => {
         handleWeightChange(

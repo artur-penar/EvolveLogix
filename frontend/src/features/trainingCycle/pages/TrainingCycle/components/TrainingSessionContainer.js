@@ -4,7 +4,7 @@ import TrainingSession from "./TrainingSession";
 
 const TrainingSessionContainer = ({
   trainingSessionIndex,
-  totalWeeks,
+  totalMicrocyclesNumber,
   phaseTrainingProgram,
   exercisesNameList,
   handleAddExercise,
@@ -19,12 +19,12 @@ const TrainingSessionContainer = ({
           <label>Day: {trainingSessionIndex + 1}</label>
         </div>
 
-        <WeekLabels weeksNumber={totalWeeks} />
+        <WeekLabels weeksNumber={totalMicrocyclesNumber} />
       </div>
 
       <TrainingSession
         phaseTrainingProgram={phaseTrainingProgram}
-        weekNumber={totalWeeks}
+        totalMicrocyclesNumber={totalMicrocyclesNumber}
         exercisesNumber={
           phaseTrainingProgram[trainingSessionIndex].exercises.length
         }
@@ -38,7 +38,9 @@ const TrainingSessionContainer = ({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${totalWeeks + 1}, minmax(180px, 1fr))`,
+          gridTemplateColumns: `repeat(${
+            totalMicrocyclesNumber + 1
+          }, minmax(180px, 1fr))`,
         }}
       >
         <div className="button-container">
