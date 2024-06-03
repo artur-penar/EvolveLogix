@@ -54,54 +54,61 @@ const PhaseForm = ({ weekNumber, trainingDays }) => {
     }
   }, [exercisesNameList]);
 
-  useEffect(() => {
-    Array.from({ length: totalTrainingDays }, (_, i) => i).forEach(
-      (trainingDayIndex) => {
-        setPhaseTrainingProgram((prevState) => {
-          if (!prevState[trainingDayIndex]) {
-            const initialExercises = initialPhaseProgram[0].exercises;
-            return [
-              ...prevState,
-              {
-                dayNumber: trainingDayIndex + 1,
-                exercises: initialExercises,
-              },
-            ];
-          } else if (prevState.length > totalTrainingDays) {
-            return prevState.slice(0, totalTrainingDays);
-          } else {
-            return prevState;
-          }
-        });
+  // Helper functions
+  const updateTrainingDays = (
+    prevState,
+    totalTrainingDays,
+    initialExercises
+  ) => {
+    return Array.from({ length: totalTrainingDays }, (_, i) => {
+      if (!prevState[i]) {
+        return {
+          dayNumber: i + 1,
+          exercises: initialExercises,
+        };
+      } else if (prevState.length > totalTrainingDays) {
+        return prevState.slice(0, totalTrainingDays);
+      } else {
+        return prevState[i];
       }
+    });
+  };
+
+  const updateTrainingWeeks = (prevState, totalWeeks, newWeekLoad) => {
+    return prevState.map((day) => {
+      day.exercises = day.exercises.map((exercise) => {
+        if (exercise.weeks.length < totalWeeks) {
+          return {
+            ...exercise,
+            weeks: [...exercise.weeks, newWeekLoad],
+          };
+        } else if (exercise.weeks.length > totalWeeks) {
+          return {
+            ...exercise,
+            weeks: exercise.weeks.slice(0, totalWeeks),
+          };
+        } else {
+          return exercise;
+        }
+      });
+
+      return day;
+    });
+  };
+
+  // Inside your component
+  useEffect(() => {
+    const initialExercises = initialPhaseProgram[0].exercises;
+    setPhaseTrainingProgram((prevState) =>
+      updateTrainingDays(prevState, totalTrainingDays, initialExercises)
     );
     setStateChanged(stateChanged + 1);
   }, [trainingDays]);
 
   useEffect(() => {
-    Array.from({ length: totalWeeks }, (_, i) => i + 1).forEach(
-      (trainingWeekIndex) => {
-        setPhaseTrainingProgram((prevState) => {
-          const newState = [...prevState];
-          newState.forEach((day, dayIndex) => {
-            day.exercises.forEach((exercise, exerciseIndex) => {
-              if (exercise.weeks.length < trainingWeekIndex) {
-                const newWeekLoad =
-                  initialPhaseProgram[0].exercises[0].weeks[0];
-
-                newState[dayIndex].exercises[exerciseIndex].weeks.push(
-                  newWeekLoad
-                );
-              } else if (exercise.weeks.length > totalWeeks) {
-                newState[dayIndex].exercises[exerciseIndex].weeks =
-                  exercise.weeks.slice(0, totalWeeks);
-              }
-            });
-          });
-
-          return newState;
-        });
-      }
+    const newWeekLoad = initialPhaseProgram[0].exercises[0].weeks[0];
+    setPhaseTrainingProgram((prevState) =>
+      updateTrainingWeeks(prevState, totalWeeks, newWeekLoad)
     );
   }, [weekNumber, stateChanged]);
 
