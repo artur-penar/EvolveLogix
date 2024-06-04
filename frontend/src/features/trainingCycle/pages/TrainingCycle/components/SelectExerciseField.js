@@ -15,7 +15,7 @@ const SelectExerciseField = ({
     <div className="exercise-select-container">
       <select
         className="exercise-select"
-        value={phaseTrainingProgram[dayIndex].exercises[exerciseIndex].name}
+        value={phaseTrainingProgram[dayIndex].exercises[exerciseIndex].exercise}
         onChange={(e) =>
           handleExerciseChange(dayIndex, exerciseIndex, e.target.value)
         }

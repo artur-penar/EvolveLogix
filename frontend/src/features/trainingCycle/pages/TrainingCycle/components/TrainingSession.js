@@ -27,16 +27,16 @@ const TrainingSession = ({
           handleExerciseChange={handleExerciseChange}
         />
         {Array.from({ length: totalMicrocyclesNumber }, (_, i) => i).map(
-          (weekIndex) => (
-            <div key={weekIndex} className="exercise-inputs-container">
+          (microcycleIndex) => (
+            <div key={microcycleIndex} className="exercise-inputs-container">
               <ExerciseParameterInput
                 trainingDayIndex={trainingDayIndex}
                 exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
+                weekIndex={microcycleIndex}
                 value={
                   phaseTrainingProgram[trainingDayIndex]?.exercises[
                     exerciseIndex
-                  ]?.microcycles[weekIndex]?.weight
+                  ]?.microcycles[microcycleIndex]?.weight
                 }
                 handleChange={handleExerciseDetailChange}
                 detailType="weight"
@@ -46,24 +46,24 @@ const TrainingSession = ({
               <ExerciseParameterInput
                 trainingDayIndex={trainingDayIndex}
                 exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
+                weekIndex={microcycleIndex}
                 value={
                   phaseTrainingProgram[trainingDayIndex]?.exercises[
                     exerciseIndex
-                  ]?.microcycles[weekIndex]?.reps
+                  ]?.microcycles[microcycleIndex]?.repetitions
                 }
                 handleChange={handleExerciseDetailChange}
-                detailType="reps"
+                detailType="repetitions"
               />
               <label>x</label>
               <ExerciseParameterInput
                 trainingDayIndex={trainingDayIndex}
                 exerciseIndex={exerciseIndex}
-                weekIndex={weekIndex}
+                weekIndex={microcycleIndex}
                 value={
                   phaseTrainingProgram[trainingDayIndex]?.exercises[
                     exerciseIndex
-                  ]?.microcycles[weekIndex]?.sets
+                  ]?.microcycles[microcycleIndex]?.sets
                 }
                 handleChange={handleExerciseDetailChange}
                 detailType="sets"
