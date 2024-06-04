@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
+from training_log.models import Exercise
 
 
 class MicrocycleSerializer(serializers.ModelSerializer):
@@ -12,6 +14,8 @@ class MicrocycleSerializer(serializers.ModelSerializer):
 
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
     microcycles = MicrocycleSerializer(many=True)
+    exercise = serializers.SlugRelatedField(
+        slug_field='name', queryset=Exercise.objects.all())
 
     class Meta:
         model = ExerciseInSession
