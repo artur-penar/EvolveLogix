@@ -6,6 +6,7 @@ import PhaseOption from "./components/PhaseOption";
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import "./PhaseForm.css";
+import { addPhase } from "features/trainingCycle/trainingCycle";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -17,6 +18,8 @@ const selectExerciseNames = createSelector(
 );
 
 const PhaseForm = ({
+  mesocycle,
+  phase,
   weeksNumber: microcyclesNumber,
   trainingDays: trainingSessions,
 }) => {
@@ -27,11 +30,11 @@ const PhaseForm = ({
       dayNumber: 1,
       exercises: [
         {
-          name: "Squat",
+          exercise: "Squat",
           microcycles: [
             {
               weight: 0,
-              reps: 0,
+              repetitions: 0,
               sets: 0,
             },
           ],
@@ -131,7 +134,7 @@ const PhaseForm = ({
       const newState = [...prevState];
 
       // Update the exercise name
-      newState[trainingSessionIndex].exercises[exerciseIndex].name =
+      newState[trainingSessionIndex].exercises[exerciseIndex].exercise =
         newExerciseName;
 
       return newState;
@@ -158,9 +161,9 @@ const PhaseForm = ({
   ) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
-      newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[microcycleIndex][
-        detailType
-      ] = newValue;
+      newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
+        microcycleIndex
+      ][detailType] = newValue;
       console.log("HandleExerciseDetailChange", newState);
       console.log("DetailType", detailType);
       return newState;
@@ -168,12 +171,16 @@ const PhaseForm = ({
   };
 
   const handleAddPhase = () => {
-    const phasePlan = phaseTrainingProgram;
-    phasePlan.map((obj) => {
-      console.log(obj);
-    });
+    const phaseData = {
+      mesocycle: mesocycle,
+      type: phase,
+      training_sessions: phaseTrainingProgram,
+    };
+    console.log("Phase data", phaseData);
+    dispatch(addPhase(phaseData));
   };
 
+  console.log("Phase training program");
   console.log(phaseTrainingProgram);
 
   return (
