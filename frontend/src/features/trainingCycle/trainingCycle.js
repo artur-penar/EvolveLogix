@@ -71,6 +71,30 @@ export const addMesocycle = createAsyncThunk(
   }
 );
 
+export const addPhase = createAsyncThunk(
+  "trainingCycle/addPhase",
+  async ({ mesocycle, type, training_sessions }, thunkAPI) => {
+    try {
+      const res = await fetch("/api/training-cycle/phases/", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mesocycle, type, training_sessions }),
+      });
+      const data = await res.json();
+      if (res.status === 201) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const initialState = {
   trainingCycles: [],
   selectedMacrocycle: null,
@@ -121,6 +145,18 @@ const trainingCycleSlice = createSlice({
         state.loading = false;
       })
       .addCase(addMesocycle.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(addPhase.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addPhase.fulfilled, (state, action) => {
+        state.trainingCycles.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(addPhase.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });
