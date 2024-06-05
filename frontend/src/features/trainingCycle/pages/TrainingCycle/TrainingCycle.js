@@ -1,56 +1,89 @@
+// React-related imports
 import React, { useEffect, useState } from "react";
+
+// Third-party libraries
+import { useDispatch, useSelector } from "react-redux";
+
+// Absolute imports
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
-import TrainingCycleForm from "./TrainingCycleForm";
-import CreateNewCycle from "./CreateNewCycle";
-import PhaseForm from "./PhaseForm";
-import "./TrainingCycle.css";
-import { useDispatch, useSelector } from "react-redux";
+
+// Features
 import { setSelectedMacrocycle } from "features/trainingCycle/trainingCycle";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 
-const getMacrocycleNames = (trainingCycles) => {
-  return trainingCycles.map((macrocycle) => macrocycle.name);
+// Relative imports
+import CreateNewCycle from "./CreateNewCycle";
+import PhaseForm from "./PhaseForm";
+import TrainingCycleForm from "./TrainingCycleForm";
+
+// CSS/other assets
+import "./TrainingCycle.css";
+
+// Helper functions
+const getCyclesName = (trainingCycles) => {
+  return trainingCycles.map((cycle) => {
+    return cycle.name;
+  });
 };
 
-const getMacrocycleIdByName = (macrocycleName, trainingCycles) => {
+const getMesocycles = (trainingCycles, macrocycleName) => {
   const macrocycle = trainingCycles.find(
     (macrocycle) => macrocycle.name === macrocycleName
   );
-  return macrocycle ? macrocycle.id : null;
+  return macrocycle ? macrocycle.mesocycles : [];
 };
 
+const getCycleIdByName = (cycleName, cycles) => {
+  const cycle = cycles.find((cycle) => cycle.name === cycleName);
+  return cycle ? cycle.id : null;
+};
+
+// Component
 const TrainingCycle = () => {
+  // Redux hooks
   const dispatch = useDispatch();
   const trainingCycleState = useTrainingCycle();
-
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
   );
-
-  const macrocycles = getMacrocycleNames(trainingCycleState);
-  const mesocycles = ["Competition prep", "Off-season", "Transition"];
+  // Variables
+  const macrocycleNames = getCyclesName(trainingCycleState);
   const phases = ["Hypertrophy", "Strength", "Peaking", "Deload"];
 
-  const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+  // State hooks
 
-  const initialValues = {
-    macrocycle: macrocycles[0],
-    mesocycle: mesocycles[0],
+  const [mesocyclesData, setMesocyclesData] = useState([]);
+  const mesocycleNames = getCyclesName(mesocyclesData);
+  const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+  const [values, handleInputChange] = useFormControls({
+    macrocycle: macrocycleNames[0],
+    mesocycle: mesocycleNames[0],
     phase: phases[0],
     trainingDays: 0,
     phaseDurationInWeeks: 0,
     mesocycleDurationInWeeks: 0,
-  };
+  });
 
-  const [values, handleInputChange] = useFormControls(initialValues);
-  console.log(values);
+  // Use effect hooks
+  useEffect(() => {
+    setMesocyclesData(getMesocycles(trainingCycleState, selectedMacrocycle));
+    console.log("Mesocycle data fetched");
+  }, [selectedMacrocycle, trainingCycleState]);
+
+  useEffect(() => {
+    if (values["mesocycle"] === null)
+      handleInputChange({
+        target: { name: "mesocycle", value: mesocycleNames[0] },
+      });
+  }, [mesocycleNames]);
 
   useEffect(() => {
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
   }, [values["macrocycle"]]);
 
+  // Event handlers
   const handleCreateCycleClick = () => {
     setIsCreateCycleVisible(true);
   };
@@ -61,9 +94,9 @@ const TrainingCycle = () => {
         <PageHeader headerContent={"Training Cycle"} />
         <TrainingCycleForm
           macrocycle={values["macrocycle"]}
-          macrocycles={macrocycles}
+          macrocycles={macrocycleNames}
           mesocycle={values["mesocycle"]}
-          mesocycles={mesocycles}
+          mesocycles={mesocycleNames}
           phase={values["phase"]}
           phases={phases}
           trainingDays={values["trainingDays"]}
@@ -87,13 +120,15 @@ const TrainingCycle = () => {
         )}
         {isCreateCycleVisible && (
           <CreateNewCycle
-            selectedMacrocycle={getMacrocycleIdByName(
+            selectedMacrocycle={getCycleIdByName(
               selectedMacrocycle,
               trainingCycleState
             )}
           />
         )}
         <PhaseForm
+          phase={values["phase"]}
+          mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}
           weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
         />
