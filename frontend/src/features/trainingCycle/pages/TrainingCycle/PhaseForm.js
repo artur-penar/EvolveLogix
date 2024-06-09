@@ -7,6 +7,7 @@ import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import "./PhaseForm.css";
 import { addPhase } from "features/trainingCycle/trainingCycle";
+import CycleTimeline from "./CycleTimeline";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -14,6 +15,7 @@ const selectExercisesState = (state) => state.exercises.exercises;
 
 const selectExerciseNames = createSelector(
   [selectExercisesState],
+
   (exercises) => exercises.map((exercise) => exercise.name)
 );
 
@@ -43,10 +45,25 @@ const PhaseForm = ({
     },
   ];
 
+  const trainingCycle = [
+    {
+      name: "Phase 1",
+      type: "hypertrophy",
+      duration: 3,
+    },
+    {
+      name: "Phase 2",
+      type: "strength",
+      duration: 4,
+    },
+    // More phases...
+  ];
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
+  const [displayMesocycleTimeline, setDisplayMesocycleTimeline] =
+    useState(false);
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
 
@@ -177,11 +194,8 @@ const PhaseForm = ({
       training_sessions: phaseTrainingProgram,
     };
     console.log("Phase data", phaseData);
-    dispatch(addPhase(phaseData));
+    // dispatch(addPhase(phaseData));
   };
-
-  console.log("Phase training program");
-  console.log(phaseTrainingProgram);
 
   return (
     <div className="form-container">
@@ -191,8 +205,13 @@ const PhaseForm = ({
         setDisplayWeightInPercent={setDisplayWeightInPercent}
         displayRecords={displayRecords}
         setDisplayRecords={setDisplayRecords}
+        displayMesocycleTimeline={displayMesocycleTimeline}
+        setDisplayMesocycleTimeline={setDisplayMesocycleTimeline}
       />
       {displayRecords && <RecordsDisplayContainer />}
+      {displayMesocycleTimeline && (
+        <CycleTimeline trainingCycle={trainingCycle} />
+      )}
       <div className="training-phase-form">
         {phaseTrainingProgram.map((_, trainingSessionIndex) => (
           <TrainingSessionContainer
