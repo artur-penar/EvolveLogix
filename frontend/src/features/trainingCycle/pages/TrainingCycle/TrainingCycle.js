@@ -66,22 +66,16 @@ const TrainingCycle = () => {
     mesocycleDurationInWeeks: 0,
   });
 
-  // Use effect hooks
-  useEffect(() => {
-    setMesocyclesData(getMesocycles(trainingCycleState, selectedMacrocycle));
-    console.log("Mesocycle data fetched");
-  }, [selectedMacrocycle, trainingCycleState]);
-
-  useEffect(() => {
-    if (values["mesocycle"] === null)
-      handleInputChange({
-        target: { name: "mesocycle", value: mesocycleNames[0] },
-      });
-  }, [mesocycleNames]);
-
   useEffect(() => {
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
+    setMesocyclesData(getMesocycles(trainingCycleState, values["macrocycle"]));
   }, [values["macrocycle"]]);
+
+  useEffect(() => {
+    console.log(trainingCycleState);
+    if (trainingCycleState.length > 0)
+      setMesocyclesData(trainingCycleState[0].mesocycles);
+  }, [trainingCycleState]);
 
   // Event handlers
   const handleCreateCycleClick = () => {
