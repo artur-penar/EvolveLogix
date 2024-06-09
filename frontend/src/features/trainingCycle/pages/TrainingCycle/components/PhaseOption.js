@@ -5,6 +5,8 @@ const PhaseOption = ({
   setDisplayWeightInPercent,
   displayRecords,
   setDisplayRecords,
+  displayMesocycleTimeline,
+  setDisplayMesocycleTimeline,
 }) => {
   return (
     <div
@@ -37,6 +39,15 @@ const PhaseOption = ({
             style={{ marginRight: "0.5rem" }}
           />
           Show Strength Records
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={displayMesocycleTimeline}
+            onChange={(e) => setDisplayMesocycleTimeline(e.target.checked)}
+            style={{ marginRight: "0.5rem" }}
+          />
+          Mesocycle Timeline
         </label>
       </div>
     </div>
