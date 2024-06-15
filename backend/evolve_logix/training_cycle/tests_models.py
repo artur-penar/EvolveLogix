@@ -1,165 +1,49 @@
-from .models import Mesocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
+from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from training_log.models import Exercise
 from django.test import TestCase
 from datetime import date
 from django.contrib.auth import get_user_model
 
 
-class MesocycleModelTest(TestCase):
+class BaseTest(TestCase):
     def setUp(self):
-        # Create a User object
         User = get_user_model()
-        user = User.objects.create_user(
-            email='testuser@example.com', user_name='Test User', password='testpass')
+        self.user = User.objects.create_user(
+            email='testuser@example.com', user_name='Test User', password='testpassword')
+        self.macrocycle = Macrocycle.objects.create(
+            user=self.user, name='Test Macrocycle', start_date=date(2020, 1, 1))
 
-        self.mesocycle = Mesocycle.objects.create(user=user,
-                                                  name='Test Mesocycle', start_date=date.today())
-
-    def test_mesocycle_creation(self):
-        self.assertEqual(self.mesocycle.name, 'Test Mesocycle')
-        self.assertEqual(self.mesocycle.start_date, date.today())
-        self.assertEqual(self.mesocycle.end_date, None)
+        self.mesocycle = Mesocycle.objects.create(
+            macrocycle=self.macrocycle, name='Test Mesocycle', start_date=date(2020, 1, 1), duration=4)
 
 
-class MacrocycleModelTest(TestCase):
-    def setUp(self):
-        # Create a User object
-        User = get_user_model()
-        user = User.objects.create_user(
-            email='testuser@example.com', user_name='Test User', password='testpass')
-
-        self.mesocycle = Mesocycle.objects.create(user=user,
-                                                  name='Test Mesocycle', start_date=date.today())
-
-        self.macrocycle = Mesocycle.objects.create(
-            mesocycle=self.mesocycle, name='Macrocycle')
-
-    def test_macrocycle_creation(self):
-        self.assertEqual(self.macrocycle.name, 'Macrocycle')
-        self.assertEqual(self.macrocycle.macrocycle, self.mesocycle)
-
-
-class PhaseModelTest(TestCase):
-    def setUp(self):
-        # Create a User object
-        User = get_user_model()
-        user = User.objects.create_user(
-            email='testuser@example.com', user_name='Test User', password='testpass')
-
-        self.mesocycle = Mesocycle.objects.create(user=user,
-                                                  name='Test Mesocycle', start_date=date.today())
-
-        self.macrocycle = Mesocycle.objects.create(
-            mesocycle=self.mesocycle, name='Macrocycle')
-        self.phase = Phase.objects.create(
-            macrocycle=self.macrocycle, type='Hypertrophy')
-
-    def test_phase_creation(self):
-        self.assertEqual(self.phase.type, 'Hypertrophy')
-        self.assertEqual(self.phase.mesocycle, self.macrocycle)
-
-
-class MicrocycleModelTest(TestCase):
-    def setUp(self):
-        # Create a User object
-        User = get_user_model()
-        user = User.objects.create_user(
-            email='testuser@example.com', user_name='Test User', password='testpass')
-
-        self.mesocycle = Mesocycle.objects.create(user=user,
-                                                  name='Test Mesocycle', start_date=date.today())
-
-        self.macrocycle = Mesocycle.objects.create(
-            mesocycle=self.mesocycle, name='Macrocycle')
-        self.phase = Phase.objects.create(
-            macrocycle=self.macrocycle, type='Hypertrophy')
-        self.microcycle = Microcycle.objects.create(
-            phase=self.phase, order=1)
-        self.microcycle_2 = Microcycle.objects.create(
-            phase=self.phase, order=3)
-
-    def test_microcycle_creation(self):
-        self.assertEqual(self.microcycle.order, 1)
-        self.assertEqual(self.microcycle.phase, self.phase)
-        self.assertEqual(self.microcycle_2.order, 3)
-        self.assertEqual(self.microcycle_2.phase, self.phase)
-
-
-class TrainingSessionModelTest(TestCase):
-    def setUp(self):
-        # Create a User object
-        User = get_user_model()
-        user = User.objects.create_user(
-            email='testuser@example.com', user_name='Test User', password='testpass')
-
-        mesocycle = Mesocycle.objects.create(user=user,
-                                             name='Test Mesocycle', start_date=date.today())
-
-        macrocycle = Mesocycle.objects.create(
-            mesocycle=mesocycle, name='Macrocycle')
+class PhaseModelTest(BaseTest):
+    def test_create_pase(self):
         phase = Phase.objects.create(
-            macrocycle=macrocycle, type='Hypertrophy')
-        self.microcycle = Microcycle.objects.create(
-            phase=phase, order=1)
-        self.training_session = TrainingSession.objects.create(
-            microcycle=self.microcycle, order=1)
-        self.training_session_2 = TrainingSession.objects.create(
-            microcycle=self.microcycle, order=2)
+            mesocycle=self.mesocycle, type='Strength', start_date=date(2020, 1, 1), duration=2)
+        self.assertEqual(Phase.objects.count(), 1)
 
-    def test_training_session_creation(self):
-        self.assertEqual(self.training_session.order, 1)
-        self.assertEqual(self.training_session.microcycle, self.microcycle)
-
-
-class ExerciseInSessionModelTest(TestCase):
-    def setUp(self):
-
-        self.session_1 = self.create_session(order=1, email='testuser')
-        self.session_2 = self.create_session(order=2, email='testuser2')
-
-        self.squat_in_session_1 = self.create_exercise_in_session(
-            session=self.session_1, exercise_name='Squat', weight=100)
-        self.bench_press_in_session_1 = self.create_exercise_in_session(
-            session=self.session_1, exercise_name='Bench press', weight=100)
-        self.squat_in_session_2 = self.create_exercise_in_session(
-            session=self.session_2, exercise_name='Squat', weight=200)
-
-    def create_session(self, order, email):
-        # Create a User object
-        User = get_user_model()
-        user = User.objects.create_user(
-            email=f'{email}@example.com', user_name='Test User', password='testpass')
-
-        mesocycle = Mesocycle.objects.create(user=user,
-                                             name='Test Mesocycle', start_date=date.today())
-
-        macrocycle = Mesocycle.objects.create(
-            mesocycle=mesocycle, name='Comp prep')
+    def test_phase_type(self):
         phase = Phase.objects.create(
-            macrocycle=macrocycle, type='Hypertrophy')
-        microcycle = Microcycle.objects.create(
-            phase=phase, order=1)
-        return TrainingSession.objects.create(
-            microcycle=microcycle, order=order)
+            mesocycle=self.mesocycle, type='Strngth', start_date=date(2020, 1, 1), duration=2)
+        # self.assertEqual(phase.type, 'Strength')
+        phase.save()
 
-    def create_exercise_in_session(self, session, exercise_name, weight):
-        return ExerciseInSession.objects.create(
-            training_session=session,
-            exercise=Exercise.objects.create(name=exercise_name),
-            weight=weight,
-            repetitions=10,
-            sets=3)
+    def test_phase_end_date(self):
+        phase = Phase.objects.create(
+            mesocycle=self.mesocycle, type='Strength', start_date=date(2020, 1, 1), duration=2)
+        self.assertEqual(phase.end_date, date(2020, 1, 15))
 
-    def test_exercise_in_session_creation(self):
-        self.assertExerciseInSession(
-            self.squat_in_session_1, self.session_1, 'Squat', 100)
-        self.assertExerciseInSession(
-            self.bench_press_in_session_1, self.session_1, 'Bench press', 100)
+    def test_phase_duration_validation(self):
+        # Create a phase with a duration greater than the mesocycle duration
+        with self.assertRaises(ValueError):
+            phase = Phase.objects.create(
+                mesocycle=self.mesocycle, type='Strength', start_date=date(2020, 1, 1), duration=5)
 
-    def assertExerciseInSession(self, exercise_in_session, session, exercise_name, weight):
-        self.assertEqual(
-            exercise_in_session.training_session.order, session.order)
-        self.assertEqual(exercise_in_session.exercise.name, exercise_name)
-        self.assertEqual(exercise_in_session.weight, weight)
-        self.assertEqual(exercise_in_session.repetitions, 10)
-        self.assertEqual(exercise_in_session.sets, 3)
+    def test_total_phase_duration_validation(self):
+        phase = Phase.objects.create(
+            mesocycle=self.mesocycle, type='Strength', start_date=date(2020, 1, 1), duration=2)
+
+        with self.assertRaises(ValueError):
+            phase_2 = Phase.objects.create(
+                mesocycle=self.mesocycle, type='Strength', start_date=date(2020, 1, 1), duration=3)

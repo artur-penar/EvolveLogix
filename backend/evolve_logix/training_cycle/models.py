@@ -1,4 +1,5 @@
-from django.db import models
+import datetime
+from django.db import models, transaction
 from evolve_logix import settings
 from training_log.models import Exercise
 
@@ -21,7 +22,25 @@ class Mesocycle(models.Model):
         Macrocycle, on_delete=models.CASCADE, related_name='mesocycles')
     name = models.CharField(max_length=200)
     start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
+    duration = models.PositiveIntegerField(null=True, blank=True)
+
+    @property
+    def end_date(self):
+        if self.duration or self.start_date is None:
+            return None
+        return self.start_date + datetime.timedelta(weeks=self.duration)
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            self.validate_phase_duration()
+
+    def validate_phase_duration(self):
+        total_phases_duration = sum(
+            phase.duration for phase in self.phases.all())
+        if self.duration < total_phases_duration:
+            raise ValueError(
+                "The mesocycle duration cannot be less than the sum of all phases duration.")
 
     def __str__(self):
         return self.name
@@ -41,7 +60,25 @@ class Phase(models.Model):
     type = models.CharField(
         max_length=200, choices=PHASE_TYPES, default='Hypertrophy')
     start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
+    duration = models.PositiveIntegerField(null=True, blank=True)
+
+    @property
+    def end_date(self):
+        if self.duration is None or self.start_date is None:
+            return None
+        return self.start_date + datetime.timedelta(weeks=self.duration)
+
+    def save(self, *args, **kwargs):
+        if self.duration > self.mesocycle.duration:
+            raise ValueError(
+                "The phase duration cannot be greater than the mesocycle duration.")
+        total_phases_duration = sum(
+            phase.duration for phase in self.mesocycle.phases.all())
+        total_phases_duration += self.duration
+        if total_phases_duration > self.mesocycle.duration:
+            raise ValueError(
+                "The sum of all phases duration cannot be greater than the mesocycle duration.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.mesocycle.name} - {self.type}"
