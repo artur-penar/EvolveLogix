@@ -75,6 +75,21 @@ const TrainingCycleForm = ({
               ))}
             </select>
           </div>
+          <div className="tcf-select-group">
+            <label className="tcf-select-label">Start date:</label>
+            <select
+              className="form-control tcf-select-control"
+              name="mesocycleDurationInWeeks"
+              value={mesocycleDurationInWeeks}
+              onChange={handleMesocycleDurationChange}
+            >
+              {[...Array(10).keys()].map((number, i) => (
+                <option key={i} value={number}>
+                  {number + 1}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
