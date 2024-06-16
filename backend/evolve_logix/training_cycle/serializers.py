@@ -38,7 +38,7 @@ class PhaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Phase
-        fields = ['id', 'mesocycle', 'type', 'start_date',
+        fields = ['id', 'mesocycle', 'type', 'duration', 'start_date',
                   'end_date', 'training_sessions']
 
     def create(self, validated_data):
