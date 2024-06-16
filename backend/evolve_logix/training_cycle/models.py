@@ -2,6 +2,7 @@ import datetime
 from django.db import models, transaction
 from evolve_logix import settings
 from training_log.models import Exercise
+from operator import attrgetter
 
 # Create your models here.
 
@@ -66,7 +67,7 @@ class Phase(models.Model):
     def end_date(self):
         if self.duration is None or self.start_date is None:
             return None
-        return self.start_date + datetime.timedelta(weeks=self.duration)
+        return self.start_date + datetime.timedelta(weeks=self.duration) - datetime.timedelta(days=1) 
 
     def save(self, *args, **kwargs):
         if self.duration > self.mesocycle.duration:
@@ -78,7 +79,27 @@ class Phase(models.Model):
         if total_phases_duration > self.mesocycle.duration:
             raise ValueError(
                 "The sum of all phases duration cannot be greater than the mesocycle duration.")
+
+        # Automatically set the start  date of the phase to the end date of the last phase
+        phases = sorted(self.mesocycle.phases.all(),
+                        key=attrgetter('end_date'), reverse=True)
+        last_phase = phases[0] if phases else None
+        if last_phase:
+            self.start_date = last_phase.end_date + datetime.timedelta(days=1)
+        else:
+            # This is the first phase. Set start_date same like mesocycle start date.
+            self.start_date = self.mesocycle.start_date
+
+        self.validate_start_date()
         super().save(*args, **kwargs)
+
+    def validate_start_date(self):
+        phases = sorted(self.mesocycle.phases.all(),
+                        key=attrgetter('end_date'), reverse=True)
+        last_phase = phases[0] if phases else None
+        if last_phase and last_phase.end_date > self.start_date:
+            raise ValueError(
+                "The start date of the phase must be after the end date of the last phase.")
 
     def __str__(self):
         return f"{self.mesocycle.name} - {self.type}"
