@@ -60,6 +60,7 @@ const TrainingCycle = () => {
   const [values, handleInputChange] = useFormControls({
     macrocycle: macrocycleNames[0],
     mesocycle: mesocycleNames[0],
+    mesocycleStartDate: "",
     phase: phases[0],
     trainingDays: 0,
     phaseDurationInWeeks: 0,
@@ -72,9 +73,47 @@ const TrainingCycle = () => {
   }, [values["macrocycle"]]);
 
   useEffect(() => {
+    mesocyclesData.forEach((mesocycle) => {
+      if (mesocycle.name === values["mesocycle"]) {
+        console.log(mesocycle.name, values["mesocycle"]);
+        handleInputChange({
+          target: {
+            name: "mesocycleStartDate",
+            value: mesocycle.start_date,
+          },
+        });
+      }
+    });
+  }, [values["mesocycle"]]);
+
+  useEffect(() => {
+    trainingCycleState.forEach((macrocycle) => {
+      if (macrocycle.name === values["macrocycle"]) {
+        handleInputChange({
+          target: {
+            name: "mesocycleStartDate",
+            value:
+              macrocycle.mesocycles && macrocycle.mesocycles[0]
+                ? macrocycle.mesocycles[0].start_date
+                : "",
+          },
+        });
+      }
+    });
+  }, [values["macrocycle"]]);
+
+  useEffect(() => {
     console.log(trainingCycleState);
-    if (trainingCycleState.length > 0)
+    if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
+      // Set the start date of the first mesocycle
+      handleInputChange({
+        target: {
+          name: "mesocycleStartDate",
+          value: trainingCycleState[0].mesocycles[0].start_date,
+        },
+      });
+    }
   }, [trainingCycleState]);
 
   // Event handlers
@@ -91,6 +130,8 @@ const TrainingCycle = () => {
           macrocycles={macrocycleNames}
           mesocycle={values["mesocycle"]}
           mesocycles={mesocycleNames}
+          mesocycleStartDate={values["mesocycleStartDate"]}
+          handleMesocycleStartDateChange={handleInputChange}
           phase={values["phase"]}
           phases={phases}
           trainingDays={values["trainingDays"]}
