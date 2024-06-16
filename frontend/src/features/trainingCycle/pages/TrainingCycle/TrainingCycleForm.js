@@ -11,6 +11,7 @@ const TrainingCycleForm = ({
   trainingDays,
   mesocycleDurationInWeeks,
   handleMesocycleDurationChange,
+  mesocycleStartDate,
   phaseDurationInWeeks,
   handleMacrocycleChange,
   handleMesocycleChange,
@@ -77,7 +78,7 @@ const TrainingCycleForm = ({
           </div>
           <div className="tcf-select-group">
             <label className="tcf-select-label">Start date:</label>
-            <select
+            {/* <select
               className="form-control tcf-select-control"
               name="mesocycleDurationInWeeks"
               value={mesocycleDurationInWeeks}
@@ -88,7 +89,14 @@ const TrainingCycleForm = ({
                   {number + 1}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <input
+              className="form-control"
+              type="date"
+              value={mesocycleStartDate}
+              style={{ textAlign: "center" }}
+              readOnly
+            ></input>
           </div>
         </div>
 
