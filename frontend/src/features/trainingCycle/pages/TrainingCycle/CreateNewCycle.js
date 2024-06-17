@@ -10,6 +10,7 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
   const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
+  const [newMesocycleStartDate, setNewMesocycleStartDate] = useState("");
 
   const handleNameChange = (e) => {
     setCycleName(e.target.value);
@@ -17,6 +18,10 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
 
   const handleTypeChange = (e) => {
     setCycleType(e.target.value);
+  };
+
+  const handleStartDateChange = (e) => {
+    setNewMesocycleStartDate(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -59,21 +64,35 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
             onChange={handleNameChange}
           ></input>
         </div>
+
+        {cycleType === "Mesocycle" && (
+          <>
+            <div className="cnc-form-group" style={{ width: "340px" }}>
+              <label for="name">Start date:</label>
+              <input
+                id="name"
+                type="date"
+                className="form-control"
+                value={newMesocycleStartDate}
+                onChange={handleStartDateChange}
+              ></input>
+            </div>
+            <div
+              style={{
+                width: "340px",
+                padding: "10px",
+                backgroundColor: "#f0f0f0",
+                borderRadius: "5px",
+              }}
+            >
+              <p style={{ color: "#666", lineHeight: "1.5" }}>
+                The Mesocycle is related with the currently selected Macrocycle!
+              </p>
+            </div>
+          </>
+        )}
       </div>
-      {cycleType === "Mesocycle" && (
-        <div
-          style={{
-            width: "340px",
-            padding: "10px",
-            backgroundColor: "#f0f0f0",
-            borderRadius: "5px",
-          }}
-        >
-          <p style={{ color: "#666", lineHeight: "1.5" }}>
-            The Mesocycle is related with the currently selected Macrocycle!
-          </p>
-        </div>
-      )}
+
       <button className="submit-button" onClick={handleSubmit}>
         Submit
       </button>
