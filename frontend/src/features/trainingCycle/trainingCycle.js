@@ -49,7 +49,7 @@ export const createMacrocycle = createAsyncThunk(
 
 export const addMesocycle = createAsyncThunk(
   "trainingCycle/addMesocycle",
-  async ({ name, macrocycle }, thunkAPI) => {
+  async ({ name, macrocycle, duration, start_date }, thunkAPI) => {
     try {
       const res = await fetch("/api/training-cycle/mesocycles/", {
         method: "POST",
@@ -57,7 +57,7 @@ export const addMesocycle = createAsyncThunk(
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, macrocycle }),
+        body: JSON.stringify({ name, macrocycle, start_date, duration }),
       });
       const data = await res.json();
       if (res.status === 201) {
