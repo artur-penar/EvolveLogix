@@ -29,6 +29,10 @@
   align-items: center;
   width: 50%;
 }
+.cnc-form-group label {
+  text-align: right;
+  width: 30%;
+}
 
 .cnc-form-group {
   display: flex;
