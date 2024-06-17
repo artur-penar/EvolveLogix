@@ -107,7 +107,7 @@ class MesocycleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mesocycle
-        fields = ['id', 'macrocycle', 'name',
+        fields = ['id', 'macrocycle', 'name', 'duration',
                   'start_date', 'end_date', 'phases']
 
 
