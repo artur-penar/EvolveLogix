@@ -27,7 +27,7 @@ class Mesocycle(models.Model):
 
     @property
     def end_date(self):
-        if self.duration or self.start_date is None:
+        if self.duration is None or self.start_date is None:
             return None
         return self.start_date + datetime.timedelta(weeks=self.duration)
 
@@ -35,6 +35,7 @@ class Mesocycle(models.Model):
         with transaction.atomic():
             super().save(*args, **kwargs)
             self.validate_phase_duration()
+            self.validate_overlap()
 
     def validate_phase_duration(self):
         total_phases_duration = sum(
@@ -42,6 +43,19 @@ class Mesocycle(models.Model):
         if self.duration < total_phases_duration:
             raise ValueError(
                 "The mesocycle duration cannot be less than the sum of all phases duration.")
+
+    def validate_overlap(self):
+        overlapping_mesocycles = Mesocycle.objects.filter(
+            macrocycle=self.macrocycle
+        ).exclude(
+            id=self.id
+        )
+
+        for mesocycle in overlapping_mesocycles:
+            print(self.start_date, mesocycle.end_date,
+                  self.end_date, mesocycle.start_date)
+            if (self.start_date <= mesocycle.end_date) and (self.end_date >= mesocycle.start_date):
+                raise ValueError("Mesocycles cannot overlap.")
 
     def __str__(self):
         return self.name
@@ -67,7 +81,7 @@ class Phase(models.Model):
     def end_date(self):
         if self.duration is None or self.start_date is None:
             return None
-        return self.start_date + datetime.timedelta(weeks=self.duration) - datetime.timedelta(days=1) 
+        return self.start_date + datetime.timedelta(weeks=self.duration) - datetime.timedelta(days=1)
 
     def save(self, *args, **kwargs):
         if self.duration > self.mesocycle.duration:
