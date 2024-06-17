@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CreateNewCycle.css";
 import { useDispatch } from "react-redux";
 import {
@@ -10,7 +10,9 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
   const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
-  const [newMesocycleStartDate, setNewMesocycleStartDate] = useState("");
+  const [mesocycleStartDate, setMesocycleStartDate] = useState("");
+  const [mesocycleEndDate, setMesocycleEndDate] = useState("");
+  const [mesocycleDuration, setMesocycleDuration] = useState(0);
 
   const handleNameChange = (e) => {
     setCycleName(e.target.value);
@@ -21,15 +23,42 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
   };
 
   const handleStartDateChange = (e) => {
-    setNewMesocycleStartDate(e.target.value);
+    setMesocycleStartDate(e.target.value);
   };
+
+  const handleDurationChange = (e) => {
+    setMesocycleDuration(e.target.value);
+  };
+
+  useEffect(() => {
+    // Function calculate end date based on start date AND duration in weeks
+    // (mesocycleDuration)
+    const calculateEndDate = () => {
+      const startDate = new Date(mesocycleStartDate);
+      const endDate = new Date(
+        startDate.getTime() +
+          (Number(mesocycleDuration) + 1) * 7 * 24 * 60 * 60 * 1000
+      );
+      const formattedEndDate = endDate.toISOString().split("T")[0];
+      setMesocycleEndDate(formattedEndDate);
+    };
+
+    if (mesocycleStartDate && mesocycleDuration) {
+      calculateEndDate();
+    }
+  }, [mesocycleStartDate, mesocycleDuration]);
 
   const handleSubmit = () => {
     if (cycleType === "Macrocycle") {
       dispatch(createMacrocycle(cycleName));
     } else {
       dispatch(
-        addMesocycle({ name: cycleName, macrocycle: selectedMacrocycle })
+        addMesocycle({
+          name: cycleName,
+          macrocycle: selectedMacrocycle,
+          start_date: mesocycleStartDate,
+          duration: Number(mesocycleDuration) + 1,
+        })
       );
     }
   };
@@ -67,14 +96,39 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
 
         {cycleType === "Mesocycle" && (
           <>
-            <div className="cnc-form-group" style={{ width: "340px" }}>
+            <div className="cnc-form-group">
               <label for="name">Start date:</label>
               <input
                 id="name"
                 type="date"
                 className="form-control"
-                value={newMesocycleStartDate}
+                value={mesocycleStartDate}
                 onChange={handleStartDateChange}
+              ></input>
+            </div>
+
+            <div className="cnc-form-group">
+              <label>Duration: </label>
+              <select
+                className="form-control"
+                value={mesocycleDuration}
+                onChange={handleDurationChange}
+              >
+                {[...Array(12).keys()].map((number, i) => (
+                  <option key={i} value={number}>
+                    {number + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="cnc-form-group">
+              <label for="name">End date:</label>
+              <input
+                id="name"
+                type="date"
+                className="form-control"
+                value={mesocycleEndDate}
+                readOnly
               ></input>
             </div>
             <div
