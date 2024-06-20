@@ -57,15 +57,17 @@ const TrainingCycle = () => {
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCyclesName(mesocyclesData);
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
-  const [values, handleInputChange] = useFormControls({
-    macrocycle: macrocycleNames[0],
-    mesocycle: mesocycleNames[0],
-    mesocycleStartDate: "",
-    phase: phases[0],
-    trainingDays: 0,
-    phaseDurationInWeeks: 0,
-    mesocycleDurationInWeeks: 0,
-  });
+  const [values, handleInputChange, handleMultipleInputChanges] =
+    useFormControls({
+      macrocycle: macrocycleNames[0],
+      mesocycle: mesocycleNames[0],
+      mesocycleStartDate: "",
+      mesocycleEndDate: "",
+      phase: phases[0],
+      trainingDays: 0,
+      phaseDurationInWeeks: 0,
+      mesocycleDurationInWeeks: 0,
+    });
 
   useEffect(() => {
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
@@ -76,11 +78,10 @@ const TrainingCycle = () => {
     mesocyclesData.forEach((mesocycle) => {
       if (mesocycle.name === values["mesocycle"]) {
         console.log(mesocycle.name, values["mesocycle"]);
-        handleInputChange({
-          target: {
-            name: "mesocycleStartDate",
-            value: mesocycle.start_date,
-          },
+        handleMultipleInputChanges({
+          mesocycleStartDate: mesocycle.start_date,
+          mesocycleEndDate: mesocycle.end_date,
+          mesocycleDurationInWeeks: mesocycle.duration,
         });
       }
     });
@@ -89,21 +90,26 @@ const TrainingCycle = () => {
   useEffect(() => {
     trainingCycleState.forEach((macrocycle) => {
       if (macrocycle.name === values["macrocycle"]) {
-        handleInputChange({
-          target: {
-            name: "mesocycleStartDate",
-            value:
-              macrocycle.mesocycles && macrocycle.mesocycles[0]
-                ? macrocycle.mesocycles[0].start_date
-                : "",
-          },
+        handleMultipleInputChanges({
+          mesocycleStartDate:
+            macrocycle.mesocycles && macrocycle.mesocycles[0]
+              ? macrocycle.mesocycles[0].start_date
+              : "",
+          mesocycleEndDate:
+            macrocycle.mesocycles && macrocycle.mesocycles[0]
+              ? macrocycle.mesocycles[0].end_date
+              : "",
+          mesocycleDurationInWeeks:
+            macrocycle.mesocycles && macrocycle.mesocycles[0]
+              ? macrocycle.mesocycles[0].duration
+              : "",
         });
       }
     });
   }, [values["macrocycle"]]);
 
   useEffect(() => {
-    console.log(trainingCycleState);
+    // Update mesocycles data when trainingCycleState changes
     if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
       // Set the start date of the first mesocycle
@@ -131,6 +137,7 @@ const TrainingCycle = () => {
           mesocycle={values["mesocycle"]}
           mesocycles={mesocycleNames}
           mesocycleStartDate={values["mesocycleStartDate"]}
+          mesocycleEndDate={values["mesocycleEndDate"]}
           handleMesocycleStartDateChange={handleInputChange}
           phase={values["phase"]}
           phases={phases}
