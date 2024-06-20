@@ -16,5 +16,12 @@ export const useFormControls = (initialValues) => {
     }
   };
 
-  return [values, handleInputChange];
+  const handleMultipleInputChanges = (changes) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      ...changes,
+    }));
+  };
+
+  return [values, handleInputChange, handleMultipleInputChanges];
 };
