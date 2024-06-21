@@ -1,5 +1,7 @@
 import React from "react";
 import "./TrainingCycleForm.css";
+import DateInput from "./components/DateInput";
+import SelectInput from "./components/SelectInput";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -12,6 +14,8 @@ const TrainingCycleForm = ({
   mesocycleDurationInWeeks,
   mesocycleStartDate,
   mesocycleEndDate,
+  phaseStartDate,
+  phaseEndDate,
   phaseDurationInWeeks,
   handleMacrocycleChange,
   handleMesocycleChange,
@@ -46,102 +50,51 @@ const TrainingCycleForm = ({
       </div>
       <div className="tcf-select-group-container">
         <div className="tcf-select-container">
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Mesocycle:</label>
-            <select
-              className="form-control tcf-select-control"
-              name="mesocycle"
-              value={mesocycle}
-              onChange={handleMesocycleChange}
-            >
-              {mesocycles.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Duration in weeks:</label>
-            <select
-              className="form-control tcf-select-control"
-              name="mesocycleDurationInWeeks"
-              value={mesocycleDurationInWeeks}
-              disabled
-            >
-              {[...Array(11).keys()].map((number, i) => (
-                <option key={i} value={number}>
-                  {number}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Start date:</label>
-            <input
-              className="form-control"
-              type="date"
-              value={mesocycleStartDate}
-              style={{ textAlign: "center" }}
-            ></input>
-          </div>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">End date:</label>
-            <input
-              className="form-control"
-              type="date"
-              value={mesocycleEndDate}
-              style={{ textAlign: "center" }}
-            ></input>
-          </div>
+          <SelectInput
+            name="mesocycle"
+            label="Mesocycle"
+            value={mesocycle}
+            options={mesocycles}
+            handleChange={handleMesocycleChange}
+          />
+          <SelectInput
+            name="mesocycleDurationInWeeks"
+            label="Duration in weeks"
+            value={mesocycleDurationInWeeks}
+            options={[...Array(11).keys()]}
+            handleChange={handleMesocycleChange}
+            disabled={true}
+          />
+          <DateInput label="Start date:" value={mesocycleStartDate} />
+          <DateInput label="End date:" value={mesocycleEndDate} />
         </div>
 
+        {/* // Phase selection */}
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Phase:</label>
-            <select
-              className="form-control tcf-select-control"
-              name="phase"
-              value={phase}
-              onChange={handlePhaseChange}
-            >
-              {phases.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Duration in weeks:</label>
-            <select
-              className="form-control tcf-select-control"
-              name="phaseDurationInWeeks"
-              value={phaseDurationInWeeks}
-              onChange={handlePhaseDurationChange}
-            >
-              {[...Array(10).keys()].map((number, i) => (
-                <option key={i} value={number}>
-                  {number + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="tcf-select-group">
-            <label className="tcf-select-label">Training days:</label>
-            <select
-              className="form-control tcf-select-control"
-              name="trainingDays"
-              value={trainingDays}
-              onChange={handleTrainingDaysChange}
-            >
-              {[...Array(7).keys()].map((number, i) => (
-                <option key={i} value={number}>
-                  {number + 1}
-                </option>
-              ))}
-            </select>
-          </div>
+          <SelectInput
+            name="phase"
+            label="Phase"
+            value={phase}
+            options={phases}
+            handleChange={handlePhaseChange}
+          />
+          <SelectInput
+            name="trainingDays"
+            label="Training days:"
+            value={trainingDays}
+            options={[...Array(7).keys()]}
+            handleChange={handleTrainingDaysChange}
+          />
+          <SelectInput
+            name="phaseDurationInWeeks"
+            label="Duration in weeks:"
+            value={phaseDurationInWeeks}
+            options={[...Array(10).keys()]}
+            handleChange={handlePhaseDurationChange}
+          />
+
+          <DateInput label="Start date:" value={phaseStartDate} />
+          <DateInput label="End date:" value={phaseEndDate} />
         </div>
       </div>
     </div>
