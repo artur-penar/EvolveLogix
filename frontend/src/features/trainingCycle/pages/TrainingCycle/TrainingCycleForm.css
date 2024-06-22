@@ -27,7 +27,8 @@
   align-items: center;
   border-radius: 10px; /* Increased border radius to match other components */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
-  width: 75%;
+  width: 80%;
+  padding: 1rem;
 }
 
 .tcf-select-container {
@@ -35,7 +36,7 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .tcf-select-group {
