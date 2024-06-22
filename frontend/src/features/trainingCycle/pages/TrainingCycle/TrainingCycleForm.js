@@ -62,8 +62,9 @@ const TrainingCycleForm = ({
             <DateInput label="End date:" value={mesocycleEndDate} />
           </div>
         </div>
-
-        {/* // Phase selection */}
+      </div>
+      {/* // Phase selection */}
+      <div className="tcf-select-group-container">
         <h4>Phase</h4>
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
           <div className="flex-column">
