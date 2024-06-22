@@ -25,34 +25,24 @@ const TrainingCycleForm = ({
 }) => {
   return (
     <div className="tcf-parent-container">
-      <div className="tcf-macrocycle-container">
-        <div
-          className="tcf-select-group"
-          style={{
-            width: "50%",
-            marginTop: "1rem",
-          }}
-        >
-          <label className="tcf-select-label">Macrocycle:</label>
-          <select
-            className="form-control tcf-select-control"
+      <div className="tcf-select-group-container">
+        <h4>Macrocycle</h4>
+        <div className="tcf-select-container">
+          <SelectInput
             name="macrocycle"
+            label="Name"
             value={macrocycle}
-            onChange={handleMacrocycleChange}
-          >
-            {macrocycles.map((name, i) => (
-              <option key={i} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
+            options={macrocycles}
+            handleChange={handleMacrocycleChange}
+          />
         </div>
       </div>
       <div className="tcf-select-group-container">
+        <h4>Mesocycle</h4>
         <div className="tcf-select-container">
           <SelectInput
             name="mesocycle"
-            label="Mesocycle"
+            label="Name"
             value={mesocycle}
             options={mesocycles}
             handleChange={handleMesocycleChange}
@@ -70,24 +60,25 @@ const TrainingCycleForm = ({
         </div>
 
         {/* // Phase selection */}
+        <h4>Phase</h4>
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
           <SelectInput
             name="phase"
-            label="Phase"
+            label="Type"
             value={phase}
             options={phases}
             handleChange={handlePhaseChange}
           />
           <SelectInput
             name="trainingDays"
-            label="Training days:"
+            label="Training days"
             value={trainingDays}
             options={[...Array(7).keys()]}
             handleChange={handleTrainingDaysChange}
           />
           <SelectInput
             name="phaseDurationInWeeks"
-            label="Duration in weeks:"
+            label="Duration in weeks"
             value={phaseDurationInWeeks}
             options={[...Array(10).keys()]}
             handleChange={handlePhaseDurationChange}
