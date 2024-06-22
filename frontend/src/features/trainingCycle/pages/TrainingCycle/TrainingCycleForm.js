@@ -40,52 +40,60 @@ const TrainingCycleForm = ({
       <div className="tcf-select-group-container">
         <h4>Mesocycle</h4>
         <div className="tcf-select-container">
-          <SelectInput
-            name="mesocycle"
-            label="Name"
-            value={mesocycle}
-            options={mesocycles}
-            handleChange={handleMesocycleChange}
-          />
-          <SelectInput
-            name="mesocycleDurationInWeeks"
-            label="Duration in weeks"
-            value={mesocycleDurationInWeeks}
-            options={[...Array(11).keys()]}
-            handleChange={handleMesocycleChange}
-            disabled={true}
-          />
-          <DateInput label="Start date:" value={mesocycleStartDate} />
-          <DateInput label="End date:" value={mesocycleEndDate} />
+          <div className="flex-column">
+            <SelectInput
+              name="mesocycle"
+              label="Name"
+              value={mesocycle}
+              options={mesocycles}
+              handleChange={handleMesocycleChange}
+            />
+            <SelectInput
+              name="mesocycleDurationInWeeks"
+              label="Duration in weeks"
+              value={mesocycleDurationInWeeks}
+              options={[...Array(11).keys()]}
+              handleChange={handleMesocycleChange}
+              disabled={true}
+            />
+          </div>
+          <div className="flex-column">
+            <DateInput label="Start date:" value={mesocycleStartDate} />
+            <DateInput label="End date:" value={mesocycleEndDate} />
+          </div>
         </div>
 
         {/* // Phase selection */}
         <h4>Phase</h4>
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
-          <SelectInput
-            name="phase"
-            label="Type"
-            value={phase}
-            options={phases}
-            handleChange={handlePhaseChange}
-          />
-          <SelectInput
-            name="trainingDays"
-            label="Training days"
-            value={trainingDays}
-            options={[...Array(7).keys()]}
-            handleChange={handleTrainingDaysChange}
-          />
-          <SelectInput
-            name="phaseDurationInWeeks"
-            label="Duration in weeks"
-            value={phaseDurationInWeeks}
-            options={[...Array(10).keys()]}
-            handleChange={handlePhaseDurationChange}
-          />
+          <div className="flex-column">
+            <SelectInput
+              name="phase"
+              label="Type"
+              value={phase}
+              options={phases}
+              handleChange={handlePhaseChange}
+            />
+            <SelectInput
+              name="trainingDays"
+              label="Training days"
+              value={trainingDays}
+              options={[...Array(7).keys()]}
+              handleChange={handleTrainingDaysChange}
+            />
+          </div>
+          <div className="flex-column">
+            <SelectInput
+              name="phaseDurationInWeeks"
+              label="Duration in weeks"
+              value={phaseDurationInWeeks}
+              options={[...Array(10).keys()]}
+              handleChange={handlePhaseDurationChange}
+            />
 
-          <DateInput label="Start date:" value={phaseStartDate} />
-          <DateInput label="End date:" value={phaseEndDate} />
+            <DateInput label="Start date:" value={phaseStartDate} />
+            <DateInput label="End date:" value={phaseEndDate} />
+          </div>
         </div>
       </div>
     </div>
