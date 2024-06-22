@@ -11,7 +11,7 @@ const SelectInput = ({
   <div className="tcf-select-group">
     <label className="tcf-select-label">{label}:</label>
     <select
-      className="form-control tcf-select-control"
+      className="tcf-select-control form-control"
       name={name}
       value={value}
       onChange={handleChange}
