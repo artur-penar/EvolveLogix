@@ -56,7 +56,6 @@ const TrainingCycle = () => {
 
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCyclesName(mesocyclesData);
-  const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: macrocycleNames[0],
@@ -134,11 +133,6 @@ const TrainingCycle = () => {
     }
   }, [trainingCycleState]);
 
-  // Event handlers
-  const handleCreateCycleClick = () => {
-    setIsCreateCycleVisible(true);
-  };
-
   return (
     <Layout title="EvolveLogix | Training cycle">
       <div className="tc-cycle-content">
@@ -164,16 +158,11 @@ const TrainingCycle = () => {
           handlePhaseChange={handleInputChange}
           handleTrainingDaysChange={handleInputChange}
           handlePhaseDurationChange={handleInputChange}
+          selectedMacrocycleId={getCycleIdByName(
+            selectedMacrocycle,
+            trainingCycleState
+          )}
         />
-
-        {isCreateCycleVisible && (
-          <CreateNewCycle
-            selectedMacrocycle={getCycleIdByName(
-              selectedMacrocycle,
-              trainingCycleState
-            )}
-          />
-        )}
         <PhaseForm
           phase={values["phase"]}
           mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}

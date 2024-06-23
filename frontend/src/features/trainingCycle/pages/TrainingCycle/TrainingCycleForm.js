@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TrainingCycleForm.css";
 import DateInput from "./components/DateInput";
 import SelectInput from "./components/SelectInput";
+import CreateNewCycle from "./CreateNewCycle";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -24,7 +25,12 @@ const TrainingCycleForm = ({
   handlePhaseChange,
   handleTrainingDaysChange,
   handlePhaseDurationChange,
+  selectedMacrocycleId,
 }) => {
+  const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+  const handleCreateNewCycleClick = () => {
+    setIsCreateCycleVisible((prevState) => !prevState);
+  };
   return (
     <div className="tcf-parent-container">
       <div className="tcf-select-group-container">
@@ -72,8 +78,13 @@ const TrainingCycleForm = ({
         </div>
       </div>
       <div className="tcf-button-container">
-        <button className="tcf-button">Create new cycle</button>
+        <button className="tcf-button" onClick={handleCreateNewCycleClick}>
+          {isCreateCycleVisible ? "Hide" : "Create new cycle"}
+        </button>
       </div>
+      {isCreateCycleVisible && (
+        <CreateNewCycle selectedMacrocycle={selectedMacrocycleId} />
+      )}
       {/* // Phase selection */}
       <div className="tcf-select-group-container">
         <h4>Phase programming</h4>
