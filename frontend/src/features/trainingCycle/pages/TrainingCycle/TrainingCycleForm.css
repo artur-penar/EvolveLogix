@@ -66,3 +66,14 @@
   flex: 1;
   text-align: center;
 }
+
+.tcf-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem; /* adjust as needed */
+  margin-bottom: 2rem;
+}
+
+.tcf-button {
+  min-width: 180px;
+}
