@@ -5,6 +5,8 @@ import SelectInput from "./components/SelectInput";
 
 const TrainingCycleForm = ({
   macrocycle,
+  macrocycleStartDate,
+  macrocycleEndDate,
   macrocycles,
   mesocycle,
   mesocycles,
@@ -28,13 +30,19 @@ const TrainingCycleForm = ({
       <div className="tcf-select-group-container">
         <h4>Macrocycle</h4>
         <div className="tcf-select-container">
-          <SelectInput
-            name="macrocycle"
-            label="Name"
-            value={macrocycle}
-            options={macrocycles}
-            handleChange={handleMacrocycleChange}
-          />
+          <div className="flex-column">
+            <SelectInput
+              name="macrocycle"
+              label="Name"
+              value={macrocycle}
+              options={macrocycles}
+              handleChange={handleMacrocycleChange}
+            />
+          </div>
+          <div className="flex-column">
+            <DateInput label="Start date:" value={macrocycleStartDate} />
+            <DateInput label="End date:" value={macrocycleEndDate} />
+          </div>
         </div>
       </div>
       <div className="tcf-select-group-container">
