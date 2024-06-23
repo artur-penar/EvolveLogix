@@ -126,11 +126,10 @@ const TrainingCycle = () => {
     if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
       // Set the start date of the first mesocycle
-      handleInputChange({
-        target: {
-          name: "mesocycleStartDate",
-          value: trainingCycleState[0].mesocycles[0].start_date,
-        },
+      handleMultipleInputChanges({
+        mesocycleStartDate: trainingCycleState[0].mesocycles[0].start_date,
+        mesocycleEndDate: trainingCycleState[0].mesocycles[0].end_date,
+        mesocycleDurationInWeeks: trainingCycleState[0].mesocycles[0].duration,
       });
     }
   }, [trainingCycleState]);
