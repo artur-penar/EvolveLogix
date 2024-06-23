@@ -199,7 +199,6 @@ const PhaseForm = ({
 
   return (
     <div className="form-container">
-      <h4 className="header-container">Phase programming</h4>
       <PhaseOption
         displayWeightInPercent={displayWeightInPercent}
         setDisplayWeightInPercent={setDisplayWeightInPercent}
