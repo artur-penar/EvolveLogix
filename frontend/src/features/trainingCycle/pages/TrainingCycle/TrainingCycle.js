@@ -165,13 +165,7 @@ const TrainingCycle = () => {
           handleTrainingDaysChange={handleInputChange}
           handlePhaseDurationChange={handleInputChange}
         />
-        {!isCreateCycleVisible && (
-          <div className="tc-button-container">
-            <button className="tc-button" onClick={handleCreateCycleClick}>
-              Create Cycle
-            </button>
-          </div>
-        )}
+
         {isCreateCycleVisible && (
           <CreateNewCycle
             selectedMacrocycle={getCycleIdByName(
