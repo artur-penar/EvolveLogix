@@ -60,6 +60,8 @@ const TrainingCycle = () => {
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: macrocycleNames[0],
+      macrocycleStartDate: "",
+      macrocycleEndDate: "",
       mesocycle: mesocycleNames[0],
       mesocycleStartDate: "",
       mesocycleEndDate: "",
@@ -70,8 +72,19 @@ const TrainingCycle = () => {
     });
 
   useEffect(() => {
+    console.log(trainingCycleState);
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
     setMesocyclesData(getMesocycles(trainingCycleState, values["macrocycle"]));
+    trainingCycleState.forEach((macrocycle) => {
+      if (macrocycle.name === values["macrocycle"]) {
+        handleMultipleInputChanges({
+          macrocycleStartDate: macrocycle.start_date
+            ? macrocycle.start_date
+            : "",
+          macrocycleEndDate: macrocycle.end_date ? macrocycle.end_date : "",
+        });
+      }
+    });
   }, [values["macrocycle"]]);
 
   useEffect(() => {
@@ -133,6 +146,8 @@ const TrainingCycle = () => {
         <PageHeader headerContent={"Training Cycle"} />
         <TrainingCycleForm
           macrocycle={values["macrocycle"]}
+          macrocycleStartDate={values["macrocycleStartDate"]}
+          macrocycleEndDate={values["macrocycleEndDate"]}
           macrocycles={macrocycleNames}
           mesocycle={values["mesocycle"]}
           mesocycles={mesocycleNames}
