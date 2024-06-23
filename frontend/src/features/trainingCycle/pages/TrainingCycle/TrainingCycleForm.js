@@ -71,9 +71,12 @@ const TrainingCycleForm = ({
           </div>
         </div>
       </div>
+      <div className="tcf-button-container">
+        <button className="tcf-button">Create new cycle</button>
+      </div>
       {/* // Phase selection */}
       <div className="tcf-select-group-container">
-        <h4>Phase</h4>
+        <h4>Phase programming</h4>
         <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
           <div className="flex-column">
             <SelectInput
