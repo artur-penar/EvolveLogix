@@ -36,7 +36,6 @@ const PhaseForm = ({
   const totalMicrocyclesNumber = microcyclesNumber
     ? parseInt(microcyclesNumber, 10)
     : 1;
-  console.log("total microcycle number", totalMicrocyclesNumber);
   const totalTrainingSessionsNumber = trainingSessions
     ? parseInt(trainingSessions, 10)
     : 1;
@@ -195,20 +194,16 @@ const PhaseForm = ({
       newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
         microcycleIndex
       ][detailType] = newValue;
-      console.log("HandleExerciseDetailChange", newState);
-      console.log("DetailType", detailType);
       return newState;
     });
   };
 
-  console.log(phaseTrainingProgram);
   const handleAddPhase = () => {
     const phaseData = {
       mesocycle: mesocycle,
       type: phase,
       training_sessions: phaseTrainingProgram,
     };
-    console.log("Phase data", phaseData);
     // dispatch(addPhase(phaseData));
   };
 
