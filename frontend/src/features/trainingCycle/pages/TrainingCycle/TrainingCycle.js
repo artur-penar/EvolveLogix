@@ -71,22 +71,6 @@ const TrainingCycle = () => {
     });
 
   useEffect(() => {
-    console.log(trainingCycleState);
-    dispatch(setSelectedMacrocycle(values["macrocycle"]));
-    setMesocyclesData(getMesocycles(trainingCycleState, values["macrocycle"]));
-    trainingCycleState.forEach((macrocycle) => {
-      if (macrocycle.name === values["macrocycle"]) {
-        handleMultipleInputChanges({
-          macrocycleStartDate: macrocycle.start_date
-            ? macrocycle.start_date
-            : "",
-          macrocycleEndDate: macrocycle.end_date ? macrocycle.end_date : "",
-        });
-      }
-    });
-  }, [values["macrocycle"]]);
-
-  useEffect(() => {
     mesocyclesData.forEach((mesocycle) => {
       if (mesocycle.name === values["mesocycle"]) {
         console.log(mesocycle.name, values["mesocycle"]);
@@ -100,9 +84,15 @@ const TrainingCycle = () => {
   }, [values["mesocycle"]]);
 
   useEffect(() => {
+    dispatch(setSelectedMacrocycle(values["macrocycle"]));
+    setMesocyclesData(getMesocycles(trainingCycleState, values["macrocycle"]));
     trainingCycleState.forEach((macrocycle) => {
       if (macrocycle.name === values["macrocycle"]) {
         handleMultipleInputChanges({
+          macrocycleStartDate: macrocycle.start_date
+            ? macrocycle.start_date
+            : "",
+          macrocycleEndDate: macrocycle.end_date ? macrocycle.end_date : "",
           mesocycleStartDate:
             macrocycle.mesocycles && macrocycle.mesocycles[0]
               ? macrocycle.mesocycles[0].start_date
@@ -122,10 +112,12 @@ const TrainingCycle = () => {
 
   useEffect(() => {
     // Update mesocycles data when trainingCycleState changes
+    // In practice it mean first page render 
     if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
-      // Set the start date of the first mesocycle
       handleMultipleInputChanges({
+        macrocycleStartDate: trainingCycleState[0].start_date,
+        macrocycleEndDate: trainingCycleState[0].end_date,
         mesocycleStartDate: trainingCycleState[0].mesocycles[0].start_date,
         mesocycleEndDate: trainingCycleState[0].mesocycles[0].end_date,
         mesocycleDurationInWeeks: trainingCycleState[0].mesocycles[0].duration,
