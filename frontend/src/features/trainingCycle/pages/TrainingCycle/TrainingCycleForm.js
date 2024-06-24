@@ -101,7 +101,7 @@ const TrainingCycleForm = ({
               name="trainingDays"
               label="Training days"
               value={trainingDays}
-              options={[...Array(7).keys()]}
+              options={[...Array(7).keys()].map((n) => n + 1)}
               handleChange={handleTrainingDaysChange}
             />
           </div>
@@ -110,7 +110,7 @@ const TrainingCycleForm = ({
               name="phaseDurationInWeeks"
               label="Duration in weeks"
               value={phaseDurationInWeeks}
-              options={[...Array(10).keys()]}
+              options={[...Array(10).keys()].map((n) => n + 1)}
               handleChange={handlePhaseDurationChange}
             />
 
