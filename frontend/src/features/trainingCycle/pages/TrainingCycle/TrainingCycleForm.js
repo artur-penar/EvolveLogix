@@ -114,8 +114,12 @@ const TrainingCycleForm = ({
               handleChange={handlePhaseDurationChange}
             />
 
-            <DateInput label="Start date:" value={phaseStartDate} />
-            <DateInput label="End date:" value={phaseEndDate} />
+            <DateInput
+              label="Start date:"
+              value={phaseStartDate}
+              enable={true}
+            />
+            <DateInput label="End date:" value={phaseEndDate} enable={true} />
           </div>
         </div>
       </div>
