@@ -1,6 +1,6 @@
 import React from "react";
 
-const DateInput = ({ label, value }) => (
+const DateInput = ({ label, value, enable }) => (
   <div className="tcf-select-group">
     <label className="tcf-select-label">{label}</label>
     <input
@@ -8,7 +8,7 @@ const DateInput = ({ label, value }) => (
       type="date"
       value={value}
       style={{ textAlign: "center" }}
-      readOnly
+      readOnly={!enable}
     />
   </div>
 );
