@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 // React Router (if applicable)
 // Other external libraries (like styled-components)
-import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 
 // Feature-related imports
-import { getExercises } from 'features/trainingLogs/exercises';
-import { addPhase } from 'features/trainingCycle/trainingCycle';
+import { getExercises } from "features/trainingLogs/exercises";
+import { addPhase } from "features/trainingCycle/trainingCycle";
 
 // Component imports
-import PhaseOption from './components/PhaseOption';
-import RecordsDisplayContainer from './components/RecordsDisplayContainer';
-import TrainingSessionContainer from './components/TrainingSessionContainer';
-import CycleTimeline from './CycleTimeline';
+import PhaseOption from "./components/PhaseOption";
+import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
+import TrainingSessionContainer from "./components/TrainingSessionContainer";
+import CycleTimeline from "./CycleTimeline";
 
 // Style imports (if any)
-import './PhaseForm.css';
+import "./PhaseForm.css";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -33,8 +33,14 @@ const PhaseForm = ({
   weeksNumber: microcyclesNumber,
   trainingDays: trainingSessions,
 }) => {
-  const totalMicrocyclesNumber = parseInt(microcyclesNumber, 10) + 1;
-  const totalTrainingSessionsNumber = parseInt(trainingSessions, 10) + 1;
+  const totalMicrocyclesNumber = microcyclesNumber
+    ? parseInt(microcyclesNumber, 10)
+    : 1;
+  console.log("total microcycle number", totalMicrocyclesNumber);
+  const totalTrainingSessionsNumber = trainingSessions
+    ? parseInt(trainingSessions, 10)
+    : 1;
+
   const initialPhaseProgram = [
     {
       dayNumber: 1,
@@ -195,6 +201,7 @@ const PhaseForm = ({
     });
   };
 
+  console.log(phaseTrainingProgram);
   const handleAddPhase = () => {
     const phaseData = {
       mesocycle: mesocycle,
