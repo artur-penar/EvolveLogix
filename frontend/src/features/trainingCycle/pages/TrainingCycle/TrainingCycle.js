@@ -40,6 +40,17 @@ const getCycleIdByName = (cycleName, cycles) => {
   return cycle ? cycle.id : null;
 };
 
+const getPhases = (mesocyclesData, selectedMesocycle) => {
+  console.log(mesocyclesData);
+  console.log(selectedMesocycle);
+  const phases = mesocyclesData.find(
+    (mesocycle) => mesocycle.name === selectedMesocycle
+  ).phases;
+  console.log("Phases");
+  console.log(phases);
+  return phases ? phases : [];
+};
+
 // Component
 const TrainingCycle = () => {
   // Redux hooks
@@ -112,7 +123,7 @@ const TrainingCycle = () => {
 
   useEffect(() => {
     // Update mesocycles data when trainingCycleState changes
-    // In practice it mean first page render 
+    // In practice it mean first page render
     if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
       handleMultipleInputChanges({
@@ -124,6 +135,29 @@ const TrainingCycle = () => {
       });
     }
   }, [trainingCycleState]);
+
+  useEffect(() => {
+    let phasesData = [];
+    let newPhaseStartDate = "";
+    if (trainingCycleState.length > 0) {
+      console.log("Training cycle state");
+      console.log(trainingCycleState);
+      phasesData = trainingCycleState[0].mesocycles[0].phases;
+    }
+    if (mesocyclesData.length > 0) {
+      phasesData = getPhases(mesocyclesData, values["mesocycle"]);
+      console.log("Phases data");
+      console.log(phasesData);
+    }
+    if (phasesData.length > 0) {
+      const lastPhase = phasesData[phasesData.length - 1];
+      console.log(lastPhase.end_date);
+      const lastPhaseEndDate = new Date(lastPhase.end_date);
+      lastPhaseEndDate.setDate(lastPhaseEndDate.getDate() + 1);
+      newPhaseStartDate = lastPhaseEndDate.toISOString().split("T")[0];
+    }
+    console.log("New phase start date", newPhaseStartDate);
+  }, [trainingCycleState, values["mesocycle"]]);
 
   return (
     <Layout title="EvolveLogix | Training cycle">
