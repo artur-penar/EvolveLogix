@@ -3,6 +3,7 @@ import "./TrainingCycleForm.css";
 import DateInput from "./components/DateInput";
 import SelectInput from "./components/SelectInput";
 import CreateNewCycle from "./CreateNewCycle";
+import CycleTimeline from "./CycleTimeline";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -13,10 +14,12 @@ const TrainingCycleForm = ({
   mesocycles,
   phase,
   phases,
+  phasesData,
   trainingDays,
   mesocycleDurationInWeeks,
   mesocycleStartDate,
   mesocycleEndDate,
+  newPhaseStartDate,
   phaseStartDate,
   phaseEndDate,
   phaseDurationInWeeks,
@@ -116,12 +119,18 @@ const TrainingCycleForm = ({
 
             <DateInput
               label="Start date:"
-              value={phaseStartDate}
+              value={newPhaseStartDate}
               enable={true}
             />
             <DateInput label="End date:" value={phaseEndDate} enable={true} />
           </div>
         </div>
+      </div>
+      <div className="tcf-select-group-container">
+        <CycleTimeline
+          mesocycleDuration={mesocycleDurationInWeeks}
+          phasesData={phasesData}
+        />
       </div>
     </div>
   );
