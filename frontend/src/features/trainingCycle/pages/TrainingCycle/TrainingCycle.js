@@ -43,12 +43,14 @@ const getCycleIdByName = (cycleName, cycles) => {
 const getPhases = (mesocyclesData, selectedMesocycle) => {
   console.log(mesocyclesData);
   console.log(selectedMesocycle);
+  // Use optional chaining to safely access `phases`
   const phases = mesocyclesData.find(
     (mesocycle) => mesocycle.name === selectedMesocycle
-  ).phases;
+  )?.phases;
   console.log("Phases");
   console.log(phases);
-  return phases ? phases : [];
+  // Return phases if it's truthy; otherwise, return an empty array
+  return phases || [];
 };
 
 // Component
@@ -65,6 +67,7 @@ const TrainingCycle = () => {
 
   // State hooks
 
+  const [phasesData, setPhasesData] = useState([]);
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCyclesName(mesocyclesData);
   const [values, handleInputChange, handleMultipleInputChanges] =
@@ -79,6 +82,7 @@ const TrainingCycle = () => {
       trainingDays: 0,
       phaseDurationInWeeks: 0,
       mesocycleDurationInWeeks: 0,
+      newPhaseStartDate: "",
     });
 
   useEffect(() => {
@@ -138,26 +142,35 @@ const TrainingCycle = () => {
 
   useEffect(() => {
     let phasesData = [];
-    let newPhaseStartDate = "";
-    if (trainingCycleState.length > 0) {
-      console.log("Training cycle state");
-      console.log(trainingCycleState);
+
+    // Determine the source of phasesData based on available data
+    if (mesocyclesData.length > 0) {
+      console.log("Mesocycle data greater than 0");
+      phasesData = getPhases(mesocyclesData, values["mesocycle"]) || [];
+    } else if (trainingCycleState.length > 0) {
+      console.log("Training cycle state greater than 0");
       phasesData = trainingCycleState[0].mesocycles[0].phases;
     }
-    if (mesocyclesData.length > 0) {
-      phasesData = getPhases(mesocyclesData, values["mesocycle"]);
-      console.log("Phases data");
-      console.log(phasesData);
-    }
+
+    // Update phasesData state
+    setPhasesData(phasesData);
+
+    // Calculate newPhaseStartDate if phasesData is not empty
+    let newPhaseStartDate = "";
     if (phasesData.length > 0) {
-      const lastPhase = phasesData[phasesData.length - 1];
-      console.log(lastPhase.end_date);
-      const lastPhaseEndDate = new Date(lastPhase.end_date);
+      const lastPhaseEndDate = new Date(
+        phasesData[phasesData.length - 1].end_date
+      );
       lastPhaseEndDate.setDate(lastPhaseEndDate.getDate() + 1);
       newPhaseStartDate = lastPhaseEndDate.toISOString().split("T")[0];
     }
+    handleMultipleInputChanges({
+      newPhaseStartDate: newPhaseStartDate,
+    });
+
+    console.log("Phases data", phasesData);
     console.log("New phase start date", newPhaseStartDate);
-  }, [trainingCycleState, values["mesocycle"]]);
+  }, [trainingCycleState, values["mesocycle"], values["macrocycle"]]);
 
   return (
     <Layout title="EvolveLogix | Training cycle">
@@ -175,6 +188,8 @@ const TrainingCycle = () => {
           handleMesocycleStartDateChange={handleInputChange}
           phase={values["phase"]}
           phases={phases}
+          phasesData={phasesData}
+          newPhaseStartDate={values["newPhaseStartDate"]}
           trainingDays={values["trainingDays"]}
           phaseDurationInWeeks={values["phaseDurationInWeeks"]}
           mesocycleDurationInWeeks={values["mesocycleDurationInWeeks"]}
