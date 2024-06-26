@@ -23,11 +23,7 @@ const TrainingCycleForm = ({
   phaseStartDate,
   phaseEndDate,
   phaseDurationInWeeks,
-  handleMacrocycleChange,
-  handleMesocycleChange,
-  handlePhaseChange,
-  handleTrainingDaysChange,
-  handlePhaseDurationChange,
+  handleInputChange,
   selectedMacrocycleId,
 }) => {
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
@@ -45,7 +41,7 @@ const TrainingCycleForm = ({
               label="Name"
               value={macrocycle}
               options={macrocycles}
-              handleChange={handleMacrocycleChange}
+              handleChange={handleInputChange}
             />
           </div>
           <div className="flex-column">
@@ -63,14 +59,14 @@ const TrainingCycleForm = ({
               label="Name"
               value={mesocycle}
               options={mesocycles}
-              handleChange={handleMesocycleChange}
+              handleChange={handleInputChange}
             />
             <SelectInput
               name="mesocycleDurationInWeeks"
               label="Duration in weeks"
               value={mesocycleDurationInWeeks}
               options={[...Array(11).keys()]}
-              handleChange={handleMesocycleChange}
+              handleChange={handleInputChange}
               disabled={true}
             />
           </div>
@@ -98,14 +94,14 @@ const TrainingCycleForm = ({
               label="Type"
               value={phase}
               options={phases}
-              handleChange={handlePhaseChange}
+              handleChange={handleInputChange}
             />
             <SelectInput
               name="trainingDays"
               label="Training days"
               value={trainingDays}
               options={[...Array(7).keys()].map((n) => n + 1)}
-              handleChange={handleTrainingDaysChange}
+              handleChange={handleInputChange}
             />
           </div>
           <div className="flex-column">
@@ -114,7 +110,7 @@ const TrainingCycleForm = ({
               label="Duration in weeks"
               value={phaseDurationInWeeks}
               options={[...Array(10).keys()].map((n) => n + 1)}
-              handleChange={handlePhaseDurationChange}
+              handleChange={handleInputChange}
             />
 
             <DateInput

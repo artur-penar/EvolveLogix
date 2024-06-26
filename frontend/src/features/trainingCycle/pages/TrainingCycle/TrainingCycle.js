@@ -193,12 +193,7 @@ const TrainingCycle = () => {
           trainingDays={values["trainingDays"]}
           phaseDurationInWeeks={values["phaseDurationInWeeks"]}
           mesocycleDurationInWeeks={values["mesocycleDurationInWeeks"]}
-          handleMesocycleDurationChange={handleInputChange}
-          handleMacrocycleChange={handleInputChange}
-          handleMesocycleChange={handleInputChange}
-          handlePhaseChange={handleInputChange}
-          handleTrainingDaysChange={handleInputChange}
-          handlePhaseDurationChange={handleInputChange}
+          handleInputChange={handleInputChange}
           selectedMacrocycleId={getCycleIdByName(
             selectedMacrocycle,
             trainingCycleState
