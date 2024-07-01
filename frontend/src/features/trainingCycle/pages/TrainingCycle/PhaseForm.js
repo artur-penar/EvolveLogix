@@ -196,9 +196,6 @@ const PhaseForm = ({
     });
   };
 
-  console.log("Phse training program");
-  console.log(phaseTrainingProgram);
-
   const handleAddExercise = (trainingSessionIndex) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
