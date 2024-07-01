@@ -49,7 +49,7 @@ const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
         style={{
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
           backgroundColor: "lightgray",
-          width: `${mesocycleDuration * 70}px`,
+          width: `${mesocycleDuration * 90}px`,
           textAlign: "center",
         }}
       >
@@ -66,7 +66,7 @@ const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
             style={{
               boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
               backgroundColor: getPhaseColor(phase.type),
-              width: `${phase.duration * 70}px`,
+              width: `${phase.duration * 90}px`,
               textAlign: "center",
             }}
           >
