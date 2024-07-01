@@ -19,7 +19,6 @@ const TrainingCycleForm = ({
   mesocycleDurationInWeeks,
   mesocycleStartDate,
   mesocycleEndDate,
-  newPhaseStartDate,
   phaseStartDate,
   phaseEndDate,
   phaseDurationInWeeks,
@@ -115,7 +114,7 @@ const TrainingCycleForm = ({
 
             <DateInput
               label="Start date:"
-              value={newPhaseStartDate}
+              value={phaseStartDate}
               enable={true}
             />
             <DateInput label="End date:" value={phaseEndDate} enable={true} />
@@ -123,6 +122,7 @@ const TrainingCycleForm = ({
         </div>
       </div>
       <div className="tcf-select-group-container">
+        <h4>Mesocycle Timeline</h4>
         <CycleTimeline
           mesocycleDuration={mesocycleDurationInWeeks}
           phasesData={phasesData}
