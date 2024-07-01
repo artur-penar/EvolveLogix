@@ -80,15 +80,38 @@ const TrainingCycle = () => {
       mesocycleEndDate: "",
       phase: phases[0],
       trainingDays: 0,
-      phaseDurationInWeeks: 0,
+      phaseDurationInWeeks: 1,
       mesocycleDurationInWeeks: 0,
-      newPhaseStartDate: "",
+      phaseStartDate: "",
+      phaseEndDate: "",
     });
+
+  useEffect(() => {
+    const calculateEndDate = () => {
+      const startDate = new Date(values["phaseStartDate"]);
+      const endDate = new Date(
+        startDate.getTime() +
+          Number(values["phaseDurationInWeeks"]) * 7 * 24 * 60 * 60 * 1000
+      );
+      return endDate.toISOString().split("T")[0];
+    };
+
+    if (values["phaseStartDate"] !== "") {
+      let formattedEndDate = calculateEndDate();
+      const phaseEndDate = new Date(formattedEndDate);
+      const mesocycleEndDate = new Date(values["mesocycleEndDate"]);
+      if (phaseEndDate > mesocycleEndDate) {
+        formattedEndDate = "";
+      }
+      handleMultipleInputChanges({
+        phaseEndDate: formattedEndDate,
+      });
+    }
+  }, [values["phaseStartDate"], values["phaseDurationInWeeks"]]);
 
   useEffect(() => {
     mesocyclesData.forEach((mesocycle) => {
       if (mesocycle.name === values["mesocycle"]) {
-        console.log(mesocycle.name, values["mesocycle"]);
         handleMultipleInputChanges({
           mesocycleStartDate: mesocycle.start_date,
           mesocycleEndDate: mesocycle.end_date,
@@ -145,10 +168,14 @@ const TrainingCycle = () => {
 
     // Determine the source of phasesData based on available data
     if (mesocyclesData.length > 0) {
-      console.log("Mesocycle data greater than 0");
-      phasesData = getPhases(mesocyclesData, values["mesocycle"]) || [];
+      let currentMesocycleName = "";
+      if (values["mesocycle"] === undefined) {
+        currentMesocycleName = mesocyclesData[0].name;
+      } else {
+        currentMesocycleName = values["mesocycle"];
+      }
+      phasesData = getPhases(mesocyclesData, currentMesocycleName);
     } else if (trainingCycleState.length > 0) {
-      console.log("Training cycle state greater than 0");
       phasesData = trainingCycleState[0].mesocycles[0].phases;
     }
 
@@ -163,14 +190,18 @@ const TrainingCycle = () => {
       );
       lastPhaseEndDate.setDate(lastPhaseEndDate.getDate() + 1);
       newPhaseStartDate = lastPhaseEndDate.toISOString().split("T")[0];
+    } else {
+      newPhaseStartDate = values["mesocycleStartDate"];
     }
     handleMultipleInputChanges({
-      newPhaseStartDate: newPhaseStartDate,
+      phaseStartDate: newPhaseStartDate,
     });
-
-    console.log("Phases data", phasesData);
-    console.log("New phase start date", newPhaseStartDate);
-  }, [trainingCycleState, values["mesocycle"], values["macrocycle"]]);
+  }, [
+    trainingCycleState,
+    values["mesocycle"],
+    values["macrocycle"],
+    mesocyclesData,
+  ]);
 
   return (
     <Layout title="EvolveLogix | Training cycle">
@@ -189,7 +220,8 @@ const TrainingCycle = () => {
           phase={values["phase"]}
           phases={phases}
           phasesData={phasesData}
-          newPhaseStartDate={values["newPhaseStartDate"]}
+          phaseStartDate={values["phaseStartDate"]}
+          phaseEndDate={values["phaseEndDate"]}
           trainingDays={values["trainingDays"]}
           phaseDurationInWeeks={values["phaseDurationInWeeks"]}
           mesocycleDurationInWeeks={values["mesocycleDurationInWeeks"]}
