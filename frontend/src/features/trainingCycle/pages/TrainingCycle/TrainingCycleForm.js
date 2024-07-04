@@ -118,6 +118,13 @@ const TrainingCycleForm = ({
               enable={true}
             />
             <DateInput label="End date:" value={phaseEndDate} enable={true} />
+            {phaseEndDate ? (
+              ""
+            ) : (
+              <p style={{ textAlign: "center", color: "red" }}>
+                Cant add phase!
+              </p>
+            )}
           </div>
         </div>
       </div>
