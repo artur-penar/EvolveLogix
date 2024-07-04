@@ -118,16 +118,10 @@ const TrainingCycleForm = ({
               enable={true}
             />
             <DateInput label="End date:" value={phaseEndDate} enable={true} />
-            {phaseEndDate ? (
-              ""
-            ) : (
-              <p style={{ textAlign: "center", color: "red" }}>
-                Cant add phase!
-              </p>
-            )}
           </div>
         </div>
       </div>
+      {!phaseEndDate && <p className="tcf-phase-warning">Can't add phase!</p>}
       <div className="tcf-select-group-container">
         <h4>Mesocycle Timeline</h4>
         <CycleTimeline
