@@ -2,6 +2,8 @@ import React from "react";
 
 const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
   // Calculate the existing duration from phasesData
+  console.log("cycle timeline phases data ");
+  console.log(phasesData);
   const existingDuration = phasesData.reduce(
     (total, phase) => total + phase.duration,
     0
@@ -72,6 +74,8 @@ const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
           >
             <p>{phase.type}</p>
             <p>{phase.duration} weeks</p>
+            <p>{phase.start_date}</p>
+            <p>{phase.end_date}</p>
           </div>
         ))}
       </div>
