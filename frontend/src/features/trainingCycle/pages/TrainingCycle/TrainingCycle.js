@@ -45,7 +45,6 @@ const getPhases = (mesocyclesData, selectedMesocycle) => {
   const phases = mesocyclesData.find(
     (mesocycle) => mesocycle.name === selectedMesocycle
   )?.phases;
-
   // Return phases if it's truthy; otherwise, return an empty array
   return phases || [];
 };
@@ -60,13 +59,13 @@ const TrainingCycle = () => {
   );
   // Variables
   const macrocycleNames = getCyclesName(trainingCycleState);
-  const mesocycleNames = getCyclesName(mesocyclesData);
   const phaseTypes = ["Hypertrophy", "Strength", "Peaking", "Deload"];
 
   // State hooks
 
   const [phasesData, setPhasesData] = useState([]);
   const [mesocyclesData, setMesocyclesData] = useState([]);
+  const mesocycleNames = getCyclesName(mesocyclesData);
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: macrocycleNames[0],
@@ -233,6 +232,7 @@ const TrainingCycle = () => {
           mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}
           weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
+          isPhaseFormActive={values["phaseEndDate"] ? true : false}
         />
       </div>
     </Layout>
