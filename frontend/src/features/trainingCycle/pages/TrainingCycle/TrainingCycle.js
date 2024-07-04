@@ -20,6 +20,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
+import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
 
 // Helper functions
 const getCyclesName = (trainingCycles) => {
@@ -178,17 +179,13 @@ const TrainingCycle = () => {
     // Update phasesData state
     setPhasesData(phasesData);
 
-    // Calculate newPhaseStartDate if phasesData is not empty
-    let newPhaseStartDate = "";
-    if (phasesData.length > 0) {
-      const lastPhaseEndDate = new Date(
-        phasesData[phasesData.length - 1].end_date
-      );
-      lastPhaseEndDate.setDate(lastPhaseEndDate.getDate() + 1);
-      newPhaseStartDate = lastPhaseEndDate.toISOString().split("T")[0];
-    } else {
-      newPhaseStartDate = values["mesocycleStartDate"];
-    }
+    // Calculate the start date for a new phase
+    let newPhaseStartDate = calculateNewPhaseStartDate(
+      phasesData,
+      values["mesocycleStartDate"]
+    );
+
+    // Update the phase start date
     handleMultipleInputChanges({
       phaseStartDate: newPhaseStartDate,
     });
