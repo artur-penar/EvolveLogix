@@ -194,8 +194,8 @@ const TrainingCycle = () => {
     });
   }, [
     trainingCycleState,
-    values["mesocycle"],
     values["macrocycle"],
+    values["mesocycleStartDate"],
     mesocyclesData,
   ]);
 
