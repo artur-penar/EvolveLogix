@@ -32,6 +32,7 @@ const PhaseForm = ({
   phase,
   weeksNumber: microcyclesNumber,
   trainingDays: trainingSessions,
+  isPhaseFormActive,
 }) => {
   const totalMicrocyclesNumber = microcyclesNumber
     ? parseInt(microcyclesNumber, 10)
@@ -246,24 +247,26 @@ const PhaseForm = ({
       {displayMesocycleTimeline && (
         <CycleTimeline trainingCycle={trainingCycle} />
       )}
-      <div className="training-phase-form">
-        {phaseTrainingProgram.map((_, trainingSessionIndex) => (
-          <TrainingSessionContainer
-            trainingSessionIndex={trainingSessionIndex}
-            totalMicrocyclesNumber={totalMicrocyclesNumber}
-            phaseTrainingProgram={phaseTrainingProgram}
-            exercisesNameList={exercisesNameList}
-            handleExerciseChange={handleExerciseChange}
-            handleExerciseDetailChange={handleExerciseDetailChange}
-            handleAddExercise={handleAddExercise}
-            displayWeightInPercent={displayWeightInPercent}
-          />
-        ))}
+      {isPhaseFormActive && (
+        <div className="training-phase-form">
+          {phaseTrainingProgram.map((_, trainingSessionIndex) => (
+            <TrainingSessionContainer
+              trainingSessionIndex={trainingSessionIndex}
+              totalMicrocyclesNumber={totalMicrocyclesNumber}
+              phaseTrainingProgram={phaseTrainingProgram}
+              exercisesNameList={exercisesNameList}
+              handleExerciseChange={handleExerciseChange}
+              handleExerciseDetailChange={handleExerciseDetailChange}
+              handleAddExercise={handleAddExercise}
+              displayWeightInPercent={displayWeightInPercent}
+            />
+          ))}
 
-        <div className="button-container" onClick={handleAddPhase}>
-          <button>Add phase</button>
+          <div className="button-container" onClick={handleAddPhase}>
+            <button>Add phase</button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
