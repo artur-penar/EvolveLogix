@@ -5,7 +5,7 @@
  * @param {string} mesocycleName - The name of the current mesocycle.
  */
 
-import getPhases from "./getPhases";
+import { getPhases } from "./trainingCycleUtils";
 
 function determinePhasesData(
   mesocyclesData,
