@@ -53,3 +53,18 @@ export function getPhases(mesocyclesData, mesocycleName) {
   // Return phases if it has values; otherwise, return an empty array
   return phases || [];
 }
+
+/**
+ * Returns calculated Phase end date
+ * @param {string} startDate - Start date of the phase
+ * @param {string} durationInWeeks - Duration of the phase in weeks
+ * @returns {string} The end date of the phase
+ */
+export function calculatePhaseEndDate(startDate, durationInWeeks) {
+  // Create a new Date object from the start date
+  const endDate = new Date(startDate);
+  // Add the duration in weeks to the start date
+  endDate.setDate(endDate.getDate() + Number(durationInWeeks) * 7);
+  // Return the end date in the format "YYYY-MM-DD"
+  return endDate.toISOString().split("T")[0];
+}
