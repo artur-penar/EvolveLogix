@@ -22,25 +22,11 @@ import TrainingCycleForm from "./TrainingCycleForm";
 import "./TrainingCycle.css";
 import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
 import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
-
-// Helper functions
-const getCyclesName = (trainingCycles) => {
-  return trainingCycles.map((cycle) => {
-    return cycle.name;
-  });
-};
-
-const getMesocycles = (trainingCycles, macrocycleName) => {
-  const macrocycle = trainingCycles.find(
-    (macrocycle) => macrocycle.name === macrocycleName
-  );
-  return macrocycle ? macrocycle.mesocycles : [];
-};
-
-const getCycleIdByName = (cycleName, cycles) => {
-  const cycle = cycles.find((cycle) => cycle.name === cycleName);
-  return cycle ? cycle.id : null;
-};
+import {
+  getCycleIdByName,
+  getCycleNames,
+  getMesocycles,
+} from "features/trainingCycle/utils/trainingCycleUtils";
 
 // Component
 const TrainingCycle = () => {
@@ -51,14 +37,14 @@ const TrainingCycle = () => {
     (state) => state.trainingCycle.selectedMacrocycle
   );
   // Variables
-  const macrocycleNames = getCyclesName(trainingCycleState);
+  const macrocycleNames = getCycleNames(trainingCycleState);
   const phaseTypes = ["Hypertrophy", "Strength", "Peaking", "Deload"];
 
   // State hooks
 
   const [phasesData, setPhasesData] = useState([]);
   const [mesocyclesData, setMesocyclesData] = useState([]);
-  const mesocycleNames = getCyclesName(mesocyclesData);
+  const mesocycleNames = getCycleNames(mesocyclesData);
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: macrocycleNames[0],
