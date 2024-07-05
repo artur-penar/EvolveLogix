@@ -21,6 +21,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 // CSS/other assets
 import "./TrainingCycle.css";
 import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
+import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
 
 // Helper functions
 const getCyclesName = (trainingCycles) => {
@@ -39,15 +40,6 @@ const getMesocycles = (trainingCycles, macrocycleName) => {
 const getCycleIdByName = (cycleName, cycles) => {
   const cycle = cycles.find((cycle) => cycle.name === cycleName);
   return cycle ? cycle.id : null;
-};
-
-const getPhases = (mesocyclesData, selectedMesocycle) => {
-  // Use optional chaining to safely access `phases`
-  const phases = mesocyclesData.find(
-    (mesocycle) => mesocycle.name === selectedMesocycle
-  )?.phases;
-  // Return phases if it's truthy; otherwise, return an empty array
-  return phases || [];
 };
 
 // Component
@@ -128,6 +120,9 @@ const TrainingCycle = () => {
             ? macrocycle.start_date
             : "",
           macrocycleEndDate: macrocycle.end_date ? macrocycle.end_date : "",
+          mesocycle: macrocycle.mesocycles[0].name
+            ? macrocycle.mesocycles[0].name
+            : "",
           mesocycleStartDate:
             macrocycle.mesocycles && macrocycle.mesocycles[0]
               ? macrocycle.mesocycles[0].start_date
@@ -161,26 +156,18 @@ const TrainingCycle = () => {
   }, [trainingCycleState]);
 
   useEffect(() => {
-    let phasesData = [];
-
-    // Determine the source of phasesData based on available data
-    if (mesocyclesData.length > 0) {
-      let currentMesocycleName = "";
-      if (values["mesocycle"] === undefined) {
-        currentMesocycleName = mesocyclesData[0].name;
-      } else {
-        currentMesocycleName = values["mesocycle"];
-      }
-      phasesData = getPhases(mesocyclesData, currentMesocycleName);
-    } else if (trainingCycleState.length > 0) {
-      phasesData = trainingCycleState[0].mesocycles[0].phases;
-    }
+    // Determine phases data for the Mesocycle
+    const phasesData = determinePhasesData(
+      mesocyclesData,
+      trainingCycleState,
+      values["mesocycle"]
+    );
 
     // Update phasesData state
     setPhasesData(phasesData);
 
     // Calculate the start date for a new phase
-    let newPhaseStartDate = calculateNewPhaseStartDate(
+    const newPhaseStartDate = calculateNewPhaseStartDate(
       phasesData,
       values["mesocycleStartDate"]
     );
