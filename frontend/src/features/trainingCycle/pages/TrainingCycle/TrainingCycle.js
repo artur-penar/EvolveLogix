@@ -1,5 +1,5 @@
 // React-related imports
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // Third-party libraries
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import PageHeader from "components/shared/PageHeader";
 import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
 import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
 import {
+  calculatePhaseEndDate,
   getCycleIdByName,
   getCycleNames,
   getMesocycles,
@@ -17,7 +18,6 @@ import {
 import { setSelectedMacrocycle } from "features/trainingCycle/trainingCycle";
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
-
 // Relative imports
 import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
@@ -25,6 +25,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
+
 // Component
 const TrainingCycle = () => {
   // Redux hooks
@@ -59,19 +60,16 @@ const TrainingCycle = () => {
     });
 
   useEffect(() => {
-    const calculateEndDate = () => {
-      const startDate = new Date(values["phaseStartDate"]);
-      const endDate = new Date(
-        startDate.getTime() +
-          Number(values["phaseDurationInWeeks"]) * 7 * 24 * 60 * 60 * 1000
-      );
-      return endDate.toISOString().split("T")[0];
-    };
-
     if (values["phaseStartDate"] !== "") {
-      let formattedEndDate = calculateEndDate();
+      let formattedEndDate = calculatePhaseEndDate(
+        values["phaseStartDate"],
+        values["phaseDurationInWeeks"]
+      );
+      // Check if the phase end date is greater than the mesocycle end date
+      // Phase end date cannot be greater than the mesocycle end date
       const phaseEndDate = new Date(formattedEndDate);
       const mesocycleEndDate = new Date(values["mesocycleEndDate"]);
+      // If the phase end date is greater than the mesocycle end date, set the end date to an empty string
       if (phaseEndDate > mesocycleEndDate) {
         formattedEndDate = "";
       }
@@ -81,17 +79,24 @@ const TrainingCycle = () => {
     }
   }, [values["phaseStartDate"], values["phaseDurationInWeeks"]]);
 
-  useEffect(() => {
-    mesocyclesData.forEach((mesocycle) => {
-      if (mesocycle.name === values["mesocycle"]) {
+  const updateMesocycleDates = useCallback(() => {
+    if (values["mesocycle"] !== "") {
+      const selectedMesocycle = mesocyclesData.find(
+        (mesocycle) => mesocycle.name === values["mesocycle"]
+      );
+      if (selectedMesocycle) {
         handleMultipleInputChanges({
-          mesocycleStartDate: mesocycle.start_date,
-          mesocycleEndDate: mesocycle.end_date,
-          mesocycleDurationInWeeks: mesocycle.duration,
+          mesocycleStartDate: selectedMesocycle.start_date,
+          mesocycleEndDate: selectedMesocycle.end_date,
+          mesocycleDurationInWeeks: selectedMesocycle.duration,
         });
       }
-    });
+    }
   }, [values["mesocycle"]]);
+
+  useEffect(() => {
+    updateMesocycleDates();
+  }, [updateMesocycleDates]);
 
   useEffect(() => {
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
