@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 // Absolute imports
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
-
-// Features
+import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
+import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
+import {
+  getCycleIdByName,
+  getCycleNames,
+  getMesocycles,
+} from "features/trainingCycle/utils/trainingCycleUtils";
 import { setSelectedMacrocycle } from "features/trainingCycle/trainingCycle";
-import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
+import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 
 // Relative imports
 import CreateNewCycle from "./CreateNewCycle";
@@ -20,14 +25,6 @@ import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
-import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
-import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
-import {
-  getCycleIdByName,
-  getCycleNames,
-  getMesocycles,
-} from "features/trainingCycle/utils/trainingCycleUtils";
-
 // Component
 const TrainingCycle = () => {
   // Redux hooks
