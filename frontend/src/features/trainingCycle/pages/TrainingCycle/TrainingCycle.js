@@ -59,7 +59,7 @@ const TrainingCycle = () => {
       phaseEndDate: "",
     });
 
-  useEffect(() => {
+  const updatePhaseEndDate = useCallback(() => {
     if (values["phaseStartDate"] !== "") {
       let formattedEndDate = calculatePhaseEndDate(
         values["phaseStartDate"],
@@ -79,7 +79,11 @@ const TrainingCycle = () => {
     }
   }, [values["phaseStartDate"], values["phaseDurationInWeeks"]]);
 
-  const updateMesocycleDates = useCallback(() => {
+  useEffect(() => {
+    updatePhaseEndDate();
+  }, [updatePhaseEndDate]);
+
+  const updateMesocycleDetails = useCallback(() => {
     if (values["mesocycle"] !== "") {
       const selectedMesocycle = mesocyclesData.find(
         (mesocycle) => mesocycle.name === values["mesocycle"]
@@ -95,42 +99,33 @@ const TrainingCycle = () => {
   }, [values["mesocycle"]]);
 
   useEffect(() => {
-    updateMesocycleDates();
-  }, [updateMesocycleDates]);
+    updateMesocycleDetails();
+  }, [updateMesocycleDetails]);
 
-  useEffect(() => {
+  const updateSelectedMacrocycleDetails = useCallback(() => {
     dispatch(setSelectedMacrocycle(values["macrocycle"]));
-    setMesocyclesData(getMesocycles(trainingCycleState, values["macrocycle"]));
-    trainingCycleState.forEach((macrocycle) => {
-      if (macrocycle.name === values["macrocycle"]) {
-        handleMultipleInputChanges({
-          macrocycleStartDate: macrocycle.start_date
-            ? macrocycle.start_date
-            : "",
-          macrocycleEndDate: macrocycle.end_date ? macrocycle.end_date : "",
-          mesocycle: macrocycle.mesocycles[0].name
-            ? macrocycle.mesocycles[0].name
-            : "",
-          mesocycleStartDate:
-            macrocycle.mesocycles && macrocycle.mesocycles[0]
-              ? macrocycle.mesocycles[0].start_date
-              : "",
-          mesocycleEndDate:
-            macrocycle.mesocycles && macrocycle.mesocycles[0]
-              ? macrocycle.mesocycles[0].end_date
-              : "",
-          mesocycleDurationInWeeks:
-            macrocycle.mesocycles && macrocycle.mesocycles[0]
-              ? macrocycle.mesocycles[0].duration
-              : "",
-        });
-      }
-    });
+    const selectedMacrocycle = trainingCycleState.find(
+      (macrocycle) => macrocycle.name === values["macrocycle"]
+    );
+    if (selectedMacrocycle) {
+      setMesocyclesData(selectedMacrocycle.mesocycles);
+      handleMultipleInputChanges({
+        macrocycleStartDate: selectedMacrocycle.start_date || "",
+        macrocycleEndDate: selectedMacrocycle.end_date || "",
+        mesocycle: selectedMacrocycle.mesocycles[0]?.name || "",
+        mesocycleStartDate: selectedMacrocycle.mesocycles[0]?.start_date || "",
+        mesocycleEndDate: selectedMacrocycle.mesocycles[0]?.end_date || "",
+        mesocycleDurationInWeeks:
+          selectedMacrocycle.mesocycles[0]?.duration || "",
+      });
+    }
   }, [values["macrocycle"]]);
 
   useEffect(() => {
-    // Update mesocycles data when trainingCycleState changes
-    // In practice it mean first page render
+    updateSelectedMacrocycleDetails();
+  }, [updateSelectedMacrocycleDetails]);
+
+  const initializeCycleState = useCallback(() => {
     if (trainingCycleState.length > 0) {
       setMesocyclesData(trainingCycleState[0].mesocycles);
       handleMultipleInputChanges({
@@ -142,6 +137,12 @@ const TrainingCycle = () => {
       });
     }
   }, [trainingCycleState]);
+
+  useEffect(() => {
+    // Update mesocycles data when trainingCycleState changes
+    // In practice it mean first page render
+    initializeCycleState();
+  }, [initializeCycleState]);
 
   useEffect(() => {
     // Determine phases data for the Mesocycle
