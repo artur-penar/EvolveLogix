@@ -125,6 +125,8 @@ const TrainingCycleForm = ({
       <div className="tcf-select-group-container">
         <h4>Mesocycle Timeline</h4>
         <CycleTimeline
+          mesocycleStartDate={mesocycleStartDate}
+          mesocycleEndDate={mesocycleEndDate}
           mesocycleDuration={mesocycleDurationInWeeks}
           phasesData={phasesData}
         />
