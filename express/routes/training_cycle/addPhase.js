@@ -7,9 +7,7 @@ router.use(express.json());
 
 router.post("/api/training-cycle/phases/", async (req, res) => {
   const { access } = req.cookies;
-  const { mesocycle, type, training_sessions } = req.body;
-
-  const body = JSON.stringify({ mesocycle, type, training_sessions });
+  const body = JSON.stringify(req.body);
 
   try {
     const apiRes = await fetch(
