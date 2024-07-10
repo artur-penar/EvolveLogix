@@ -30,6 +30,8 @@ const selectExerciseNames = createSelector(
 const PhaseForm = ({
   mesocycle,
   phase,
+  phaseStartDate,
+  phaseEndDate,
   weeksNumber: microcyclesNumber,
   trainingDays: trainingSessions,
   isPhaseFormActive,
@@ -228,9 +230,13 @@ const PhaseForm = ({
     const phaseData = {
       mesocycle: mesocycle,
       type: phase,
+      start_date: phaseStartDate,
+      end_date_: phaseEndDate,
+      duration: microcyclesNumber,
       training_sessions: phaseTrainingProgram,
     };
-    // dispatch(addPhase(phaseData));
+    console.log(phaseData);
+    dispatch(addPhase(phaseData));
   };
 
   return (
