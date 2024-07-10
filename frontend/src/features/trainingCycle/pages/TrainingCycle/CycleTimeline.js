@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import SmallCalendarComponent from "./components/SmallCalendarComponent";
 
-const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
+const CycleTimeline = ({
+  mesocycleStartDate,
+  mesocycleEndDate,
+  mesocycleDuration,
+  phasesData,
+}) => {
   // Calculate the existing duration from phasesData
-  console.log("cycle timeline phases data ");
-  console.log(phasesData);
+  const [activePhase, setActivePhase] = useState(null);
+
+  const handlePhaseClick = (phase) => {
+    setActivePhase(phase);
+  };
+
   const existingDuration = phasesData.reduce(
     (total, phase) => total + phase.duration,
     0
@@ -23,13 +33,13 @@ const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
   // Function to determine the color based on phase type
   const getPhaseColor = (type) => {
     switch (type) {
-      case "hypertrophy":
+      case "Hypertrophy":
         return "green";
-      case "strength":
+      case "Strength":
         return "yellow";
-      case "peak":
+      case "Peak":
         return "red";
-      case "deload":
+      case "Deload":
         return "aliceblue";
       default:
         return "white"; // Default color
@@ -37,49 +47,62 @@ const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
   };
 
   return (
-    <div
-      className="timeline"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignContent: "center",
-      }}
-    >
+    <>
       <div
-        className="total-duration"
+        className="timeline"
         style={{
-          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-          backgroundColor: "lightgray",
-          width: `${mesocycleDuration * 90}px`,
-          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+          padding: "2rem",
         }}
       >
-        <p>Total: {mesocycleDuration} weeks</p>
+        <div
+          className="total-duration"
+          style={{
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "lightgray",
+            width: `${mesocycleDuration * 90}px`,
+            textAlign: "center",
+          }}
+        >
+          <p>Total: {mesocycleDuration} weeks</p>
+        </div>
+        <div
+          className="phases-duration"
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          {phasesData.map((phase, index) => (
+            <div
+              key={index}
+              className={`phase phase-${phase.type}`}
+              style={{
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+                backgroundColor: getPhaseColor(phase.type),
+                width: `${phase.duration * 90}px`,
+                textAlign: "center",
+              }}
+              title={`Start: ${phase.start_date}, End: ${phase.end_date}`}
+              onClick={() => handlePhaseClick(phase)}
+            >
+              <p>{phase.type}</p>
+              <p>{phase.duration} weeks</p>
+              {/* <p>{phase.start_date}</p>
+            <p>{phase.end_date}</p> */}
+            </div>
+          ))}
+        </div>
       </div>
-      <div
-        className="phases-duration"
-        style={{ display: "flex", flexDirection: "row" }}
-      >
-        {phasesData.map((phase, index) => (
-          <div
-            key={index}
-            className={`phase phase-${phase.type}`}
-            style={{
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-              backgroundColor: getPhaseColor(phase.type),
-              width: `${phase.duration * 90}px`,
-              textAlign: "center",
-            }}
-          >
-            <p>{phase.type}</p>
-            <p>{phase.duration} weeks</p>
-            <p>{phase.start_date}</p>
-            <p>{phase.end_date}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+      {activePhase && (
+        <SmallCalendarComponent
+          mesocycleStartDate={mesocycleStartDate}
+          mesocycleEndDate={mesocycleEndDate}
+          phasesData={phasesData}
+          onClose={() => setActivePhase(null)}
+        />
+      )}
+    </>
   );
 };
 
