@@ -36,7 +36,7 @@ const TrainingCycle = () => {
   );
   // Variables
   const macrocycleNames = getCycleNames(trainingCycleState);
-  const phaseTypes = ["Hypertrophy", "Strength", "Peaking", "Deload"];
+  const phaseTypes = ["Hypertrophy", "Strength", "Peak", "Deload"];
 
   // State hooks
 
@@ -202,6 +202,8 @@ const TrainingCycle = () => {
         />
         <PhaseForm
           phase={values["phase"]}
+          phaseStartDate={values["phaseStartDate"]}
+          phaseEndDate={values["phaseEndDate"]}
           mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}
           weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
