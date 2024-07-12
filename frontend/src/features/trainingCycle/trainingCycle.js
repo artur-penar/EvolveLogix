@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 export const getTrainingCycles = createAsyncThunk(
   "trainingCycle/getTrainingCycles",
@@ -108,8 +109,10 @@ export const addPhase = createAsyncThunk(
 const initialState = {
   trainingCycles: [],
   selectedMacrocycle: null,
+  selectedMesocycle: null,
   loading: false,
   error: null,
+  updateTrigger: 0,
 };
 
 const trainingCycleSlice = createSlice({
@@ -117,9 +120,20 @@ const trainingCycleSlice = createSlice({
   initialState,
   reducers: {
     setSelectedMacrocycle: (state, action) => {
+      console.log("Set selected macrocycle");
+      console.log("Selected macrocycle", action.payload);
       state.selectedMacrocycle = action.payload;
     },
+    setSelectedMesocycle: (state, action) => {
+      console.log("Set selected Mesocycle action.");
+      console.log("Selected mesocycle", action.payload);
+      state.selectedMesocycle = action.payload;
+    },
+    updateUpdateTrigger: (state) => {
+      state.updateTrigger += 1;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getTrainingCycles.pending, (state) => {
@@ -173,6 +187,10 @@ const trainingCycleSlice = createSlice({
   }, // Add a closing parenthesis here
 });
 
-export const { setSelectedMacrocycle } = trainingCycleSlice.actions;
+export const {
+  setSelectedMacrocycle,
+  setSelectedMesocycle,
+  updateUpdateTrigger,
+} = trainingCycleSlice.actions;
 
 export default trainingCycleSlice.reducer;
