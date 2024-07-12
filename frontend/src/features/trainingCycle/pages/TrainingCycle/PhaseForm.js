@@ -6,7 +6,10 @@ import { createSelector } from "@reduxjs/toolkit";
 
 // Feature-related imports
 import { getExercises } from "features/trainingLogs/exercises";
-import { addPhase } from "features/trainingCycle/trainingCycle";
+import {
+  addPhase,
+  updateUpdateTrigger,
+} from "features/trainingCycle/trainingCycle";
 
 // Component imports
 import PhaseOption from "./components/PhaseOption";
@@ -235,8 +238,8 @@ const PhaseForm = ({
       duration: microcyclesNumber,
       training_sessions: phaseTrainingProgram,
     };
-    console.log(phaseData);
     dispatch(addPhase(phaseData));
+    dispatch(updateUpdateTrigger());
   };
 
   return (
