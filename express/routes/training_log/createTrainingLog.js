@@ -13,8 +13,6 @@ router.post("/api/training-log/", async (req, res) => {
   const body = JSON.stringify({
     name,
   });
-  console.log("Create training log body:");
-  console.log(body);
 
   try {
     const apiRes = await fetch(`${process.env.API_URL}/api/training-log/`, {

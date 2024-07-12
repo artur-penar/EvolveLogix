@@ -9,16 +9,11 @@ router.use(express.json());
 router.patch(
   "/api/training-log/training-session/:sessionId/update",
   async (req, res) => {
-    console.log("Route handler executed");
-    console.log("Request body:", req.body);
     const { access } = req.cookies;
     const { sessionId } = req.params;
     const trainingSession = req.body;
 
     const body = JSON.stringify(trainingSession);
-
-    console.log("sessionId");
-    console.log(sessionId);
 
     try {
       const apiRes = await fetch(

@@ -26,7 +26,6 @@ export const getTrainingCycles = createAsyncThunk(
 export const createMacrocycle = createAsyncThunk(
   "trainingCycle/createMacrocycle",
   async (name, thunkAPI) => {
-    console.log("Action dispatched");
     try {
       const res = await fetch("/api/training-cycle/macrocycles/", {
         method: "POST",

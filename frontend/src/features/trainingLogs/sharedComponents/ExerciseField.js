@@ -9,8 +9,6 @@ const ExerciseField = ({
   handleRemoveExercise,
   handleSetsNumberChange,
 }) => {
-  console.log("ExercisesField");
-  console.log(exercises);
   return (
     <div>
       {exercises.map((exercise, index) => (

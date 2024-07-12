@@ -12,8 +12,6 @@ const ViewTrainingLogsPage = () => {
 
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-  console.log("Training logs");
-  console.log(trainingLogsData);
 
   return (
     <Layout title="EvolveLogix | Training Log">
@@ -31,7 +29,7 @@ const ViewTrainingLogsPage = () => {
                   <div className="training-log-container">
                     {log.training_sessions.map((session, i) => (
                       <div key={`${index}-{i}`} className="training-log">
-                      <h4>Name: {session.description}</h4>
+                        <h4>Name: {session.description}</h4>
                         <h5>Date: {session.date}</h5>
                         <h5>Comment: {session.comment}</h5>
                         {session.exercises.map((exercise, j) => (

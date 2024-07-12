@@ -25,8 +25,6 @@ router.post("/api/training-cycle/phases/", async (req, res) => {
 
     const data = await apiRes.json();
 
-    console.log(data);
-
     return res.status(apiRes.status).json(data);
   } catch (error) {
     return res.status(500).json({

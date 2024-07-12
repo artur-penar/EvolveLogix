@@ -10,8 +10,6 @@ const NewStrengthRecord = () => {
   const [exerciseName, setExerciseName] = useState(exercisesList[0]);
   const [weight, setWeight] = useState(0);
 
-  console.log(exercises);
-
   const handleExerciseChange = (e) => {
     setExerciseName(e.target.value);
   };

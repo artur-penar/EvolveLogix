@@ -28,7 +28,6 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     dispatch(login({ email, password }));
-    console.log(isAuthenticated);
   };
 
   useEffect(() => {

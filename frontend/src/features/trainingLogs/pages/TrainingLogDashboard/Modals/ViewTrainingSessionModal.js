@@ -5,7 +5,6 @@ import "./ViewTrainingSessionModal.css";
 Modal.setAppElement("#root");
 
 const ViewTrainingSessionModal = ({ isOpen, selectedTraining, closeModal }) => {
-  console.log(selectedTraining);
   return (
     <Modal
       isOpen={isOpen}

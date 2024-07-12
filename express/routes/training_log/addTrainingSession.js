@@ -12,9 +12,6 @@ router.post("/api/training-log/addTrainingSession", async (req, res) => {
 
   const body = JSON.stringify({ training_log_id, training_sessions });
 
-  console.log("Add training session body:");
-  console.log(body);
-
   try {
     const apiRes = await fetch(
       `${process.env.API_URL}/api/training-log/training-session/create/`,

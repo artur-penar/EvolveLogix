@@ -10,7 +10,6 @@ const ExerciseList = () => {
     const fetchData = async () => {
       try {
         const res = await ApiServices.get("/training_log/exercises");
-        console.log(res);
         setExercises(res);
         setIsLoaded(true);
       } catch (err) {
@@ -20,7 +19,6 @@ const ExerciseList = () => {
     fetchData();
   }, []);
 
-  console.log(exercises);
   return (
     <div>
       Hello

@@ -10,7 +10,6 @@ export const register = createAsyncThunk(
       password,
     });
 
-    console.log(body);
     try {
       const res = await fetch("api/users/register", {
         method: "POST",
@@ -22,7 +21,6 @@ export const register = createAsyncThunk(
       });
 
       const data = await res.json();
-      console.log(data);
 
       if (res.status === 201) {
         return data;

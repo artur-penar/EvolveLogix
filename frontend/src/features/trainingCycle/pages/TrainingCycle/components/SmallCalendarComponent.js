@@ -38,7 +38,6 @@ const SmallCalendarComponent = ({
     const color = colorMapping[phase.type];
 
     if (phase.type === "remaining") {
-      console.log("Phase remaining");
       // Check if lastPhaseEndDate exist, it mean phase before remaining exist
       startDate = lastPhaseEndDate ? lastPhaseEndDate : mesocycleStartDate;
       endDate = addDays(mesocycleEndDate, 1);

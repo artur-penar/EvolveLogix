@@ -30,8 +30,6 @@ function determinePhasesData(
     // This is the default behavior when no mesocyclesData is available
     phasesData = trainingCycleState[0].mesocycles[0].phases;
   }
-  console.log("phasesData");
-  console.log(phasesData);
 
   // Return the phasesData
   return phasesData;
