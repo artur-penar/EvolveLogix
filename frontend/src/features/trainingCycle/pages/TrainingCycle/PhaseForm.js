@@ -119,25 +119,12 @@ const PhaseForm = ({
     totalMicrocycles,
     newMicrocycleLoad
   ) => {
-    console.log(
-      "Updating training weeks to total microcycles:",
-      totalMicrocycles
-    );
-
     return prevState.map((day) => {
-      console.log("Processing day:", day);
-
       day.exercises = day.exercises.map((exercise) => {
-        console.log("Processing exercise:", exercise);
-
         const currentMicrocyclesCount = exercise.microcycles.length;
         const microcyclesToAdd = totalMicrocycles - currentMicrocyclesCount;
-        console.log("Microcycle to add:", microcyclesToAdd);
 
         if (microcyclesToAdd > 0) {
-          console.log(
-            `Adding ${microcyclesToAdd} new microcycle loads to exercise`
-          );
           // Add the required number of microcycles
           return {
             ...exercise,
@@ -147,9 +134,6 @@ const PhaseForm = ({
             ],
           };
         } else if (microcyclesToAdd < 0) {
-          console.log(
-            `Trimming microcycles in exercise to total of ${totalMicrocycles}`
-          );
           // Trim the microcycles to the new total
           return {
             ...exercise,
