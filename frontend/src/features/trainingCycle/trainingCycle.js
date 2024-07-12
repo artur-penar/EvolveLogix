@@ -120,13 +120,9 @@ const trainingCycleSlice = createSlice({
   initialState,
   reducers: {
     setSelectedMacrocycle: (state, action) => {
-      console.log("Set selected macrocycle");
-      console.log("Selected macrocycle", action.payload);
       state.selectedMacrocycle = action.payload;
     },
     setSelectedMesocycle: (state, action) => {
-      console.log("Set selected Mesocycle action.");
-      console.log("Selected mesocycle", action.payload);
       state.selectedMesocycle = action.payload;
     },
     updateUpdateTrigger: (state) => {

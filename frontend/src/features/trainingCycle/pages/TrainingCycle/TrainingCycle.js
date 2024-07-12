@@ -15,7 +15,10 @@ import {
   getCycleNames,
   getMesocycles,
 } from "features/trainingCycle/utils/trainingCycleUtils";
-import { setSelectedMacrocycle } from "features/trainingCycle/trainingCycle";
+import {
+  setSelectedMacrocycle,
+  setSelectedMesocycle,
+} from "features/trainingCycle/trainingCycle";
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 // Relative imports
@@ -34,6 +37,9 @@ const TrainingCycle = () => {
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
   );
+  const selectedMesocycle = useSelector(
+    (state) => state.trainingCycle.selectedMesocycle
+  );
   // Variables
   const macrocycleNames = getCycleNames(trainingCycleState);
   const phaseTypes = ["Hypertrophy", "Strength", "Peak", "Deload"];
@@ -45,10 +51,10 @@ const TrainingCycle = () => {
   const mesocycleNames = getCycleNames(mesocyclesData);
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
-      macrocycle: macrocycleNames[0],
+      macrocycle: selectedMacrocycle || macrocycleNames[0],
       macrocycleStartDate: "",
       macrocycleEndDate: "",
-      mesocycle: mesocycleNames[0],
+      mesocycle: selectedMesocycle || mesocycleNames[0],
       mesocycleStartDate: "",
       mesocycleEndDate: "",
       phase: phaseTypes[0],
@@ -89,6 +95,7 @@ const TrainingCycle = () => {
         (mesocycle) => mesocycle.name === values["mesocycle"]
       );
       if (selectedMesocycle) {
+        dispatch(setSelectedMesocycle(values["mesocycle"]));
         handleMultipleInputChanges({
           mesocycleStartDate: selectedMesocycle.start_date,
           mesocycleEndDate: selectedMesocycle.end_date,
