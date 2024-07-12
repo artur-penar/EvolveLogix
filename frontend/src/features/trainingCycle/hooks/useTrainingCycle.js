@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrainingCycles } from "../trainingCycle";
+import { getTrainingCycles, updateUpdateTrigger } from "../trainingCycle";
 
 export const useTrainingCycle = () => {
   const dispatch = useDispatch();
   const trainingCycleState = useSelector(
     (state) => state.trainingCycle.trainingCycles
   );
+  const updateTriggerState = useSelector(
+    (state) => state.trainingCycle.updateTrigger
+  );
 
   useEffect(() => {
-    if (trainingCycleState.length === 0) dispatch(getTrainingCycles());
-  }, []);
+    dispatch(getTrainingCycles());
+  }, [updateTriggerState]);
 
   return trainingCycleState;
 };
