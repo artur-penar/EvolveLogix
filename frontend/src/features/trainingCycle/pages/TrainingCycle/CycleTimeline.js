@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SmallCalendarComponent from "./components/SmallCalendarComponent";
+import SmallCalendarComponent from "./components/SmallCalendar";
 
 const CycleTimeline = ({
   mesocycleStartDate,
