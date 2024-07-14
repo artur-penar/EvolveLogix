@@ -40,6 +40,7 @@ const TrainingCycle = () => {
   const selectedMesocycle = useSelector(
     (state) => state.trainingCycle.selectedMesocycle
   );
+
   // Variables
   const macrocycleNames = getCycleNames(trainingCycleState);
   const phaseTypes = ["Hypertrophy", "Strength", "Peak", "Deload"];
@@ -134,6 +135,7 @@ const TrainingCycle = () => {
 
   const initializeCycleState = useCallback(() => {
     if (trainingCycleState.length > 0) {
+      dispatch(setSelectedMacrocycle(trainingCycleState[0].name));
       setMesocyclesData(trainingCycleState[0].mesocycles);
       handleMultipleInputChanges({
         macrocycleStartDate: trainingCycleState[0].start_date,
@@ -145,11 +147,23 @@ const TrainingCycle = () => {
     }
   }, [trainingCycleState]);
 
+  const updateMesocyclesState = useCallback(() => {
+    const selectedMacrocycleData = trainingCycleState.find(
+      (macrocycle) => macrocycle.name === selectedMacrocycle
+    );
+    const mesocycles = selectedMacrocycleData.mesocycles;
+    setMesocyclesData(mesocycles);
+  }, [trainingCycleState]);
+
   useEffect(() => {
     // Update mesocycles data when trainingCycleState changes
     // In practice it mean first page render
-    initializeCycleState();
-  }, [initializeCycleState]);
+    if (mesocyclesData.length === 0) {
+      initializeCycleState();
+    } else {
+      updateMesocyclesState();
+    }
+  }, [initializeCycleState, updateMesocyclesState]);
 
   useEffect(() => {
     // Determine phases data for the Mesocycle
@@ -211,6 +225,7 @@ const TrainingCycle = () => {
           phase={values["phase"]}
           phaseStartDate={values["phaseStartDate"]}
           phaseEndDate={values["phaseEndDate"]}
+          setPhasesData={setPhasesData}
           mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}
           weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
