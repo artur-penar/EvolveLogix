@@ -68,6 +68,7 @@ const SmallCalendarComponent = ({
       height="auto"
       events={events} // Pass the array of events
       eventContent={renderEventContent}
+      firstDay={1}
     />
   );
 };
@@ -75,7 +76,7 @@ const SmallCalendarComponent = ({
 // Custom render function for event content
 function renderEventContent(eventInfo) {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", color: "black" }}>
       <b>{eventInfo.timeText}</b>
       <i>{eventInfo.event.title}</i>
     </div>
