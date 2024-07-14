@@ -81,7 +81,10 @@ const TrainingCycleForm = ({
         </button>
       </div>
       {isCreateCycleVisible && (
-        <CreateNewCycle selectedMacrocycle={selectedMacrocycleId} />
+        <CreateNewCycle
+          selectedMacrocycle={selectedMacrocycleId}
+          setIsCreateCycleVisible={setIsCreateCycleVisible}
+        />
       )}
       {/* // Phase selection */}
       <div className="tcf-select-group-container">
