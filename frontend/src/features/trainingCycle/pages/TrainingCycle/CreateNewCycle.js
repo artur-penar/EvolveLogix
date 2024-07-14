@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import {
   addMesocycle,
   createMacrocycle,
+  updateUpdateTrigger,
 } from "features/trainingCycle/trainingCycle";
 
-const CreateNewCycle = ({ selectedMacrocycle }) => {
+const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
   const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
@@ -60,6 +61,8 @@ const CreateNewCycle = ({ selectedMacrocycle }) => {
           duration: Number(mesocycleDuration) + 1,
         })
       );
+      setIsCreateCycleVisible(false);
+      dispatch(updateUpdateTrigger());
     }
   };
 
