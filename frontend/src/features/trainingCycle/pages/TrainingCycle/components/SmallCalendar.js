@@ -55,21 +55,21 @@ const SmallCalendarComponent = ({
   });
 
   return (
-    <FullCalendar
-      ref={calendarRef}
-      plugins={[dayGridPlugin]}
-      initialView="dayGridMonth"
-      initialDate={phasesData[0].start_date}
-      headerToolbar={{
-        left: "",
-        center: "title",
-        right: "prev,next",
-      }}
-      height="auto"
-      events={events} // Pass the array of events
-      eventContent={renderEventContent}
-      firstDay={1}
-    />
+    <div>
+      <FullCalendar
+        ref={calendarRef}
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        initialDate={phasesData[0].start_date}
+        headerToolbar={{
+          right: "prev,next",
+        }}
+        height="auto"
+        events={events} // Pass the array of events
+        eventContent={renderEventContent}
+        firstDay={1}
+      />
+    </div>
   );
 };
 
