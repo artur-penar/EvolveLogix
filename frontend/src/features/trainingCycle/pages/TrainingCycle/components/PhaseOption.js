@@ -17,6 +17,15 @@ const PhaseOption = ({
     >
       <div
         style={{
+          textAlign: "center",
+          borderBottom: "1px solid rgb(0, 0, 0, 0.1",
+          padding: "0.5rem",
+        }}
+      >
+        <h4>Options</h4>
+      </div>
+      <div
+        style={{
           display: "flex",
           justifyContent: "space-around",
           padding: "1rem",
