@@ -15,7 +15,6 @@ import {
 import PhaseOption from "./components/PhaseOption";
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
-import CycleTimeline from "./CycleTimeline";
 
 // Style imports (if any)
 import "./PhaseForm.css";
@@ -64,19 +63,6 @@ const PhaseForm = ({
     },
   ];
 
-  const trainingCycle = [
-    {
-      name: "Phase 1",
-      type: "hypertrophy",
-      duration: 3,
-    },
-    {
-      name: "Phase 2",
-      type: "strength",
-      duration: 4,
-    },
-    // More phases...
-  ];
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
@@ -238,9 +224,7 @@ const PhaseForm = ({
         setDisplayMesocycleTimeline={setDisplayMesocycleTimeline}
       />
       {displayRecords && <RecordsDisplayContainer />}
-      {displayMesocycleTimeline && (
-        <CycleTimeline trainingCycle={trainingCycle} />
-      )}
+
       {isPhaseFormActive && (
         <div className="training-phase-form">
           {phaseTrainingProgram.map((_, trainingSessionIndex) => (
