@@ -1,6 +1,7 @@
 import React from "react";
 import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
+import CycleSelectGroupOptions from "./CycleSelectGroupOptions";
 
 const CycleSelectGroup = ({
   type,
@@ -15,6 +16,9 @@ const CycleSelectGroup = ({
   return (
     <div className="tcf-select-group-container">
       <h3>{type}</h3>
+      {type === "Phase" && (
+        <CycleSelectGroupOptions options={additionalProps.options} />
+      )}
       <div className="tcf-select-container">
         <div className="flex-column">
           <SelectInput
