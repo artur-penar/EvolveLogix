@@ -3,6 +3,7 @@ import "./TrainingCycleForm.css";
 import CycleSelectGroup from "./components/CycleSelectGroup";
 import CreateNewCycle from "./CreateNewCycle";
 import CycleTimeline from "./CycleTimeline";
+import SmallCalendarComponent from "./components/SmallCalendar";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -25,6 +26,8 @@ const TrainingCycleForm = ({
   selectedMacrocycleId,
 }) => {
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+  const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const handleCreateNewCycleClick = () => {
     setIsCreateCycleVisible((prevState) => !prevState);
   };
@@ -69,18 +72,44 @@ const TrainingCycleForm = ({
         additionalProps={{
           trainingDays,
           phaseDurationInWeeks,
+          options: [
+            {
+              label: "Timeline",
+              checked: isTimelineVisible,
+              onChange: () => {
+                setIsTimelineVisible((prevState) => !prevState);
+              },
+            },
+            {
+              label: "Calendar",
+              checked: isCalendarVisible,
+              onChange: () => {
+                setIsCalendarVisible((prevState) => !prevState);
+              },
+            },
+          ],
         }}
       />
       {!phaseEndDate && <p className="tcf-phase-warning">Can't add phase!</p>}
-      {/* <div className="tcf-select-group-container">
-        <h4>Mesocycle Timeline</h4>
-        <CycleTimeline
-          mesocycleStartDate={mesocycleStartDate}
-          mesocycleEndDate={mesocycleEndDate}
-          mesocycleDuration={mesocycleDurationInWeeks}
-          phasesData={phasesData}
-        />
-      </div> */}
+      {isTimelineVisible && (
+        <div className="tcf-select-group-container">
+          <h3>Mesocycle Timeline</h3>
+          <CycleTimeline
+            mesocycleDuration={mesocycleDurationInWeeks}
+            phasesData={phasesData}
+          />
+        </div>
+      )}
+      {isCalendarVisible && (
+        <div className="tcf-select-group-container">
+          <h3>Calendar</h3>
+          <SmallCalendarComponent
+            mesocycleStartDate={mesocycleStartDate}
+            mesocycleEndDate={mesocycleEndDate}
+            phasesData={phasesData}
+          />
+        </div>
+      )}
     </div>
   );
 };
