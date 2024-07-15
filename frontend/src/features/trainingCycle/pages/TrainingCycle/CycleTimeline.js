@@ -1,18 +1,8 @@
 import React, { useState } from "react";
 import SmallCalendarComponent from "./components/SmallCalendar";
 
-const CycleTimeline = ({
-  mesocycleStartDate,
-  mesocycleEndDate,
-  mesocycleDuration,
-  phasesData,
-}) => {
+const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
   // Calculate the existing duration from phasesData
-  const [activePhase, setActivePhase] = useState(null);
-
-  const handlePhaseClick = (phase) => {
-    setActivePhase(phase);
-  };
 
   const existingDuration = phasesData.reduce(
     (total, phase) => total + phase.duration,
@@ -83,25 +73,13 @@ const CycleTimeline = ({
                 width: `${phase.duration * 90}px`,
                 textAlign: "center",
               }}
-              title={`Start: ${phase.start_date}, End: ${phase.end_date}`}
-              onClick={() => handlePhaseClick(phase)}
             >
               <p>{phase.type}</p>
               <p>{phase.duration} weeks</p>
-              {/* <p>{phase.start_date}</p>
-            <p>{phase.end_date}</p> */}
             </div>
           ))}
         </div>
       </div>
-      {activePhase && (
-        <SmallCalendarComponent
-          mesocycleStartDate={mesocycleStartDate}
-          mesocycleEndDate={mesocycleEndDate}
-          phasesData={phasesData}
-          onClose={() => setActivePhase(null)}
-        />
-      )}
     </>
   );
 };
