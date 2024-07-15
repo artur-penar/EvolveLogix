@@ -228,6 +228,7 @@ const PhaseForm = ({
 
   return (
     <div className="form-container">
+      <h3>Microcycle programming</h3>
       <PhaseOption
         displayWeightInPercent={displayWeightInPercent}
         setDisplayWeightInPercent={setDisplayWeightInPercent}
