@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./TrainingCycleForm.css";
-import DateInput from "./components/DateInput";
-import SelectInput from "./components/SelectInput";
+import CycleSelectGroup from "./components/CycleSelectGroup";
 import CreateNewCycle from "./CreateNewCycle";
 import CycleTimeline from "./CycleTimeline";
 
@@ -31,50 +30,23 @@ const TrainingCycleForm = ({
   };
   return (
     <div className="tcf-parent-container">
-      <div className="tcf-select-group-container">
-        <h4>Macrocycle</h4>
-        <div className="tcf-select-container">
-          <div className="flex-column">
-            <SelectInput
-              name="macrocycle"
-              label="Name"
-              value={macrocycle}
-              options={macrocycles}
-              handleChange={handleInputChange}
-            />
-          </div>
-          <div className="flex-column">
-            <DateInput label="Start date:" value={macrocycleStartDate} />
-            <DateInput label="End date:" value={macrocycleEndDate} />
-          </div>
-        </div>
-      </div>
-      <div className="tcf-select-group-container">
-        <h4>Mesocycle</h4>
-        <div className="tcf-select-container">
-          <div className="flex-column">
-            <SelectInput
-              name="mesocycle"
-              label="Name"
-              value={mesocycle}
-              options={mesocycles}
-              handleChange={handleInputChange}
-            />
-            <SelectInput
-              name="mesocycleDurationInWeeks"
-              label="Duration in weeks"
-              value={mesocycleDurationInWeeks}
-              options={[...Array(11).keys()]}
-              handleChange={handleInputChange}
-              disabled={true}
-            />
-          </div>
-          <div className="flex-column">
-            <DateInput label="Start date:" value={mesocycleStartDate} />
-            <DateInput label="End date:" value={mesocycleEndDate} />
-          </div>
-        </div>
-      </div>
+      <CycleSelectGroup
+        type={"Macrocycle"}
+        value={macrocycle}
+        options={macrocycles}
+        handleInputChange={handleInputChange}
+        startDate={macrocycleStartDate}
+        endDate={macrocycleEndDate}
+      />
+      <CycleSelectGroup
+        type={"Mesocycle"}
+        value={mesocycle}
+        options={mesocycles}
+        handleInputChange={handleInputChange}
+        startDate={mesocycleStartDate}
+        endDate={mesocycleEndDate}
+        additionalProps={{ mesocycleDurationInWeeks }}
+      />
       <div className="tcf-button-container">
         <button className="tcf-button" onClick={handleCreateNewCycleClick}>
           {isCreateCycleVisible ? "Hide" : "Create new cycle"}
@@ -87,45 +59,20 @@ const TrainingCycleForm = ({
         />
       )}
       {/* // Phase selection */}
-      <div className="tcf-select-group-container">
-        <h4>Phase programming</h4>
-        <div className="tcf-select-container" style={{ marginLeft: "2px" }}>
-          <div className="flex-column">
-            <SelectInput
-              name="phase"
-              label="Type"
-              value={phase}
-              options={phases}
-              handleChange={handleInputChange}
-            />
-            <SelectInput
-              name="trainingDays"
-              label="Training days"
-              value={trainingDays}
-              options={[...Array(7).keys()].map((n) => n + 1)}
-              handleChange={handleInputChange}
-            />
-          </div>
-          <div className="flex-column">
-            <SelectInput
-              name="phaseDurationInWeeks"
-              label="Duration in weeks"
-              value={phaseDurationInWeeks}
-              options={[...Array(10).keys()].map((n) => n + 1)}
-              handleChange={handleInputChange}
-            />
-
-            <DateInput
-              label="Start date:"
-              value={phaseStartDate}
-              enable={true}
-            />
-            <DateInput label="End date:" value={phaseEndDate} enable={true} />
-          </div>
-        </div>
-      </div>
+      <CycleSelectGroup
+        type={"Phase"}
+        value={phase}
+        options={phases}
+        handleInputChange={handleInputChange}
+        startDate={phaseStartDate}
+        endDate={phaseEndDate}
+        additionalProps={{
+          trainingDays,
+          phaseDurationInWeeks,
+        }}
+      />
       {!phaseEndDate && <p className="tcf-phase-warning">Can't add phase!</p>}
-      <div className="tcf-select-group-container">
+      {/* <div className="tcf-select-group-container">
         <h4>Mesocycle Timeline</h4>
         <CycleTimeline
           mesocycleStartDate={mesocycleStartDate}
@@ -133,7 +80,7 @@ const TrainingCycleForm = ({
           mesocycleDuration={mesocycleDurationInWeeks}
           phasesData={phasesData}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
