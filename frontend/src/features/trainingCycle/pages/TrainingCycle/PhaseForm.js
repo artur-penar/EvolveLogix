@@ -15,6 +15,7 @@ import {
 import PhaseOption from "./components/PhaseOption";
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
+import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
 
 // Style imports (if any)
 import "./PhaseForm.css";
@@ -215,13 +216,19 @@ const PhaseForm = ({
   return (
     <div className="form-container">
       <h3>Microcycle programming</h3>
-      <PhaseOption
-        displayWeightInPercent={displayWeightInPercent}
-        setDisplayWeightInPercent={setDisplayWeightInPercent}
-        displayRecords={displayRecords}
-        setDisplayRecords={setDisplayRecords}
-        displayMesocycleTimeline={displayMesocycleTimeline}
-        setDisplayMesocycleTimeline={setDisplayMesocycleTimeline}
+      <CycleSelectGroupOptions
+        options={[
+          {
+            label: "Weight in percent of 1RM",
+            checked: displayWeightInPercent,
+            onChange: setDisplayWeightInPercent,
+          },
+          {
+            label: "Show Strength Records",
+            checked: displayRecords,
+            onChange: setDisplayRecords,
+          },
+        ]}
       />
       {displayRecords && <RecordsDisplayContainer />}
 
