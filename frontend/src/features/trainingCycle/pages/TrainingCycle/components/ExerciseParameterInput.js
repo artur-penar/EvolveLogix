@@ -25,7 +25,7 @@ const ExerciseParameterInput = ({
           )
         }
         style={{ width: "auto" }}
-        isEditable={isEditable}
+        isEditable={!isEditable}
       >
         {[...Array(100).keys()].map((i) => (
           <option key={i + 1} value={i + 1}>

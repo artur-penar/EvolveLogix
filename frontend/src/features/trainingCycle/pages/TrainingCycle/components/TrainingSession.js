@@ -43,6 +43,7 @@ const TrainingSession = ({
                 handleChange={handleExerciseDetailChange}
                 detailType="weight"
                 displayWeightInPercent={displayWeightInPercent}
+                isEditable={isEditable}
               />
               <label>x</label>
               <ExerciseParameterInput
@@ -56,6 +57,7 @@ const TrainingSession = ({
                 }
                 handleChange={handleExerciseDetailChange}
                 detailType="repetitions"
+                isEditable={isEditable}
               />
               <label>x</label>
               <ExerciseParameterInput
@@ -69,6 +71,7 @@ const TrainingSession = ({
                 }
                 handleChange={handleExerciseDetailChange}
                 detailType="sets"
+                isEditable={isEditable}
               />
             </div>
           )
