@@ -194,21 +194,6 @@ const TrainingCycle = () => {
     mesocyclesData,
   ]);
 
-  const processPhaseData = (data) => {
-    if (!data) return [];
-    const trainingSessions = data.training_sessions;
-    return trainingSessions.map(({ order, exercises }) => ({
-      dayNumber: order,
-      exercises: exercises.map(({ exercise, microcycles }) => ({
-        exercise,
-        microcycles, // Include microcycles here
-      })),
-    }));
-  };
-
-  const processedData = processPhaseData(phasesData[phasesData.length - 1]);
-
-  console.log("processedData", processedData);
   return (
     <Layout title="EvolveLogix | Training cycle">
       <div className="tc-cycle-content">
@@ -237,7 +222,7 @@ const TrainingCycle = () => {
             trainingCycleState
           )}
         />
-        <PhaseDisplay phaseData={processedData} />
+        <PhaseDisplay phasesData={phasesData} />
         <PhaseForm
           phase={values["phase"]}
           phaseStartDate={values["phaseStartDate"]}
