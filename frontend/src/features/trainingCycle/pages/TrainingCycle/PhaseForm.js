@@ -244,6 +244,7 @@ const PhaseForm = ({
               handleExerciseDetailChange={handleExerciseDetailChange}
               handleAddExercise={handleAddExercise}
               displayWeightInPercent={displayWeightInPercent}
+              isEditable={true}
             />
           ))}
 

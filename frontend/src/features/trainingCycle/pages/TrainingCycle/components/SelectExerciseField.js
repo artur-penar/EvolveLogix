@@ -6,6 +6,7 @@ const SelectExerciseField = ({
   exerciseIndex,
   dayIndex,
   handleExerciseChange,
+  isEditable,
 }) => {
   if (!phaseTrainingProgram[dayIndex]?.exercises[exerciseIndex]) {
     return null;
@@ -19,6 +20,7 @@ const SelectExerciseField = ({
         onChange={(e) =>
           handleExerciseChange(dayIndex, exerciseIndex, e.target.value)
         }
+        disabled={!isEditable}
       >
         {exercisesNameList.map((exerciseName) => (
           <option key={exerciseName} value={exerciseName}>

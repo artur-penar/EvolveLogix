@@ -8,6 +8,7 @@ const ExerciseParameterInput = ({
   handleChange,
   detailType,
   displayWeightInPercent,
+  isEditable,
 }) => {
   if (displayWeightInPercent) {
     return (
@@ -24,6 +25,7 @@ const ExerciseParameterInput = ({
           )
         }
         style={{ width: "auto" }}
+        isEditable={isEditable}
       >
         {[...Array(100).keys()].map((i) => (
           <option key={i + 1} value={i + 1}>
@@ -48,6 +50,7 @@ const ExerciseParameterInput = ({
           )
         }
         placeholder={detailType}
+        disabled={!isEditable}
       />
     );
   }

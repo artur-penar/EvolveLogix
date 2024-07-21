@@ -16,6 +16,7 @@ const PhaseDisplay = ({ phaseData: phaseTrainingProgram }) => {
           handleExerciseDetailChange={() => {}}
           handleAddExercise={() => {}}
           displayWeightInPercent={false}
+          isEditable={false}
         />
       ))}
     </div>

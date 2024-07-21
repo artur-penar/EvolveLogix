@@ -11,6 +11,7 @@ const TrainingSession = ({
   handleExerciseChange,
   handleExerciseDetailChange,
   displayWeightInPercent,
+  isEditable,
 }) => {
   if (!phaseTrainingProgram[trainingDayIndex]) {
     return null;
@@ -25,6 +26,7 @@ const TrainingSession = ({
           exerciseIndex={exerciseIndex}
           dayIndex={trainingDayIndex}
           handleExerciseChange={handleExerciseChange}
+          isEditable={isEditable}
         />
         {Array.from({ length: totalMicrocyclesNumber }, (_, i) => i).map(
           (microcycleIndex) => (

@@ -11,6 +11,7 @@ const TrainingSessionContainer = ({
   handleExerciseChange,
   handleExerciseDetailChange,
   displayWeightInPercent,
+  isEditable,
 }) => {
   return (
     <div className="training-day-container" key={trainingSessionIndex}>
@@ -33,6 +34,7 @@ const TrainingSessionContainer = ({
         handleExerciseChange={handleExerciseChange}
         handleExerciseDetailChange={handleExerciseDetailChange}
         displayWeightInPercent={displayWeightInPercent}
+        isEditable={isEditable}
       />
 
       <div
@@ -43,11 +45,13 @@ const TrainingSessionContainer = ({
           }, minmax(180px, 1fr))`,
         }}
       >
-        <div className="button-container">
-          <button onClick={() => handleAddExercise(trainingSessionIndex)}>
-            Add exercise
-          </button>
-        </div>
+        {isEditable && (
+          <div className="button-container">
+            <button onClick={() => handleAddExercise(trainingSessionIndex)}>
+              Add exercise
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
