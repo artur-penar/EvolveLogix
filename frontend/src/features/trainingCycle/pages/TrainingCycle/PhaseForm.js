@@ -19,6 +19,7 @@ import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
 
 // Style imports (if any)
 import "./PhaseForm.css";
+import PhaseDisplay from "./components/PhaseDisplay";
 
 // Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
 // And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
@@ -26,13 +27,12 @@ const selectExercisesState = (state) => state.exercises.exercises;
 
 const selectExerciseNames = createSelector(
   [selectExercisesState],
-
   (exercises) => exercises.map((exercise) => exercise.name)
 );
 
 const PhaseForm = ({
-  mesocycle,
-  phase,
+  mesocycleId,
+  phaseType,
   phaseStartDate,
   phaseEndDate,
   weeksNumber: microcyclesNumber,
@@ -68,8 +68,7 @@ const PhaseForm = ({
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
-  const [displayMesocycleTimeline, setDisplayMesocycleTimeline] =
-    useState(false);
+  useState(false);
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
 
@@ -202,8 +201,8 @@ const PhaseForm = ({
 
   const handleAddPhase = () => {
     const phaseData = {
-      mesocycle: mesocycle,
-      type: phase,
+      mesocycle: mesocycleId,
+      type: phaseType,
       start_date: phaseStartDate,
       end_date_: phaseEndDate,
       duration: microcyclesNumber,

@@ -51,6 +51,7 @@ const TrainingCycle = () => {
   const [phasesData, setPhasesData] = useState([]);
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCycleNames(mesocyclesData);
+
   const [values, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: selectedMacrocycle || macrocycleNames[0],
@@ -222,13 +223,13 @@ const TrainingCycle = () => {
             trainingCycleState
           )}
         />
-        <PhaseDisplay phasesData={phasesData} />
         <PhaseForm
-          phase={values["phase"]}
+          mesocycleId={getCycleIdByName(values["mesocycle"], mesocyclesData)}
+          phaseType={values["phase"]}
           phaseStartDate={values["phaseStartDate"]}
           phaseEndDate={values["phaseEndDate"]}
+          phasesData={phasesData}
           setPhasesData={setPhasesData}
-          mesocycle={getCycleIdByName(values["mesocycle"], mesocyclesData)}
           weeksNumber={values["phaseDurationInWeeks"]}
           trainingDays={values["trainingDays"]}
           isPhaseFormActive={values["phaseEndDate"] ? true : false}
