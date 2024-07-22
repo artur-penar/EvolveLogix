@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TrainingSessionContainer from "./TrainingSessionContainer";
+import DateInput from "./DateInput";
 import "./PhaseDisplay.css";
 
 const processPhaseData = (data) => {
@@ -19,9 +20,11 @@ const PhaseDisplay = ({ phasesData }) => {
   const [processedSelectedPhaseData, setProcessedSelectedPhaseData] = useState(
     []
   );
-  const phaseSelectionOptions = phasesData.map((phase) => ({
-    id: phase.id,
-    type: phase.type,
+  const [selectedPhaseStartDate, setSelectedPhaseStartDate] = useState("");
+  const [selectedPhaseEndDate, setSelectedPhaseEndDate] = useState("");
+  const phaseSelectionOptions = phasesData.map(({ id, type }) => ({
+    id: id,
+    type: type,
   }));
 
   useEffect(() => {
@@ -30,10 +33,14 @@ const PhaseDisplay = ({ phasesData }) => {
   }, [phasesData]);
 
   useEffect(() => {
+    if (!selectedPhaseId) return;
+
     const selectedPhaseData = phasesData.find(
       (phase) => phase.id == selectedPhaseId
     );
     setProcessedSelectedPhaseData(processPhaseData(selectedPhaseData));
+    setSelectedPhaseStartDate(selectedPhaseData.start_date);
+    setSelectedPhaseEndDate(selectedPhaseData.end_date);
   }, [selectedPhaseId]);
 
   if (!processedSelectedPhaseData.length) {
@@ -43,18 +50,28 @@ const PhaseDisplay = ({ phasesData }) => {
   return (
     <div className="phase-display-container">
       <h3>Phase Display</h3>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <label>Phase name: </label>
-        <select
-          value={selectedPhaseId}
-          onChange={(e) => setSelectedPhaseId(e.target.value)}
-        >
-          {phaseSelectionOptions.map((phase) => (
-            <option key={phase.id} value={phase.id}>
-              {phase.type}
-            </option>
-          ))}
-        </select>
+      <div className="tcf-select-container">
+        <div className="flex-column">
+          <div className="tcf-select-group">
+            <label className="tcf-select-label">Phase name: </label>
+            <select
+              className="tcf-select-control form-control"
+              value={selectedPhaseId}
+              onChange={(e) => setSelectedPhaseId(e.target.value)}
+              aria-label="Select Phase"
+            >
+              {phaseSelectionOptions.map(({ id, type }, index) => (
+                <option key={id} value={id}>
+                  {index + 1}. {type}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="flex-column">
+          <DateInput label="Start date" value={selectedPhaseStartDate} />
+          <DateInput label="End date" value={selectedPhaseEndDate} />
+        </div>
       </div>
       {processedSelectedPhaseData.map((_, trainingSessionIndex) => (
         <TrainingSessionContainer
