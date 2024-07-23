@@ -28,7 +28,7 @@ const PhaseDisplay = ({ phasesData }) => {
   }));
 
   useEffect(() => {
-    if (phaseSelectionOptions.length && selectedPhaseId === "")
+    if (phaseSelectionOptions.length)
       setSelectedPhaseId(phaseSelectionOptions[0].id);
   }, [phasesData]);
 
@@ -38,10 +38,11 @@ const PhaseDisplay = ({ phasesData }) => {
     const selectedPhaseData = phasesData.find(
       (phase) => phase.id == selectedPhaseId
     );
+    if (!selectedPhaseData) return;
     setProcessedSelectedPhaseData(processPhaseData(selectedPhaseData));
     setSelectedPhaseStartDate(selectedPhaseData.start_date);
     setSelectedPhaseEndDate(selectedPhaseData.end_date);
-  }, [selectedPhaseId]);
+  }, [selectedPhaseId, phasesData]);
 
   if (!processedSelectedPhaseData.length) {
     return null;
