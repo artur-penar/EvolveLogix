@@ -20,7 +20,7 @@ const CycleSelectGroup = ({
         <CycleSelectGroupOptions options={additionalProps.options} />
       )}
       <div className="tcf-select-container">
-        <div className="flex-column">
+        <div className="tcf-flex-column">
           <SelectInput
             name={name}
             label="Name"
@@ -48,7 +48,7 @@ const CycleSelectGroup = ({
             />
           )}
         </div>
-        <div className="flex-column">
+        <div className="tcf-flex-column">
           {type === "Phase" && (
             <SelectInput
               name="phaseDurationInWeeks"

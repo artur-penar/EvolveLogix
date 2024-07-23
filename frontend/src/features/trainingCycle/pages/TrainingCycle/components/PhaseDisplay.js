@@ -52,7 +52,7 @@ const PhaseDisplay = ({ phasesData }) => {
     <div className="phase-display-container">
       <h3>Phase Display</h3>
       <div className="tcf-select-container">
-        <div className="flex-column">
+        <div className="tcf-flex-column">
           <div className="tcf-select-group">
             <label className="tcf-select-label">Phase name: </label>
             <select
@@ -69,7 +69,7 @@ const PhaseDisplay = ({ phasesData }) => {
             </select>
           </div>
         </div>
-        <div className="flex-column">
+        <div className="tcf-flex-column">
           <DateInput label="Start date" value={selectedPhaseStartDate} />
           <DateInput label="End date" value={selectedPhaseEndDate} />
         </div>

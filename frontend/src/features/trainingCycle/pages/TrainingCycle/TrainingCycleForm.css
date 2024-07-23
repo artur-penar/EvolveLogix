@@ -40,7 +40,7 @@
   padding: 1rem;
 }
 
-.tcf-select-container .flex-column {
+.tcf-select-container .tcf-flex-column {
   display: flex;
   flex-direction: column;
   flex: 1;
