@@ -212,7 +212,7 @@ const PhaseForm = ({
     dispatch(updateUpdateTrigger());
   };
 
-  return (
+  return isPhaseFormActive ? (
     <div className="form-container">
       <h3>Microcycle programming</h3>
       <CycleSelectGroupOptions
@@ -231,29 +231,27 @@ const PhaseForm = ({
       />
       {displayRecords && <RecordsDisplayContainer />}
 
-      {isPhaseFormActive && (
-        <div className="training-phase-form">
-          {phaseTrainingProgram.map((_, trainingSessionIndex) => (
-            <TrainingSessionContainer
-              trainingSessionIndex={trainingSessionIndex}
-              totalMicrocyclesNumber={totalMicrocyclesNumber}
-              phaseTrainingProgram={phaseTrainingProgram}
-              exercisesNameList={exercisesNameList}
-              handleExerciseChange={handleExerciseChange}
-              handleExerciseDetailChange={handleExerciseDetailChange}
-              handleAddExercise={handleAddExercise}
-              displayWeightInPercent={displayWeightInPercent}
-              isEditable={true}
-            />
-          ))}
+      <div className="training-phase-form">
+        {phaseTrainingProgram.map((_, trainingSessionIndex) => (
+          <TrainingSessionContainer
+            trainingSessionIndex={trainingSessionIndex}
+            totalMicrocyclesNumber={totalMicrocyclesNumber}
+            phaseTrainingProgram={phaseTrainingProgram}
+            exercisesNameList={exercisesNameList}
+            handleExerciseChange={handleExerciseChange}
+            handleExerciseDetailChange={handleExerciseDetailChange}
+            handleAddExercise={handleAddExercise}
+            displayWeightInPercent={displayWeightInPercent}
+            isEditable={true}
+          />
+        ))}
 
-          <div className="button-container" onClick={handleAddPhase}>
-            <button>Add phase</button>
-          </div>
+        <div className="button-container" onClick={handleAddPhase}>
+          <button>Add phase</button>
         </div>
-      )}
+      </div>
     </div>
-  );
+  ) : null; // Or any other fallback content
 };
 
 export default PhaseForm;
