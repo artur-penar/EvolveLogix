@@ -29,7 +29,7 @@ class Mesocycle(models.Model):
     def end_date(self):
         if self.duration is None or self.start_date is None:
             return None
-        return self.start_date + datetime.timedelta(weeks=self.duration)
+        return self.start_date + datetime.timedelta(weeks=self.duration, days=-1)
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
