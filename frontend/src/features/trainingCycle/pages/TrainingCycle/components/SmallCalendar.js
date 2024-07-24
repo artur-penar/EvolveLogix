@@ -2,12 +2,34 @@ import React, { useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+const calculateTotalPhasesDuration = (phasesData) => {
+  return phasesData.reduce((total, phase) => total + phase.duration, 0);
+};
+
+const calculateRemainingDuration = (mesocycleDuration, phasesData) => {
+  const existingDuration = calculateTotalPhasesDuration(phasesData);
+  return mesocycleDuration - existingDuration;
+};
+
 const SmallCalendarComponent = ({
   mesocycleStartDate,
   mesocycleEndDate,
+  mesocycleDuration,
   phasesData,
 }) => {
   const calendarRef = useRef(null);
+
+  const remainingDuration = calculateRemainingDuration(
+    mesocycleDuration,
+    phasesData
+  );
+
+  if (remainingDuration > 0) {
+    phasesData = [
+      ...phasesData,
+      { type: "remaining", duration: remainingDuration },
+    ];
+  }
 
   // Map phases to events
   let endDate = null;
