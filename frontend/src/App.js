@@ -11,6 +11,7 @@ import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDas
 
 // trainingCycle components
 import TrainingCycle from "features/trainingCycle/pages/TrainingCycle/TrainingCycle";
+import ViewTrainingCycles from "features/trainingCycle/pages/ViewTrainingCycle/ViewTrainingCycles";
 
 // user components
 import DashboardPage from "features/users/pages/Dashboard/DashboardPage";
@@ -56,6 +57,10 @@ const App = () => {
           <Route path="/add-log" element={<AddTrainingSessionPage />} />
           <Route path="/strength-records" element={<StrengthRecords />} />
           <Route path="/training-cycle" element={<TrainingCycle />} />
+          <Route
+            path="/view-training-cycles"
+            element={<ViewTrainingCycles />}
+          />
           <Route
             path="/edit-training-session/:id"
             element={<EditTrainingSessionPage />}

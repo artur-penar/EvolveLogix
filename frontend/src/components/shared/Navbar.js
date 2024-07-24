@@ -26,8 +26,8 @@ const Navbar = () => {
           Training cycle
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item as={NavLink} to="/strength-records">
-            Create
+          <Dropdown.Item as={NavLink} to="/view-training-cycles">
+            View
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
