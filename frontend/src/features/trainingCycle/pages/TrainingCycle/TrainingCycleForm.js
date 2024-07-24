@@ -5,7 +5,6 @@ import CreateNewCycle from "./CreateNewCycle";
 import CycleTimeline from "./CycleTimeline";
 import SmallCalendarComponent from "./components/SmallCalendar";
 import PhaseDisplay from "./components/PhaseDisplay";
-import { constrainPoint } from "@fullcalendar/core/internal";
 
 const TrainingCycleForm = ({
   macrocycle,
@@ -97,6 +96,7 @@ const TrainingCycleForm = ({
           <SmallCalendarComponent
             mesocycleStartDate={mesocycleStartDate}
             mesocycleEndDate={mesocycleEndDate}
+            mesocycleDuration={mesocycleDurationInWeeks}
             phasesData={phasesData}
           />
         </div>
