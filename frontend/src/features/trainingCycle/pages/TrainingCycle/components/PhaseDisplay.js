@@ -15,7 +15,7 @@ const processPhaseData = (data) => {
   }));
 };
 
-const PhaseDisplay = ({ phasesData }) => {
+const PhaseDisplay = ({ phasesData, enableSelect = true }) => {
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [processedSelectedPhaseData, setProcessedSelectedPhaseData] = useState(
     []
@@ -60,6 +60,7 @@ const PhaseDisplay = ({ phasesData }) => {
               value={selectedPhaseId}
               onChange={(e) => setSelectedPhaseId(e.target.value)}
               aria-label="Select Phase"
+              disabled={!enableSelect}
             >
               {phaseSelectionOptions.map(({ id, type }, index) => (
                 <option key={id} value={id}>
@@ -76,6 +77,7 @@ const PhaseDisplay = ({ phasesData }) => {
       </div>
       {processedSelectedPhaseData.map((_, trainingSessionIndex) => (
         <TrainingSessionContainer
+          key={trainingSessionIndex}
           trainingSessionIndex={trainingSessionIndex}
           totalMicrocyclesNumber={processedSelectedPhaseData.length}
           phaseTrainingProgram={processedSelectedPhaseData}

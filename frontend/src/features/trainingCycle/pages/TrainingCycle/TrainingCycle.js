@@ -22,13 +22,11 @@ import {
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
 // Relative imports
-import CreateNewCycle from "./CreateNewCycle";
 import PhaseForm from "./PhaseForm";
 import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
-import PhaseDisplay from "./components/PhaseDisplay";
 
 // Component
 const TrainingCycle = () => {
