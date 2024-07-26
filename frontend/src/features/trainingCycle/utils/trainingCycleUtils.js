@@ -64,7 +64,7 @@ export function calculatePhaseEndDate(startDate, durationInWeeks) {
   // Create a new Date object from the start date
   const endDate = new Date(startDate);
   // Add the duration in weeks to the start date
-  endDate.setDate(endDate.getDate() + Number(durationInWeeks) * 7);
+  endDate.setDate(endDate.getDate() + Number(durationInWeeks) * 7 - 1);
   // Return the end date in the format "YYYY-MM-DD"
   return endDate.toISOString().split("T")[0];
 }
