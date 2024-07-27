@@ -44,6 +44,7 @@ const ViewTrainingCycles = () => {
       {mesocycle.phases.map((phase) => (
         <PhaseDisplay
           key={phase.id}
+          isLabelVisible={false}
           phasesData={[phase]}
           enableSelect={false}
         />
