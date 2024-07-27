@@ -114,7 +114,7 @@ const TrainingCycleForm = ({
           phaseDurationInWeeks,
           options: [
             {
-              label: "Phase Details",
+              label: "Phase details",
               checked: isPhaseDetailsVisible,
               onChange: () => {
                 setIsPhaseDetailsVisible((prevState) => !prevState);

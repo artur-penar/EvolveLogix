@@ -15,7 +15,11 @@ const processPhaseData = (data) => {
   }));
 };
 
-const PhaseDisplay = ({ phasesData, isLabelVisible, enableSelect = true }) => {
+const PhaseDisplay = ({
+  phasesData,
+  isLabelVisible = true,
+  enableSelect = true,
+}) => {
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [processedSelectedPhaseData, setProcessedSelectedPhaseData] = useState(
     []
@@ -49,7 +53,7 @@ const PhaseDisplay = ({ phasesData, isLabelVisible, enableSelect = true }) => {
   }
   return (
     <div className="phase-display-container">
-      {isLabelVisible && <h3>Phase display</h3>}
+      {isLabelVisible && <h3>Phase details</h3>}
       <div className="tcf-select-container">
         <div className="tcf-flex-column">
           <div className="tcf-select-group">
