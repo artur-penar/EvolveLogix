@@ -15,7 +15,7 @@ const processPhaseData = (data) => {
   }));
 };
 
-const PhaseDisplay = ({ phasesData, enableSelect = true }) => {
+const PhaseDisplay = ({ phasesData, isLabelVisible, enableSelect = true }) => {
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [processedSelectedPhaseData, setProcessedSelectedPhaseData] = useState(
     []
@@ -47,14 +47,13 @@ const PhaseDisplay = ({ phasesData, enableSelect = true }) => {
   if (!processedSelectedPhaseData.length) {
     return null;
   }
-
   return (
     <div className="phase-display-container">
-      <h3>Phase Display</h3>
+      {isLabelVisible && <h3>Phase display</h3>}
       <div className="tcf-select-container">
         <div className="tcf-flex-column">
           <div className="tcf-select-group">
-            <label className="tcf-select-label">Phase name: </label>
+            <label className="tcf-select-label">Phase type: </label>
             <select
               className="tcf-select-control form-control"
               value={selectedPhaseId}
@@ -75,20 +74,26 @@ const PhaseDisplay = ({ phasesData, enableSelect = true }) => {
           <DateInput label="End date" value={selectedPhaseEndDate} />
         </div>
       </div>
-      {processedSelectedPhaseData.map((_, trainingSessionIndex) => (
-        <TrainingSessionContainer
-          key={trainingSessionIndex}
-          trainingSessionIndex={trainingSessionIndex}
-          totalMicrocyclesNumber={processedSelectedPhaseData.length}
-          phaseTrainingProgram={processedSelectedPhaseData}
-          exercisesNameList={["Squat", "Bench press", "Deadlift"]}
-          handleExerciseChange={() => {}}
-          handleExerciseDetailChange={() => {}}
-          handleAddExercise={() => {}}
-          displayWeightInPercent={false}
-          isEditable={false}
-        />
-      ))}
+      {processedSelectedPhaseData.map((phaseData, trainingSessionIndex) => {
+        const { exercises } = phaseData;
+        const { microcycles } = exercises[0];
+        const microcyclesNumber = microcycles.length;
+
+        return (
+          <TrainingSessionContainer
+            key={trainingSessionIndex}
+            trainingSessionIndex={trainingSessionIndex}
+            totalMicrocyclesNumber={microcyclesNumber}
+            phaseTrainingProgram={processedSelectedPhaseData}
+            exercisesNameList={["Squat", "Bench press", "Deadlift"]}
+            handleExerciseChange={() => {}}
+            handleExerciseDetailChange={() => {}}
+            handleAddExercise={() => {}}
+            displayWeightInPercent={false}
+            isEditable={false}
+          />
+        );
+      })}
     </div>
   );
 };
