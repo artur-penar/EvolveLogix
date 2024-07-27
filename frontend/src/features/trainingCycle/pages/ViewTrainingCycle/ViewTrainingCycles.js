@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PhaseDisplay from "../TrainingCycle/components/PhaseDisplay";
 import CycleTimeline from "../TrainingCycle/CycleTimeline";
+import PageHeader from "components/shared/PageHeader";
 import "./ViewTrainingCycles.css";
 
 // What i want to do here is to display the selected macrocycle and its mesocycles and phases
@@ -52,12 +53,9 @@ const ViewTrainingCycles = () => {
   return (
     <Layout title="Evolve Logix | View Training Cycles">
       <div className="vtc-container">
-        <h1>View Training Cycles</h1>
+        <PageHeader headerContent={"View Training Cycles"} />
         {selectedMacrocycleMesocycles.map((mesocycle) => (
-          <>
-            <h3>Mesocycle</h3>
-            <Mesocycle key={mesocycle.id} mesocycle={mesocycle} />
-          </>
+          <Mesocycle key={mesocycle.id} mesocycle={mesocycle} />
         ))}
       </div>
     </Layout>
