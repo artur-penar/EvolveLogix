@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import TrainingSessionContainer from "./TrainingSessionContainer";
 import DateInput from "./DateInput";
 import "./PhaseDisplay.css";
+import { useSelector } from "react-redux";
+import { selectExerciseNames } from "features/trainingLogs/selectors";
 
 const processPhaseData = (data) => {
   if (!data) return [];
@@ -20,12 +22,13 @@ const PhaseDisplay = ({
   isLabelVisible = true,
   enableSelect = true,
 }) => {
+  const exercisesNameList = useSelector(selectExerciseNames);
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
+  const [selectedPhaseStartDate, setSelectedPhaseStartDate] = useState("");
+  const [selectedPhaseEndDate, setSelectedPhaseEndDate] = useState("");
   const [processedSelectedPhaseData, setProcessedSelectedPhaseData] = useState(
     []
   );
-  const [selectedPhaseStartDate, setSelectedPhaseStartDate] = useState("");
-  const [selectedPhaseEndDate, setSelectedPhaseEndDate] = useState("");
   const phaseSelectionOptions = phasesData.map(({ id, type }) => ({
     id: id,
     type: type,
@@ -67,7 +70,8 @@ const PhaseDisplay = ({
             >
               {phaseSelectionOptions.map(({ id, type }, index) => (
                 <option key={id} value={id}>
-                  {index + 1}. {type}
+                  {enableSelect ? `${index + 1}. ` : ""}
+                  {type}
                 </option>
               ))}
             </select>
@@ -89,7 +93,7 @@ const PhaseDisplay = ({
             trainingSessionIndex={trainingSessionIndex}
             totalMicrocyclesNumber={microcyclesNumber}
             phaseTrainingProgram={processedSelectedPhaseData}
-            exercisesNameList={["Squat", "Bench press", "Deadlift"]}
+            exercisesNameList={exercisesNameList}
             handleExerciseChange={() => {}}
             handleExerciseDetailChange={() => {}}
             handleAddExercise={() => {}}

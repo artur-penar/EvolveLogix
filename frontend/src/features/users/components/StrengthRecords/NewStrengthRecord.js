@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectExerciseNames } from "features/trainingLogs/exercises";
+import { selectExerciseNames } from "features/trainingLogs/selectors";
 import { createStrengthRecord } from "features/users/strengthRecordSlice";
 
 const NewStrengthRecord = () => {
