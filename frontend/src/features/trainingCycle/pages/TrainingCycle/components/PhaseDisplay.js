@@ -22,7 +22,7 @@ const PhaseDisplay = ({
   isLabelVisible = true,
   enableSelect = true,
 }) => {
-  const exercisesNameList = useSelector(selectExerciseNames);
+  const exerciseNamesList = useSelector(selectExerciseNames);
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [selectedPhaseStartDate, setSelectedPhaseStartDate] = useState("");
   const [selectedPhaseEndDate, setSelectedPhaseEndDate] = useState("");
@@ -93,7 +93,7 @@ const PhaseDisplay = ({
             trainingSessionIndex={trainingSessionIndex}
             totalMicrocyclesNumber={microcyclesNumber}
             phaseTrainingProgram={processedSelectedPhaseData}
-            exercisesNameList={exercisesNameList}
+            exerciseNamesList={exerciseNamesList}
             handleExerciseChange={() => {}}
             handleExerciseDetailChange={() => {}}
             handleAddExercise={() => {}}

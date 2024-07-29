@@ -15,18 +15,10 @@ import {
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
+import { selectExerciseNames } from "features/trainingLogs/selectors";
 
 // Style imports (if any)
 import "./PhaseForm.css";
-
-// Use the createSelector function from the @reduxjs/toolkit package to create a selector function that returns the exercises state from the Redux store.
-// And avoid using the useSelector hook directly in the component file, which create new selector functions every time the component renders.
-const selectExercisesState = (state) => state.exercises.exercises;
-
-const selectExerciseNames = createSelector(
-  [selectExercisesState],
-  (exercises) => exercises.map((exercise) => exercise.name)
-);
 
 const PhaseForm = ({
   mesocycleId,
@@ -72,13 +64,13 @@ const PhaseForm = ({
 
   // useSelector hooks
   const dispatch = useDispatch();
-  const exercisesNameList = useSelector(selectExerciseNames);
+  const exerciseNamesList = useSelector(selectExerciseNames);
 
   useEffect(() => {
-    if (!exercisesNameList.length) {
+    if (!exerciseNamesList.length) {
       dispatch(getExercises());
     }
-  }, [exercisesNameList]);
+  }, [exerciseNamesList]);
 
   // Helper functions
   const updateTrainingDays = (
@@ -235,7 +227,7 @@ const PhaseForm = ({
             trainingSessionIndex={trainingSessionIndex}
             totalMicrocyclesNumber={totalMicrocyclesNumber}
             phaseTrainingProgram={phaseTrainingProgram}
-            exercisesNameList={exercisesNameList}
+            exerciseNamesList={exerciseNamesList}
             handleExerciseChange={handleExerciseChange}
             handleExerciseDetailChange={handleExerciseDetailChange}
             handleAddExercise={handleAddExercise}

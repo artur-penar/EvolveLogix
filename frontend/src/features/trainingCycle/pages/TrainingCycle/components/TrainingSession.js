@@ -6,7 +6,7 @@ const TrainingSession = ({
   phaseTrainingProgram,
   totalMicrocyclesNumber,
   exercisesNumber,
-  exercisesNameList,
+  exerciseNamesList,
   trainingDayIndex,
   handleExerciseChange,
   handleExerciseDetailChange,
@@ -22,7 +22,7 @@ const TrainingSession = ({
       <div key={exerciseIndex} className="week-container">
         <SelectExerciseField
           phaseTrainingProgram={phaseTrainingProgram}
-          exercisesNameList={exercisesNameList}
+          exerciseNamesList={exerciseNamesList}
           exerciseIndex={exerciseIndex}
           dayIndex={trainingDayIndex}
           handleExerciseChange={handleExerciseChange}

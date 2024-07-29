@@ -6,7 +6,7 @@ const TrainingSessionContainer = ({
   trainingSessionIndex,
   totalMicrocyclesNumber,
   phaseTrainingProgram,
-  exercisesNameList,
+  exerciseNamesList,
   handleAddExercise,
   handleExerciseChange,
   handleExerciseDetailChange,
@@ -29,7 +29,7 @@ const TrainingSessionContainer = ({
         exercisesNumber={
           phaseTrainingProgram[trainingSessionIndex].exercises.length
         }
-        exercisesNameList={exercisesNameList}
+        exerciseNamesList={exerciseNamesList}
         trainingDayIndex={trainingSessionIndex}
         handleExerciseChange={handleExerciseChange}
         handleExerciseDetailChange={handleExerciseDetailChange}

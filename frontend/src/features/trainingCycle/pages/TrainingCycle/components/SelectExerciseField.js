@@ -2,7 +2,7 @@ import React from "react";
 
 const SelectExerciseField = ({
   phaseTrainingProgram,
-  exercisesNameList,
+  exerciseNamesList,
   exerciseIndex,
   dayIndex,
   handleExerciseChange,
@@ -22,7 +22,7 @@ const SelectExerciseField = ({
         }
         disabled={!isEditable}
       >
-        {exercisesNameList.map((exerciseName) => (
+        {exerciseNamesList.map((exerciseName) => (
           <option key={exerciseName} value={exerciseName}>
             {exerciseName}
           </option>
