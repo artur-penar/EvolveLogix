@@ -152,7 +152,8 @@ const PhaseForm = ({
     newExerciseName
   ) => {
     setPhaseTrainingProgram((prevState) => {
-      const newState = [...prevState];
+      // const newState = [...prevState];
+      const newState = JSON.parse(JSON.stringify(prevState));
 
       // Update the exercise name
       newState[trainingSessionIndex].exercises[exerciseIndex].exercise =
