@@ -17,6 +17,7 @@ import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 import "./PhaseForm.css";
 import { updateTrainingWeeks } from "features/trainingCycle/utils/updatePhaseDetails";
 import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
+import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/useUpdateMicrocyclesNumber";
 
 const PhaseForm = ({
   mesocycleId,
@@ -70,17 +71,14 @@ const PhaseForm = ({
     initialPhaseProgram,
     setPhaseTrainingProgram,
     totalTrainingSessionsNumber,
-    setStateChanged,
     setStateChanged
   );
-
-  useEffect(() => {
-    const newMicrocycleLoad =
-      initialPhaseProgram[0].exercises[0].microcycles[0];
-    setPhaseTrainingProgram((prevState) =>
-      updateTrainingWeeks(prevState, totalMicrocyclesNumber, newMicrocycleLoad)
-    );
-  }, [microcyclesNumber, stateChanged]);
+  useUpdateMicrocyclesNumber(
+    stateChanged,
+    setPhaseTrainingProgram,
+    initialPhaseProgram,
+    totalMicrocyclesNumber
+  );
 
   const handleExerciseChange = (
     trainingSessionIndex,
