@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-// React Router (if applicable)
-// Other external libraries (like styled-components)
 import { useDispatch, useSelector } from "react-redux";
 
 // Feature-related imports
-import { getExercises } from "features/trainingLogs/exercises";
 import {
   addPhase,
   updateUpdateTrigger,
@@ -18,10 +15,8 @@ import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 
 // Style imports (if any)
 import "./PhaseForm.css";
-import {
-  updateTrainingDays,
-  updateTrainingWeeks,
-} from "features/trainingCycle/utils/updatePhaseDetails";
+import { updateTrainingWeeks } from "features/trainingCycle/utils/updatePhaseDetails";
+import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
 
 const PhaseForm = ({
   mesocycleId,
@@ -69,26 +64,15 @@ const PhaseForm = ({
 
   // useSelector hooks
   const dispatch = useDispatch();
-  // const exerciseNamesList = useSelector(selectExerciseNames);
-
-  // useEffect(() => {
-  //   if (!exerciseNamesList.length) {
-  //     dispatch(getExercises());
-  //   }
-  // }, [exerciseNamesList]);
 
   // Inside your component
-  useEffect(() => {
-    const initialExercises = initialPhaseProgram[0].exercises;
-    setPhaseTrainingProgram((prevState) =>
-      updateTrainingDays(
-        prevState,
-        totalTrainingSessionsNumber,
-        initialExercises
-      )
-    );
-    setStateChanged(stateChanged + 1);
-  }, [totalTrainingSessionsNumber]);
+  useUpdateSessionsNumber(
+    initialPhaseProgram,
+    setPhaseTrainingProgram,
+    totalTrainingSessionsNumber,
+    setStateChanged,
+    setStateChanged
+  );
 
   useEffect(() => {
     const newMicrocycleLoad =
