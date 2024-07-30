@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 // React Router (if applicable)
 // Other external libraries (like styled-components)
 import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "@reduxjs/toolkit";
 
 // Feature-related imports
 import { getExercises } from "features/trainingLogs/exercises";
@@ -15,7 +14,7 @@ import {
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
-import { selectExerciseNames } from "features/trainingLogs/selectors";
+import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 
 // Style imports (if any)
 import "./PhaseForm.css";
@@ -30,15 +29,17 @@ const PhaseForm = ({
   phaseStartDate,
   phaseEndDate,
   weeksNumber: microcyclesNumber,
-  trainingDays: trainingSessions,
+  trainingDays: trainingSessionsNumber,
   isPhaseFormActive,
 }) => {
   const totalMicrocyclesNumber = microcyclesNumber
     ? parseInt(microcyclesNumber, 10)
     : 1;
-  const totalTrainingSessionsNumber = trainingSessions
-    ? parseInt(trainingSessions, 10)
+  const totalTrainingSessionsNumber = trainingSessionsNumber
+    ? parseInt(trainingSessionsNumber, 10)
     : 1;
+
+  const exerciseNamesList = useExerciseNames();
 
   const initialPhaseProgram = [
     {
@@ -68,13 +69,13 @@ const PhaseForm = ({
 
   // useSelector hooks
   const dispatch = useDispatch();
-  const exerciseNamesList = useSelector(selectExerciseNames);
+  // const exerciseNamesList = useSelector(selectExerciseNames);
 
-  useEffect(() => {
-    if (!exerciseNamesList.length) {
-      dispatch(getExercises());
-    }
-  }, [exerciseNamesList]);
+  // useEffect(() => {
+  //   if (!exerciseNamesList.length) {
+  //     dispatch(getExercises());
+  //   }
+  // }, [exerciseNamesList]);
 
   // Inside your component
   useEffect(() => {
@@ -87,7 +88,7 @@ const PhaseForm = ({
       )
     );
     setStateChanged(stateChanged + 1);
-  }, [trainingSessions]);
+  }, [totalTrainingSessionsNumber]);
 
   useEffect(() => {
     const newMicrocycleLoad =
