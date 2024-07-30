@@ -19,6 +19,10 @@ import { selectExerciseNames } from "features/trainingLogs/selectors";
 
 // Style imports (if any)
 import "./PhaseForm.css";
+import {
+  updateTrainingDays,
+  updateTrainingWeeks,
+} from "features/trainingCycle/utils/updatePhaseDetails";
 
 const PhaseForm = ({
   mesocycleId,
@@ -71,59 +75,6 @@ const PhaseForm = ({
       dispatch(getExercises());
     }
   }, [exerciseNamesList]);
-
-  // Helper functions
-  const updateTrainingDays = (
-    prevState,
-    totalTrainingDays,
-    initialExercises
-  ) => {
-    return Array.from({ length: totalTrainingDays }, (_, i) => {
-      if (!prevState[i]) {
-        return {
-          dayNumber: i + 1,
-          exercises: initialExercises,
-        };
-      } else {
-        return prevState[i];
-      }
-    });
-  };
-
-  const updateTrainingWeeks = (
-    prevState,
-    totalMicrocycles,
-    newMicrocycleLoad
-  ) => {
-    return prevState.map((day) => {
-      day.exercises = day.exercises.map((exercise) => {
-        const currentMicrocyclesCount = exercise.microcycles.length;
-        const microcyclesToAdd = totalMicrocycles - currentMicrocyclesCount;
-
-        if (microcyclesToAdd > 0) {
-          // Add the required number of microcycles
-          return {
-            ...exercise,
-            microcycles: [
-              ...exercise.microcycles,
-              ...Array(microcyclesToAdd).fill(newMicrocycleLoad),
-            ],
-          };
-        } else if (microcyclesToAdd < 0) {
-          // Trim the microcycles to the new total
-          return {
-            ...exercise,
-            microcycles: exercise.microcycles.slice(0, totalMicrocycles),
-          };
-        } else {
-          // No change needed
-          return exercise;
-        }
-      });
-
-      return day;
-    });
-  };
 
   // Inside your component
   useEffect(() => {
