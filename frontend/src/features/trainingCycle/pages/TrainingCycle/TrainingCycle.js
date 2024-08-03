@@ -27,6 +27,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 // CSS/other assets
 import "./TrainingCycle.css";
 import useUpdatePhaseEndDate from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseEndDate";
+import useUpdateMesocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocycleDetails";
 
 // Component
 const TrainingCycle = () => {
@@ -67,26 +68,12 @@ const TrainingCycle = () => {
     });
 
   useUpdatePhaseEndDate(cycleFormValues, handleMultipleInputChanges);
-
-  const updateMesocycleDetails = useCallback(() => {
-    if (cycleFormValues["mesocycle"] !== "") {
-      const selectedMesocycle = mesocyclesData.find(
-        (mesocycle) => mesocycle.name === cycleFormValues["mesocycle"]
-      );
-      if (selectedMesocycle) {
-        dispatch(setSelectedMesocycle(cycleFormValues["mesocycle"]));
-        handleMultipleInputChanges({
-          mesocycleStartDate: selectedMesocycle.start_date,
-          mesocycleEndDate: selectedMesocycle.end_date,
-          mesocycleDurationInWeeks: selectedMesocycle.duration,
-        });
-      }
-    }
-  }, [cycleFormValues["mesocycle"]]);
-
-  useEffect(() => {
-    updateMesocycleDetails();
-  }, [updateMesocycleDetails]);
+  useUpdateMesocycleDetails(
+    cycleFormValues,
+    mesocyclesData,
+    setSelectedMesocycle,
+    handleMultipleInputChanges
+  );
 
   const updateSelectedMacrocycleDetails = useCallback(() => {
     dispatch(setSelectedMacrocycle(cycleFormValues["macrocycle"]));

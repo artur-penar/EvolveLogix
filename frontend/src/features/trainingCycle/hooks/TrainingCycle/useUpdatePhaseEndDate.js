@@ -1,3 +1,5 @@
+import { calculatePhaseEndDate } from "features/trainingCycle/utils/trainingCycleUtils";
+import { useCallback, useEffect } from "react";
 /**
  * Custom hook to update the phase end date based on the phase start date and duration.
  *
@@ -15,8 +17,6 @@
  * Call this hook within a functional component to automatically update the phase end date whenever
  * the phase start date or duration changes.
  */
-import { calculatePhaseEndDate } from "features/trainingCycle/utils/trainingCycleUtils";
-import { useCallback, useEffect } from "react";
 
 const useUpdatePhaseEndDate = (cycleFormValues, handleMultipleInputChanges) => {
   const updatePhaseEndDate = useCallback(() => {
