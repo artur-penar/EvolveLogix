@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 
 // Third-party libraries
 import { useDispatch, useSelector } from "react-redux";
-
 // Absolute imports
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
@@ -27,6 +26,7 @@ import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
+import useUpdatePhaseEndDate from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseEndDate";
 
 // Component
 const TrainingCycle = () => {
@@ -66,32 +66,7 @@ const TrainingCycle = () => {
       phaseEndDate: "",
     });
 
-  const updatePhaseEndDate = useCallback(() => {
-    if (cycleFormValues["phaseStartDate"] !== "") {
-      let formattedEndDate = calculatePhaseEndDate(
-        cycleFormValues["phaseStartDate"],
-        cycleFormValues["phaseDurationInWeeks"]
-      );
-      // Check if the phase end date is greater than the mesocycle end date
-      // Phase end date cannot be greater than the mesocycle end date
-      const phaseEndDate = new Date(formattedEndDate);
-      const mesocycleEndDate = new Date(cycleFormValues["mesocycleEndDate"]);
-      // If the phase end date is greater than the mesocycle end date, set the end date to an empty string
-      if (phaseEndDate > mesocycleEndDate) {
-        formattedEndDate = "";
-      }
-      handleMultipleInputChanges({
-        phaseEndDate: formattedEndDate,
-      });
-    }
-  }, [
-    cycleFormValues["phaseStartDate"],
-    cycleFormValues["phaseDurationInWeeks"],
-  ]);
-
-  useEffect(() => {
-    updatePhaseEndDate();
-  }, [updatePhaseEndDate]);
+  useUpdatePhaseEndDate(cycleFormValues, handleMultipleInputChanges);
 
   const updateMesocycleDetails = useCallback(() => {
     if (cycleFormValues["mesocycle"] !== "") {
