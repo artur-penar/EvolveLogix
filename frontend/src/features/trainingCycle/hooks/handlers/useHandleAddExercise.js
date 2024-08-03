@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Custom hook to handle adding a new exercise to a training session.
  *

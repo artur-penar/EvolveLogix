@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Custom hook to handle changing the name of an exercise in a training session.
  *

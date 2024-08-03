@@ -1,4 +1,3 @@
-import React from "react";
 /**
  * Custom hook to handle changing the details of an exercise in a specific microcycle.
  *
