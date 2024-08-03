@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// React and Redux imports
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 // Feature-related imports
 import {
   addPhase,
   updateUpdateTrigger,
 } from "features/trainingCycle/trainingCycle";
+import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
+import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
+import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/useUpdateMicrocyclesNumber";
 
 // Component imports
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
-import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
+import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHandleExerciseChange";
 
-// Style imports (if any)
+// Style imports
 import "./PhaseForm.css";
-import { updateTrainingWeeks } from "features/trainingCycle/utils/updatePhaseDetails";
-import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
-import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/useUpdateMicrocyclesNumber";
 
 const PhaseForm = ({
   mesocycleId,
@@ -59,9 +60,11 @@ const PhaseForm = ({
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
-  useState(false);
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
+
+  // Custom hooks
+  const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
 
   // useSelector hooks
   const dispatch = useDispatch();
@@ -79,23 +82,6 @@ const PhaseForm = ({
     initialPhaseProgram,
     totalMicrocyclesNumber
   );
-
-  const handleExerciseChange = (
-    trainingSessionIndex,
-    exerciseIndex,
-    newExerciseName
-  ) => {
-    setPhaseTrainingProgram((prevState) => {
-      // const newState = [...prevState];
-      const newState = JSON.parse(JSON.stringify(prevState));
-
-      // Update the exercise name
-      newState[trainingSessionIndex].exercises[exerciseIndex].exercise =
-        newExerciseName;
-
-      return newState;
-    });
-  };
 
   const handleAddExercise = (trainingSessionIndex) => {
     setPhaseTrainingProgram((prevState) => {
