@@ -20,6 +20,7 @@ import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHa
 // Style imports
 import "./PhaseForm.css";
 import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
+import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
 
 const PhaseForm = ({
   mesocycleId,
@@ -72,6 +73,9 @@ const PhaseForm = ({
     setStateChanged,
     stateChanged
   );
+  const handleExerciseDetailChange = useHandleExerciseDetailChange(
+    setPhaseTrainingProgram
+  );
 
   // useSelector hooks
   const dispatch = useDispatch();
@@ -90,21 +94,21 @@ const PhaseForm = ({
     totalMicrocyclesNumber
   );
 
-  const handleExerciseDetailChange = (
-    trainingSessionIndex,
-    exerciseIndex,
-    microcycleIndex,
-    newValue,
-    detailType
-  ) => {
-    setPhaseTrainingProgram((prevState) => {
-      const newState = JSON.parse(JSON.stringify(prevState));
-      newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
-        microcycleIndex
-      ][detailType] = newValue;
-      return newState;
-    });
-  };
+  // const handleExerciseDetailChange = (
+  //   trainingSessionIndex,
+  //   exerciseIndex,
+  //   microcycleIndex,
+  //   newValue,
+  //   detailType
+  // ) => {
+  //   setPhaseTrainingProgram((prevState) => {
+  //     const newState = JSON.parse(JSON.stringify(prevState));
+  //     newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
+  //       microcycleIndex
+  //     ][detailType] = newValue;
+  //     return newState;
+  //   });
+  // };
 
   const handleAddPhase = () => {
     const phaseData = {
