@@ -50,7 +50,7 @@ const TrainingCycle = () => {
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCycleNames(mesocyclesData);
 
-  const [values, handleInputChange, handleMultipleInputChanges] =
+  const [cycleFormValues, handleInputChange, handleMultipleInputChanges] =
     useFormControls({
       macrocycle: selectedMacrocycle || macrocycleNames[0],
       macrocycleStartDate: "",
@@ -67,15 +67,15 @@ const TrainingCycle = () => {
     });
 
   const updatePhaseEndDate = useCallback(() => {
-    if (values["phaseStartDate"] !== "") {
+    if (cycleFormValues["phaseStartDate"] !== "") {
       let formattedEndDate = calculatePhaseEndDate(
-        values["phaseStartDate"],
-        values["phaseDurationInWeeks"]
+        cycleFormValues["phaseStartDate"],
+        cycleFormValues["phaseDurationInWeeks"]
       );
       // Check if the phase end date is greater than the mesocycle end date
       // Phase end date cannot be greater than the mesocycle end date
       const phaseEndDate = new Date(formattedEndDate);
-      const mesocycleEndDate = new Date(values["mesocycleEndDate"]);
+      const mesocycleEndDate = new Date(cycleFormValues["mesocycleEndDate"]);
       // If the phase end date is greater than the mesocycle end date, set the end date to an empty string
       if (phaseEndDate > mesocycleEndDate) {
         formattedEndDate = "";
@@ -84,19 +84,22 @@ const TrainingCycle = () => {
         phaseEndDate: formattedEndDate,
       });
     }
-  }, [values["phaseStartDate"], values["phaseDurationInWeeks"]]);
+  }, [
+    cycleFormValues["phaseStartDate"],
+    cycleFormValues["phaseDurationInWeeks"],
+  ]);
 
   useEffect(() => {
     updatePhaseEndDate();
   }, [updatePhaseEndDate]);
 
   const updateMesocycleDetails = useCallback(() => {
-    if (values["mesocycle"] !== "") {
+    if (cycleFormValues["mesocycle"] !== "") {
       const selectedMesocycle = mesocyclesData.find(
-        (mesocycle) => mesocycle.name === values["mesocycle"]
+        (mesocycle) => mesocycle.name === cycleFormValues["mesocycle"]
       );
       if (selectedMesocycle) {
-        dispatch(setSelectedMesocycle(values["mesocycle"]));
+        dispatch(setSelectedMesocycle(cycleFormValues["mesocycle"]));
         handleMultipleInputChanges({
           mesocycleStartDate: selectedMesocycle.start_date,
           mesocycleEndDate: selectedMesocycle.end_date,
@@ -104,16 +107,16 @@ const TrainingCycle = () => {
         });
       }
     }
-  }, [values["mesocycle"]]);
+  }, [cycleFormValues["mesocycle"]]);
 
   useEffect(() => {
     updateMesocycleDetails();
   }, [updateMesocycleDetails]);
 
   const updateSelectedMacrocycleDetails = useCallback(() => {
-    dispatch(setSelectedMacrocycle(values["macrocycle"]));
+    dispatch(setSelectedMacrocycle(cycleFormValues["macrocycle"]));
     const selectedMacrocycle = trainingCycleState.find(
-      (macrocycle) => macrocycle.name === values["macrocycle"]
+      (macrocycle) => macrocycle.name === cycleFormValues["macrocycle"]
     );
     if (selectedMacrocycle) {
       setMesocyclesData(selectedMacrocycle.mesocycles);
@@ -127,7 +130,7 @@ const TrainingCycle = () => {
           selectedMacrocycle.mesocycles[0]?.duration || "",
       });
     }
-  }, [values["macrocycle"]]);
+  }, [cycleFormValues["macrocycle"]]);
 
   useEffect(() => {
     updateSelectedMacrocycleDetails();
@@ -170,7 +173,7 @@ const TrainingCycle = () => {
     const phasesData = determinePhasesData(
       mesocyclesData,
       trainingCycleState,
-      values["mesocycle"]
+      cycleFormValues["mesocycle"]
     );
 
     // Update phasesData state
@@ -179,7 +182,7 @@ const TrainingCycle = () => {
     // Calculate the start date for a new phase
     const newPhaseStartDate = calculateNewPhaseStartDate(
       phasesData,
-      values["mesocycleStartDate"]
+      cycleFormValues["mesocycleStartDate"]
     );
 
     // Update the phase start date
@@ -188,8 +191,8 @@ const TrainingCycle = () => {
     });
   }, [
     trainingCycleState,
-    values["macrocycle"],
-    values["mesocycleStartDate"],
+    cycleFormValues["macrocycle"],
+    cycleFormValues["mesocycleStartDate"],
     mesocyclesData,
   ]);
 
@@ -198,23 +201,23 @@ const TrainingCycle = () => {
       <div className="tc-cycle-content">
         <PageHeader headerContent={"Training Cycle"} />
         <TrainingCycleForm
-          macrocycle={values["macrocycle"]}
-          macrocycleStartDate={values["macrocycleStartDate"]}
-          macrocycleEndDate={values["macrocycleEndDate"]}
+          macrocycle={cycleFormValues["macrocycle"]}
+          macrocycleStartDate={cycleFormValues["macrocycleStartDate"]}
+          macrocycleEndDate={cycleFormValues["macrocycleEndDate"]}
           macrocycles={macrocycleNames}
-          mesocycle={values["mesocycle"]}
+          mesocycle={cycleFormValues["mesocycle"]}
           mesocycles={mesocycleNames}
-          mesocycleStartDate={values["mesocycleStartDate"]}
-          mesocycleEndDate={values["mesocycleEndDate"]}
+          mesocycleStartDate={cycleFormValues["mesocycleStartDate"]}
+          mesocycleEndDate={cycleFormValues["mesocycleEndDate"]}
           handleMesocycleStartDateChange={handleInputChange}
-          phase={values["phase"]}
+          phase={cycleFormValues["phase"]}
           phases={phaseTypes}
           phasesData={phasesData}
-          phaseStartDate={values["phaseStartDate"]}
-          phaseEndDate={values["phaseEndDate"]}
-          trainingDays={values["trainingDays"]}
-          phaseDurationInWeeks={values["phaseDurationInWeeks"]}
-          mesocycleDurationInWeeks={values["mesocycleDurationInWeeks"]}
+          phaseStartDate={cycleFormValues["phaseStartDate"]}
+          phaseEndDate={cycleFormValues["phaseEndDate"]}
+          trainingDays={cycleFormValues["trainingDays"]}
+          phaseDurationInWeeks={cycleFormValues["phaseDurationInWeeks"]}
+          mesocycleDurationInWeeks={cycleFormValues["mesocycleDurationInWeeks"]}
           handleInputChange={handleInputChange}
           selectedMacrocycleId={getCycleIdByName(
             selectedMacrocycle,
@@ -222,15 +225,18 @@ const TrainingCycle = () => {
           )}
         />
         <PhaseForm
-          mesocycleId={getCycleIdByName(values["mesocycle"], mesocyclesData)}
-          phaseType={values["phase"]}
-          phaseStartDate={values["phaseStartDate"]}
-          phaseEndDate={values["phaseEndDate"]}
+          mesocycleId={getCycleIdByName(
+            cycleFormValues["mesocycle"],
+            mesocyclesData
+          )}
+          phaseType={cycleFormValues["phase"]}
+          phaseStartDate={cycleFormValues["phaseStartDate"]}
+          phaseEndDate={cycleFormValues["phaseEndDate"]}
           phasesData={phasesData}
           setPhasesData={setPhasesData}
-          weeksNumber={values["phaseDurationInWeeks"]}
-          trainingDays={values["trainingDays"]}
-          isPhaseFormActive={values["phaseEndDate"] ? true : false}
+          weeksNumber={cycleFormValues["phaseDurationInWeeks"]}
+          trainingDays={cycleFormValues["trainingDays"]}
+          isPhaseFormActive={cycleFormValues["phaseEndDate"] ? true : false}
         />
       </div>
     </Layout>
