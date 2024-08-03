@@ -10,17 +10,17 @@ import {
 import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
 import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/useUpdateMicrocyclesNumber";
+import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHandleExerciseChange";
+import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
+import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
 
 // Component imports
 import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
 import TrainingSessionContainer from "./components/TrainingSessionContainer";
 import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
-import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHandleExerciseChange";
 
 // Style imports
 import "./PhaseForm.css";
-import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
-import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
 
 const PhaseForm = ({
   mesocycleId,
@@ -31,16 +31,11 @@ const PhaseForm = ({
   trainingDays: trainingSessionsNumber,
   isPhaseFormActive,
 }) => {
-  const totalMicrocyclesNumber = microcyclesNumber
-    ? parseInt(microcyclesNumber, 10)
-    : 1;
-  const totalTrainingSessionsNumber = trainingSessionsNumber
-    ? parseInt(trainingSessionsNumber, 10)
-    : 1;
-
-  const exerciseNamesList = useExerciseNames();
-
-  const initialPhaseProgram = [
+  // useState hooks
+  const [stateChanged, setStateChanged] = useState(0);
+  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
+  const [displayRecords, setDisplayRecords] = useState(false);
+  const [phaseTrainingProgram, setPhaseTrainingProgram] = useState([
     {
       dayNumber: 1,
       exercises: [
@@ -56,20 +51,14 @@ const PhaseForm = ({
         },
       ],
     },
-  ];
-
-  // useState hooks
-  const [stateChanged, setStateChanged] = useState(0);
-  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
-  const [displayRecords, setDisplayRecords] = useState(false);
-  const [phaseTrainingProgram, setPhaseTrainingProgram] =
-    useState(initialPhaseProgram);
+  ]);
 
   // Custom hooks
+  const exerciseNamesList = useExerciseNames();
   const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
   const handleAddExercise = useHandleAddExercise(
     setPhaseTrainingProgram,
-    initialPhaseProgram,
+    phaseTrainingProgram,
     setStateChanged,
     stateChanged
   );
@@ -77,39 +66,24 @@ const PhaseForm = ({
     setPhaseTrainingProgram
   );
 
-  // useSelector hooks
+  // useDispatch hook
   const dispatch = useDispatch();
 
-  // Inside your component
+  // Custom hooks for updating sessions and microcycles
   useUpdateSessionsNumber(
-    initialPhaseProgram,
+    phaseTrainingProgram,
     setPhaseTrainingProgram,
-    totalTrainingSessionsNumber,
+    trainingSessionsNumber ? parseInt(trainingSessionsNumber, 10) : 1,
     setStateChanged
   );
   useUpdateMicrocyclesNumber(
     stateChanged,
     setPhaseTrainingProgram,
-    initialPhaseProgram,
-    totalMicrocyclesNumber
+    phaseTrainingProgram,
+    microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
 
-  // const handleExerciseDetailChange = (
-  //   trainingSessionIndex,
-  //   exerciseIndex,
-  //   microcycleIndex,
-  //   newValue,
-  //   detailType
-  // ) => {
-  //   setPhaseTrainingProgram((prevState) => {
-  //     const newState = JSON.parse(JSON.stringify(prevState));
-  //     newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
-  //       microcycleIndex
-  //     ][detailType] = newValue;
-  //     return newState;
-  //   });
-  // };
-
+  // Event handler for adding a phase
   const handleAddPhase = () => {
     const phaseData = {
       mesocycle: mesocycleId,
@@ -145,8 +119,11 @@ const PhaseForm = ({
       <div className="training-phase-form">
         {phaseTrainingProgram.map((_, trainingSessionIndex) => (
           <TrainingSessionContainer
+            key={trainingSessionIndex}
             trainingSessionIndex={trainingSessionIndex}
-            totalMicrocyclesNumber={totalMicrocyclesNumber}
+            totalMicrocyclesNumber={
+              microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
+            }
             phaseTrainingProgram={phaseTrainingProgram}
             exerciseNamesList={exerciseNamesList}
             handleExerciseChange={handleExerciseChange}
@@ -162,7 +139,7 @@ const PhaseForm = ({
         </div>
       </div>
     </div>
-  ) : null; // Or any other fallback content
+  ) : null;
 };
 
 export default PhaseForm;
