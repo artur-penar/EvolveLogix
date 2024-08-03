@@ -19,6 +19,7 @@ import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHa
 
 // Style imports
 import "./PhaseForm.css";
+import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
 
 const PhaseForm = ({
   mesocycleId,
@@ -65,6 +66,12 @@ const PhaseForm = ({
 
   // Custom hooks
   const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
+  const handleAddExercise = useHandleAddExercise(
+    setPhaseTrainingProgram,
+    initialPhaseProgram,
+    setStateChanged,
+    stateChanged
+  );
 
   // useSelector hooks
   const dispatch = useDispatch();
@@ -82,17 +89,6 @@ const PhaseForm = ({
     initialPhaseProgram,
     totalMicrocyclesNumber
   );
-
-  const handleAddExercise = (trainingSessionIndex) => {
-    setPhaseTrainingProgram((prevState) => {
-      const newState = JSON.parse(JSON.stringify(prevState));
-      const newExercise = initialPhaseProgram[0].exercises[0];
-      newState[trainingSessionIndex].exercises.push(newExercise);
-      setStateChanged(stateChanged + 1);
-
-      return newState;
-    });
-  };
 
   const handleExerciseDetailChange = (
     trainingSessionIndex,
