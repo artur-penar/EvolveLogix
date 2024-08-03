@@ -37,7 +37,11 @@ const useUpdatePhaseEndDate = (cycleFormValues, handleMultipleInputChanges) => {
         phaseEndDate: formattedEndDate,
       });
     }
-  }, [cycleFormValues, handleMultipleInputChanges]);
+  }, [
+    cycleFormValues.phaseStartDate,
+    cycleFormValues.phaseDurationInWeeks,
+    cycleFormValues.mesocycleEndDate,
+  ]);
 
   useEffect(() => {
     updatePhaseEndDate();
