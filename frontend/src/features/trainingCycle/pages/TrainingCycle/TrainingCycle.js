@@ -30,6 +30,7 @@ import useUpdatePhaseEndDate from "features/trainingCycle/hooks/TrainingCycle/us
 import useUpdateMesocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocycleDetails";
 import useUpdateMacrocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMacrocycleDetails";
 import useInitializeCycleState from "features/trainingCycle/hooks/TrainingCycle/useInitializeCycleState";
+import useUpdateMesocyclesState from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocyclesState";
 
 // Component
 const TrainingCycle = () => {
@@ -90,23 +91,13 @@ const TrainingCycle = () => {
     handleMultipleInputChanges
   );
 
-  const updateMesocyclesState = useCallback(() => {
-    const selectedMacrocycleData = trainingCycleState.find(
-      (macrocycle) => macrocycle.name === selectedMacrocycle
-    );
-    const mesocycles = selectedMacrocycleData.mesocycles;
-    setMesocyclesData(mesocycles);
-  }, [trainingCycleState]);
-
-  useEffect(() => {
-    // Update mesocycles data when trainingCycleState changes
-    // In practice it mean first page render
-    if (mesocyclesData.length === 0) {
-      initializeCycleState();
-    } else {
-      updateMesocyclesState();
-    }
-  }, [initializeCycleState, updateMesocyclesState]);
+  useUpdateMesocyclesState(
+    trainingCycleState,
+    selectedMacrocycle,
+    mesocyclesData,
+    setMesocyclesData,
+    initializeCycleState
+  );
 
   useEffect(() => {
     // Determine phases data for the Mesocycle
