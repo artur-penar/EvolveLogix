@@ -3,16 +3,14 @@ import React, { useCallback, useEffect, useState } from "react";
 
 // Third-party libraries
 import { useDispatch, useSelector } from "react-redux";
+
 // Absolute imports
 import Layout from "components/shared/Layout";
 import PageHeader from "components/shared/PageHeader";
 import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
-import determinePhasesData from "features/trainingCycle/utils/determinePhasesData";
 import {
-  calculatePhaseEndDate,
   getCycleIdByName,
   getCycleNames,
-  getMesocycles,
 } from "features/trainingCycle/utils/trainingCycleUtils";
 import {
   setSelectedMacrocycle,
@@ -20,22 +18,23 @@ import {
 } from "features/trainingCycle/trainingCycle";
 import { useFormControls } from "features/trainingCycle/hooks/useFormControl";
 import { useTrainingCycle } from "features/trainingCycle/hooks/useTrainingCycle";
+import useUpdatePhaseEndDate from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseEndDate";
+import useUpdateMesocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocycleDetails";
+import useUpdateMacrocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMacrocycleDetails";
+import useInitializeCycleState from "features/trainingCycle/hooks/TrainingCycle/useInitializeCycleState";
+import useUpdateMesocyclesState from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocyclesState";
+import useUpdatePhasesData from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseData";
+
 // Relative imports
 import PhaseForm from "./PhaseForm";
 import TrainingCycleForm from "./TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
-import useUpdatePhaseEndDate from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseEndDate";
-import useUpdateMesocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocycleDetails";
-import useUpdateMacrocycleDetails from "features/trainingCycle/hooks/TrainingCycle/useUpdateMacrocycleDetails";
-import useInitializeCycleState from "features/trainingCycle/hooks/TrainingCycle/useInitializeCycleState";
-import useUpdateMesocyclesState from "features/trainingCycle/hooks/TrainingCycle/useUpdateMesocyclesState";
 
 // Component
 const TrainingCycle = () => {
   // Redux hooks
-  const dispatch = useDispatch();
   const trainingCycleState = useTrainingCycle();
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
@@ -49,7 +48,6 @@ const TrainingCycle = () => {
   const phaseTypes = ["Hypertrophy", "Strength", "Peak", "Deload"];
 
   // State hooks
-
   const [phasesData, setPhasesData] = useState([]);
   const [mesocyclesData, setMesocyclesData] = useState([]);
   const mesocycleNames = getCycleNames(mesocyclesData);
@@ -70,7 +68,14 @@ const TrainingCycle = () => {
       phaseEndDate: "",
     });
 
-  useUpdatePhaseEndDate(cycleFormValues, handleMultipleInputChanges);
+  // Custom hooks
+  const initializeCycleState = useInitializeCycleState(
+    trainingCycleState,
+    setSelectedMacrocycle,
+    setMesocyclesData,
+    handleMultipleInputChanges
+  );
+
   useUpdateMacrocycleDetails(
     cycleFormValues,
     setSelectedMacrocycle,
@@ -78,16 +83,11 @@ const TrainingCycle = () => {
     setMesocyclesData,
     handleMultipleInputChanges
   );
+
   useUpdateMesocycleDetails(
     cycleFormValues,
     mesocyclesData,
     setSelectedMesocycle,
-    handleMultipleInputChanges
-  );
-  const initializeCycleState = useInitializeCycleState(
-    trainingCycleState,
-    setSelectedMacrocycle,
-    setMesocyclesData,
     handleMultipleInputChanges
   );
 
@@ -99,33 +99,16 @@ const TrainingCycle = () => {
     initializeCycleState
   );
 
-  useEffect(() => {
-    // Determine phases data for the Mesocycle
-    const phasesData = determinePhasesData(
-      mesocyclesData,
-      trainingCycleState,
-      cycleFormValues["mesocycle"]
-    );
-
-    // Update phasesData state
-    setPhasesData(phasesData);
-
-    // Calculate the start date for a new phase
-    const newPhaseStartDate = calculateNewPhaseStartDate(
-      phasesData,
-      cycleFormValues["mesocycleStartDate"]
-    );
-
-    // Update the phase start date
-    handleMultipleInputChanges({
-      phaseStartDate: newPhaseStartDate,
-    });
-  }, [
-    trainingCycleState,
-    cycleFormValues["macrocycle"],
-    cycleFormValues["mesocycleStartDate"],
+  useUpdatePhasesData(
     mesocyclesData,
-  ]);
+    trainingCycleState,
+    cycleFormValues,
+    setPhasesData,
+    handleMultipleInputChanges,
+    calculateNewPhaseStartDate
+  );
+
+  useUpdatePhaseEndDate(cycleFormValues, handleMultipleInputChanges);
 
   return (
     <Layout title="EvolveLogix | Training cycle">
