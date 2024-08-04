@@ -3,8 +3,8 @@ import NewLogForm from "./NewLogForm";
 import "./DashboardFooter.css";
 
 const Footer = ({
-  isNewLogFormVisable,
-  setIsNewLogFormVisable,
+  isNewLogFormVisible,
+  setIsNewLogFormVisible,
   newLogName,
   setNewLogName,
   handleSubmit,
@@ -12,12 +12,12 @@ const Footer = ({
   <div className="create-log">
     <button
       className="dashboard-button"
-      onClick={() => setIsNewLogFormVisable(!isNewLogFormVisable)}
+      onClick={() => setIsNewLogFormVisible(!isNewLogFormVisible)}
     >
-      {isNewLogFormVisable ? "Create New Log ʌ" : "Create New Log v"}
+      {isNewLogFormVisible ? "Create New Log ʌ" : "Create New Log v"}
     </button>
 
-    {isNewLogFormVisable && (
+    {isNewLogFormVisible && (
       <NewLogForm
         newLogName={newLogName}
         setNewLogName={setNewLogName}
