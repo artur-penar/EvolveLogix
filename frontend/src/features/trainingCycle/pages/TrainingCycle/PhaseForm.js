@@ -35,7 +35,7 @@ const PhaseForm = ({
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
-  const [phaseTrainingProgram, setPhaseTrainingProgram] = useState([
+  const initialPhaseProgram = [
     {
       dayNumber: 1,
       exercises: [
@@ -51,14 +51,17 @@ const PhaseForm = ({
         },
       ],
     },
-  ]);
+  ];
+
+  const [phaseTrainingProgram, setPhaseTrainingProgram] =
+    useState(initialPhaseProgram);
 
   // Custom hooks
   const exerciseNamesList = useExerciseNames();
   const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
   const handleAddExercise = useHandleAddExercise(
     setPhaseTrainingProgram,
-    phaseTrainingProgram,
+    initialPhaseProgram,
     setStateChanged,
     stateChanged
   );
@@ -71,7 +74,7 @@ const PhaseForm = ({
 
   // Custom hooks for updating sessions and microcycles
   useUpdateSessionsNumber(
-    phaseTrainingProgram,
+    initialPhaseProgram,
     setPhaseTrainingProgram,
     trainingSessionsNumber ? parseInt(trainingSessionsNumber, 10) : 1,
     setStateChanged
@@ -79,7 +82,7 @@ const PhaseForm = ({
   useUpdateMicrocyclesNumber(
     stateChanged,
     setPhaseTrainingProgram,
-    phaseTrainingProgram,
+    initialPhaseProgram,
     microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
 
