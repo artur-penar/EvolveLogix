@@ -6,9 +6,25 @@ import { createUserDetail, updateUserDetail } from "../user";
 import { useDispatch } from "react-redux";
 
 const UserDetails = ({ userDetail }) => {
+  const initialUserDetails = [
+    {
+      updated_at: "2000-01-01T13:39:41.623430Z",
+      weight: "0.0",
+      height: "0.0",
+      chest: "0.0",
+      arm: "0.0",
+      forearm: "0.0",
+      hips: "0.0",
+      calves: "0.0",
+      thigh: "0.0",
+      waist: "0.0",
+      neck: "0.0",
+    },
+  ];
   const [currentIndex, setCurrentIndex] = useState(userDetail.length - 1);
 
-  const { updated_at, ...bodyMeasurements } = userDetail[currentIndex];
+  const { updated_at, ...bodyMeasurements } =
+    userDetail[currentIndex] || initialUserDetails[0];
   const [formData, setFormData] = useState(bodyMeasurements);
   const updatedAtData = new Date(updated_at);
 

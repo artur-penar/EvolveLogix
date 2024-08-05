@@ -37,7 +37,6 @@ const DashboardPage = () => {
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
-
   const selectedTrainingLogName =
     useSelector((state) =>
       state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
@@ -82,8 +81,6 @@ const DashboardPage = () => {
     }
   }, [dispatch, trainingLogs]);
 
-  if (!isAuthenticated && !loading) return <Navigate to="/login" />;
-
   const handleChange = (e) => {
     const selectedLogName = e.target.value;
     const selectedLog = trainingLogs.find(
@@ -98,6 +95,8 @@ const DashboardPage = () => {
     dispatch(createTrainingLog({ name: newLogName }));
   };
 
+  if (!isAuthenticated && !loading) return <Navigate to="/login" />;
+
   return (
     <Layout title="EvolveLogix | Dashboard">
       {loading || !user ? (
@@ -105,7 +104,7 @@ const DashboardPage = () => {
       ) : (
         <div className="dashboard">
           <Header headerContent={"Dashboard"} />
-          {trainingLogs.length > 0 ? (
+          {trainingLogs.length > 0 && userDetail ? (
             <Main
               trainingLogs={trainingLogs}
               selectedLog={selectedLog}
