@@ -33,98 +33,114 @@ const TrainingCycleForm = ({
   const handleCreateNewCycleClick = () => {
     setIsCreateCycleVisible((prevState) => !prevState);
   };
+  const hasCycles = macrocycles.length > 0;
+
   return (
     <div className="tcf-parent-container">
-      <CycleSelectGroup
-        type={"Macrocycle"}
-        value={macrocycle}
-        options={macrocycles}
-        handleInputChange={handleInputChange}
-        startDate={macrocycleStartDate}
-        endDate={macrocycleEndDate}
-      />
-      <CycleSelectGroup
-        type={"Mesocycle"}
-        value={mesocycle}
-        options={mesocycles}
-        handleInputChange={handleInputChange}
-        startDate={mesocycleStartDate}
-        endDate={mesocycleEndDate}
-        additionalProps={{
-          mesocycleDurationInWeeks,
-          options: [
-            {
-              label: "Timeline",
-              checked: isTimelineVisible,
-              onChange: () => {
-                setIsTimelineVisible((prevState) => !prevState);
-              },
-            },
-            {
-              label: "Calendar",
-              checked: isCalendarVisible,
-              onChange: () => {
-                setIsCalendarVisible((prevState) => !prevState);
-              },
-            },
-          ],
-        }}
-      />
-      <div className="tcf-button-container">
-        <button className="tcf-button" onClick={handleCreateNewCycleClick}>
-          {isCreateCycleVisible ? "Hide" : "Create new cycle"}
-        </button>
-      </div>
-      {isCreateCycleVisible && (
-        <CreateNewCycle
-          selectedMacrocycle={selectedMacrocycleId}
-          setIsCreateCycleVisible={setIsCreateCycleVisible}
-        />
-      )}
-      {isTimelineVisible && (
-        <div className="tcf-select-group-container">
-          <h3>Mesocycle Timeline</h3>
-          <CycleTimeline
-            mesocycleDuration={mesocycleDurationInWeeks}
-            phasesData={phasesData}
+      {!hasCycles ? (
+        <>
+          <p className="tcf-phase-info">No cycles available!</p>
+          <CreateNewCycle
+            selectedMacrocycle={selectedMacrocycleId}
+            setIsCreateCycleVisible={setIsCreateCycleVisible}
           />
-        </div>
-      )}
-      {isCalendarVisible && (
-        <div className="tcf-select-group-container">
-          <h3>Calendar</h3>
-          <SmallCalendarComponent
-            mesocycleStartDate={mesocycleStartDate}
-            mesocycleEndDate={mesocycleEndDate}
-            mesocycleDuration={mesocycleDurationInWeeks}
-            phasesData={phasesData}
+        </>
+      ) : (
+        <>
+          <CycleSelectGroup
+            type={"Macrocycle"}
+            value={macrocycle}
+            options={macrocycles}
+            handleInputChange={handleInputChange}
+            startDate={macrocycleStartDate}
+            endDate={macrocycleEndDate}
           />
-        </div>
+          <CycleSelectGroup
+            type={"Mesocycle"}
+            value={mesocycle}
+            options={mesocycles}
+            handleInputChange={handleInputChange}
+            startDate={mesocycleStartDate}
+            endDate={mesocycleEndDate}
+            additionalProps={{
+              mesocycleDurationInWeeks,
+              options: [
+                {
+                  label: "Timeline",
+                  checked: isTimelineVisible,
+                  onChange: () => {
+                    setIsTimelineVisible((prevState) => !prevState);
+                  },
+                },
+                {
+                  label: "Calendar",
+                  checked: isCalendarVisible,
+                  onChange: () => {
+                    setIsCalendarVisible((prevState) => !prevState);
+                  },
+                },
+              ],
+            }}
+          />
+          <div className="tcf-button-container">
+            <button className="tcf-button" onClick={handleCreateNewCycleClick}>
+              {isCreateCycleVisible ? "Hide" : "Create new cycle"}
+            </button>
+          </div>
+          {isCreateCycleVisible && (
+            <CreateNewCycle
+              selectedMacrocycle={selectedMacrocycleId}
+              setIsCreateCycleVisible={setIsCreateCycleVisible}
+            />
+          )}
+          {isTimelineVisible && (
+            <div className="tcf-select-group-container">
+              <h3>Mesocycle Timeline</h3>
+              <CycleTimeline
+                mesocycleDuration={mesocycleDurationInWeeks}
+                phasesData={phasesData}
+              />
+            </div>
+          )}
+          {isCalendarVisible && (
+            <div className="tcf-select-group-container">
+              <h3>Calendar</h3>
+              <SmallCalendarComponent
+                mesocycleStartDate={mesocycleStartDate}
+                mesocycleEndDate={mesocycleEndDate}
+                mesocycleDuration={mesocycleDurationInWeeks}
+                phasesData={phasesData}
+              />
+            </div>
+          )}
+          {/* // Phase selection */}
+          <CycleSelectGroup
+            type={"Phase"}
+            value={phase}
+            options={phases}
+            handleInputChange={handleInputChange}
+            startDate={phaseStartDate}
+            endDate={phaseEndDate}
+            additionalProps={{
+              trainingDays,
+              phaseDurationInWeeks,
+              options: [
+                {
+                  label: "Phase details",
+                  checked: isPhaseDetailsVisible,
+                  onChange: () => {
+                    setIsPhaseDetailsVisible((prevState) => !prevState);
+                  },
+                },
+              ],
+            }}
+          />
+          {isPhaseDetailsVisible && <PhaseDisplay phasesData={phasesData} />}
+          {!phaseEndDate && (
+            <p className="tcf-phase-warning">Can't add phase!</p>
+          )}
+        </>
       )}
-      {/* // Phase selection */}
-      <CycleSelectGroup
-        type={"Phase"}
-        value={phase}
-        options={phases}
-        handleInputChange={handleInputChange}
-        startDate={phaseStartDate}
-        endDate={phaseEndDate}
-        additionalProps={{
-          trainingDays,
-          phaseDurationInWeeks,
-          options: [
-            {
-              label: "Phase details",
-              checked: isPhaseDetailsVisible,
-              onChange: () => {
-                setIsPhaseDetailsVisible((prevState) => !prevState);
-              },
-            },
-          ],
-        }}
-      />
-      {isPhaseDetailsVisible && <PhaseDisplay phasesData={phasesData} />}
-      {!phaseEndDate && <p className="tcf-phase-warning">Can't add phase!</p>}
     </div>
   );
 };

@@ -86,6 +86,16 @@
   margin-top: 10px;
 }
 
+.tcf-phase-info {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #d7d7d7; /* Light red background for more visibility */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
 .tcf-button {
   min-width: 180px;
 }
