@@ -18,17 +18,18 @@ function determinePhasesData(
   // Determine the source of phasesData based on available data
   if (mesocyclesData.length > 0) {
     // Set first mesocycle name if no mesocycleName is provided
-    // This is the default behavior when no mesocycleName is provided
-    // It mean user is on first page render
-    mesocycleName = mesocycleName ? mesocycleName : mesocyclesData[0].name;
+    mesocycleName = mesocycleName || mesocyclesData[0].name;
 
     // Get the phases data for the current mesocycle using the getPhases function
     phasesData = getPhases(mesocyclesData, mesocycleName);
-    //  If there are no mesocyclesData, get the phases data from the trainingCycleState
   } else if (trainingCycleState.length > 0) {
-    // Get the phases data from the first mesocycle of the trainingCycleState
-    // This is the default behavior when no mesocyclesData is available
-    phasesData = trainingCycleState[0].mesocycles[0].phases;
+    // There is at least one macrocycle in the trainingCycleState
+    const firstMacrocycle = trainingCycleState[0];
+
+    if (firstMacrocycle.mesocycles.length > 0) {
+      // There is at least one mesocycle in the first macrocycle
+      phasesData = firstMacrocycle.mesocycles[0].phases;
+    }
   }
 
   // Return the phasesData
