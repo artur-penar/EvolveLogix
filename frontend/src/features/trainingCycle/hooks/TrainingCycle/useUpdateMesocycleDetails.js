@@ -42,6 +42,13 @@ const useUpdateMesocycleDetails = (
           mesocycleEndDate: selectedMesocycle.end_date,
           mesocycleDurationInWeeks: selectedMesocycle.duration,
         });
+      } else {
+        console.error("Selected mesocycle not found");
+        handleMultipleInputChanges({
+          mesocycleStartDate: "",
+          mesocycleEndDate: "",
+          mesocycleDurationInWeeks: 0,
+        });
       }
     }
   }, [cycleFormValues["mesocycle"]]);
