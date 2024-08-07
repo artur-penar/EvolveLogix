@@ -10,7 +10,7 @@ function calculateNewPhaseStartDate(phasesData, defaultStartDate) {
   let newPhaseStartDate = "";
 
   // CHeck if phasesData is not empty
-  if (phasesData.length > 0) {
+  if (Array.isArray(phasesData) && phasesData.length > 0) {
     // Get the last phase from phasesData
     const lastPhase = phasesData[phasesData.length - 1];
 
