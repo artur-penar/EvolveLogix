@@ -6,17 +6,16 @@ const router = express.Router();
 
 router.get("/api/training-cycle", async (req, res) => {
   const { access } = req.cookies;
+  const { training_log_id } = req.query;
 
   try {
     const apiRes = await fetch(
-      `${process.env.API_URL}/api/training-cycle/macrocycles/`,
+      `${process.env.API_URL}/api/training-cycle/macrocycles/?training_log_id=${training_log_id}`,
       {
         method: "GET",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${access}`,
-          // 'Content-Type': 'application/json',
-          // 'X-Requested-With': 'XMLHttpRequest'
         },
       }
     );
@@ -29,6 +28,6 @@ router.get("/api/training-cycle", async (req, res) => {
       error: "Something went wrong when trying to retrieve user",
     });
   }
-}); // Add closing parenthesis here
+});
 
 module.exports = router;
