@@ -11,12 +11,14 @@ export const useTrainingCycle = () => {
     (state) => state.trainingCycle.updateTrigger
   );
 
+  const selectedTrainingLogId = useSelector((state) =>
+    state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
+  );
   const [localTrainingCycleState, setLocalTrainingCycleState] =
     useState(trainingCycleState); // Step 2
 
   useEffect(() => {
-    console.log("updateTrigger triggered");
-    dispatch(getTrainingCycles());
+    dispatch(getTrainingCycles({ training_log_id: selectedTrainingLogId }));
   }, [updateTriggerState]);
 
   useEffect(() => {
