@@ -1,6 +1,7 @@
+from django.forms import ValidationError
 from rest_framework import generics, status
 from rest_framework.response import Response
-from training_log.models import Exercise
+from training_log.models import Exercise, TrainingLog
 from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from .serializers import (
     MesocycleSerializer, MacrocycleSerializer, PhaseSerializer,
@@ -14,10 +15,24 @@ class MacrocycleListCreateView(generics.ListCreateAPIView):
     serializer_class = MacrocycleSerializer
 
     def get_queryset(self):
-        return Macrocycle.objects.filter(user=self.request.user)
+        user = self.request.user
+        training_log_id = self.request.query_params.get('training_log_id')
+        if training_log_id:
+            training_log = TrainingLog.objects.filter(
+                user=user, id=training_log_id).first()
+            if training_log:
+                return Macrocycle.objects.filter(training_log=training_log)
+        return Macrocycle.objects.none()
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        user = self.request.user
+        training_log_id = self.request.data.get('training_log_id')
+        training_log = TrainingLog.objects.filter(
+            user=user, id=training_log_id).first()
+        if training_log:
+            serializer.save(training_log=training_log)
+        else:
+            raise ValidationError("Invalid training_log_id")
 
 
 class MacrocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
