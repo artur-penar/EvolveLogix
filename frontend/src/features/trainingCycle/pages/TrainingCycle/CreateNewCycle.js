@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CreateNewCycle.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addMesocycle,
   createMacrocycle,
@@ -14,6 +14,11 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
   const [mesocycleStartDate, setMesocycleStartDate] = useState("");
   const [mesocycleEndDate, setMesocycleEndDate] = useState("");
   const [mesocycleDuration, setMesocycleDuration] = useState(0);
+  const selectedTrainingLogId = useSelector((state) =>
+    state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
+  );
+
+  console.log(selectedTrainingLogId);
 
   const handleNameChange = (e) => {
     setCycleName(e.target.value);
@@ -51,7 +56,12 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
 
   const handleSubmit = () => {
     if (cycleType === "Macrocycle") {
-      dispatch(createMacrocycle(cycleName));
+      dispatch(
+        createMacrocycle({
+          name: cycleName,
+          training_log_id: selectedTrainingLogId,
+        })
+      );
     } else {
       dispatch(
         addMesocycle({
