@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 
 export const getTrainingCycles = createAsyncThunk(
   "trainingCycle/getTrainingCycles",
-  async (_, thunkAPI) => {
+  async ({ training_log_id }, thunkAPI) => {
     try {
-      const res = await fetch("/api/training-cycle/", {
+      const url = `/api/training-cycle/?training_log_id=${training_log_id}`;
+
+      const res = await fetch(url, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -25,7 +26,7 @@ export const getTrainingCycles = createAsyncThunk(
 
 export const createMacrocycle = createAsyncThunk(
   "trainingCycle/createMacrocycle",
-  async (name, thunkAPI) => {
+  async ({ name, training_log_id }, thunkAPI) => {
     try {
       const res = await fetch("/api/training-cycle/macrocycles/", {
         method: "POST",
@@ -33,7 +34,7 @@ export const createMacrocycle = createAsyncThunk(
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: name }),
+        body: JSON.stringify({ name: name, training_log_id: training_log_id }),
       });
       const data = await res.json();
       if (res.status === 201) {
