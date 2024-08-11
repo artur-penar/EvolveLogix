@@ -1,15 +1,16 @@
 import datetime
 from django.db import models, transaction
 from evolve_logix import settings
-from training_log.models import Exercise
+from training_log.models import Exercise, TrainingLog
 from operator import attrgetter
 
 # Create your models here.
 
 
 class Macrocycle(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    training_log = models.ForeignKey(
+        TrainingLog, on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=200)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -25,7 +26,7 @@ class Mesocycle(models.Model):
     start_date = models.DateField(null=True, blank=True)
     duration = models.PositiveIntegerField(null=True, blank=True)
 
-    @property
+    @ property
     def end_date(self):
         if self.duration is None or self.start_date is None:
             return None
@@ -77,7 +78,7 @@ class Phase(models.Model):
     start_date = models.DateField(null=True, blank=True)
     duration = models.PositiveIntegerField(null=True, blank=True)
 
-    @property
+    @ property
     def end_date(self):
         if self.duration is None or self.start_date is None:
             return None
