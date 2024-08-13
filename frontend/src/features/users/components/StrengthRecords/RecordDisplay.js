@@ -8,7 +8,6 @@ const RecordDisplay = ({
   isCycleVersion,
   styleClassName,
 }) => {
-  console.log("formData", formData);
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -32,10 +31,6 @@ const RecordDisplay = ({
       [exerciseName]: (prevState[exerciseName] || 0) + 1,
     }));
   };
-
-  if (formData.length === 0) {
-    return null;
-  }
 
   return (
     <div className={styleClassName}>
@@ -71,13 +66,15 @@ const RecordDisplay = ({
               <label className="record-content" style={{ textAlign: "left" }}>
                 {recordIndex}
               </label>
-              <label className="record-content">{currentData.weight}kg</label>
+              <label className="record-content">
+                {currentData?.weight || ""}kg
+              </label>
               {!isCycleVersion && (
                 <label className="record-content">
                   🔺
-                  {currentData.percent_increase !== null
-                    ? currentData.percent_increase
-                    : 0}
+                  {currentData?.percent_increase !== null
+                    ? currentData?.percent_increase
+                    : 0 || ""}
                   %
                 </label>
               )}
