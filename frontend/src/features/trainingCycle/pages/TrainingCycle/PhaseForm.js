@@ -106,11 +106,13 @@ const PhaseForm = ({
       <CycleSelectGroupOptions
         options={[
           {
+            id: 1,
             label: "Weight in percent of 1RM",
             checked: displayWeightInPercent,
             onChange: setDisplayWeightInPercent,
           },
           {
+            id: 2,
             label: "Show Strength Records",
             checked: displayRecords,
             onChange: setDisplayRecords,

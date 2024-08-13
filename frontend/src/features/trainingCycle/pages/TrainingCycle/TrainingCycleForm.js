@@ -66,6 +66,7 @@ const TrainingCycleForm = ({
               mesocycleDurationInWeeks,
               options: [
                 {
+                  id: 1,
                   label: "Timeline",
                   checked: isTimelineVisible,
                   onChange: () => {
@@ -73,6 +74,7 @@ const TrainingCycleForm = ({
                   },
                 },
                 {
+                  id: 2,
                   label: "Calendar",
                   checked: isCalendarVisible,
                   onChange: () => {
@@ -126,6 +128,7 @@ const TrainingCycleForm = ({
               phaseDurationInWeeks,
               options: [
                 {
+                  id: 1,
                   label: "Phase details",
                   checked: isPhaseDetailsVisible,
                   onChange: () => {

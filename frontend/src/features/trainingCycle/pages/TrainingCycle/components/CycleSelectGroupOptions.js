@@ -1,6 +1,8 @@
 import React from "react";
 
 const CycleSelectGroupOptions = ({ options }) => {
+  console.log("CycleeSelectGroupOptions");
+  console.log(options);
   return (
     <div
       style={{
@@ -27,7 +29,7 @@ const CycleSelectGroupOptions = ({ options }) => {
       >
         {options.map((option) => {
           return (
-            <label>
+            <label key={option.id}>
               <input
                 type="checkbox"
                 checked={option.checked}
