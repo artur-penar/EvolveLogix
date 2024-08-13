@@ -132,9 +132,18 @@ export const deleteTrainingSession = createAsyncThunk(
   }
 );
 
+const saveSelectedTrainingLog = (trainingLog) => {
+  localStorage.setItem("selectedTrainingLog", JSON.stringify(trainingLog));
+};
+
+const loadSelectedTrainingLog = () => {
+  const savedTrainingLog = localStorage.getItem("selectedTrainingLog");
+  return savedTrainingLog ? JSON.parse(savedTrainingLog) : null;
+};
+
 const initialState = {
   trainingLogs: [],
-  selectedTrainingLog: null,
+  selectedTrainingLog: loadSelectedTrainingLog(),
   loading: false,
   error: null,
 };
@@ -145,6 +154,7 @@ const logSlice = createSlice({
   reducers: {
     setSelectedTrainingLog: (state, action) => {
       state.selectedTrainingLog = action.payload;
+      saveSelectedTrainingLog(action.payload);
     },
   },
   extraReducers: (builder) => {
