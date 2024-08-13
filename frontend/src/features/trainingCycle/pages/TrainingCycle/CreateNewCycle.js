@@ -81,7 +81,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
       <h4 className="cnc-header-container">Create new cycle</h4>
       <div className="cnc-form-container">
         <div className="cnc-form-group">
-          <label for="cycle">Cycle:</label>
+          <label htmlFor="cycle">Cycle:</label>
           <select
             id="cycle"
             className="form-control"
@@ -97,7 +97,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
         </div>
 
         <div className="cnc-form-group">
-          <label for="name">Name:</label>
+          <label htmlFor="name">Name:</label>
           <input
             id="name"
             type="text"
@@ -110,7 +110,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
         {cycleType === "Mesocycle" && (
           <>
             <div className="cnc-form-group">
-              <label for="name">Start date:</label>
+              <label htmlFor="name">Start date:</label>
               <input
                 id="name"
                 type="date"
@@ -135,7 +135,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
               </select>
             </div>
             <div className="cnc-form-group">
-              <label for="name">End date:</label>
+              <label htmlFor="name">End date:</label>
               <input
                 id="name"
                 type="date"
