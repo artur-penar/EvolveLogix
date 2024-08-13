@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import RecordDisplay from "./RecordDisplay";
 import { useNavigate } from "react-router-dom";
-import "./StrengthRecords.css";
+import RecordDisplay from "./RecordDisplay";
 import NewStrengthRecord from "./NewStrengthRecord";
+import "./StrengthRecords.css";
 
 const Records = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();

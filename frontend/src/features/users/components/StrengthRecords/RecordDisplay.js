@@ -8,6 +8,7 @@ const RecordDisplay = ({
   isCycleVersion,
   styleClassName,
 }) => {
+  console.log("formData", formData);
   const initialIndex = Object.fromEntries(
     Object.entries(formData).map(([key, data]) => [key, data.length - 1])
   );
@@ -31,6 +32,10 @@ const RecordDisplay = ({
       [exerciseName]: (prevState[exerciseName] || 0) + 1,
     }));
   };
+
+  if (formData.length === 0) {
+    return null;
+  }
 
   return (
     <div className={styleClassName}>
