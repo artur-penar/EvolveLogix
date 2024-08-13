@@ -6,7 +6,7 @@ const DateInput = ({ label, value, enable }) => (
     <input
       className="form-control"
       type="date"
-      value={value}
+      value={value || ""}
       style={{ textAlign: "center" }}
       readOnly={!enable}
     />
