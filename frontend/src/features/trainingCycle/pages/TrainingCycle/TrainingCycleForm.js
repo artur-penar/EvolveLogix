@@ -33,13 +33,14 @@ const TrainingCycleForm = ({
   const handleCreateNewCycleClick = () => {
     setIsCreateCycleVisible((prevState) => !prevState);
   };
-  const hasCycles = macrocycles.length > 0;
+  const hasMacrocycles = macrocycles.length > 0;
+  const hasMesocycles = mesocycles.length > 0;
 
   return (
     <div className="tcf-parent-container">
-      {!hasCycles ? (
+      {!hasMacrocycles ? (
         <>
-          <p className="tcf-phase-info">No cycles available!</p>
+          <p className="tcf-info">No cycles available!</p>
           <CreateNewCycle
             selectedMacrocycle={selectedMacrocycleId}
             setIsCreateCycleVisible={setIsCreateCycleVisible}
@@ -98,21 +99,29 @@ const TrainingCycleForm = ({
           {isTimelineVisible && (
             <div className="tcf-select-group-container">
               <h3>Mesocycle Timeline</h3>
-              <CycleTimeline
-                mesocycleDuration={mesocycleDurationInWeeks}
-                phasesData={phasesData}
-              />
+              {hasMesocycles ? (
+                <CycleTimeline
+                  mesocycleDuration={mesocycleDurationInWeeks}
+                  phasesData={phasesData}
+                />
+              ) : (
+                <p className="tcf-info">No mesocycles available</p>
+              )}
             </div>
           )}
           {isCalendarVisible && (
             <div className="tcf-select-group-container">
               <h3>Calendar</h3>
-              <SmallCalendarComponent
-                mesocycleStartDate={mesocycleStartDate}
-                mesocycleEndDate={mesocycleEndDate}
-                mesocycleDuration={mesocycleDurationInWeeks}
-                phasesData={phasesData}
-              />
+              {hasMesocycles ? (
+                <SmallCalendarComponent
+                  mesocycleStartDate={mesocycleStartDate}
+                  mesocycleEndDate={mesocycleEndDate}
+                  mesocycleDuration={mesocycleDurationInWeeks}
+                  phasesData={phasesData}
+                />
+              ) : (
+                <p className="tcf-info">No mesocycles available</p>
+              )}
             </div>
           )}
           {/* // Phase selection */}

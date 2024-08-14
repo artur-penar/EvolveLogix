@@ -86,7 +86,7 @@
   margin-top: 10px;
 }
 
-.tcf-phase-info {
+.tcf-info {
   text-align: center;
   font-weight: bold;
   font-size: 18px;
@@ -94,6 +94,7 @@
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
+  width: 100%;
 }
 
 .tcf-button {
