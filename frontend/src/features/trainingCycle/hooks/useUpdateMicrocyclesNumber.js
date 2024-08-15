@@ -8,8 +8,9 @@ const useUpdateMicrocyclesNumber = (
   totalMicrocyclesNumber
 ) => {
   useEffect(() => {
-    const newMicrocycleLoad =
-      initialPhaseProgram[0].exercises[0].microcycles[0];
+    const newMicrocycleLoad = JSON.parse(
+      JSON.stringify(initialPhaseProgram[0].exercises[0].microcycles[0])
+    );
     setPhaseTrainingProgram((prevState) =>
       updateTrainingWeeks(prevState, totalMicrocyclesNumber, newMicrocycleLoad)
     );

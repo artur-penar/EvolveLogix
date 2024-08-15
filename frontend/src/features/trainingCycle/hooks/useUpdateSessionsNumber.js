@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { updateTrainingDays } from "../utils/updatePhaseDetails";
 
 const useUpdateSessionsNumber = (
@@ -9,7 +9,9 @@ const useUpdateSessionsNumber = (
   stateChanged
 ) => {
   useEffect(() => {
-    const initialExercises = initialPhaseProgram[0].exercises;
+    const initialExercises = JSON.parse(
+      JSON.stringify(initialPhaseProgram[0].exercises)
+    );
     setPhaseTrainingProgram((prevState) =>
       updateTrainingDays(
         prevState,
