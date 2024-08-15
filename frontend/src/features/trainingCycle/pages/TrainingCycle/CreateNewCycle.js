@@ -18,6 +18,10 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
     state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
   );
 
+  const availableCycleOptions = !selectedMacrocycle
+    ? ["Macrocycle"]
+    : ["Macrocycle", "Mesocycle"];
+
   const handleNameChange = (e) => {
     setCycleName(e.target.value);
   };
@@ -86,7 +90,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
             value={cycleType}
             onChange={handleTypeChange}
           >
-            {["Macrocycle", "Mesocycle"].map((name, i) => (
+            {availableCycleOptions.map((name, i) => (
               <option key={i} value={name}>
                 {name}
               </option>
