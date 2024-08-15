@@ -27,8 +27,10 @@ const useUpdateMesocyclesState = (
     const selectedMacrocycleData = trainingCycleState.find(
       (macrocycle) => macrocycle.name === selectedMacrocycle
     );
-    const mesocycles = selectedMacrocycleData.mesocycles;
-    setMesocyclesData(mesocycles);
+    if (selectedMacrocycleData) {
+      const mesocycles = selectedMacrocycleData.mesocycles;
+      setMesocyclesData(mesocycles);
+    }
   }, [trainingCycleState]);
 
   useEffect(() => {
