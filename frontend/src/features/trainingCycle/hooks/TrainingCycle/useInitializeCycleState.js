@@ -28,6 +28,7 @@ const useInitializeCycleState = (
       } = trainingCycleState[0];
 
       const {
+        name: mesocycle,
         start_date: mesocycleStartDate = "",
         end_date: mesocycleEndDate = "",
         duration: mesocycleDurationInWeeks = "",
@@ -38,6 +39,7 @@ const useInitializeCycleState = (
       handleMultipleInputChanges({
         macrocycleStartDate,
         macrocycleEndDate,
+        mesocycle,
         mesocycleStartDate,
         mesocycleEndDate,
         mesocycleDurationInWeeks,
