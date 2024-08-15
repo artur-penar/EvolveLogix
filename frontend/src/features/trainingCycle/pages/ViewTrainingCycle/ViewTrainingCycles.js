@@ -24,14 +24,6 @@ const ViewTrainingCycles = () => {
   const phasesData = [];
   phasesData.push(firstPhase);
 
-  console.log("ViewTrainingCycles.js");
-  console.log(trainingCyclesState);
-  console.log(selectedMacrocycle);
-  console.log(selectedMacrocycleData);
-  console.log(selectedMacrocycleMesocycles);
-  console.log(firstPhase);
-  console.log(firstPhase.length);
-
   const Mesocycle = ({ mesocycle }) => (
     <div key={mesocycle.id}>
       <h3>{mesocycle.name}</h3>

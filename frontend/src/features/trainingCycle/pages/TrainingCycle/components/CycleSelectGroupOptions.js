@@ -1,8 +1,6 @@
 import React from "react";
 
 const CycleSelectGroupOptions = ({ options }) => {
-  console.log("CycleeSelectGroupOptions");
-  console.log(options);
   return (
     <div
       style={{

@@ -19,7 +19,6 @@ const useHandleExerciseChange = (setPhaseTrainingProgram) => {
     exerciseIndex,
     newExerciseName
   ) => {
-    console.log("trainingSessionIndex: ", trainingSessionIndex);
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
 

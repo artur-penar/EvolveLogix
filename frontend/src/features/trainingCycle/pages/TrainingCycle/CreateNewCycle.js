@@ -18,8 +18,6 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
     state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
   );
 
-  console.log(selectedTrainingLogId);
-
   const handleNameChange = (e) => {
     setCycleName(e.target.value);
   };
