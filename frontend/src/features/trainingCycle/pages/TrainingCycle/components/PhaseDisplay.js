@@ -57,6 +57,7 @@ const PhaseDisplay = ({
   return (
     <div className="phase-display-container">
       {isLabelVisible && <h3>Phase details</h3>}
+      <p className='tcf-info'>No phases available.</p>
       <div className="tcf-select-container">
         <div className="tcf-flex-column">
           <div className="tcf-select-group">
