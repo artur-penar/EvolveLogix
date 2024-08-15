@@ -39,7 +39,7 @@ const ExerciseParameterInput = ({
       <input
         className="input"
         type="text"
-        value={value || (isEditable ? null : 0)}
+        value={value || (isEditable ? "" : 0)}
         onChange={(e) =>
           handleChange(
             trainingDayIndex,
