@@ -4,6 +4,19 @@ import {
 } from "features/trainingCycle/trainingCycle";
 import { useDispatch } from "react-redux";
 
+/**
+ * Custom hook to handle adding a phase.
+ *
+ * @param {string} mesocycleId - The ID of the mesocycle.
+ * @param {string} phaseType - The type of the phase.
+ * @param {string} phaseStartDate - The start date of the phase.
+ * @param {string} phaseEndDate - The end date of the phase.
+ * @param {number} microcyclesNumber - The number of microcycles in the phase.
+ * @param {Array} phaseTrainingProgram - The training program for the phase.
+ * @param {Function} setAddRequestStatus - Function to set the status of the add request.
+ * @returns {Function} - Function to handle adding a phase.
+ */
+
 const useAddPhase = (
   mesocycleId,
   phaseType,
