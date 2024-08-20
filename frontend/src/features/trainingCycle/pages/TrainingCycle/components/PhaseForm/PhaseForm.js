@@ -8,8 +8,9 @@ import {
   updateUpdateTrigger,
 } from "features/trainingCycle/trainingCycle";
 import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
-import useUpdateSessionsNumber from "features/trainingCycle/hooks/useUpdateSessionsNumber";
-import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/useUpdateMicrocyclesNumber";
+import useUpdateSessionsNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateSessionsNumber";
+import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateMicrocyclesNumber";
+import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
 import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHandleExerciseChange";
 import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
 import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
@@ -73,14 +74,7 @@ const PhaseForm = ({
   // useDispatch hook
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (addRequestStatus) {
-      const timer = setTimeout(() => {
-        setAddRequestStatus(null);
-      }, 10000);
-      return () => clearTimeout(timer);
-    }
-  }, [addRequestStatus]);
+  useAutoClearStatus(addRequestStatus, setAddRequestStatus);
 
   // Custom hooks for updating sessions and microcycles
   useUpdateSessionsNumber(
@@ -99,7 +93,7 @@ const PhaseForm = ({
   // Event handler for adding a phase
   const handleAddPhase = async () => {
     const phaseData = {
-      mesocycle: mesocycleId,
+      // mesocycle: mesocycleId,
       type: phaseType,
       start_date: phaseStartDate,
       end_date_: phaseEndDate,
