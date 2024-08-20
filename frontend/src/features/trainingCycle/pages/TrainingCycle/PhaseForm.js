@@ -1,5 +1,5 @@
 // React and Redux imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 // Feature-related imports
@@ -35,6 +35,7 @@ const PhaseForm = ({
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
+  const [addRequestStatus, setAddRequestStatus] = useState(null);
   const initialPhaseProgram = [
     {
       dayNumber: 1,
@@ -72,6 +73,15 @@ const PhaseForm = ({
   // useDispatch hook
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (addRequestStatus) {
+      const timer = setTimeout(() => {
+        setAddRequestStatus(null);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [addRequestStatus]);
+
   // Custom hooks for updating sessions and microcycles
   useUpdateSessionsNumber(
     initialPhaseProgram,
@@ -87,7 +97,7 @@ const PhaseForm = ({
   );
 
   // Event handler for adding a phase
-  const handleAddPhase = () => {
+  const handleAddPhase = async () => {
     const phaseData = {
       mesocycle: mesocycleId,
       type: phaseType,
@@ -96,7 +106,23 @@ const PhaseForm = ({
       duration: microcyclesNumber,
       training_sessions: phaseTrainingProgram,
     };
-    dispatch(addPhase(phaseData));
+
+    const resultAction = await dispatch(addPhase(phaseData));
+    if (resultAction.meta.requestStatus === "fulfilled") {
+      setAddRequestStatus("Phase added successfully");
+    } else if (resultAction.meta.requestStatus === "rejected") {
+      const errorPayload = resultAction.payload;
+      if (errorPayload && errorPayload.mesocycle) {
+        setAddRequestStatus(
+          <>
+            Adding Phase failed
+            <br />
+            Mesocycle: {errorPayload.mesocycle[0]}
+          </>
+        );
+      }
+    }
+
     dispatch(updateUpdateTrigger());
   };
 
@@ -139,6 +165,7 @@ const PhaseForm = ({
           />
         ))}
 
+        {addRequestStatus && <pre className="tcf-info">{addRequestStatus}</pre>}
         <div className="button-container" onClick={handleAddPhase}>
           <button>Add phase</button>
         </div>
