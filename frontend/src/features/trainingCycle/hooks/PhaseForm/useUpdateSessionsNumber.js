@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { updateTrainingDays } from "../utils/updatePhaseDetails";
+import { updateTrainingDays } from "../../utils/updatePhaseDetails";
 
 const useUpdateSessionsNumber = (
   initialPhaseProgram,
