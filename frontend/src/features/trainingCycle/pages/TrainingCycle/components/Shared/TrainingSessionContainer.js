@@ -1,6 +1,6 @@
 import React from "react";
 import WeekLabels from "./WeekLabels";
-import TrainingSession from "./TrainingSession";
+import TrainingSession from "./TrainingSession/TrainingSession";
 
 const TrainingSessionContainer = ({
   trainingSessionIndex,

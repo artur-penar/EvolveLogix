@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./TrainingCycleForm.css";
-import CycleSelectGroup from "./components/CycleSelectGroup";
+import CycleSelectGroup from "../Shared/CycleSelectGroup";
 import CreateNewCycle from "./CreateNewCycle";
-import CycleTimeline from "./CycleTimeline";
-import SmallCalendarComponent from "./components/SmallCalendar";
-import PhaseDisplay from "./components/PhaseDisplay";
+import CycleTimeline from "../Shared/CycleTimeline";
+import SmallCalendarComponent from "./SmallCalendar";
+import PhaseDisplay from "../Shared/PhaseDisplay";
 
 const TrainingCycleForm = ({
   macrocycle,

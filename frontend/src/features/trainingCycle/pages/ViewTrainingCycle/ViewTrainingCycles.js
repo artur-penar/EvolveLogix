@@ -1,8 +1,8 @@
 import Layout from "components/shared/Layout";
 import React from "react";
 import { useSelector } from "react-redux";
-import PhaseDisplay from "../TrainingCycle/components/PhaseDisplay";
-import CycleTimeline from "../TrainingCycle/CycleTimeline";
+import PhaseDisplay from "../TrainingCycle/components/Shared/PhaseDisplay";
+import CycleTimeline from "../TrainingCycle/components/Shared/CycleTimeline";
 import PageHeader from "components/shared/PageHeader";
 import "./ViewTrainingCycles.css";
 

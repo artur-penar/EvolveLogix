@@ -15,9 +15,9 @@ import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandl
 import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
 
 // Component imports
-import RecordsDisplayContainer from "./components/RecordsDisplayContainer";
-import TrainingSessionContainer from "./components/TrainingSessionContainer";
-import CycleSelectGroupOptions from "./components/CycleSelectGroupOptions";
+import RecordsDisplayContainer from "./RecordsDisplayContainer";
+import TrainingSessionContainer from "../Shared/TrainingSessionContainer";
+import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 
 // Style imports
 import "./PhaseForm.css";

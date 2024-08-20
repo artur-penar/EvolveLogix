@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import SmallCalendarComponent from "./components/SmallCalendar";
+import React from "react";
 
 const CycleTimeline = ({ mesocycleDuration, phasesData }) => {
   // Calculate the existing duration from phasesData

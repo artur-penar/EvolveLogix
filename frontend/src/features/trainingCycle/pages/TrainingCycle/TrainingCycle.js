@@ -26,8 +26,8 @@ import useUpdateMesocyclesState from "features/trainingCycle/hooks/TrainingCycle
 import useUpdatePhasesData from "features/trainingCycle/hooks/TrainingCycle/useUpdatePhaseData";
 
 // Relative imports
-import PhaseForm from "./PhaseForm";
-import TrainingCycleForm from "./TrainingCycleForm";
+import PhaseForm from "./components/PhaseForm/PhaseForm";
+import TrainingCycleForm from "./components/TrainingCycleForm/TrainingCycleForm";
 
 // CSS/other assets
 import "./TrainingCycle.css";
