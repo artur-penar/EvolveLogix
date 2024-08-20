@@ -22,6 +22,7 @@ import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 
 // Style imports
 import "./PhaseForm.css";
+import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 
 const PhaseForm = ({
   mesocycleId,
@@ -90,35 +91,15 @@ const PhaseForm = ({
     microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
 
-  // Event handler for adding a phase
-  const handleAddPhase = async () => {
-    const phaseData = {
-      // mesocycle: mesocycleId,
-      type: phaseType,
-      start_date: phaseStartDate,
-      end_date_: phaseEndDate,
-      duration: microcyclesNumber,
-      training_sessions: phaseTrainingProgram,
-    };
-
-    const resultAction = await dispatch(addPhase(phaseData));
-    if (resultAction.meta.requestStatus === "fulfilled") {
-      setAddRequestStatus("Phase added successfully");
-    } else if (resultAction.meta.requestStatus === "rejected") {
-      const errorPayload = resultAction.payload;
-      if (errorPayload && errorPayload.mesocycle) {
-        setAddRequestStatus(
-          <>
-            Adding Phase failed
-            <br />
-            Mesocycle: {errorPayload.mesocycle[0]}
-          </>
-        );
-      }
-    }
-
-    dispatch(updateUpdateTrigger());
-  };
+  const handleAddPhase = useAddPhase(
+    mesocycleId,
+    phaseType,
+    phaseStartDate,
+    phaseEndDate,
+    microcyclesNumber,
+    phaseTrainingProgram,
+    setAddRequestStatus
+  );
 
   return isPhaseFormActive ? (
     <div className="form-container">
