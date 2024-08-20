@@ -147,7 +147,13 @@ const TrainingCycleForm = ({
               ],
             }}
           />
-          {isPhaseDetailsVisible && <PhaseDisplay phasesData={phasesData} />}
+          {isPhaseDetailsVisible ? (
+            phasesData.length > 0 ? (
+              <PhaseDisplay phasesData={phasesData} />
+            ) : (
+              <p className="tcf-info">No phases details available</p>
+            )
+          ) : null}
           {!phaseEndDate && (
             <p className="tcf-phase-warning">Can't add phase!</p>
           )}
