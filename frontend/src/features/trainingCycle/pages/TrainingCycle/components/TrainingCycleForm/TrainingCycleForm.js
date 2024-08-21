@@ -7,25 +7,29 @@ import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";
 
 const TrainingCycleForm = ({
-  macrocycle,
-  macrocycleStartDate,
-  macrocycleEndDate,
+  cycleFormValues,
   macrocycles,
-  mesocycle,
   mesocycles,
-  phase,
   phases,
   phasesData,
-  trainingDays,
-  mesocycleDurationInWeeks,
-  mesocycleStartDate,
-  mesocycleEndDate,
-  phaseStartDate,
-  phaseEndDate,
-  phaseDurationInWeeks,
   handleInputChange,
   selectedMacrocycleId,
 }) => {
+  const {
+    macrocycle,
+    macrocycleStartDate,
+    macrocycleEndDate,
+    mesocycle,
+    mesocycleStartDate,
+    mesocycleEndDate,
+    phase,
+    phaseStartDate,
+    phaseEndDate,
+    trainingDays,
+    phaseDurationInWeeks,
+    mesocycleDurationInWeeks,
+  } = cycleFormValues;
+
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
   const [isTimelineVisible, setIsTimelineVisible] = useState(false);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);

@@ -19,41 +19,48 @@ import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 import "./PhaseForm.css";
 import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 
+const initialPhaseProgram = [
+  {
+    dayNumber: 1,
+    exercises: [
+      {
+        exercise: "Squat",
+        microcycles: [
+          {
+            weight: 0,
+            repetitions: 0,
+            sets: 0,
+          },
+        ],
+      },
+    ],
+  },
+];
+
 const PhaseForm = ({
   mesocycleId,
-  phaseType,
-  phaseStartDate,
-  phaseEndDate,
-  weeksNumber: microcyclesNumber,
-  trainingDays: trainingSessionsNumber,
-  isPhaseFormActive,
+  cycleFormValues,
   handleMultipleInputChanges,
 }) => {
+  // Destructure cycleFormValues
+  const {
+    phaseType,
+    phaseStartDate,
+    phaseEndDate,
+    weeksNumber: microcyclesNumber,
+    trainingDays: trainingSessionsNumber,
+  } = cycleFormValues;
+
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
   const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
   const [addRequestStatus, setAddRequestStatus] = useState(null);
-  const initialPhaseProgram = [
-    {
-      dayNumber: 1,
-      exercises: [
-        {
-          exercise: "Squat",
-          microcycles: [
-            {
-              weight: 0,
-              repetitions: 0,
-              sets: 0,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
+
+  // Derived variables
+  const isPhaseFormActive = phaseEndDate ? true : false;
 
   const resetForm = () => {
     handleMultipleInputChanges({

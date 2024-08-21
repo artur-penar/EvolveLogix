@@ -115,23 +115,11 @@ const TrainingCycle = () => {
       <div className="tc-cycle-content">
         <PageHeader headerContent={"Training Cycle"} />
         <TrainingCycleForm
-          macrocycle={cycleFormValues["macrocycle"]}
-          macrocycleStartDate={cycleFormValues["macrocycleStartDate"]}
-          macrocycleEndDate={cycleFormValues["macrocycleEndDate"]}
+          cycleFormValues={cycleFormValues}
           macrocycles={macrocycleNames}
-          mesocycle={cycleFormValues["mesocycle"]}
           mesocycles={mesocycleNames}
-          mesocycleStartDate={cycleFormValues["mesocycleStartDate"]}
-          mesocycleEndDate={cycleFormValues["mesocycleEndDate"]}
-          handleMesocycleStartDateChange={handleInputChange}
-          phase={cycleFormValues["phase"]}
           phases={phaseTypes}
           phasesData={phasesData}
-          phaseStartDate={cycleFormValues["phaseStartDate"]}
-          phaseEndDate={cycleFormValues["phaseEndDate"]}
-          trainingDays={cycleFormValues["trainingDays"]}
-          phaseDurationInWeeks={cycleFormValues["phaseDurationInWeeks"]}
-          mesocycleDurationInWeeks={cycleFormValues["mesocycleDurationInWeeks"]}
           handleInputChange={handleInputChange}
           selectedMacrocycleId={getCycleIdByName(
             selectedMacrocycle,
@@ -139,18 +127,10 @@ const TrainingCycle = () => {
           )}
         />
         <PhaseForm
-          mesocycleId={getCycleIdByName(
-            cycleFormValues["mesocycle"],
-            mesocyclesData
-          )}
-          phaseType={cycleFormValues["phase"]}
-          phaseStartDate={cycleFormValues["phaseStartDate"]}
-          phaseEndDate={cycleFormValues["phaseEndDate"]}
+          mesocycleId={getCycleIdByName(selectedMesocycle, mesocyclesData)}
+          cycleFormValues={cycleFormValues}
           phasesData={phasesData}
           setPhasesData={setPhasesData}
-          weeksNumber={cycleFormValues["phaseDurationInWeeks"]}
-          trainingDays={cycleFormValues["trainingDays"]}
-          isPhaseFormActive={cycleFormValues["phaseEndDate"] ? true : false}
           handleMultipleInputChanges={handleMultipleInputChanges}
         />
       </div>
