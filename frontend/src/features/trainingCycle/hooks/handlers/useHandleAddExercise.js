@@ -17,12 +17,19 @@ const useHandleAddExercise = (
   setPhaseTrainingProgram,
   initialPhaseProgram,
   setStateChanged,
-  stateChanged
+  stateChanged,
+  microcyclesNumber
 ) => {
   const handleAddExercise = (trainingSessionIndex) => {
     setPhaseTrainingProgram((prevState) => {
       const newState = JSON.parse(JSON.stringify(prevState));
       const newExercise = initialPhaseProgram[0].exercises[0];
+
+      for (let i = 0; i < microcyclesNumber; i++) {
+        if (!newExercise.microcycles[i]) {
+          newExercise.microcycles.push({ weight: 0, repetitions: 0, sets: 0 });
+        }
+      }
       newState[trainingSessionIndex].exercises.push(newExercise);
       setStateChanged(stateChanged + 1);
 
