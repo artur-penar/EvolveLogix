@@ -24,7 +24,7 @@ const useAddPhase = (
   phaseEndDate,
   microcyclesNumber,
   phaseTrainingProgram,
-  setAddRequestStatus, 
+  setAddRequestStatus,
   resetForm
 ) => {
   const dispatch = useDispatch();
@@ -45,12 +45,22 @@ const useAddPhase = (
       resetForm();
     } else if (resultAction.meta.requestStatus === "rejected") {
       const errorPayload = resultAction.payload;
+      console.log("Error adding phase");
+      console.log(errorPayload);
       if (errorPayload && errorPayload.mesocycle) {
         setAddRequestStatus(
           <>
             Adding Phase failed
             <br />
             Mesocycle: {errorPayload.mesocycle[0]}
+          </>
+        );
+      } else if (errorPayload && errorPayload.training_sessions) {
+        setAddRequestStatus(
+          <>
+            Adding Phase failed
+            <br />
+            Training Session: {errorPayload.training_sessions[0]}
           </>
         );
       }
