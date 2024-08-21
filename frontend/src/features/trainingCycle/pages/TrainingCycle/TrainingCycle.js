@@ -151,6 +151,7 @@ const TrainingCycle = () => {
           weeksNumber={cycleFormValues["phaseDurationInWeeks"]}
           trainingDays={cycleFormValues["trainingDays"]}
           isPhaseFormActive={cycleFormValues["phaseEndDate"] ? true : false}
+          handleMultipleInputChanges={handleMultipleInputChanges}
         />
       </div>
     </Layout>

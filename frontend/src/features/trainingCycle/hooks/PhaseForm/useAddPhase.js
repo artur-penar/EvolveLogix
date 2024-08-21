@@ -24,7 +24,8 @@ const useAddPhase = (
   phaseEndDate,
   microcyclesNumber,
   phaseTrainingProgram,
-  setAddRequestStatus
+  setAddRequestStatus, 
+  resetForm
 ) => {
   const dispatch = useDispatch();
   // Event handler for adding a phase
@@ -41,6 +42,7 @@ const useAddPhase = (
     const resultAction = await dispatch(addPhase(phaseData));
     if (resultAction.meta.requestStatus === "fulfilled") {
       setAddRequestStatus("Phase added successfully");
+      resetForm();
     } else if (resultAction.meta.requestStatus === "rejected") {
       const errorPayload = resultAction.payload;
       if (errorPayload && errorPayload.mesocycle) {

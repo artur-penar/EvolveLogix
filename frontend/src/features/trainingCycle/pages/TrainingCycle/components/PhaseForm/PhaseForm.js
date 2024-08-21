@@ -1,12 +1,7 @@
 // React and Redux imports
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 
 // Feature-related imports
-import {
-  addPhase,
-  updateUpdateTrigger,
-} from "features/trainingCycle/trainingCycle";
 import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 import useUpdateSessionsNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateSessionsNumber";
 import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateMicrocyclesNumber";
@@ -32,6 +27,7 @@ const PhaseForm = ({
   weeksNumber: microcyclesNumber,
   trainingDays: trainingSessionsNumber,
   isPhaseFormActive,
+  handleMultipleInputChanges,
 }) => {
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
@@ -59,6 +55,14 @@ const PhaseForm = ({
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
 
+  const resetForm = () => {
+    handleMultipleInputChanges({
+      trainingDays: 0,
+      phaseDurationInWeeks: 1,
+    });
+    setPhaseTrainingProgram(initialPhaseProgram);
+  };
+
   // Custom hooks
   const exerciseNamesList = useExerciseNames();
   const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
@@ -71,9 +75,6 @@ const PhaseForm = ({
   const handleExerciseDetailChange = useHandleExerciseDetailChange(
     setPhaseTrainingProgram
   );
-
-  // useDispatch hook
-  const dispatch = useDispatch();
 
   useAutoClearStatus(addRequestStatus, setAddRequestStatus);
 
@@ -98,7 +99,8 @@ const PhaseForm = ({
     phaseEndDate,
     microcyclesNumber,
     phaseTrainingProgram,
-    setAddRequestStatus
+    setAddRequestStatus,
+    resetForm
   );
 
   return isPhaseFormActive ? (
