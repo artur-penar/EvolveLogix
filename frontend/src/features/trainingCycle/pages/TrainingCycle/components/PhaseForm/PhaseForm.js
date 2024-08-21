@@ -70,7 +70,8 @@ const PhaseForm = ({
     setPhaseTrainingProgram,
     initialPhaseProgram,
     setStateChanged,
-    stateChanged
+    stateChanged,
+    microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
   const handleExerciseDetailChange = useHandleExerciseDetailChange(
     setPhaseTrainingProgram
