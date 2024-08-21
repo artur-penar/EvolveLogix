@@ -1,4 +1,5 @@
 import React from "react";
+import "./ExerciseParameterInput.css";
 
 const ExerciseParameterInput = ({
   trainingDayIndex,
@@ -38,7 +39,7 @@ const ExerciseParameterInput = ({
     return (
       <input
         className="input"
-        type="text"
+        type="number"
         value={value || (isEditable ? "" : 0)}
         onChange={(e) =>
           handleChange(
