@@ -47,7 +47,7 @@ const PhaseForm = ({
     phaseType,
     phaseStartDate,
     phaseEndDate,
-    weeksNumber: microcyclesNumber,
+    phaseDurationInWeeks: microcyclesNumber,
     trainingDays: trainingSessionsNumber,
   } = cycleFormValues;
 
