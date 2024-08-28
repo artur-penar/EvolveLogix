@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import "./CreateNewCycle.css";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addMesocycle,
   createMacrocycle,
   updateUpdateTrigger,
 } from "features/trainingCycle/trainingCycle";
+import "./CreateNewCycle.css";
 
 const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
   const dispatch = useDispatch();
@@ -14,9 +14,24 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
   const [mesocycleStartDate, setMesocycleStartDate] = useState("");
   const [mesocycleEndDate, setMesocycleEndDate] = useState("");
   const [mesocycleDuration, setMesocycleDuration] = useState(0);
+  const [warnings, setWarnings] = useState({});
+  const nameInputRef = useRef(null);
+  const dateInputRef = useRef(null);
   const selectedTrainingLogId = useSelector((state) =>
     state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
   );
+
+  const validateForm = () => {
+    const newWarning = {};
+    if (!cycleName) {
+      newWarning.cycleName = "Name required!";
+    }
+    if (!mesocycleStartDate) {
+      newWarning.mesocycleStartDate = "Start date required!";
+    }
+    setWarnings(newWarning);
+    return Object.keys(newWarning).length === 0;
+  };
 
   const availableCycleOptions = !selectedMacrocycle
     ? ["Macrocycle"]
@@ -28,6 +43,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
 
   const handleTypeChange = (e) => {
     setCycleType(e.target.value);
+    setWarnings({});
   };
 
   const handleStartDateChange = (e) => {
@@ -39,8 +55,14 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
   };
 
   useEffect(() => {
-    // Function calculate end date based on start date AND duration in weeks
-    // (mesocycleDuration)
+    if (warnings.cycleName) {
+      nameInputRef.current.focus();
+    } else if (warnings.mesocycleStartDate) {
+      dateInputRef.current.focus();
+    }
+  }, [warnings]);
+
+  useEffect(() => {
     const calculateEndDate = () => {
       const startDate = new Date(mesocycleStartDate);
       const endDate = new Date(
@@ -78,73 +100,98 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
     }
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      handleSubmit();
+    }
+  };
+
   return (
     <div className="cnc-container">
       <h4 className="cnc-header-container">Create new cycle</h4>
       <div className="cnc-form-container">
         <div className="cnc-form-group">
-          <label htmlFor="cycle">Cycle:</label>
-          <select
-            id="cycle"
-            className="form-control"
-            value={cycleType}
-            onChange={handleTypeChange}
-          >
-            {availableCycleOptions.map((name, i) => (
-              <option key={i} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
+          <div className="cnc-form-group-row">
+            <label htmlFor="cycle">Cycle:</label>
+            <select
+              id="cycle"
+              className="form-control"
+              value={cycleType}
+              onChange={handleTypeChange}
+            >
+              {availableCycleOptions.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="cnc-form-group">
-          <label htmlFor="name">Name:</label>
-          <input
-            id="name"
-            type="text"
-            className="form-control"
-            value={cycleName}
-            onChange={handleNameChange}
-          ></input>
+          <div className="cnc-form-group-row">
+            <label htmlFor="name">Name:</label>
+            <input
+              id="name"
+              type="text"
+              ref={nameInputRef}
+              className="form-control"
+              value={cycleName}
+              onChange={handleNameChange}
+            ></input>
+          </div>
+          {warnings.cycleName && (
+            <p className="warning-message">{warnings.cycleName}</p>
+          )}
         </div>
 
         {cycleType === "Mesocycle" && (
           <>
             <div className="cnc-form-group">
-              <label htmlFor="name">Start date:</label>
-              <input
-                id="name"
-                type="date"
-                className="form-control"
-                value={mesocycleStartDate}
-                onChange={handleStartDateChange}
-              ></input>
+              <div className="cnc-form-group-row">
+                <label htmlFor="name">Start date:</label>
+                <input
+                  id="name"
+                  type="date"
+                  ref={dateInputRef}
+                  className="form-control"
+                  value={mesocycleStartDate}
+                  onChange={handleStartDateChange}
+                ></input>
+              </div>
+              {warnings.mesocycleStartDate && (
+                <p className="warning-message">{warnings.mesocycleStartDate}</p>
+              )}
             </div>
 
             <div className="cnc-form-group">
-              <label>Duration: </label>
-              <select
-                className="form-control"
-                value={mesocycleDuration}
-                onChange={handleDurationChange}
-              >
-                {[...Array(12).keys()].map((number, i) => (
-                  <option key={i} value={number}>
-                    {number + 1}
-                  </option>
-                ))}
-              </select>
+              <div className="cnc-form-group-row">
+                <label>Duration: </label>
+                <select
+                  className="form-control"
+                  value={mesocycleDuration}
+                  onChange={handleDurationChange}
+                >
+                  {[...Array(12).keys()].map((number, i) => (
+                    <option key={i} value={number}>
+                      {number + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="cnc-form-group">
-              <label htmlFor="name">End date:</label>
-              <input
-                id="name"
-                type="date"
-                className="form-control"
-                value={mesocycleEndDate}
-                readOnly
-              ></input>
+              <div className="cnc-form-group-row">
+                <label htmlFor="name">End date:</label>
+                <input
+                  id="name"
+                  type="date"
+                  className="form-control"
+                  value={mesocycleEndDate}
+                  readOnly
+                ></input>
+              </div>
             </div>
             <div
               style={{
@@ -162,7 +209,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
         )}
       </div>
 
-      <button className="submit-button" onClick={handleSubmit}>
+      <button className="submit-button" onClick={onSubmit}>
         Submit
       </button>
     </div>

@@ -29,17 +29,33 @@
   align-items: center;
   width: 50%;
 }
+
+.cnc-form-group {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 .cnc-form-group label {
   text-align: right;
   width: 30%;
 }
 
-.cnc-form-group {
+.cnc-form-group-row {
   display: flex;
-  width: 80%;
+  width: 100%;
   justify-content: center;
-  margin-bottom: 10px;
 }
+
+.warning-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-left: 33%;
+}
+
 .cnc-form-group .form-control {
   width: 70%;
   text-align: center;
