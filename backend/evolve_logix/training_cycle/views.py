@@ -1,6 +1,7 @@
 from django.forms import ValidationError
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from training_log.models import Exercise, TrainingLog
 from .models import Macrocycle, Mesocycle, Phase, Microcycle, TrainingSession, ExerciseInSession
 from .serializers import (
@@ -48,6 +49,12 @@ class MesocycleListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Mesocycle.objects.filter(macrocycle__user=self.request.user)
+
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except ValueError as e:
+            raise ValidationError({"non_field_errors": [str(e)]})
 
 
 class MesocycleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
