@@ -26,11 +26,22 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
     if (!cycleName) {
       newWarning.cycleName = "Name required!";
     }
-    if (!mesocycleStartDate) {
+    if (!mesocycleStartDate && cycleType === "Mesocycle") {
+      // Check only Mesocycle start date because Macrocycle start date is not required YET
       newWarning.mesocycleStartDate = "Start date required!";
     }
     setWarnings(newWarning);
     return Object.keys(newWarning).length === 0;
+  };
+
+  const handleError = (error) => {
+    console.log("Handle error:", error);
+    if (error.non_field_errors) {
+      const newWarning = {};
+      newWarning.mesocycleStartDate =
+        error.non_field_errors[0] + "Check Mesocycles duration!";
+      setWarnings(newWarning);
+    }
   };
 
   const availableCycleOptions = !selectedMacrocycle
@@ -43,6 +54,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
 
   const handleTypeChange = (e) => {
     setCycleType(e.target.value);
+    // Reset warnings
     setWarnings({});
   };
 
@@ -78,25 +90,30 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
     }
   }, [mesocycleStartDate, mesocycleDuration]);
 
-  const handleSubmit = () => {
-    if (cycleType === "Macrocycle") {
-      dispatch(
-        createMacrocycle({
-          name: cycleName,
-          training_log_id: selectedTrainingLogId,
-        })
-      );
-    } else {
-      dispatch(
-        addMesocycle({
-          name: cycleName,
-          macrocycle: selectedMacrocycle,
-          start_date: mesocycleStartDate,
-          duration: Number(mesocycleDuration) + 1,
-        })
-      );
+  const handleSubmit = async () => {
+    try {
+      let response;
+      if (cycleType === "Macrocycle") {
+        response = await dispatch(
+          createMacrocycle({
+            name: cycleName,
+            training_log_id: selectedTrainingLogId,
+          })
+        ).unwrap();
+      } else {
+        response = await dispatch(
+          addMesocycle({
+            name: cycleName,
+            macrocycle: selectedMacrocycle,
+            start_date: mesocycleStartDate,
+            duration: Number(mesocycleDuration) + 1,
+          })
+        ).unwrap();
+      }
       setIsCreateCycleVisible(false);
       dispatch(updateUpdateTrigger());
+    } catch (error) {
+      handleError(error);
     }
   };
 
