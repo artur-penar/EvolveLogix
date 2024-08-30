@@ -1,5 +1,5 @@
 // React and Redux imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Feature-related imports
 import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
@@ -18,6 +18,7 @@ import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 // Style imports
 import "./PhaseForm.css";
 import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
+import usePhaseFormStatus from "features/trainingCycle/hooks/PhaseForm/usePhaseFormStatus";
 
 const initialPhaseProgram = [
   {
@@ -59,18 +60,8 @@ const PhaseForm = ({
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
 
-  // Derived variables
-  const isPhaseFormActive = phaseEndDate ? true : false;
-
-  const resetForm = () => {
-    handleMultipleInputChanges({
-      trainingDays: 0,
-      phaseDurationInWeeks: 1,
-    });
-    setPhaseTrainingProgram(initialPhaseProgram);
-  };
-
   // Custom hooks
+  const isPhaseFormActive = usePhaseFormStatus(phaseEndDate, addRequestStatus);
   const exerciseNamesList = useExerciseNames();
   const handleExerciseChange = useHandleExerciseChange(setPhaseTrainingProgram);
   const handleAddExercise = useHandleAddExercise(
@@ -83,8 +74,7 @@ const PhaseForm = ({
   const handleExerciseDetailChange = useHandleExerciseDetailChange(
     setPhaseTrainingProgram
   );
-
-  useAutoClearStatus(addRequestStatus, setAddRequestStatus);
+  const count = useAutoClearStatus(addRequestStatus, setAddRequestStatus);
 
   // Custom hooks for updating sessions and microcycles
   useUpdateSessionsNumber(
@@ -100,6 +90,16 @@ const PhaseForm = ({
     microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
 
+  // Function to reset the form
+  const resetForm = () => {
+    handleMultipleInputChanges({
+      trainingDays: 0,
+      phaseDurationInWeeks: 1,
+    });
+    setPhaseTrainingProgram(initialPhaseProgram);
+  };
+
+  // Function to handle adding a phase
   const handleAddPhase = useAddPhase(
     mesocycleId,
     phaseType,
@@ -150,13 +150,20 @@ const PhaseForm = ({
           />
         ))}
 
-        {addRequestStatus && <pre className="tcf-info">{addRequestStatus}</pre>}
+        {addRequestStatus && (
+          <p className="tcf-info">
+            {addRequestStatus}
+            {".".repeat(count)}
+          </p>
+        )}
         <div className="button-container" onClick={handleAddPhase}>
           <button>Add phase</button>
         </div>
       </div>
     </div>
-  ) : null;
+  ) : (
+    <p className="tcf-phase-warning">Can't add phase!</p>
+  );
 };
 
 export default PhaseForm;
