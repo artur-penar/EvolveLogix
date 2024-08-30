@@ -5,6 +5,7 @@ import CreateNewCycle from "./CreateNewCycle";
 import CycleTimeline from "../Shared/CycleTimeline";
 import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";
+import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
 
 const TrainingCycleForm = ({
   cycleFormValues,
@@ -34,11 +35,14 @@ const TrainingCycleForm = ({
   const [isTimelineVisible, setIsTimelineVisible] = useState(false);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [isPhaseDetailsVisible, setIsPhaseDetailsVisible] = useState(false);
+  const [addCycleStatus, setAddCycleStatus] = useState(null);
   const handleCreateNewCycleClick = () => {
     setIsCreateCycleVisible((prevState) => !prevState);
   };
   const hasMacrocycles = macrocycles.length > 0;
   const hasMesocycles = mesocycles.length > 0;
+
+  const countdown = useAutoClearStatus(addCycleStatus, setAddCycleStatus);
 
   return (
     <div className="tcf-parent-container">
@@ -89,6 +93,11 @@ const TrainingCycleForm = ({
               ],
             }}
           />
+          {addCycleStatus && (
+            <p className="tcf-info">
+              {addCycleStatus} {".".repeat(countdown)}
+            </p>
+          )}
           <div className="tcf-button-container">
             <button className="tcf-button" onClick={handleCreateNewCycleClick}>
               {isCreateCycleVisible ? "Hide" : "Create new cycle"}
@@ -97,6 +106,7 @@ const TrainingCycleForm = ({
           {isCreateCycleVisible && (
             <CreateNewCycle
               selectedMacrocycle={selectedMacrocycleId}
+              setAddCycleStatus={setAddCycleStatus}
               setIsCreateCycleVisible={setIsCreateCycleVisible}
             />
           )}
@@ -158,9 +168,6 @@ const TrainingCycleForm = ({
               <p className="tcf-info">No phases details available</p>
             )
           ) : null}
-          {!phaseEndDate && (
-            <p className="tcf-phase-warning">Can't add phase!</p>
-          )}
         </>
       )}
     </div>
