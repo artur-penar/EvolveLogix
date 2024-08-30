@@ -7,7 +7,11 @@ import {
 } from "features/trainingCycle/trainingCycle";
 import "./CreateNewCycle.css";
 
-const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
+const CreateNewCycle = ({
+  selectedMacrocycle,
+  setAddCycleStatus,
+  setIsCreateCycleVisible,
+}) => {
   const dispatch = useDispatch();
   const [cycleName, setCycleName] = useState("");
   const [cycleType, setCycleType] = useState("Macrocycle");
@@ -42,6 +46,11 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
         error.non_field_errors[0] + "Check Mesocycles duration!";
       setWarnings(newWarning);
     }
+  };
+
+  const handleSuccess = () => {
+    console.log("Success but what to do?");
+    setAddCycleStatus("Cycle added successfully");
   };
 
   const availableCycleOptions = !selectedMacrocycle
@@ -112,6 +121,7 @@ const CreateNewCycle = ({ selectedMacrocycle, setIsCreateCycleVisible }) => {
       }
       setIsCreateCycleVisible(false);
       dispatch(updateUpdateTrigger());
+      handleSuccess();
     } catch (error) {
       handleError(error);
     }
