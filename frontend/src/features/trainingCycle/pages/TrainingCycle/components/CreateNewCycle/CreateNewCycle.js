@@ -185,15 +185,8 @@ const CreateNewCycle = ({
               value={mesocycleEndDate}
               readOnly={true}
             />
-            <div
-              style={{
-                width: "340px",
-                padding: "10px",
-                backgroundColor: "#f0f0f0",
-                borderRadius: "5px",
-              }}
-            >
-              <p style={{ color: "#666", lineHeight: "1.5" }}>
+            <div className="cnc-info-container">
+              <p>
                 The Mesocycle is related with the currently selected Macrocycle!
               </p>
             </div>
