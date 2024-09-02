@@ -5,6 +5,7 @@ import {
   createMacrocycle,
   updateUpdateTrigger,
 } from "features/trainingCycle/trainingCycle";
+import FormGroup from "./FormGroup";
 import "./CreateNewCycle.css";
 
 const CreateNewCycle = ({
@@ -138,89 +139,52 @@ const CreateNewCycle = ({
     <div className="cnc-container">
       <h4 className="cnc-header-container">Create new cycle</h4>
       <div className="cnc-form-container">
-        <div className="cnc-form-group">
-          <div className="cnc-form-group-row">
-            <label htmlFor="cycle">Cycle:</label>
-            <select
-              id="cycle"
-              className="form-control"
-              value={cycleType}
-              onChange={handleTypeChange}
-            >
-              {availableCycleOptions.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="cnc-form-group">
-          <div className="cnc-form-group-row">
-            <label htmlFor="name">Name:</label>
-            <input
-              id="name"
-              type="text"
-              ref={nameInputRef}
-              className="form-control"
-              value={cycleName}
-              onChange={handleNameChange}
-            ></input>
-          </div>
-          {warnings.cycleName && (
-            <p className="warning-message">{warnings.cycleName}</p>
-          )}
-        </div>
+        <FormGroup
+          id="type"
+          label="Cycle"
+          type="select"
+          value={cycleType}
+          options={availableCycleOptions}
+          handleChange={handleTypeChange}
+        />
+        <FormGroup
+          id="name"
+          label="Name"
+          type="text"
+          value={cycleName}
+          handleChange={handleNameChange}
+          inputRef={nameInputRef}
+          warning={warnings.cycleName}
+        />
 
         {cycleType === "Mesocycle" && (
           <>
-            <div className="cnc-form-group">
-              <div className="cnc-form-group-row">
-                <label htmlFor="name">Start date:</label>
-                <input
-                  id="start-date"
-                  type="date"
-                  ref={dateInputRef}
-                  className="form-control"
-                  value={mesocycleStartDate}
-                  onChange={handleStartDateChange}
-                ></input>
-              </div>
-              {warnings.mesocycleStartDate && (
-                <p className="warning-message">{warnings.mesocycleStartDate}</p>
-              )}
-            </div>
+            <FormGroup
+              id="start-date"
+              label="Start date"
+              type="date"
+              value={mesocycleStartDate}
+              handleChange={handleStartDateChange}
+              inputRef={dateInputRef}
+              warning={warnings.mesocycleStartDate}
+            />
 
-            <div className="cnc-form-group">
-              <div className="cnc-form-group-row">
-                <label>Duration: </label>
-                <select
-                  id="duration"
-                  className="form-control"
-                  value={mesocycleDuration}
-                  onChange={handleDurationChange}
-                >
-                  {[...Array(12).keys()].map((number, i) => (
-                    <option key={i} value={number}>
-                      {number + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="cnc-form-group">
-              <div className="cnc-form-group-row">
-                <label htmlFor="name">End date:</label>
-                <input
-                  id="end-date"
-                  type="date"
-                  className="form-control"
-                  value={mesocycleEndDate}
-                  readOnly
-                ></input>
-              </div>
-            </div>
+            <FormGroup
+              id="duration"
+              label="Duration"
+              type="select"
+              value={mesocycleDuration}
+              options={[...Array(12).keys()].map((number, i) => number)}
+              handleChange={handleDurationChange}
+            />
+
+            <FormGroup
+              id="end-date"
+              label="End date"
+              type="date"
+              value={mesocycleEndDate}
+              readOnly={true}
+            />
             <div
               style={{
                 width: "340px",
