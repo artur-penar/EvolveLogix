@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./TrainingCycleForm.css";
 import CycleSelectGroup from "../Shared/CycleSelectGroup";
-import CreateNewCycle from "./CreateNewCycle";
+import CreateNewCycle from "../CreateNewCycle/CreateNewCycle";
 import CycleTimeline from "../Shared/CycleTimeline";
 import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";

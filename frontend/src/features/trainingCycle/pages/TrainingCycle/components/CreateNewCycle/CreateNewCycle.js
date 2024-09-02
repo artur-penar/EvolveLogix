@@ -179,7 +179,7 @@ const CreateNewCycle = ({
               <div className="cnc-form-group-row">
                 <label htmlFor="name">Start date:</label>
                 <input
-                  id="name"
+                  id="start-date"
                   type="date"
                   ref={dateInputRef}
                   className="form-control"
@@ -196,6 +196,7 @@ const CreateNewCycle = ({
               <div className="cnc-form-group-row">
                 <label>Duration: </label>
                 <select
+                  id="duration"
                   className="form-control"
                   value={mesocycleDuration}
                   onChange={handleDurationChange}
@@ -212,7 +213,7 @@ const CreateNewCycle = ({
               <div className="cnc-form-group-row">
                 <label htmlFor="name">End date:</label>
                 <input
-                  id="name"
+                  id="end-date"
                   type="date"
                   className="form-control"
                   value={mesocycleEndDate}
