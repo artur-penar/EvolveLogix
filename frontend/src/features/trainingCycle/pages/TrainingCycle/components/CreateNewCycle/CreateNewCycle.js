@@ -14,17 +14,37 @@ const CreateNewCycle = ({
   setIsCreateCycleVisible,
 }) => {
   const dispatch = useDispatch();
-  const [cycleName, setCycleName] = useState("");
-  const [cycleType, setCycleType] = useState("Macrocycle");
-  const [mesocycleStartDate, setMesocycleStartDate] = useState("");
-  const [mesocycleEndDate, setMesocycleEndDate] = useState("");
-  const [mesocycleDuration, setMesocycleDuration] = useState(0);
   const [warnings, setWarnings] = useState({});
   const nameInputRef = useRef(null);
   const dateInputRef = useRef(null);
   const selectedTrainingLogId = useSelector((state) =>
     state.log.selectedTrainingLog ? state.log.selectedTrainingLog.id : null
   );
+
+  const availableCycleOptions = !selectedMacrocycle
+    ? ["Macrocycle"]
+    : ["Macrocycle", "Mesocycle"];
+
+  const [formState, setFormState] = useState({
+    cycleName: "",
+    cycleType: "Macrocycle",
+    mesocycleStartDate: "",
+    mesocycleEndDate: "",
+    mesocycleDuration: 0,
+  });
+
+  const {
+    cycleName,
+    cycleType,
+    mesocycleStartDate,
+    mesocycleEndDate,
+    mesocycleDuration,
+  } = formState;
+
+  const handleFormChange = (e) => {
+    const { id, value } = e.target;
+    setFormState({ ...formState, [id]: value });
+  };
 
   const validateForm = () => {
     const newWarning = {};
@@ -54,28 +74,6 @@ const CreateNewCycle = ({
     setAddCycleStatus("Cycle added successfully");
   };
 
-  const availableCycleOptions = !selectedMacrocycle
-    ? ["Macrocycle"]
-    : ["Macrocycle", "Mesocycle"];
-
-  const handleNameChange = (e) => {
-    setCycleName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setCycleType(e.target.value);
-    // Reset warnings
-    setWarnings({});
-  };
-
-  const handleStartDateChange = (e) => {
-    setMesocycleStartDate(e.target.value);
-  };
-
-  const handleDurationChange = (e) => {
-    setMesocycleDuration(e.target.value);
-  };
-
   useEffect(() => {
     if (warnings.cycleName) {
       nameInputRef.current.focus();
@@ -92,7 +90,8 @@ const CreateNewCycle = ({
           (Number(mesocycleDuration) + 1) * 7 * 24 * 60 * 60 * 1000
       );
       const formattedEndDate = endDate.toISOString().split("T")[0];
-      setMesocycleEndDate(formattedEndDate);
+      setFormState({ ...formState, mesocycleEndDate: formattedEndDate });
+      console.log("End date:", formattedEndDate);
     };
 
     if (mesocycleStartDate && mesocycleDuration) {
@@ -140,19 +139,19 @@ const CreateNewCycle = ({
       <h4 className="cnc-header-container">Create new cycle</h4>
       <div className="cnc-form-container">
         <FormGroup
-          id="type"
+          id="cycleType"
           label="Cycle"
           type="select"
           value={cycleType}
           options={availableCycleOptions}
-          handleChange={handleTypeChange}
+          handleChange={handleFormChange}
         />
         <FormGroup
-          id="name"
+          id="cycleName"
           label="Name"
           type="text"
           value={cycleName}
-          handleChange={handleNameChange}
+          handleChange={handleFormChange}
           inputRef={nameInputRef}
           warning={warnings.cycleName}
         />
@@ -160,26 +159,26 @@ const CreateNewCycle = ({
         {cycleType === "Mesocycle" && (
           <>
             <FormGroup
-              id="start-date"
+              id="mesocycleStartDate"
               label="Start date"
               type="date"
               value={mesocycleStartDate}
-              handleChange={handleStartDateChange}
+              handleChange={handleFormChange}
               inputRef={dateInputRef}
               warning={warnings.mesocycleStartDate}
             />
 
             <FormGroup
-              id="duration"
+              id="mesocycleDuration"
               label="Duration"
               type="select"
               value={mesocycleDuration}
               options={[...Array(12).keys()].map((number, i) => number)}
-              handleChange={handleDurationChange}
+              handleChange={handleFormChange}
             />
 
             <FormGroup
-              id="end-date"
+              id="mesocycleEndDate"
               label="End date"
               type="date"
               value={mesocycleEndDate}

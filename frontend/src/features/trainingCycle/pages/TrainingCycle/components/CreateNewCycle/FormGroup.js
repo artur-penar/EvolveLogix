@@ -23,13 +23,13 @@ const FormGroup = ({
           >
             {options.map((option, i) => (
               <option key={i} value={option}>
-                {id === "duration" ? option + 1 : option}
+                {id === "mesocycleDuration" ? option + 1 : option}
               </option>
             ))}
           </select>
         ) : (
           <input
-            id="id"
+            id={id}
             type={type}
             className="form-control"
             value={value}
