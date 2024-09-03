@@ -7,6 +7,7 @@ import {
 } from "features/trainingCycle/trainingCycle";
 import FormGroup from "./FormGroup";
 import "./CreateNewCycle.css";
+import useFormState from "features/trainingCycle/hooks/CreateNewCycle/useFormState";
 
 const CreateNewCycle = ({
   selectedMacrocycle,
@@ -14,7 +15,6 @@ const CreateNewCycle = ({
   setIsCreateCycleVisible,
 }) => {
   const dispatch = useDispatch();
-  const [warnings, setWarnings] = useState({});
   const nameInputRef = useRef(null);
   const dateInputRef = useRef(null);
   const selectedTrainingLogId = useSelector((state) =>
@@ -25,13 +25,14 @@ const CreateNewCycle = ({
     ? ["Macrocycle"]
     : ["Macrocycle", "Mesocycle"];
 
-  const [formState, setFormState] = useState({
-    cycleName: "",
-    cycleType: "Macrocycle",
-    mesocycleStartDate: "",
-    mesocycleEndDate: "",
-    mesocycleDuration: 0,
-  });
+  const { formState, validateForm, handleFormChange, warnings, setWarnings } =
+    useFormState({
+      cycleName: "",
+      cycleType: "Macrocycle",
+      mesocycleStartDate: "",
+      mesocycleEndDate: "",
+      mesocycleDuration: 1,
+    });
 
   const {
     cycleName,
@@ -40,24 +41,6 @@ const CreateNewCycle = ({
     mesocycleEndDate,
     mesocycleDuration,
   } = formState;
-
-  const handleFormChange = (e) => {
-    const { id, value } = e.target;
-    setFormState({ ...formState, [id]: value });
-  };
-
-  const validateForm = () => {
-    const newWarning = {};
-    if (!cycleName) {
-      newWarning.cycleName = "Name required!";
-    }
-    if (!mesocycleStartDate && cycleType === "Mesocycle") {
-      // Check only Mesocycle start date because Macrocycle start date is not required YET
-      newWarning.mesocycleStartDate = "Start date required!";
-    }
-    setWarnings(newWarning);
-    return Object.keys(newWarning).length === 0;
-  };
 
   const handleError = (error) => {
     console.log("Handle error:", error);
@@ -81,23 +64,6 @@ const CreateNewCycle = ({
       dateInputRef.current.focus();
     }
   }, [warnings]);
-
-  useEffect(() => {
-    const calculateEndDate = () => {
-      const startDate = new Date(mesocycleStartDate);
-      const endDate = new Date(
-        startDate.getTime() +
-          (Number(mesocycleDuration) + 1) * 7 * 24 * 60 * 60 * 1000
-      );
-      const formattedEndDate = endDate.toISOString().split("T")[0];
-      setFormState({ ...formState, mesocycleEndDate: formattedEndDate });
-      console.log("End date:", formattedEndDate);
-    };
-
-    if (mesocycleStartDate && mesocycleDuration) {
-      calculateEndDate();
-    }
-  }, [mesocycleStartDate, mesocycleDuration]);
 
   const handleSubmit = async () => {
     try {
@@ -173,7 +139,7 @@ const CreateNewCycle = ({
               label="Duration"
               type="select"
               value={mesocycleDuration}
-              options={[...Array(12).keys()].map((number, i) => number)}
+              options={[...Array(12).keys()].map((number, i) => number + 1)}
               handleChange={handleFormChange}
             />
 
