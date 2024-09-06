@@ -7,11 +7,13 @@ router.use(express.json());
 
 router.post("/api/training-cycle/macrocycles/", async (req, res) => {
   const { access } = req.cookies;
-  const { name, training_log_id } = req.body;
+  const { name, training_log_id, start_date, end_date } = req.body;
 
   const body = JSON.stringify({
     name,
     training_log_id,
+    start_date,
+    end_date,
   });
 
   try {
