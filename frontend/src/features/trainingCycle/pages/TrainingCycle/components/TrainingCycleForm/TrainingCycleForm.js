@@ -6,6 +6,7 @@ import CycleTimeline from "../Shared/CycleTimeline";
 import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";
 import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
+import CreateMacrocycle from "../CreateNewCycle/CreateMacrocycle";
 
 const TrainingCycleForm = ({
   cycleFormValues,
@@ -15,6 +16,7 @@ const TrainingCycleForm = ({
   phasesData,
   handleInputChange,
   selectedMacrocycleId,
+  macrocyclesData,
 }) => {
   const {
     macrocycle,
@@ -32,6 +34,7 @@ const TrainingCycleForm = ({
   } = cycleFormValues;
 
   const [isCreateCycleVisible, setIsCreateCycleVisible] = useState(false);
+  const [macrocycleFormVisible, setMacrocycleFormVisible] = useState(true);
   const [isTimelineVisible, setIsTimelineVisible] = useState(false);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [isPhaseDetailsVisible, setIsPhaseDetailsVisible] = useState(false);
@@ -49,9 +52,9 @@ const TrainingCycleForm = ({
       {!hasMacrocycles ? (
         <>
           <p className="tcf-info">No cycles available!</p>
-          <CreateNewCycle
-            selectedMacrocycle={selectedMacrocycleId}
-            setIsCreateCycleVisible={setIsCreateCycleVisible}
+          <CreateMacrocycle
+            macrocyclesData={macrocyclesData}
+            setMacrocycleFormVisible={setMacrocycleFormVisible}
           />
         </>
       ) : (
@@ -64,6 +67,12 @@ const TrainingCycleForm = ({
             startDate={macrocycleStartDate}
             endDate={macrocycleEndDate}
           />
+          {macrocycleFormVisible && (
+            <CreateMacrocycle
+              macrocyclesData={macrocyclesData}
+              setMacrocycleFormVisible={setMacrocycleFormVisible}
+            />
+          )}
           <CycleSelectGroup
             type={"Mesocycle"}
             value={mesocycle}
