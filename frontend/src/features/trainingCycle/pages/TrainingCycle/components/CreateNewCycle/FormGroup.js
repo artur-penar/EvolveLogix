@@ -9,6 +9,7 @@ const FormGroup = ({
   handleChange,
   inputRef = null,
   warning,
+  disabled = false,
 }) => {
   return (
     <div className="cnc-form-group">
@@ -35,6 +36,7 @@ const FormGroup = ({
             value={value}
             onChange={handleChange}
             ref={inputRef}
+            disabled={disabled}
           ></input>
         )}
       </div>
