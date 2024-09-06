@@ -36,6 +36,14 @@ import "./TrainingCycle.css";
 const TrainingCycle = () => {
   // Redux hooks
   const trainingCycleState = useTrainingCycle();
+  const macrocyclesData = trainingCycleState.map((macrocycle) => ({
+    name: macrocycle.name,
+    start_date: macrocycle.start_date,
+    end_date: macrocycle.end_date,
+  }));
+
+  console.log("Macrocycle data:", macrocyclesData);
+
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
   );
@@ -125,6 +133,7 @@ const TrainingCycle = () => {
             selectedMacrocycle,
             trainingCycleState
           )}
+          macrocyclesData={macrocyclesData}
         />
         <PhaseForm
           mesocycleId={getCycleIdByName(selectedMesocycle, mesocyclesData)}
