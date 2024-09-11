@@ -20,7 +20,7 @@ const useFormState = (initialState) => {
     if (!formState.cycleName) {
       newWarning.cycleName = "Name required!";
     }
-    if (!formState.mesocycleStartDate && formState.cycleType === "Mesocycle") {
+    if (!formState.mesocycleStartDate) {
       // Check only Mesocycle start date because Macrocycle start date is not required YET
       newWarning.mesocycleStartDate = "Start date required!";
     }
@@ -29,8 +29,6 @@ const useFormState = (initialState) => {
   };
 
   useEffect(() => {
-    console.log("mesocycleStartDate changed:", formState.mesocycleStartDate);
-    console.log("mesocycleDuration changed:", formState.mesocycleDuration);
     // Calculate end date when start date and duration are set
     const calculateEndDate = () => {
       const startDate = new Date(formState.mesocycleStartDate);
@@ -40,7 +38,6 @@ const useFormState = (initialState) => {
       );
       const formattedEndDate = endDate.toISOString().split("T")[0];
       setFormState({ ...formState, mesocycleEndDate: formattedEndDate });
-      console.log("End date:", formattedEndDate);
     };
 
     if (formState.mesocycleStartDate && formState.mesocycleDuration) {
