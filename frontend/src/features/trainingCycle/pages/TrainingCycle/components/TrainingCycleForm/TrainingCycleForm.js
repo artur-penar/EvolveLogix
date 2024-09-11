@@ -7,6 +7,7 @@ import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";
 import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
 import CreateMacrocycle from "../CreateNewCycle/CreateMacrocycle";
+import CreateMesocycle from "../CreateNewCycle/CreateMesocycle";
 
 const TrainingCycleForm = ({
   cycleFormValues,
@@ -113,12 +114,11 @@ const TrainingCycleForm = ({
             </button>
           </div>
           {isCreateCycleVisible && (
-            <CreateNewCycle
-              selectedMacrocycle={selectedMacrocycleId}
-              setAddCycleStatus={setAddCycleStatus}
-              setIsCreateCycleVisible={setIsCreateCycleVisible}
-            />
+            <CreateMesocycle selectedMacrocycleId={selectedMacrocycleId} />
           )}
+          {/* {isCreateCycleVisible && (
+            <CreateNewCycle selectedMacrocycle={selectedMacrocycleId} />
+          )} */}
           {isTimelineVisible && (
             <div className="tcf-select-group-container">
               <h3>Mesocycle Timeline</h3>
