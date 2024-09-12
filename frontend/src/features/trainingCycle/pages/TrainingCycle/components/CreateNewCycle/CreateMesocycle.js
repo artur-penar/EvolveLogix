@@ -1,8 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import FormGroup from "./FormGroup";
 import useFormState from "features/trainingCycle/hooks/CreateNewCycle/useFormState";
+import { addMesocycle } from "features/trainingCycle/trainingCycle";
+import "./CreateNewCycle.css";
 
-const CreateMesocycle = () => {
+const CreateMesocycle = ({ selectedMacrocycleId, setAddCycleStatus }) => {
+  const dispatch = useDispatch();
+  const nameInputRef = useRef(null);
+  const dateInputRef = useRef(null);
+
   const { formState, validateForm, handleFormChange, warnings, setWarnings } =
     useFormState({
       cycleName: "",
@@ -10,15 +17,8 @@ const CreateMesocycle = () => {
       mesocycleEndDate: "",
       mesocycleDuration: 1,
     });
-  const {
-    mesocycleName,
-    mesocycleStartDate,
-    mesocycleDuration,
-    mesocycleEndDate,
-  } = formState;
-
-  const nameInputRef = useRef(null);
-  const dateInputRef = useRef(null);
+  const { cycleName, mesocycleStartDate, mesocycleDuration, mesocycleEndDate } =
+    formState;
 
   const availableDurationOptions = [...Array(12).keys()].map(
     (number, i) => number + 1
@@ -32,10 +32,39 @@ const CreateMesocycle = () => {
     }
   }, [warnings]);
 
+  const handleError = (error) => {
+    if (error.non_field_errors) {
+      const newWaring = {};
+      newWaring.mesocycleStartDate =
+        error.non_field_errors[0] + "Check Mesocycles duration!";
+      setWarnings(newWaring);
+    }
+  };
+
+  const handleSuccess = () => {
+    setAddCycleStatus("Cycle added successfully");
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        addMesocycle({
+          name: cycleName,
+          macrocycle: selectedMacrocycleId,
+          start_date: mesocycleStartDate,
+          duration: Number(mesocycleDuration) + 1,
+        })
+      ).unwrap();
+      handleSuccess();
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Submit");
+      handleSubmit();
     }
   };
 
@@ -49,7 +78,7 @@ const CreateMesocycle = () => {
           id="cycleName"
           label="Name"
           type="text"
-          value={mesocycleName}
+          value={cycleName}
           handleChange={handleFormChange}
           inputRef={nameInputRef}
           warning={warnings.cycleName}
