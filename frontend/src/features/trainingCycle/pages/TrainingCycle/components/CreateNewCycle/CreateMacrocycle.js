@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import FormGroup from "./FormGroup";
 import { createMacrocycle } from "features/trainingCycle/trainingCycle";
 import { useDispatch, useSelector } from "react-redux";
+import "./CreateNewCycle.css";
 
 const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
   const dispatch = useDispatch();
@@ -26,7 +27,6 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
   const nameInputRef = useRef(null);
 
   const canCreateMacrocycle = (macrocyclesData) => {
-    console.log(macrocyclesData);
     const hasMacrocycleInCurrentYear = macrocyclesData.some(
       (macrocycle) =>
         macrocycle.start_date && macrocycle.start_date.includes(currentYear)
@@ -40,11 +40,8 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
 
   if (macrocyclesData.length > 0) {
     if (canCreateMacrocycle(macrocyclesData)) {
-      console.log("Is able to create macrocycle");
       setMacrocycleFormVisible(true);
     } else {
-      console.log("No macrocycle data");
-      console.log("Macrocycle data:", macrocyclesData);
       setMacrocycleFormVisible(false);
     }
   }
@@ -88,7 +85,6 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
       return;
     }
     handleSubmit(e);
-    console.log("Submit");
   };
 
   return (
