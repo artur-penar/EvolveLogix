@@ -42,8 +42,6 @@ const TrainingCycle = () => {
     end_date: macrocycle.end_date,
   }));
 
-  console.log("Macrocycle data:", macrocyclesData);
-
   const selectedMacrocycle = useSelector(
     (state) => state.trainingCycle.selectedMacrocycle
   );
