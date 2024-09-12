@@ -45,8 +45,6 @@ const useAddPhase = (
       resetForm();
     } else if (resultAction.meta.requestStatus === "rejected") {
       const errorPayload = resultAction.payload;
-      console.log("Error adding phase");
-      console.log(errorPayload);
       if (errorPayload && errorPayload.mesocycle) {
         setAddRequestStatus(
           <>
