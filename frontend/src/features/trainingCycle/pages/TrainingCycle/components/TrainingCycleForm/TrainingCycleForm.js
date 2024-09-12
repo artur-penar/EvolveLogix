@@ -116,6 +116,7 @@ const TrainingCycleForm = ({
             <CreateMesocycle
               selectedMacrocycleId={selectedMacrocycleId}
               setAddCycleStatus={setAddCycleStatus}
+              setIsCreateCycleVisible={setIsCreateCycleVisible}
             />
           )}
           {/* {isCreateCycleVisible && (

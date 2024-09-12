@@ -5,7 +5,11 @@ import useFormState from "features/trainingCycle/hooks/CreateNewCycle/useFormSta
 import { addMesocycle } from "features/trainingCycle/trainingCycle";
 import "./CreateNewCycle.css";
 
-const CreateMesocycle = ({ selectedMacrocycleId, setAddCycleStatus }) => {
+const CreateMesocycle = ({
+  selectedMacrocycleId,
+  setAddCycleStatus,
+  setIsCreateCycleVisible,
+}) => {
   const dispatch = useDispatch();
   const nameInputRef = useRef(null);
   const dateInputRef = useRef(null);
@@ -43,6 +47,7 @@ const CreateMesocycle = ({ selectedMacrocycleId, setAddCycleStatus }) => {
 
   const handleSuccess = () => {
     setAddCycleStatus("Cycle added successfully");
+    setIsCreateCycleVisible(false);
   };
 
   const handleSubmit = async () => {
