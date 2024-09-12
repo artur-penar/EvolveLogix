@@ -166,7 +166,16 @@ const trainingCycleSlice = createSlice({
         state.error = null;
       })
       .addCase(addMesocycle.fulfilled, (state, action) => {
-        state.trainingCycles.push(action.payload);
+        const { macrocycle, ...mesocycle } = action.payload;
+        const macrocycleIndex = state.trainingCycles.findIndex(
+          (cycle) => cycle.id === macrocycle
+        );
+
+        if (macrocycleIndex !== -1) {
+          state.trainingCycles[macrocycleIndex].mesocycles.push(mesocycle);
+        } else {
+          console.error("Macrocycle not found");
+        }
         state.loading = false;
       })
       .addCase(addMesocycle.rejected, (state, action) => {
