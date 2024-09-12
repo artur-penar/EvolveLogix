@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import "./TrainingCycleForm.css";
 import CycleSelectGroup from "../Shared/CycleSelectGroup";
-import CreateNewCycle from "../CreateNewCycle/CreateNewCycle";
 import CycleTimeline from "../Shared/CycleTimeline";
 import SmallCalendarComponent from "./SmallCalendar";
 import PhaseDisplay from "../Shared/PhaseDisplay";
 import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
 import CreateMacrocycle from "../CreateNewCycle/CreateMacrocycle";
 import CreateMesocycle from "../CreateNewCycle/CreateMesocycle";
+import "./TrainingCycleForm.css";
 
 const TrainingCycleForm = ({
   cycleFormValues,
@@ -114,7 +113,10 @@ const TrainingCycleForm = ({
             </button>
           </div>
           {isCreateCycleVisible && (
-            <CreateMesocycle selectedMacrocycleId={selectedMacrocycleId} />
+            <CreateMesocycle
+              selectedMacrocycleId={selectedMacrocycleId}
+              setAddCycleStatus={setAddCycleStatus}
+            />
           )}
           {/* {isCreateCycleVisible && (
             <CreateNewCycle selectedMacrocycle={selectedMacrocycleId} />
