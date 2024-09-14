@@ -54,8 +54,9 @@ const PhaseForm = ({
 
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
-  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
   const [displayRecords, setDisplayRecords] = useState(false);
+  const [displayWeightInPercent, setDisplayWeightInPercent] = useState(false);
+  const [displayPercentageCalc, setDisplayPercentageCalc] = useState(false);
   const [addRequestStatus, setAddRequestStatus] = useState(null);
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
@@ -128,9 +129,16 @@ const PhaseForm = ({
             checked: displayRecords,
             onChange: setDisplayRecords,
           },
+          {
+            id: 3,
+            label: "Percentage Calculator",
+            checked: displayPercentageCalc,
+            onChange: setDisplayPercentageCalc,
+          },
         ]}
       />
       {displayRecords && <RecordsDisplayContainer />}
+      {displayPercentageCalc && <p>Percentage Calculator</p>}
 
       <div className="training-phase-form">
         {phaseTrainingProgram.map((_, trainingSessionIndex) => (
