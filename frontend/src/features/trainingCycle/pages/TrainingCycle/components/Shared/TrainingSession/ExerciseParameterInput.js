@@ -38,7 +38,7 @@ const ExerciseParameterInput = ({
   } else {
     return (
       <input
-        className="input"
+        className="input no-spinner"
         type="number"
         value={value || (isEditable ? "" : 0)}
         onChange={(e) =>
