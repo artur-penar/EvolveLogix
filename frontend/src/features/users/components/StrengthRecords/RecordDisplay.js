@@ -44,7 +44,7 @@ const RecordDisplay = ({
       </div>
       <div
         className="record-container"
-        style={{ justifyContent: justifyContentStyle }}
+        style={{ justifyContent: justifyContentStyle, marginTop: "1rem" }}
       >
         <label className="record-label" style={{ textAlign: "left" }}>
           Exercise:
@@ -73,8 +73,8 @@ const RecordDisplay = ({
                 <label className="record-content">
                   🔺
                   {currentData?.percent_increase !== null
-                    ? currentData?.percent_increase
-                    : 0 || ""}
+                    ? Math.round(currentData?.percent_increase)
+                    : 0 || "0"}
                   %
                 </label>
               )}
