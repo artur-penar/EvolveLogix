@@ -1,21 +1,9 @@
 import RecordDisplay from "features/users/components/StrengthRecords/RecordDisplay";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { getLatestRecords } from "features/trainingCycle/utils/getLatestRecords";
 
 const POWERLIFTS_EXERCISES = ["Squat", "Bench press", "Deadlift"];
-
-const getLatestRecords = (records) => {
-  return records.reduce((latest, record) => {
-    if (
-      !latest[record.exercise] ||
-      record.record_date > latest[record.exercise][0].record_date
-    ) {
-      latest[record.exercise] = [];
-      latest[record.exercise].push(record);
-    }
-    return latest;
-  }, {});
-};
 
 const RecordsDisplayContainer = () => {
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
