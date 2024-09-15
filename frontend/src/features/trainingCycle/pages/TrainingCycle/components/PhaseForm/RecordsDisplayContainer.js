@@ -2,6 +2,7 @@ import RecordDisplay from "features/users/components/StrengthRecords/RecordDispl
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getLatestRecords } from "features/trainingCycle/utils/getLatestRecords";
+import "./RecordsDisplayContainer.css";
 
 const POWERLIFTS_EXERCISES = ["Squat", "Bench press", "Deadlift"];
 
@@ -26,23 +27,23 @@ const RecordsDisplayContainer = () => {
   );
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>
+    <div className="records-container">
+      <div className="record-section powerlifts-section">
         <RecordDisplay
           formData={latestPowerlifts}
           isPowerlifts={true}
           simple={true}
           isCycleVersion={true}
-          styleClassName={"pf-record-display"}
+          styleClassName={"record-display"}
         />
       </div>
-      <div style={{ flex: 1, marginLeft: "5px" }}>
+      <div className="record-section other-exercises-section">
         <RecordDisplay
           formData={latestOtherExercises}
           isPowerlifts={false}
           simple={true}
           isCycleVersion={true}
-          styleClassName={"pf-record-display"}
+          styleClassName={"record-display"}
         />
       </div>
     </div>
