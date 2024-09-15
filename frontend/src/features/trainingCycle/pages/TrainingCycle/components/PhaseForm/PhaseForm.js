@@ -19,6 +19,8 @@ import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 import "./PhaseForm.css";
 import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 import usePhaseFormStatus from "features/trainingCycle/hooks/PhaseForm/usePhaseFormStatus";
+import { useSelector } from "react-redux";
+import PercentageCalculator from "./PercentageCalculator";
 
 const initialPhaseProgram = [
   {
@@ -51,6 +53,9 @@ const PhaseForm = ({
     phaseDurationInWeeks: microcyclesNumber,
     trainingDays: trainingSessionsNumber,
   } = cycleFormValues;
+
+  // Redux hooks
+  const strengthRecords = useSelector((state) => state.strengthRecords.records);
 
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
@@ -138,7 +143,9 @@ const PhaseForm = ({
         ]}
       />
       {displayRecords && <RecordsDisplayContainer />}
-      {displayPercentageCalc && <p>Percentage Calculator</p>}
+      {displayPercentageCalc && (
+        <PercentageCalculator strengthRecords={strengthRecords} />
+      )}
 
       <div className="training-phase-form">
         {phaseTrainingProgram.map((_, trainingSessionIndex) => (
