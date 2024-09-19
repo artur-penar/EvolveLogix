@@ -1,5 +1,5 @@
 /* TrainingLogs.css */
-.training-log-container{
+.training-log-container {
   margin: 0 auto;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -10,8 +10,6 @@
   align-items: center; /* This will vertically align the items in the middle */
   gap: 100px; /* This will add a 10px gap between the items */
 }
-
-
 
 .header-container h3 {
   margin: 0; /* Remove default margins */
@@ -31,12 +29,6 @@
   width: calc(33% - 45px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.training-log-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .ex {
