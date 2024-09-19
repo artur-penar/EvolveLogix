@@ -1,28 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getLatestRecords } from "features/trainingCycle/utils/getLatestRecords";
+import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatestStrengthRecords";
 import "./PercentageCalculator.css";
 import useUpdateStrengthRecords from "features/trainingCycle/hooks/PercentageCalculator/useUpdateStrengthRecords";
+import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 
 const PercentageCalculator = ({ strengthRecords }) => {
   const [selectedExercise, setSelectedExercise] = useState("Other");
   const [percentageValue, setPercentageValue] = useState(0);
   const [convertedValue, setConvertedValue] = useState(0);
   const [otherWeight, setOtherWeight] = useState(0);
-  const [latestStrengthRecords, setLatestStrengthRecords] = useState([]);
+
+  // Update the strength records to include an "Other" exercise
+  // Include "Other" allows the user to input their own weight
+  const updatedStrengthRecords = useUpdateStrengthRecords(strengthRecords);
+  const latestStrengthRecords = useGetLatestRecords(updatedStrengthRecords);
 
   // Get the latest record for the selected exercise
   const selectedExerciseData = latestStrengthRecords[selectedExercise]?.[0] || {
     weight: 0,
   };
-
-  // Update the strength records to include an "Other" exercise
-  // Include "Other" allows the user to input their own weight
-  const updatedStrengthRecords = useUpdateStrengthRecords(strengthRecords);
-
-  // Get the latest records for each exercise, because each exercise can have multiple records
-  useEffect(() => {
-    setLatestStrengthRecords(getLatestRecords(updatedStrengthRecords));
-  }, [updatedStrengthRecords]);
 
   // Calculate the converted value when the percentage value changes
   useEffect(() => {
@@ -64,7 +60,7 @@ const PercentageCalculator = ({ strengthRecords }) => {
           value={selectedExercise}
           onChange={handleChange}
         >
-          {Object.keys(getLatestRecords(updatedStrengthRecords)).map(
+          {Object.keys(getLatestStrengthRecords(updatedStrengthRecords)).map(
             (exercise) => (
               <option key={exercise} value={exercise}>
                 {exercise}
