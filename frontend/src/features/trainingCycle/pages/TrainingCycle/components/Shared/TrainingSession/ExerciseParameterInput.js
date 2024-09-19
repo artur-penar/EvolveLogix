@@ -14,7 +14,7 @@ const ExerciseParameterInput = ({
   if (displayWeightInPercent) {
     return (
       <select
-        className="input"
+        className="exercise-parameter-input"
         value={value || 0}
         onChange={(e) =>
           handleChange(
@@ -38,7 +38,7 @@ const ExerciseParameterInput = ({
   } else {
     return (
       <input
-        className="input no-spinner"
+        className="exercise-parameter-input no-spinner"
         type="number"
         value={value || (isEditable ? "" : 0)}
         onChange={(e) =>
