@@ -19,8 +19,8 @@ import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 import "./PhaseForm.css";
 import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 import usePhaseFormStatus from "features/trainingCycle/hooks/PhaseForm/usePhaseFormStatus";
-import { useSelector } from "react-redux";
 import PercentageCalculator from "./PercentageCalculator";
+import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 
 const initialPhaseProgram = [
   {
@@ -55,7 +55,7 @@ const PhaseForm = ({
   } = cycleFormValues;
 
   // Redux hooks
-  const strengthRecords = useSelector((state) => state.strengthRecords.records);
+  const strengthRecords = useFetchStrengthRecords();
 
   // useState hooks
   const [stateChanged, setStateChanged] = useState(0);
@@ -77,9 +77,11 @@ const PhaseForm = ({
     stateChanged,
     microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
+
   const handleExerciseDetailChange = useHandleExerciseDetailChange(
     setPhaseTrainingProgram
   );
+
   const count = useAutoClearStatus(addRequestStatus, setAddRequestStatus);
 
   // Custom hooks for updating sessions and microcycles
