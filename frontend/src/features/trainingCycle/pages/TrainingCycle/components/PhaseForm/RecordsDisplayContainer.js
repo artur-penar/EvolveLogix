@@ -1,7 +1,7 @@
 import RecordDisplay from "features/users/components/StrengthRecords/RecordDisplay";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { getLatestRecords } from "features/trainingCycle/utils/getLatestRecords";
+import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatestStrengthRecords";
 import "./RecordsDisplayContainer.css";
 
 const POWERLIFTS_EXERCISES = ["Squat", "Bench press", "Deadlift"];
@@ -18,11 +18,11 @@ const RecordsDisplayContainer = () => {
   );
 
   const latestPowerlifts = useMemo(
-    () => getLatestRecords(powerlifts),
+    () => getLatestStrengthRecords(powerlifts),
     [powerlifts]
   );
   const latestOtherExercises = useMemo(
-    () => getLatestRecords(otherExercises),
+    () => getLatestStrengthRecords(otherExercises),
     [otherExercises]
   );
 
