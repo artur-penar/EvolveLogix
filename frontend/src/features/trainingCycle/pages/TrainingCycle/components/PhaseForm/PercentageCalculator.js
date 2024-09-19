@@ -3,9 +3,10 @@ import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatest
 import "./PercentageCalculator.css";
 import useUpdateStrengthRecords from "features/trainingCycle/hooks/PercentageCalculator/useUpdateStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
+import useConvertValue from "features/trainingCycle/hooks/PercentageCalculator/useConvertValue";
 
 const PercentageCalculator = ({ strengthRecords }) => {
-  const [selectedExercise, setSelectedExercise] = useState("Other");
+  const [selectedExerciseName, setSelectedExerciseName] = useState("Other");
   const [percentageValue, setPercentageValue] = useState(0);
   const [convertedValue, setConvertedValue] = useState(0);
   const [otherWeight, setOtherWeight] = useState(0);
@@ -16,33 +17,25 @@ const PercentageCalculator = ({ strengthRecords }) => {
   const latestStrengthRecords = useGetLatestRecords(updatedStrengthRecords);
 
   // Get the latest record for the selected exercise
-  const selectedExerciseData = latestStrengthRecords[selectedExercise]?.[0] || {
+  const selectedExerciseRecord = latestStrengthRecords[
+    selectedExerciseName
+  ]?.[0] || {
     weight: 0,
   };
-
-  // Calculate the converted value when the percentage value changes
-  useEffect(() => {
-    // Use Effect to calculate the converted value
-    const selectedExerciseData = latestStrengthRecords[selectedExercise]?.[0];
-
-    // If the selected exercise is "Other", use the otherWeight value
-    if (selectedExercise === "Other") {
-      setConvertedValue(Math.round((otherWeight * percentageValue) / 100));
-      // If the selected exercise is not "Other" and the selected exercise has a weight value
-      // Calculate the converted value based on the selected exercise weight
-    } else if (selectedExerciseData.weight && percentageValue) {
-      setConvertedValue(
-        Math.round((selectedExerciseData.weight * percentageValue) / 100)
-      );
-    }
-  }, [selectedExercise, percentageValue, otherWeight]);
+  useConvertValue({
+    selectedExerciseName,
+    selectedExerciseRecord,
+    percentageValue,
+    otherWeight,
+    setConvertedValue,
+  });
 
   const handleOneRepMaxChange = (e) => {
     setOtherWeight(e.target.value);
   };
 
   const handleChange = (e) => {
-    setSelectedExercise(e.target.value);
+    setSelectedExerciseName(e.target.value);
   };
 
   const handlePercentChange = (e) => {
@@ -57,30 +50,28 @@ const PercentageCalculator = ({ strengthRecords }) => {
       <div className="calculator-body">
         <select
           className="calculator-select"
-          value={selectedExercise}
+          value={selectedExerciseName}
           onChange={handleChange}
         >
-          {Object.keys(getLatestStrengthRecords(updatedStrengthRecords)).map(
-            (exercise) => (
-              <option key={exercise} value={exercise}>
-                {exercise}
-              </option>
-            )
-          )}
+          {Object.keys(latestStrengthRecords).map((exercise) => (
+            <option key={exercise} value={exercise}>
+              {exercise}
+            </option>
+          ))}
         </select>
         <label className="calculator-label">1RM:</label>
         <input
           className={
-            selectedExercise === "Other"
+            selectedExerciseName === "Other"
               ? "calculator-input"
               : "calculator-input no-spinner"
           }
           type="number"
-          disabled={selectedExercise !== "Other"}
+          disabled={selectedExerciseName !== "Other"}
           value={
-            selectedExercise === "Other"
+            selectedExerciseName === "Other"
               ? otherWeight
-              : parseFloat(selectedExerciseData.weight).toFixed(1)
+              : parseFloat(selectedExerciseRecord.weight).toFixed(1)
           }
           onChange={handleOneRepMaxChange}
         />
