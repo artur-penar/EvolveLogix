@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getLatestRecords } from "features/trainingCycle/utils/getLatestRecords";
 import "./PercentageCalculator.css";
+import useUpdateStrengthRecords from "features/trainingCycle/hooks/PercentageCalculator/useUpdateStrengthRecords";
 
 const PercentageCalculator = ({ strengthRecords }) => {
   const [selectedExercise, setSelectedExercise] = useState("Other");
@@ -16,14 +17,7 @@ const PercentageCalculator = ({ strengthRecords }) => {
 
   // Update the strength records to include an "Other" exercise
   // Include "Other" allows the user to input their own weight
-  const updatedStrengthRecords = useMemo(() => {
-    return strengthRecords.length === 0
-      ? [{ record_date: null, exercise: "Other", weight: 0 }]
-      : [
-          ...strengthRecords,
-          { record_date: null, exercise: "Other", weight: 0 },
-        ];
-  }, [strengthRecords]);
+  const updatedStrengthRecords = useUpdateStrengthRecords(strengthRecords);
 
   // Get the latest records for each exercise, because each exercise can have multiple records
   useEffect(() => {
@@ -45,7 +39,7 @@ const PercentageCalculator = ({ strengthRecords }) => {
         Math.round((selectedExerciseData.weight * percentageValue) / 100)
       );
     }
-  }, [selectedExercise, percentageValue]);
+  }, [selectedExercise, percentageValue, otherWeight]);
 
   const handleOneRepMaxChange = (e) => {
     setOtherWeight(e.target.value);
