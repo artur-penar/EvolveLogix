@@ -112,9 +112,11 @@ const CreateMesocycle = ({
           value={mesocycleEndDate}
           disabled={true}
         />
-        <button className="cnc-button" onClick={onSubmit}>
-          Create Mesocycle
-        </button>
+        <div className="tcf-button-container">
+          <button className="tcf-button" onClick={onSubmit}>
+            Create Mesocycle
+          </button>
+        </div>
       </div>
     </div>
   );
