@@ -10,6 +10,8 @@ const CycleSelectGroup = ({
   handleInputChange,
   startDate,
   endDate,
+  handleCreateNewCycleClick,
+  isCreateCycleVisible,
   additionalProps,
 }) => {
   const name = type.toLowerCase();
@@ -62,6 +64,13 @@ const CycleSelectGroup = ({
           <DateInput label="End date:" value={endDate} />
         </div>
       </div>
+      {type === "Mesocycle" && (
+        <div className="tcf-button-container">
+          <button className="tcf-button" onClick={handleCreateNewCycleClick}>
+            {isCreateCycleVisible ? "Hide" : "Create new Mesocycle"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

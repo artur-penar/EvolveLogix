@@ -80,6 +80,8 @@ const TrainingCycleForm = ({
             handleInputChange={handleInputChange}
             startDate={mesocycleStartDate}
             endDate={mesocycleEndDate}
+            handleCreateNewCycleClick={handleCreateNewCycleClick}
+            isCreateCycleVisible={isCreateCycleVisible}
             additionalProps={{
               mesocycleDurationInWeeks,
               options: [
@@ -107,11 +109,7 @@ const TrainingCycleForm = ({
               {addCycleStatus} {".".repeat(countdown)}
             </p>
           )}
-          <div className="tcf-button-container">
-            <button className="tcf-button" onClick={handleCreateNewCycleClick}>
-              {isCreateCycleVisible ? "Hide" : "Create new cycle"}
-            </button>
-          </div>
+
           {isCreateCycleVisible && (
             <CreateMesocycle
               selectedMacrocycleId={selectedMacrocycleId}
