@@ -75,9 +75,7 @@ const CreateMesocycle = ({
 
   return (
     <div className="cnc-container">
-      <div className="cnc-header-container">
-        <h4>Create Mesocycle</h4>
-      </div>
+      <h3>Create Mesocycle</h3>
       <div className="cnc-form-container">
         <FormGroup
           id="cycleName"
