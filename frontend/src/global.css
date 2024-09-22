@@ -1,0 +1,7 @@
+/* global.css */
+.app-wrapper {
+    transform: scale(0.8); /* Scale down to 80% */
+    transform-origin: top left; /* Ensure scaling starts from the top left corner */
+    width: 125%; /* Adjust width to compensate for the scaling */
+    height: 125%; /* Adjust height to compensate for the scaling */
+  }
