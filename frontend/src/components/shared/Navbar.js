@@ -42,6 +42,9 @@ const Navbar = () => {
           <Dropdown.Item as={NavLink} to="/add-log">
             Add training session
           </Dropdown.Item>
+          <Dropdown.Item as={NavLink} to="/add-training-session">
+            Add training session V2
+          </Dropdown.Item>
           <Dropdown.Item as={NavLink} to="/edit-log">
             Edit training session
           </Dropdown.Item>

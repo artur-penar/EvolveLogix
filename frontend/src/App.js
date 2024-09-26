@@ -26,6 +26,7 @@ import EditTrainingSessionPage from "features/trainingLogs/pages/EditTrainingSes
 
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
+import AddTrainingSessionV2 from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSessionV2";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,10 @@ const App = () => {
           <Route path="/training-log" element={<TrainingLogDashboardPage />} />
           <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
           <Route path="/add-log" element={<AddTrainingSessionPage />} />
+          <Route
+            path="/add-training-session"
+            element={<AddTrainingSessionV2 />}
+          />
           <Route path="/strength-records" element={<StrengthRecords />} />
           <Route path="/training-cycle" element={<TrainingCycle />} />
           <Route
