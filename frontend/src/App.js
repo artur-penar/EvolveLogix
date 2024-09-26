@@ -24,8 +24,6 @@ import StrengthRecords from "features/users/pages/StrengthRecords/StrengthRecord
 import { verifyAuth } from "features/users/user";
 import EditTrainingSessionPage from "features/trainingLogs/pages/EditTrainingSession/EditTrainingSession";
 
-import "./global.css";
-
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
 
@@ -37,16 +35,15 @@ const App = () => {
 
   return (
     <div
-      className="app-wrapper"
-      // style={{
-      // backgroundColor: "green", // This will set the background color to green
-      // backgroundImage: `url(${backgroundImage})`,
-      // backgroundRepeat: "no-repeat",
-      // backgroundPosition: "center center",
-      // backgroundAttachment: "fixed",
-      // backgroundSize: "cover",
-      // height: "100vh",
-      // }}
+    // style={{
+    // backgroundColor: "green", // This will set the background color to green
+    // backgroundImage: `url(${backgroundImage})`,
+    // backgroundRepeat: "no-repeat",
+    // backgroundPosition: "center center",
+    // backgroundAttachment: "fixed",
+    // backgroundSize: "cover",
+    // height: "100vh",
+    // }}
     >
       <Router>
         <Routes>
