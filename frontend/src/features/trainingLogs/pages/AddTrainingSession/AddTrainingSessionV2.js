@@ -16,9 +16,9 @@ const AddTrainingSessionV2 = () => {
       {
         exercise: "Squat",
         sets: [
-          { set_number: 1, weight: 100, repetitions: 5 },
-          { set_number: 2, weight: 100, repetitions: 5 },
-          { set_number: 3, weight: 100, repetitions: 5 },
+          { set_number: 1, weight: 60, repetitions: 5 },
+          { set_number: 2, weight: 80, repetitions: 5 },
+          { set_number: 3, weight: 90, repetitions: 5 },
         ],
       },
       {
@@ -33,6 +33,39 @@ const AddTrainingSessionV2 = () => {
   });
 
   console.log("trainingData", trainingData);
+
+  const calculateTotalVolume = (exercise) => {
+    return exercise.sets.reduce(
+      (totalVolume, set) => totalVolume + set.weight * set.repetitions,
+      0
+    );
+  };
+
+  const handleExerciseDetailsChange = (
+    e,
+    targetExerciseIndex,
+    targetSetIndex
+  ) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== targetSetIndex
+                  ? set
+                  : {
+                      ...set,
+                      [name]: value,
+                    }
+              ),
+            }
+      ),
+    });
+  };
 
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
@@ -130,8 +163,34 @@ const AddTrainingSessionV2 = () => {
                           Set {set.set_number}: {set.weight}kg x{" "}
                           {set.repetitions}rep
                         </p>
+                        <input
+                          name="weight"
+                          type="number"
+                          value={set.weight}
+                          onChange={(e) =>
+                            handleExerciseDetailsChange(
+                              e,
+                              exerciseIndex,
+                              setIndex
+                            )
+                          }
+                        />
+                        <label>x</label>
+                        <input
+                          name="repetitions"
+                          type="number"
+                          value={set.repetitions}
+                          onChange={(e) => {
+                            handleExerciseDetailsChange(
+                              e,
+                              exerciseIndex,
+                              setIndex
+                            );
+                          }}
+                        />
                       </div>
                     ))}
+                    <p>Exercise volume: {calculateTotalVolume(exercise)}</p>
                     <button onClick={() => handleRemoveExercise(exerciseIndex)}>
                       Remove
                     </button>
