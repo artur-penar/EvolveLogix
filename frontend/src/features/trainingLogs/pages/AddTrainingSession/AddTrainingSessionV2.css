@@ -1,0 +1,42 @@
+/* TrainingLogs.css */
+.training-log-container {
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logs-container {
+  display: flex;
+  align-items: center; /* This will vertically align the items in the middle */
+  gap: 100px; /* This will add a 10px gap between the items */
+}
+
+.header-container h3 {
+  margin: 0; /* Remove default margins */
+  font-weight: bold; /* Bold font to match other components */
+  padding: 5px 0; /* Padding to match other components */
+}
+
+.header-container:hover {
+  background-color: #f0f0f0; /* Light grey background on hover */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Slightly larger shadow on hover */
+}
+
+.training-log {
+  border-radius: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: calc(33% - 45px);
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ex {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
+.set {
+  margin-left: 20px;
+}
