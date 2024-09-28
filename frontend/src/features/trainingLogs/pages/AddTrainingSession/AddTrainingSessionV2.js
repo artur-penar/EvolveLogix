@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTrainingLogs } from "features/trainingLogs/log";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Layout from "components/shared/Layout";
 import "./AddTrainingSessionV2.css";
 
 const AddTrainingSessionV2 = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTrainingLogs());
-  }, []);
-
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
-
-  console.log(trainingLogsData);
+  const [comment, setComment] = useState("");
 
   const training_sessions = [
     {
@@ -56,9 +48,15 @@ const AddTrainingSessionV2 = () => {
               </div>
               <div className="training-log-container">
                 {training_sessions.map((session, i) => (
-                  <div className="training-log">
+                  <div className="training-session">
                     <h4>Name: {session.description}</h4>
                     <h5>Date: {session.date}</h5>
+                    <label>Comment:</label>
+                    <input
+                      type="text"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
                     <h5>Comment: {session.comment}</h5>
                     {session.exercises.map((exercise, j) => (
                       <div key={j} className="ex">
