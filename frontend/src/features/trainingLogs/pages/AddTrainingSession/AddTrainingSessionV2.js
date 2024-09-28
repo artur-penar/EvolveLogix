@@ -4,9 +4,12 @@ import Layout from "components/shared/Layout";
 import "./AddTrainingSessionV2.css";
 
 const AddTrainingSessionV2 = () => {
-  const loading = useSelector((state) => state.log.loading);
   const [comment, setComment] = useState("");
   const [trainingSessionDate, setTrainingSessionDate] = useState("");
+
+  const exercisesData = useSelector((state) => state.exercises.exercises);
+
+  const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
 
   const [trainingData, setTrainingData] = useState({
     comment: "This is a comment",
@@ -32,13 +35,39 @@ const AddTrainingSessionV2 = () => {
     ],
   });
 
-  console.log("trainingData", trainingData);
+  const calculateAverageIntensity = (exercise) => {
+    const totalWeight = exercise.sets.reduce(
+      (totalWeight, set) => totalWeight + set.weight,
+      0
+    );
+    const totalReps = exercise.sets.reduce(
+      (totalReps, set) => totalReps + set.repetitions,
+      0
+    );
+
+    return totalWeight / totalReps;
+  };
 
   const calculateTotalVolume = (exercise) => {
     return exercise.sets.reduce(
       (totalVolume, set) => totalVolume + set.weight * set.repetitions,
       0
     );
+  };
+
+  const handleExerciseChange = (e, targetExerciseIndex) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              [name]: value,
+            }
+      ),
+    });
   };
 
   const handleExerciseDetailsChange = (
@@ -126,82 +155,75 @@ const AddTrainingSessionV2 = () => {
 
   return (
     <Layout title="EvolveLogix | Training Log">
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <>
-          <div className="header-container">
-            <h1>Add Training Session</h1>
-          </div>
-          <div className="training-session">
-            <h4>Name: {trainingData.description}</h4>
-            <label>Date:</label>
-            <input type="date" value={trainingSessionDate} />
-            <label>Comment:</label>
+      <div className="header-container">
+        <h1>Add Training Session</h1>
+      </div>
+      <div className="training-session">
+        <h4>Name: {trainingData.description}</h4>
+        <label>Date:</label>
+        <input type="date" value={trainingSessionDate} />
+        <label>Comment:</label>
+        <input
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        {trainingData.exercises.map((exercise, exerciseIndex) => (
+          <div key={exerciseIndex} className="ex">
+            <p>
+              Nr.{exerciseIndex + 1} : {exercise.exercise}
+            </p>
+            <select
+              name="exercise"
+              value={exercise.exercise}
+              onChange={(e) => handleExerciseChange(e, exerciseIndex)}
+            >
+              {exerciseNamesList.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+            <label>Sets:</label>
             <input
-              type="text"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              type="number"
+              value={trainingData.exercises[exerciseIndex].sets.length}
+              onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
             />
-            {trainingData.exercises.map(
-              (exercise, exerciseIndex) => (
-                console.log("exercise", exercise),
-                (
-                  <div key={exerciseIndex} className="ex">
-                    <p>
-                      Nr.{exerciseIndex + 1} : {exercise.exercise}
-                    </p>
-                    <label>Sets:</label>
-                    <input
-                      type="number"
-                      value={trainingData.exercises[exerciseIndex].sets.length}
-                      onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
-                    />
-                    {exercise.sets.map((set, setIndex) => (
-                      <div key={setIndex} className="set">
-                        <p>
-                          Set {set.set_number}: {set.weight}kg x{" "}
-                          {set.repetitions}rep
-                        </p>
-                        <input
-                          name="weight"
-                          type="number"
-                          value={set.weight}
-                          onChange={(e) =>
-                            handleExerciseDetailsChange(
-                              e,
-                              exerciseIndex,
-                              setIndex
-                            )
-                          }
-                        />
-                        <label>x</label>
-                        <input
-                          name="repetitions"
-                          type="number"
-                          value={set.repetitions}
-                          onChange={(e) => {
-                            handleExerciseDetailsChange(
-                              e,
-                              exerciseIndex,
-                              setIndex
-                            );
-                          }}
-                        />
-                      </div>
-                    ))}
-                    <p>Exercise volume: {calculateTotalVolume(exercise)}</p>
-                    <button onClick={() => handleRemoveExercise(exerciseIndex)}>
-                      Remove
-                    </button>
-                  </div>
-                )
-              )
-            )}
+            {exercise.sets.map((set, setIndex) => (
+              <div key={setIndex} className="set">
+                <p>
+                  Set {set.set_number}: {set.weight}kg x {set.repetitions}
+                  rep
+                </p>
+                <input
+                  name="weight"
+                  type="number"
+                  value={set.weight}
+                  onChange={(e) =>
+                    handleExerciseDetailsChange(e, exerciseIndex, setIndex)
+                  }
+                />
+                <label>x</label>
+                <input
+                  name="repetitions"
+                  type="number"
+                  value={set.repetitions}
+                  onChange={(e) => {
+                    handleExerciseDetailsChange(e, exerciseIndex, setIndex);
+                  }}
+                />
+              </div>
+            ))}
+            <p>Exercise volume: {calculateTotalVolume(exercise)}</p>
+            <p>Average intensity: {calculateAverageIntensity(exercise)} </p>
+            <button onClick={() => handleRemoveExercise(exerciseIndex)}>
+              Remove
+            </button>
           </div>
-          <button onClick={handleAddExercise}>Add exercise</button>
-        </>
-      )}
+        ))}
+      </div>
+      <button onClick={handleAddExercise}>Add exercise</button>
     </Layout>
   );
 };
