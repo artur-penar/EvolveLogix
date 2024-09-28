@@ -16,7 +16,6 @@ const AddTrainingSessionV2 = () => {
       {
         exercise: "Squat",
         order: 1,
-        setsNumber: 3,
         sets: [
           { repetitions: 5, set_number: 1, weight: 100 },
           { repetitions: 5, set_number: 2, weight: 100 },
@@ -26,7 +25,6 @@ const AddTrainingSessionV2 = () => {
       {
         exercise: "Bench Press",
         order: 2,
-        setsNumber: 3,
         sets: [
           { repetitions: 5, set_number: 1, weight: 60 },
           { repetitions: 5, set_number: 2, weight: 60 },
@@ -36,6 +34,39 @@ const AddTrainingSessionV2 = () => {
     ],
   });
 
+  const updateSets = (exercise, newSetsNumber) => {
+    console.log("exercise", exercise);
+    const newSets = [...exercise.sets];
+    console.log("newSets", newSets);
+    if (newSetsNumber >= 0)
+      if (newSetsNumber < newSets.length) {
+        newSets.length = newSetsNumber;
+      } else {
+        while (newSets.length < newSetsNumber) {
+          newSets.push({
+            weight: "",
+            repetitions: "",
+            set_number: newSets.length + 1,
+          });
+        }
+      }
+    return newSets;
+  };
+
+  const handleSetsNumberChange = (e, targetExerciseIndex) => {
+    const newSetsNumber = parseInt(e.target.value, 10);
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: updateSets(exercise, newSetsNumber),
+            }
+      ),
+    });
+  };
   // console.log(trainingData[0].exercises[0].setsNumber);
 
   return (
@@ -61,20 +92,25 @@ const AddTrainingSessionV2 = () => {
                     onChange={(e) => setComment(e.target.value)}
                   />
                   {trainingData.exercises.map(
-                    (exercise, j) => (
-                      console.log("J", j),
+                    (exercise, exerciseIndex) => (
+                      console.log("exercise", exercise),
                       (
-                        <div key={j} className="ex">
+                        <div key={exerciseIndex} className="ex">
                           <p>
                             Nr.{exercise.order} : {exercise.exercise}
                           </p>
                           <label>Sets:</label>
                           <input
                             type="number"
-                            value={trainingData.exercises[j].setsNumber}
+                            value={
+                              trainingData.exercises[exerciseIndex].sets.length
+                            }
+                            onChange={(e) =>
+                              handleSetsNumberChange(e, exerciseIndex)
+                            }
                           />
-                          {exercise.sets.map((set, k) => (
-                            <div key={k} className="set">
+                          {exercise.sets.map((set, setIndex) => (
+                            <div key={setIndex} className="set">
                               <p>
                                 Set {set.set_number}: {set.weight}kg x{" "}
                                 {set.repetitions}rep
