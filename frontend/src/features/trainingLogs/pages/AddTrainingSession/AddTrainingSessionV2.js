@@ -15,37 +15,36 @@ const AddTrainingSessionV2 = () => {
     exercises: [
       {
         exercise: "Squat",
-        order: 1,
         sets: [
-          { repetitions: 5, set_number: 1, weight: 100 },
-          { repetitions: 5, set_number: 2, weight: 100 },
-          { repetitions: 5, set_number: 3, weight: 100 },
+          { set_number: 1, weight: 100, repetitions: 5 },
+          { set_number: 2, weight: 100, repetitions: 5 },
+          { set_number: 3, weight: 100, repetitions: 5 },
         ],
       },
       {
         exercise: "Bench Press",
-        order: 2,
         sets: [
-          { repetitions: 5, set_number: 1, weight: 60 },
-          { repetitions: 5, set_number: 2, weight: 60 },
-          { repetitions: 5, set_number: 3, weight: 60 },
+          { set_number: 1, weight: 100, repetitions: 5 },
+          { set_number: 2, weight: 100, repetitions: 5 },
+          { set_number: 3, weight: 100, repetitions: 5 },
         ],
       },
     ],
   });
 
+  console.log("trainingData", trainingData);
+
   const updateSets = (exercise, newSetsNumber) => {
-    console.log("exercise", exercise);
     const newSets = [...exercise.sets];
-    console.log("newSets", newSets);
+
     if (newSetsNumber >= 0)
       if (newSetsNumber < newSets.length) {
         newSets.length = newSetsNumber;
       } else {
         while (newSets.length < newSetsNumber) {
           newSets.push({
-            weight: "",
-            repetitions: "",
+            weight: 0,
+            repetitions: 0,
             set_number: newSets.length + 1,
           });
         }
@@ -67,6 +66,29 @@ const AddTrainingSessionV2 = () => {
       ),
     });
   };
+
+  const handleAddExercise = () => {
+    setTrainingData({
+      ...trainingData,
+      exercises: [
+        ...trainingData.exercises,
+        {
+          exercise: "Squat",
+          sets: [{ repetitions: 5, set_number: 1, weight: 100 }],
+        },
+      ],
+    });
+  };
+
+  const handleRemoveExercise = (exerciseIndexToRemove) => {
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.filter(
+        (exercise, index) => index !== exerciseIndexToRemove
+      ),
+    });
+  };
+
   // console.log(trainingData[0].exercises[0].setsNumber);
 
   return (
@@ -75,56 +97,50 @@ const AddTrainingSessionV2 = () => {
         <h1>Loading...</h1>
       ) : (
         <>
-          <React.Fragment>
-            <div className="training-log-container">
-              <div className="header-container">
-                <h1>Add Training Session</h1>
-              </div>
-              <div className="training-log-container">
-                <div className="training-session">
-                  <h4>Name: {trainingData.description}</h4>
-                  <label>Date:</label>
-                  <input type="date" value={trainingSessionDate} />
-                  <label>Comment:</label>
-                  <input
-                    type="text"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  {trainingData.exercises.map(
-                    (exercise, exerciseIndex) => (
-                      console.log("exercise", exercise),
-                      (
-                        <div key={exerciseIndex} className="ex">
-                          <p>
-                            Nr.{exercise.order} : {exercise.exercise}
-                          </p>
-                          <label>Sets:</label>
-                          <input
-                            type="number"
-                            value={
-                              trainingData.exercises[exerciseIndex].sets.length
-                            }
-                            onChange={(e) =>
-                              handleSetsNumberChange(e, exerciseIndex)
-                            }
-                          />
-                          {exercise.sets.map((set, setIndex) => (
-                            <div key={setIndex} className="set">
-                              <p>
-                                Set {set.set_number}: {set.weight}kg x{" "}
-                                {set.repetitions}rep
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )
-                    )
-                  )}
-                </div>
-              </div>
-            </div>
-          </React.Fragment>
+          <div className="header-container">
+            <h1>Add Training Session</h1>
+          </div>
+          <div className="training-session">
+            <h4>Name: {trainingData.description}</h4>
+            <label>Date:</label>
+            <input type="date" value={trainingSessionDate} />
+            <label>Comment:</label>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {trainingData.exercises.map(
+              (exercise, exerciseIndex) => (
+                console.log("exercise", exercise),
+                (
+                  <div key={exerciseIndex} className="ex">
+                    <p>
+                      Nr.{exerciseIndex + 1} : {exercise.exercise}
+                    </p>
+                    <label>Sets:</label>
+                    <input
+                      type="number"
+                      value={trainingData.exercises[exerciseIndex].sets.length}
+                      onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
+                    />
+                    {exercise.sets.map((set, setIndex) => (
+                      <div key={setIndex} className="set">
+                        <p>
+                          Set {set.set_number}: {set.weight}kg x{" "}
+                          {set.repetitions}rep
+                        </p>
+                      </div>
+                    ))}
+                    <button onClick={() => handleRemoveExercise(exerciseIndex)}>
+                      Remove
+                    </button>
+                  </div>
+                )
+              )
+            )}
+          </div>
+          <button onClick={handleAddExercise}>Add exercise</button>
         </>
       )}
     </Layout>
