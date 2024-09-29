@@ -158,45 +158,47 @@ const AddTrainingSessionV2 = () => {
       <div className="header-container">
         <h1>Add Training Session</h1>
       </div>
-      <div className="training-session">
-        <h4>Name: {trainingData.description}</h4>
-        <label>Date:</label>
-        <input type="date" value={trainingSessionDate} />
-        <label>Comment:</label>
-        <input
-          type="text"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+      <div className="ats-training-session">
+        <div className="ats-training-session-header">
+          <h4>Name: {trainingData.description}</h4>
+          <label>Date:</label>
+          <input type="date" value={trainingSessionDate} />
+          <label>Comment:</label>
+          <input
+            type="text"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+        </div>
         {trainingData.exercises.map((exercise, exerciseIndex) => (
-          <div key={exerciseIndex} className="ex">
-            <p>
-              Nr.{exerciseIndex + 1} : {exercise.exercise}
-            </p>
-            <select
-              name="exercise"
-              value={exercise.exercise}
-              onChange={(e) => handleExerciseChange(e, exerciseIndex)}
-            >
-              {exerciseNamesList.map((name, i) => (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-            <label>Sets:</label>
-            <input
-              type="number"
-              value={trainingData.exercises[exerciseIndex].sets.length}
-              onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
-            />
+          <div key={exerciseIndex} className="ats-exercise">
+            <div className="exercise-header">
+              <label>Nr.{exerciseIndex + 1} :</label>
+              <select
+                className="exercise-select"
+                name="exercise"
+                value={exercise.exercise}
+                onChange={(e) => handleExerciseChange(e, exerciseIndex)}
+              >
+                {exerciseNamesList.map((name, i) => (
+                  <option key={i} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+              <label>Sets:</label>
+              <input
+                className="ats-exercise-parameter-input"
+                type="number"
+                value={trainingData.exercises[exerciseIndex].sets.length}
+                onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
+              />
+            </div>
             {exercise.sets.map((set, setIndex) => (
-              <div key={setIndex} className="set">
-                <p>
-                  Set {set.set_number}: {set.weight}kg x {set.repetitions}
-                  rep
-                </p>
+              <div key={setIndex} className="ats-set">
+                <label>Set {set.set_number}:</label>
                 <input
+                  className="ats-exercise-parameter-input"
                   name="weight"
                   type="number"
                   value={set.weight}
@@ -204,8 +206,9 @@ const AddTrainingSessionV2 = () => {
                     handleExerciseDetailsChange(e, exerciseIndex, setIndex)
                   }
                 />
-                <label>x</label>
+                <label>kg x</label>
                 <input
+                  className="ats-exercise-parameter-input"
                   name="repetitions"
                   type="number"
                   value={set.repetitions}
@@ -213,10 +216,10 @@ const AddTrainingSessionV2 = () => {
                     handleExerciseDetailsChange(e, exerciseIndex, setIndex);
                   }}
                 />
+                <label>reps</label>
               </div>
             ))}
-            <p>Exercise volume: {calculateTotalVolume(exercise)}</p>
-            <p>Average intensity: {calculateAverageIntensity(exercise)} </p>
+            <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
             <button onClick={() => handleRemoveExercise(exerciseIndex)}>
               Remove
             </button>
