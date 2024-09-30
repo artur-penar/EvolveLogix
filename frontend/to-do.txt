@@ -4,5 +4,4 @@ What i want to do?
             - Change Name field into input field. 
 
 
-
-    - Check exercise 'order' prop.
+Link training session with certain session in Training Cycle, Phase, Week, Day etc. It allow to group data related with certain training cycle. 

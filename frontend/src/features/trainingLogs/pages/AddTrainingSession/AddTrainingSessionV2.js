@@ -194,31 +194,38 @@ const AddTrainingSessionV2 = () => {
                 onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
               />
             </div>
-            {exercise.sets.map((set, setIndex) => (
-              <div key={setIndex} className="ats-set">
-                <label>Set {set.set_number}:</label>
-                <input
-                  className="ats-exercise-parameter-input"
-                  name="weight"
-                  type="number"
-                  value={set.weight}
-                  onChange={(e) =>
-                    handleExerciseDetailsChange(e, exerciseIndex, setIndex)
-                  }
-                />
-                <label>kg x</label>
-                <input
-                  className="ats-exercise-parameter-input"
-                  name="repetitions"
-                  type="number"
-                  value={set.repetitions}
-                  onChange={(e) => {
-                    handleExerciseDetailsChange(e, exerciseIndex, setIndex);
-                  }}
-                />
-                <label>reps</label>
+            <div className="exercise-table-container">
+              <div className="exercise-table">
+                <div className="exercise-table-header">
+                  <label>Set</label>
+                  <label>Weight</label>
+                  <label>Reps</label>
+                </div>
+                {exercise.sets.map((set, setIndex) => (
+                  <div key={setIndex} className="exercise-table-row">
+                    <label>{setIndex + 1}</label>
+                    <input
+                      className="ats-exercise-parameter-input"
+                      name="weight"
+                      type="number"
+                      value={set.weight}
+                      onChange={(e) =>
+                        handleExerciseDetailsChange(e, exerciseIndex, setIndex)
+                      }
+                    />
+                    <input
+                      className="ats-exercise-parameter-input"
+                      name="repetitions"
+                      type="number"
+                      value={set.repetitions}
+                      onChange={(e) => {
+                        handleExerciseDetailsChange(e, exerciseIndex, setIndex);
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
             <button onClick={() => handleRemoveExercise(exerciseIndex)}>
               Remove

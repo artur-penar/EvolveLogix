@@ -2,7 +2,6 @@
   border-radius: 1px solid #ccc;
   padding: 20px;
   margin-bottom: 20px;
-  /* width: calc(33% - 45px); */
   box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
@@ -17,8 +16,31 @@
   margin: 10px 0;
 }
 
+.exercise-table-container {
+  width: 30%;
+  margin-bottom: 1rem;
+}
+
 .exercise-header {
   margin-bottom: 1rem;
+}
+
+.exercise-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+  gap: 0.5rem; /* Adjust gap as needed */
+}
+
+.exercise-table-header {
+  display: contents;
+}
+
+.exercise-table-header label {
+  font-weight: bold;
+}
+
+.exercise-table-row {
+  display: contents;
 }
 
 .ats-set {
@@ -27,9 +49,9 @@
 }
 
 .ats-exercise-parameter-input {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
-  border: none; /* Optional: Remove default border */
-  border-radius: 4px; /* Optional: Add border radius for rounded corners */
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: none; */
+  /* border-radius: 4px; */
   width: 50px;
   height: 25px;
   font-size: 14px;
