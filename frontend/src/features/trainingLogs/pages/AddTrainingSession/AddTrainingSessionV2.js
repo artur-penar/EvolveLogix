@@ -7,24 +7,20 @@ import "./AddTrainingSessionV2.css";
 import TrainingSession from "features/trainingCycle/pages/TrainingCycle/components/Shared/TrainingSession/TrainingSession";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
+import ExerciseTable from "./components/ExerciseTable";
 
 const AddTrainingSessionV2 = () => {
   const [comment, setComment] = useState("");
   const [trainingSessionDate, setTrainingSessionDate] = useState("");
 
-  const strengthRecords = useFetchStrengthRecords();
-  const latestStrengthRecords = useGetLatestRecords(strengthRecords);
-
-  const processedStrengthRecords = Object.entries(latestStrengthRecords).reduce(
-    (acc, [exerciseName, record]) => {
-      acc[exerciseName] = record[0];
-      return acc;
-    },
-    {}
-  );
+  const strengthRecords = Object.entries(
+    useGetLatestRecords(useFetchStrengthRecords())
+  ).reduce((acc, [exerciseName, record]) => {
+    acc[exerciseName] = record[0];
+    return acc;
+  }, {});
 
   const exercisesData = useSelector((state) => state.exercises.exercises);
-
   const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
 
   const [trainingData, setTrainingData] = useState({
@@ -213,65 +209,19 @@ const AddTrainingSessionV2 = () => {
               exerciseName={exercise.exercise}
               exerciseNamesList={exerciseNamesList}
               exercises={trainingData.exercises}
-              processedStrengthRecords={processedStrengthRecords}
+              processedStrengthRecords={strengthRecords}
               handleExerciseChange={handleExerciseChange}
               handleSetsNumberChange={handleSetsNumberChange}
             />
-            <div className="exercise-table-container">
-              <div className="exercise-table">
-                <div className="exercise-table-header">
-                  <label>Set</label>
-                  {processedStrengthRecords[exercise.exercise]?.weight && (
-                    <label>Percent</label>
-                  )}
-                  <label>Weight</label>
-                  <label>Reps</label>
-                </div>
-                {exercise.sets.map((set, setIndex) => (
-                  <div key={setIndex} className="exercise-table-row">
-                    <label>&nbsp;&nbsp;&nbsp;{setIndex + 1}</label>
-                    {processedStrengthRecords[exercise.exercise]?.weight && (
-                      <input
-                        className="ats-exercise-parameter-input"
-                        type="number"
-                        value={Math.round(
-                          (set.weight /
-                            processedStrengthRecords[exercise.exercise]
-                              ?.weight) *
-                            100
-                        )}
-                        onChange={(e) =>
-                          handleWeightPercentageChange(
-                            e.target.value,
-                            processedStrengthRecords[exercise.exercise]?.weight,
-                            exerciseIndex,
-                            setIndex
-                          )
-                        }
-                      />
-                    )}
-                    <input
-                      className="ats-exercise-parameter-input"
-                      name="weight"
-                      type="number"
-                      value={set.weight}
-                      onChange={(e) =>
-                        handleExerciseDetailsChange(e, exerciseIndex, setIndex)
-                      }
-                    />
-                    <input
-                      className="ats-exercise-parameter-input"
-                      name="repetitions"
-                      type="number"
-                      value={set.repetitions}
-                      onChange={(e) => {
-                        handleExerciseDetailsChange(e, exerciseIndex, setIndex);
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+
+            <ExerciseTable
+              exercise={exercise}
+              strengthRecords={strengthRecords}
+              exerciseName={exercise.exercise}
+              exerciseIndex={exerciseIndex}
+              handleWeightPercentageChange={handleWeightPercentageChange}
+              handleExerciseDetailsChange={handleExerciseDetailsChange}
+            />
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
             <button onClick={() => handleRemoveExercise(exerciseIndex)}>
               Remove
