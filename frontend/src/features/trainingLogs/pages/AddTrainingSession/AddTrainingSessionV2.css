@@ -25,9 +25,14 @@
   margin-bottom: 1rem;
 }
 
+.exercise-header label {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
 .exercise-table {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
   gap: 0.5rem; /* Adjust gap as needed */
 }
 

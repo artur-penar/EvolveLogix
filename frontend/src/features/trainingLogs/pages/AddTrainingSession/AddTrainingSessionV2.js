@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Layout from "components/shared/Layout";
+import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
+import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import "./AddTrainingSessionV2.css";
 
 const AddTrainingSessionV2 = () => {
   const [comment, setComment] = useState("");
   const [trainingSessionDate, setTrainingSessionDate] = useState("");
+
+  const strengthRecords = useFetchStrengthRecords();
+  const latestStrengthRecords = useGetLatestRecords(strengthRecords);
+
+  const processedStrengthRecords = Object.entries(latestStrengthRecords).reduce(
+    (acc, [exerciseName, record]) => {
+      acc[exerciseName] = record[0];
+      return acc;
+    },
+    {}
+  );
 
   const exercisesData = useSelector((state) => state.exercises.exercises);
 
@@ -151,6 +164,33 @@ const AddTrainingSessionV2 = () => {
     });
   };
 
+  const handleWeightPercentageChange = (
+    weightPercent,
+    weight,
+    targetExerciseIndex,
+    targetSetIndex
+  ) => {
+    const newWeight = (weightPercent / 100) * weight;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== targetSetIndex
+                  ? set
+                  : {
+                      ...set,
+                      weight: newWeight,
+                    }
+              ),
+            }
+      ),
+    });
+  };
+
   // console.log(trainingData[0].exercises[0].setsNumber);
 
   return (
@@ -193,17 +233,52 @@ const AddTrainingSessionV2 = () => {
                 value={trainingData.exercises[exerciseIndex].sets.length}
                 onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
               />
+              {processedStrengthRecords[exercise.exercise]?.weight && (
+                <>
+                  <label>1RM</label>
+                  <input
+                    className="ats-exercise-parameter-input"
+                    type="number"
+                    value={Math.round(
+                      processedStrengthRecords[exercise.exercise]?.weight
+                    )}
+                  />
+                </>
+              )}
             </div>
             <div className="exercise-table-container">
               <div className="exercise-table">
                 <div className="exercise-table-header">
                   <label>Set</label>
+                  {processedStrengthRecords[exercise.exercise]?.weight && (
+                    <label>Percent</label>
+                  )}
                   <label>Weight</label>
                   <label>Reps</label>
                 </div>
                 {exercise.sets.map((set, setIndex) => (
                   <div key={setIndex} className="exercise-table-row">
-                    <label>{setIndex + 1}</label>
+                    <label>&nbsp;&nbsp;&nbsp;{setIndex + 1}</label>
+                    {processedStrengthRecords[exercise.exercise]?.weight && (
+                      <input
+                        className="ats-exercise-parameter-input"
+                        type="number"
+                        value={Math.round(
+                          (set.weight /
+                            processedStrengthRecords[exercise.exercise]
+                              ?.weight) *
+                            100
+                        )}
+                        onChange={(e) =>
+                          handleWeightPercentageChange(
+                            e.target.value,
+                            processedStrengthRecords[exercise.exercise]?.weight,
+                            exerciseIndex,
+                            setIndex
+                          )
+                        }
+                      />
+                    )}
                     <input
                       className="ats-exercise-parameter-input"
                       name="weight"
