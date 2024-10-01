@@ -4,6 +4,8 @@ import Layout from "components/shared/Layout";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import "./AddTrainingSessionV2.css";
+import TrainingSession from "features/trainingCycle/pages/TrainingCycle/components/Shared/TrainingSession/TrainingSession";
+import TrainingSessionHeader from "./components/TrainingSessionHeader";
 
 const AddTrainingSessionV2 = () => {
   const [comment, setComment] = useState("");
@@ -199,17 +201,12 @@ const AddTrainingSessionV2 = () => {
         <h1>Add Training Session</h1>
       </div>
       <div className="ats-training-session">
-        <div className="ats-training-session-header">
-          <h4>Name: {trainingData.description}</h4>
-          <label>Date:</label>
-          <input type="date" value={trainingSessionDate} />
-          <label>Comment:</label>
-          <input
-            type="text"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-        </div>
+        <TrainingSessionHeader
+          description={trainingData.description}
+          trainingSessionDate={trainingSessionDate}
+          comment={comment}
+          setComment={setComment}
+        />
         {trainingData.exercises.map((exercise, exerciseIndex) => (
           <div key={exerciseIndex} className="ats-exercise">
             <div className="exercise-header">
