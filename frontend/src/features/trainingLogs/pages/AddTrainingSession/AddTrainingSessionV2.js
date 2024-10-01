@@ -6,6 +6,7 @@ import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculat
 import "./AddTrainingSessionV2.css";
 import TrainingSession from "features/trainingCycle/pages/TrainingCycle/components/Shared/TrainingSession/TrainingSession";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
+import ExerciseHeader from "./components/ExerciseHeader";
 
 const AddTrainingSessionV2 = () => {
   const [comment, setComment] = useState("");
@@ -193,8 +194,6 @@ const AddTrainingSessionV2 = () => {
     });
   };
 
-  // console.log(trainingData[0].exercises[0].setsNumber);
-
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="header-container">
@@ -209,40 +208,15 @@ const AddTrainingSessionV2 = () => {
         />
         {trainingData.exercises.map((exercise, exerciseIndex) => (
           <div key={exerciseIndex} className="ats-exercise">
-            <div className="exercise-header">
-              <label>Nr.{exerciseIndex + 1} :</label>
-              <select
-                className="exercise-select"
-                name="exercise"
-                value={exercise.exercise}
-                onChange={(e) => handleExerciseChange(e, exerciseIndex)}
-              >
-                {exerciseNamesList.map((name, i) => (
-                  <option key={i} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-              <label>Sets:</label>
-              <input
-                className="ats-exercise-parameter-input"
-                type="number"
-                value={trainingData.exercises[exerciseIndex].sets.length}
-                onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
-              />
-              {processedStrengthRecords[exercise.exercise]?.weight && (
-                <>
-                  <label>1RM</label>
-                  <input
-                    className="ats-exercise-parameter-input"
-                    type="number"
-                    value={Math.round(
-                      processedStrengthRecords[exercise.exercise]?.weight
-                    )}
-                  />
-                </>
-              )}
-            </div>
+            <ExerciseHeader
+              exerciseIndex={exerciseIndex}
+              exerciseName={exercise.exercise}
+              exerciseNamesList={exerciseNamesList}
+              exercises={trainingData.exercises}
+              processedStrengthRecords={processedStrengthRecords}
+              handleExerciseChange={handleExerciseChange}
+              handleSetsNumberChange={handleSetsNumberChange}
+            />
             <div className="exercise-table-container">
               <div className="exercise-table">
                 <div className="exercise-table-header">
