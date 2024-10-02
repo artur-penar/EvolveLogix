@@ -9,9 +9,13 @@ const ExerciseTable = ({
   handleExerciseDetailsChange,
 }) => {
   const { weight: oneRepMax } = strengthRecords[exerciseName] || {};
+  const stylingClass = oneRepMax
+    ? "exercise-table four-columns"
+    : "exercise-table three-columns";
+
   return (
     <div className="exercise-table-container">
-      <div className="exercise-table">
+      <div className={stylingClass}>
         <div className="exercise-table-header">
           <label>Set</label>
           {oneRepMax && <label>Percent</label>}

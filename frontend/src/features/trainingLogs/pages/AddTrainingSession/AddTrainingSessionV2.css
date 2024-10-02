@@ -32,8 +32,15 @@
 
 .exercise-table {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
   gap: 0.5rem; /* Adjust gap as needed */
+}
+
+.three-columns {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.four-columns {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .exercise-table-header {
