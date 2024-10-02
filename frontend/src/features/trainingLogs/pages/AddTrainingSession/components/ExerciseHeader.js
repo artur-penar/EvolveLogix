@@ -12,36 +12,41 @@ const ExerciseHeader = ({
   const { weight } = processedStrengthRecords[exerciseName] || {};
 
   return (
-    <div className="exercise-header">
-      <label>Nr.{exerciseIndex + 1} :</label>
-      <select
-        className="exercise-select"
-        name="exercise"
-        value={exerciseName}
-        onChange={(e) => handleExerciseChange(e, exerciseIndex)}
-      >
-        {exerciseNamesList.map((name, i) => (
-          <option key={i} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
-      <label>Sets:</label>
-      <input
-        className="ats-exercise-parameter-input"
-        type="number"
-        value={exercises[exerciseIndex].sets.length}
-        onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
-      />
+    <div className="ats-exercise-header">
+      <div className="ats-exercise-header-row">
+        <label>Nr.{exerciseIndex + 1} :</label>
+        <select
+          className="ats-exercise-select"
+          name="exercise"
+          value={exerciseName}
+          onChange={(e) => handleExerciseChange(e, exerciseIndex)}
+        >
+          {exerciseNamesList.map((name, i) => (
+            <option key={i} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="ats-exercise-header-row">
+        <label>Sets:</label>
+        <input
+          className="ats-exercise-parameter-input"
+          type="number"
+          value={exercises[exerciseIndex].sets.length}
+          onChange={(e) => handleSetsNumberChange(e, exerciseIndex)}
+        />
+      </div>
       {weight && (
-        <>
-          <label>1RM</label>
+        <div className="ats-exercise-header-row">
+          <label>1RM:</label>
           <input
-            className="ats-exercise-parameter-input"
+            className="ats-exercise-parameter-input no-spinner"
             type="number"
             value={Math.round(weight)}
+            disabled={true}
           />
-        </>
+        </div>
       )}
     </div>
   );
