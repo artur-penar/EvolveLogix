@@ -30,7 +30,8 @@ class ExerciseNameSerializer(serializers.ModelSerializer):
 class SetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Set
-        fields = ['set_number', 'weight', 'repetitions', 'comment']
+        fields = ['set_number', 'weight',
+                  'repetitions', 'is_completed', 'comment']
 
 
 class ExerciseInSessionSerializer(serializers.ModelSerializer):
