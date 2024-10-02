@@ -39,6 +39,7 @@ class Set(models.Model):
         'ExerciseInSession', related_name='sets', on_delete=models.CASCADE)
     weight = models.FloatField()
     repetitions = models.PositiveIntegerField()
+    is_completed = models.BooleanField(default=True)
     comment = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
