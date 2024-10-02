@@ -16,42 +16,46 @@
   margin: 10px 0;
 }
 
-.exercise-table-container {
+.ats-exercise-table-container {
   width: 30%;
   margin-bottom: 1rem;
 }
 
-.exercise-header {
+.ats-exercise-header {
   margin-bottom: 1rem;
 }
 
-.exercise-header label {
-  font-weight: bold;
-  margin-left: 1rem;
+.ats-exercise-header-row {
+  display: flex;
+  margin-bottom: 0.5rem;
 }
 
-.exercise-table {
+.ats-exercise-header label {
+  font-weight: bold;
+}
+
+.ats-exercise-table {
   display: grid;
   gap: 0.5rem; /* Adjust gap as needed */
 }
 
-.three-columns {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.four-columns {
+.ats-four-columns {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.exercise-table-header {
+.ats-five-columns {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.ats-exercise-table-header {
   display: contents;
 }
 
-.exercise-table-header label {
+.ats-exercise-table-header label {
   font-weight: bold;
 }
 
-.exercise-table-row {
+.ats-exercise-table-row {
   display: contents;
 }
 
@@ -69,4 +73,56 @@
   font-size: 14px;
   text-align: center;
   margin: 0 0.1rem;
+}
+
+/* styles.css or ExerciseTable.css */
+.ats-checkbox-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  width: 100%; /* Adjust as needed */
+  height: 100%; /* Adjust as needed */
+}
+
+.ats-custom-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ats-custom-checkbox + label {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 20px;
+  user-select: none;
+}
+
+.ats-custom-checkbox + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 3px;
+}
+
+.ats-custom-checkbox:checked + label::before {
+  background-color: #ccc;
+  border-color: #bbb;
+}
+
+.ats-custom-checkbox:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
