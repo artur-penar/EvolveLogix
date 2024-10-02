@@ -4,7 +4,6 @@ import Layout from "components/shared/Layout";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import "./AddTrainingSessionV2.css";
-import TrainingSession from "features/trainingCycle/pages/TrainingCycle/components/Shared/TrainingSession/TrainingSession";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
@@ -31,21 +30,45 @@ const AddTrainingSessionV2 = () => {
       {
         exercise: "Squat",
         sets: [
-          { set_number: 1, weight: 60, repetitions: 5 },
-          { set_number: 2, weight: 80, repetitions: 5 },
-          { set_number: 3, weight: 90, repetitions: 5 },
+          { set_number: 1, weight: 60, repetitions: 5, is_completed: true },
+          { set_number: 2, weight: 80, repetitions: 5, is_completed: true },
+          { set_number: 3, weight: 90, repetitions: 5, is_completed: true },
         ],
       },
       {
         exercise: "Bench Press",
         sets: [
-          { set_number: 1, weight: 100, repetitions: 5 },
-          { set_number: 2, weight: 100, repetitions: 5 },
-          { set_number: 3, weight: 100, repetitions: 5 },
+          { set_number: 1, weight: 100, repetitions: 5, is_completed: true },
+          { set_number: 2, weight: 100, repetitions: 5, is_completed: true },
+          { set_number: 3, weight: 100, repetitions: 5, is_completed: true },
         ],
       },
     ],
   });
+
+  const handleCheckboxChange = (e, exerciseIndex, setIndex) => {
+    console.log("exerciseIndex", exerciseIndex);
+    console.log("setIndex", setIndex);
+    const newIsCompleted = e.target.checked;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== exerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== setIndex
+                  ? set
+                  : {
+                      ...set,
+                      is_completed: newIsCompleted,
+                    }
+              ),
+            }
+      ),
+    });
+  };
 
   const calculateAverageIntensity = (exercise) => {
     const totalWeight = exercise.sets.reduce(
@@ -219,6 +242,7 @@ const AddTrainingSessionV2 = () => {
               strengthRecords={strengthRecords}
               exerciseName={exercise.exercise}
               exerciseIndex={exerciseIndex}
+              handleCheckboxChange={handleCheckboxChange}
               handleWeightPercentageChange={handleWeightPercentageChange}
               handleExerciseDetailsChange={handleExerciseDetailsChange}
             />

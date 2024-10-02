@@ -5,26 +5,31 @@ const ExerciseTable = ({
   strengthRecords,
   exerciseName,
   exerciseIndex,
+  handleCheckboxChange,
   handleWeightPercentageChange,
   handleExerciseDetailsChange,
 }) => {
   const { weight: oneRepMax } = strengthRecords[exerciseName] || {};
   const stylingClass = oneRepMax
-    ? "exercise-table four-columns"
-    : "exercise-table three-columns";
+    ? "ats-exercise-table ats-five-columns"
+    : "ats-exercise-table ats-four-columns";
+
+  console.log("exercise", exercise);
 
   return (
-    <div className="exercise-table-container">
+    <div className="ats-exercise-table-container">
       <div className={stylingClass}>
-        <div className="exercise-table-header">
+        <div className="ats-exercise-table-header">
           <label>Set</label>
           {oneRepMax && <label>Percent</label>}
           <label>Weight</label>
           <label>Reps</label>
+          <label>Completed</label>
         </div>
         {exercise.sets.map((set, setIndex) => (
-          <div key={setIndex} className="exercise-table-row">
+          <div key={setIndex} className="ats-exercise-table-row">
             <label>&nbsp;&nbsp;&nbsp;{setIndex + 1}</label>
+
             {oneRepMax && (
               <input
                 className="ats-exercise-parameter-input"
@@ -58,6 +63,21 @@ const ExerciseTable = ({
                 handleExerciseDetailsChange(e, exerciseIndex, setIndex);
               }}
             />
+            <div className="ats-checkbox-container">
+              <input
+                id={`checkbox-${exerciseIndex}-${setIndex}`}
+                className="ats-custom-checkbox"
+                type="checkbox"
+                checked={set.is_completed}
+                onChange={(e) =>
+                  handleCheckboxChange(e, exerciseIndex, setIndex)
+                } // Add an onChange handler if needed
+              />
+              <label
+                htmlFor={`checkbox-${exerciseIndex}-${setIndex}`}
+                className="ats-custom-checkbox-label"
+              ></label>
+            </div>
           </div>
         ))}
       </div>
