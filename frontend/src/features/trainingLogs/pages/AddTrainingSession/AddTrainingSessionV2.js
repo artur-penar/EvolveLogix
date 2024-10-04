@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Layout from "components/shared/Layout";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
-import "./AddTrainingSessionV2.css";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
+import { addTrainingSession } from "../../log";
+import "./AddTrainingSessionV2.css";
 
 const AddTrainingSessionV2 = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [comment, setComment] = useState("");
   const [trainingSessionDate, setTrainingSessionDate] = useState("");
 
@@ -21,10 +26,13 @@ const AddTrainingSessionV2 = () => {
 
   const exercisesData = useSelector((state) => state.exercises.exercises);
   const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
+  const selectedTrainingLogId = useSelector(
+    (state) => state.log.selectedTrainingLog.id
+  );
 
   const [trainingData, setTrainingData] = useState({
     comment: "This is a comment",
-    date: "2021-09-01",
+    date: "2024-10-01",
     description: "This is a description",
     exercises: [
       {
@@ -213,6 +221,36 @@ const AddTrainingSessionV2 = () => {
     });
   };
 
+  const prepareExercisesForSubmission = (exercises) => {
+    return exercises.map((exercise) => ({
+      exercise: exercise.exercise,
+      sets: exercise.sets.map((set) => ({
+        weight: set.weight,
+        repetitions: set.repetitions,
+        is_completed: set.is_completed,
+      })),
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const dataToSubmit = {
+      training_log_id: selectedTrainingLogId,
+      training_session: {
+        description: trainingData.description,
+        date: trainingData.date,
+        comment: trainingData.comment,
+        exercises: prepareExercisesForSubmission(trainingData.exercises),
+      },
+    };
+
+    console.log("Data  to submit");
+    console.log(dataToSubmit);
+
+    dispatch(addTrainingSession(dataToSubmit));
+    navigate("/training-log");
+  };
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="header-container">
@@ -254,6 +292,7 @@ const AddTrainingSessionV2 = () => {
         ))}
       </div>
       <button onClick={handleAddExercise}>Add exercise</button>
+      <button onClick={handleSubmit}>Submit</button>
     </Layout>
   );
 };
