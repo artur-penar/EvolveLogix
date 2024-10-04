@@ -68,7 +68,7 @@ const App = () => {
           />
           <Route
             path="/edit-training-session/:id"
-            element={<EditTrainingSessionPage />}
+            element={<AddTrainingSessionV2 />}
           />
         </Routes>
       </Router>
