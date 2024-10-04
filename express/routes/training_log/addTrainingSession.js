@@ -8,9 +8,9 @@ router.use(express.json());
 
 router.post("/api/training-log/addTrainingSession", async (req, res) => {
   const { access } = req.cookies;
-  const { training_log_id, training_sessions } = req.body;
+  const { training_log_id, training_session } = req.body;
 
-  const body = JSON.stringify({ training_log_id, training_sessions });
+  const body = JSON.stringify({ training_log_id, training_session });
 
   try {
     const apiRes = await fetch(

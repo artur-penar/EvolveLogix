@@ -162,15 +162,16 @@ const AddTrainingSessionPage = () => {
 
     const dataToSubmit = {
       training_log_id: selectedTrainingLog.id,
-      training_sessions: [
-        {
-          description,
-          date,
-          comment,
-          exercises: prepareExercisesForSubmission(exercises),
-        },
-      ],
+      training_session: {
+        description,
+        date,
+        comment,
+        exercises: prepareExercisesForSubmission(exercises),
+      },
     };
+
+    console.log("Data  to submit");
+    console.log(dataToSubmit);
 
     dispatch(addTrainingSession(dataToSubmit));
     navigate("/training-log");

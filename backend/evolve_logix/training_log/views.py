@@ -88,12 +88,12 @@ class TrainingSessionCreate(generics.CreateAPIView):
 
         # Adjust the data to include the training_log
         data = request.data
-        training_sessions = data['training_sessions'][0]
-        training_sessions['training_log'] = training_log_id
+        training_session = data['training_session']
+        training_session['training_log'] = training_log_id
         print("CREATE TRAINING SESSION VIEW!!!!!!!!!!!!!!1")
-        print(training_sessions)
+        print(training_session)
 
-        serializer = self.get_serializer(data=training_sessions)
+        serializer = self.get_serializer(data=training_session)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
