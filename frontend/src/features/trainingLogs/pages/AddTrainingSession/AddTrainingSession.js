@@ -161,7 +161,6 @@ const AddTrainingSessionPage = () => {
     if (checkForEmptyFields()) return;
 
     const dataToSubmit = {
-      name: logName,
       training_log_id: selectedTrainingLog.id,
       training_sessions: [
         {

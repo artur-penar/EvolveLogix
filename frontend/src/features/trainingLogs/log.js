@@ -50,7 +50,7 @@ export const createTrainingLog = createAsyncThunk(
 
 export const addTrainingSession = createAsyncThunk(
   "log/addTrainingSession",
-  async ({ name, training_sessions, training_log_id }, thunkAPI) => {
+  async ({ training_sessions, training_log_id }, thunkAPI) => {
     try {
       const res = await fetch("api/training-log/addTrainingSession", {
         method: "POST",
@@ -59,7 +59,7 @@ export const addTrainingSession = createAsyncThunk(
           "Content-Type": "application/json",
           // 'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify({ name, training_sessions, training_log_id }),
+        body: JSON.stringify({ training_sessions, training_log_id }),
       });
 
       const data = await res.json();
