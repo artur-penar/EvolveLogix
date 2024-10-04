@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "components/shared/Layout";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
@@ -13,12 +13,16 @@ import "./AddTrainingSessionV2.css";
 const AddTrainingSessionV2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const exercisesData = useSelector((state) => state.exercises.exercises);
   const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
   const selectedTrainingLogId = useSelector(
     (state) => state.log.selectedTrainingLog.id
   );
+
+  const selectedEventTrainingData = location.state?.trainingData;
+  console.log("selectedEventTrainingData", selectedEventTrainingData);
 
   const strengthRecords = Object.entries(
     useGetLatestRecords(useFetchStrengthRecords())
@@ -27,29 +31,28 @@ const AddTrainingSessionV2 = () => {
     return acc;
   }, {});
 
-  const [trainingData, setTrainingData] = useState({
-    comment: "This is a comment",
-    date: "2024-10-01",
-    description: "This is a description",
-    exercises: [
-      {
-        exercise: "Squat",
-        sets: [
-          { set_number: 1, weight: 60, repetitions: 5, is_completed: true },
-          { set_number: 2, weight: 80, repetitions: 5, is_completed: true },
-          { set_number: 3, weight: 90, repetitions: 5, is_completed: true },
-        ],
-      },
-      {
-        exercise: "Bench Press",
-        sets: [
-          { set_number: 1, weight: 100, repetitions: 5, is_completed: true },
-          { set_number: 2, weight: 100, repetitions: 5, is_completed: true },
-          { set_number: 3, weight: 100, repetitions: 5, is_completed: true },
-        ],
-      },
-    ],
-  });
+  const [trainingData, setTrainingData] = useState(
+    selectedEventTrainingData
+      ? selectedEventTrainingData
+      : {
+          comment: "This is a comment",
+          date: "2024-10-01",
+          description: "This is a description",
+          exercises: [
+            {
+              exercise: "Squat",
+              sets: [
+                {
+                  set_number: 1,
+                  weight: 0,
+                  repetitions: 0,
+                  is_completed: true,
+                },
+              ],
+            },
+          ],
+        }
+  );
 
   const handleTrainingDataChange = (e) => {
     const { name, value } = e.target;
@@ -259,7 +262,11 @@ const AddTrainingSessionV2 = () => {
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="header-container">
-        <h1>Add Training Session</h1>
+        <h1>
+          {selectedEventTrainingData
+            ? "Edit Training Session"
+            : "Add Training Session"}
+        </h1>
       </div>
       <div className="ats-training-session">
         <TrainingSessionHeader
