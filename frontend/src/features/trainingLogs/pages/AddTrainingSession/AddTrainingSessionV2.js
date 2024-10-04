@@ -14,8 +14,11 @@ const AddTrainingSessionV2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [comment, setComment] = useState("");
-  const [trainingSessionDate, setTrainingSessionDate] = useState("");
+  const exercisesData = useSelector((state) => state.exercises.exercises);
+  const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
+  const selectedTrainingLogId = useSelector(
+    (state) => state.log.selectedTrainingLog.id
+  );
 
   const strengthRecords = Object.entries(
     useGetLatestRecords(useFetchStrengthRecords())
@@ -23,12 +26,6 @@ const AddTrainingSessionV2 = () => {
     acc[exerciseName] = record[0];
     return acc;
   }, {});
-
-  const exercisesData = useSelector((state) => state.exercises.exercises);
-  const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
-  const selectedTrainingLogId = useSelector(
-    (state) => state.log.selectedTrainingLog.id
-  );
 
   const [trainingData, setTrainingData] = useState({
     comment: "This is a comment",
@@ -53,6 +50,14 @@ const AddTrainingSessionV2 = () => {
       },
     ],
   });
+
+  const handleTrainingDataChange = (e) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      [name]: value,
+    });
+  };
 
   const handleCheckboxChange = (e, exerciseIndex, setIndex) => {
     console.log("exerciseIndex", exerciseIndex);
@@ -259,9 +264,10 @@ const AddTrainingSessionV2 = () => {
       <div className="ats-training-session">
         <TrainingSessionHeader
           description={trainingData.description}
-          trainingSessionDate={trainingSessionDate}
-          comment={comment}
-          setComment={setComment}
+          trainingSessionDate={trainingData.date}
+          setTrainingSessionDate={handleTrainingDataChange}
+          comment={trainingData.comment}
+          setComment={handleTrainingDataChange}
         />
         {trainingData.exercises.map((exercise, exerciseIndex) => (
           <div key={exerciseIndex} className="ats-exercise">
