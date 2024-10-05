@@ -7,7 +7,7 @@ import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculat
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
-import { addTrainingSession } from "../../log";
+import { addTrainingSession, updateTrainingSession } from "../../log";
 import "./AddTrainingSessionV2.css";
 
 const AddTrainingSessionV2 = () => {
@@ -21,8 +21,8 @@ const AddTrainingSessionV2 = () => {
     (state) => state.log.selectedTrainingLog.id
   );
 
-  const selectedEventTrainingData = location.state?.trainingData;
-  console.log("selectedEventTrainingData", selectedEventTrainingData);
+  const editData = location.state?.trainingData;
+  const isEditMode = !!editData;
 
   const strengthRecords = Object.entries(
     useGetLatestRecords(useFetchStrengthRecords())
@@ -32,8 +32,8 @@ const AddTrainingSessionV2 = () => {
   }, {});
 
   const [trainingData, setTrainingData] = useState(
-    selectedEventTrainingData
-      ? selectedEventTrainingData
+    editData
+      ? editData
       : {
           comment: "This is a comment",
           date: "2024-10-01",
@@ -187,7 +187,7 @@ const AddTrainingSessionV2 = () => {
         ...trainingData.exercises,
         {
           exercise: "Squat",
-          sets: [{ repetitions: 5, set_number: 1, weight: 100 }],
+          sets: [{ weight: 0, repetitions: 0, set_number: 1 }],
         },
       ],
     });
@@ -243,30 +243,35 @@ const AddTrainingSessionV2 = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const dataToSubmit = {
-      training_log_id: selectedTrainingLogId,
-      training_session: {
-        description: trainingData.description,
-        date: trainingData.date,
-        comment: trainingData.comment,
-        exercises: prepareExercisesForSubmission(trainingData.exercises),
-      },
+    const baseData = {
+      description: trainingData.description,
+      date: trainingData.date,
+      comment: trainingData.comment,
+      exercises: prepareExercisesForSubmission(trainingData.exercises),
     };
 
-    console.log("Data  to submit");
-    console.log(dataToSubmit);
+    const dataToSubmit = isEditMode
+      ? {
+          id: editData.id,
+          ...baseData,
+        }
+      : {
+          training_log_id: selectedTrainingLogId,
+          training_session: baseData,
+        };
 
-    dispatch(addTrainingSession(dataToSubmit));
+    if (isEditMode) {
+      dispatch(updateTrainingSession(dataToSubmit));
+    } else {
+      dispatch(addTrainingSession(dataToSubmit));
+    }
     navigate("/training-log");
   };
+
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="header-container">
-        <h1>
-          {selectedEventTrainingData
-            ? "Edit Training Session"
-            : "Add Training Session"}
-        </h1>
+        <h1>{isEditMode ? "Edit Training Session" : "Add Training Session"}</h1>
       </div>
       <div className="ats-training-session">
         <TrainingSessionHeader
