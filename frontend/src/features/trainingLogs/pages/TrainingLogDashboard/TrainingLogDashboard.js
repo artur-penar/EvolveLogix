@@ -95,7 +95,9 @@ const TrainingLogDashboardPage = () => {
 
   const handleDateClick = (date) => {
     alert("Clicked on: " + date.dateStr);
-    navigate("/add-log", { state: { selectedDate: date.dateStr } });
+    navigate("/add-training-session", {
+      state: { selectedDate: date.dateStr },
+    });
   };
 
   const handleEventClick = (e) => {
