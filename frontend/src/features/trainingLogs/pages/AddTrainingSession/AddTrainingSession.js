@@ -1,75 +1,163 @@
-// External imports
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-
-// Internal imports
-import { addTrainingSession, getTrainingLogs } from "../../log";
-import { selectIsUserAuthenticated } from "features/users/user";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "components/shared/Layout";
-import LoadingState from "components/shared/LoadingState";
-import TrainingSessionForm from "features/trainingLogs/sharedComponents/TrainingSessionForm";
+import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
+import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
+import TrainingSessionHeader from "./components/TrainingSessionHeader";
+import ExerciseHeader from "./components/ExerciseHeader";
+import ExerciseTable from "./components/ExerciseTable";
+import { addTrainingSession, updateTrainingSession } from "../../log";
 import "./AddTrainingSession.css";
 
-// Function to get exercise names
-const getExercisesNames = (exercises) =>
-  exercises.map((exercise) => exercise.name);
-
-const AddTrainingSessionPage = () => {
-  // Constants
-  const EMPTY_STRING = "";
-
-  // React Router hooks
-  const location = useLocation();
+const AddTrainingSession = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Initial state for exercises
-  const initialExerciseState = {
-    exercise: "Squat",
-    sets: [{ weight: EMPTY_STRING, repetitions: EMPTY_STRING }],
-    setsNumber: 1,
+  const exercisesData = useSelector((state) => state.exercises.exercises);
+  const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
+  const selectedTrainingLogId = useSelector(
+    (state) => state.log.selectedTrainingLog.id
+  );
+
+  const editData = location.state?.trainingData;
+  const isEditMode = !!editData;
+
+  const strengthRecords = Object.entries(
+    useGetLatestRecords(useFetchStrengthRecords())
+  ).reduce((acc, [exerciseName, record]) => {
+    acc[exerciseName] = record[0];
+    return acc;
+  }, {});
+
+  const [trainingData, setTrainingData] = useState(
+    editData
+      ? editData
+      : {
+          comment: "This is a comment",
+          date: "2024-10-01",
+          description: "This is a description",
+          exercises: [
+            {
+              exercise: "Squat",
+              sets: [
+                {
+                  set_number: 1,
+                  weight: 0,
+                  repetitions: 0,
+                  is_completed: true,
+                },
+              ],
+            },
+          ],
+        }
+  );
+
+  const handleTrainingDataChange = (e) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      [name]: value,
+    });
   };
 
-  // Redux hooks
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
-  const exercisesData = useSelector((state) => state.exercises.exercises);
+  const handleCheckboxChange = (e, exerciseIndex, setIndex) => {
+    console.log("exerciseIndex", exerciseIndex);
+    console.log("setIndex", setIndex);
+    const newIsCompleted = e.target.checked;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== exerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== setIndex
+                  ? set
+                  : {
+                      ...set,
+                      is_completed: newIsCompleted,
+                    }
+              ),
+            }
+      ),
+    });
+  };
 
-  // Derived state
-  const exerciseNames = getExercisesNames(exercisesData);
+  const calculateAverageIntensity = (exercise) => {
+    const totalWeight = exercise.sets.reduce(
+      (totalWeight, set) => totalWeight + set.weight,
+      0
+    );
+    const totalReps = exercise.sets.reduce(
+      (totalReps, set) => totalReps + set.repetitions,
+      0
+    );
 
-  // Redux state
-  const selectedTrainingLog = useSelector(
-    (state) => state.log.selectedTrainingLog
-  );
-  const logName = selectedTrainingLog.name;
+    return totalWeight / totalReps;
+  };
 
-  // State hooks
-  const [loading, setLoading] = useState(true);
-  const [date, setDate] = useState(
-    location.state?.selectedDate || new Date().toISOString().substring(0, 10)
-  );
-  const [comment, setComment] = useState("");
-  const [description, setDescription] = useState("");
-  const [exercises, setExercises] = useState([initialExerciseState]);
+  const calculateTotalVolume = (exercise) => {
+    return exercise.sets.reduce(
+      (totalVolume, set) => totalVolume + set.weight * set.repetitions,
+      0
+    );
+  };
 
-  // Side effects
-  useEffect(() => {
-    dispatch(getTrainingLogs());
-    setLoading(false);
-  }, []);
+  const handleExerciseChange = (e, targetExerciseIndex) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              [name]: value,
+            }
+      ),
+    });
+  };
 
-  // Set logic
+  const handleExerciseDetailsChange = (
+    e,
+    targetExerciseIndex,
+    targetSetIndex
+  ) => {
+    const { name, value } = e.target;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== targetSetIndex
+                  ? set
+                  : {
+                      ...set,
+                      [name]: value,
+                    }
+              ),
+            }
+      ),
+    });
+  };
+
   const updateSets = (exercise, newSetsNumber) => {
     const newSets = [...exercise.sets];
-    if (newSets.length >= 1)
+
+    if (newSetsNumber >= 0)
       if (newSetsNumber < newSets.length) {
         newSets.length = newSetsNumber;
       } else {
         while (newSets.length < newSetsNumber) {
           newSets.push({
-            weight: EMPTY_STRING,
-            repetitions: EMPTY_STRING,
+            weight: 0,
+            repetitions: 0,
             set_number: newSets.length + 1,
           });
         }
@@ -77,72 +165,68 @@ const AddTrainingSessionPage = () => {
     return newSets;
   };
 
-  const handleSetsNumberChange = (e, exerciseIndex) => {
+  const handleSetsNumberChange = (e, targetExerciseIndex) => {
     const newSetsNumber = parseInt(e.target.value, 10);
-    setExercises(
-      exercises.map((exercise, index) =>
-        index !== exerciseIndex
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
           ? exercise
           : {
               ...exercise,
               sets: updateSets(exercise, newSetsNumber),
-              setsNumber: newSetsNumber,
             }
-      )
-    );
-  };
-
-  // Exercise logic
-  const updateExercise = (e, exercise, setIndex) => {
-    return {
-      ...exercise,
-      sets: exercise.sets.map((set, index) => {
-        if (index !== setIndex) {
-          return set;
-        } else {
-          return { ...set, [e.target.name]: e.target.value };
-        }
-      }),
-    };
-  };
-
-  const handleExerciseChange = (e, exerciseIndex, setIndex) => {
-    setExercises(
-      exercises.map((exercise, index) => {
-        if (index !== exerciseIndex) return exercise;
-        if (setIndex !== undefined) {
-          return updateExercise(e, exercise, setIndex);
-        } else {
-          return {
-            ...exercise,
-            exercise: e.target.value,
-          };
-        }
-      })
-    );
+      ),
+    });
   };
 
   const handleAddExercise = () => {
-    setExercises([...exercises, initialExerciseState]);
+    setTrainingData({
+      ...trainingData,
+      exercises: [
+        ...trainingData.exercises,
+        {
+          exercise: "Squat",
+          sets: [{ weight: 0, repetitions: 0, set_number: 1 }],
+        },
+      ],
+    });
   };
 
   const handleRemoveExercise = (exerciseIndexToRemove) => {
-    setExercises(
-      exercises.filter((_, index) => index !== exerciseIndexToRemove)
-    );
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.filter(
+        (exercise, index) => index !== exerciseIndexToRemove
+      ),
+    });
   };
 
-  // Submission logic
-  const checkForEmptyFields = () => {
-    for (let exercise of exercises) {
-      for (let set of exercise.sets) {
-        if (set.repetitions === "" || set.weight === "") {
-          alert("Weight and repetitions cannot be empty.");
-          return true;
-        }
-      }
-    }
-    return false;
+  const handleWeightPercentageChange = (
+    weightPercent,
+    weight,
+    targetExerciseIndex,
+    targetSetIndex
+  ) => {
+    const newWeight = (weightPercent / 100) * weight;
+    setTrainingData({
+      ...trainingData,
+      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
+        currentExerciseIndex !== targetExerciseIndex
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set, currentSetIndex) =>
+                currentSetIndex !== targetSetIndex
+                  ? set
+                  : {
+                      ...set,
+                      weight: newWeight,
+                    }
+              ),
+            }
+      ),
+    });
   };
 
   const prepareExercisesForSubmission = (exercises) => {
@@ -151,6 +235,7 @@ const AddTrainingSessionPage = () => {
       sets: exercise.sets.map((set) => ({
         weight: set.weight,
         repetitions: set.repetitions,
+        is_completed: set.is_completed,
       })),
     }));
   };
@@ -158,55 +243,76 @@ const AddTrainingSessionPage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (checkForEmptyFields()) return;
-
-    const dataToSubmit = {
-      training_log_id: selectedTrainingLog.id,
-      training_session: {
-        description,
-        date,
-        comment,
-        exercises: prepareExercisesForSubmission(exercises),
-      },
+    const baseData = {
+      description: trainingData.description,
+      date: trainingData.date,
+      comment: trainingData.comment,
+      exercises: prepareExercisesForSubmission(trainingData.exercises),
     };
 
-    console.log("Data  to submit");
-    console.log(dataToSubmit);
+    const dataToSubmit = isEditMode
+      ? {
+          id: editData.id,
+          ...baseData,
+        }
+      : {
+          training_log_id: selectedTrainingLogId,
+          training_session: baseData,
+        };
 
-    dispatch(addTrainingSession(dataToSubmit));
+    if (isEditMode) {
+      dispatch(updateTrainingSession(dataToSubmit));
+    } else {
+      dispatch(addTrainingSession(dataToSubmit));
+    }
     navigate("/training-log");
   };
 
-  // Return JSX
-  if (!isAuthenticated) return <Navigate to="/login" />;
-
   return (
     <Layout title="EvolveLogix | Training Log">
-      {loading ? (
-        <LoadingState />
-      ) : (
-        <>
-          <h1 className="h1-title">Add Training Session</h1>
-          <h2 className="h2-subtitle">Current log: {logName}</h2>
-          <TrainingSessionForm
-            description={description}
-            setDescription={setDescription}
-            date={date}
-            setDate={setDate}
-            comment={comment}
-            setComment={setComment}
-            exercises={exercises}
-            exerciseNameList={exerciseNames}
-            handleAddExercise={handleAddExercise}
-            handleRemoveExercise={handleRemoveExercise}
-            handleExerciseChange={handleExerciseChange}
-            handleSetsNumberChange={handleSetsNumberChange}
-            handleSubmit={handleSubmit}
-          />
-        </>
-      )}
+      <div className="header-container">
+        <h1>{isEditMode ? "Edit Training Session" : "Add Training Session"}</h1>
+      </div>
+      <div className="ats-training-session">
+        <TrainingSessionHeader
+          description={trainingData.description}
+          trainingSessionDate={trainingData.date}
+          setTrainingSessionDate={handleTrainingDataChange}
+          comment={trainingData.comment}
+          setComment={handleTrainingDataChange}
+        />
+        {trainingData.exercises.map((exercise, exerciseIndex) => (
+          <div key={exerciseIndex} className="ats-exercise">
+            <ExerciseHeader
+              exerciseIndex={exerciseIndex}
+              exerciseName={exercise.exercise}
+              exerciseNamesList={exerciseNamesList}
+              exercises={trainingData.exercises}
+              processedStrengthRecords={strengthRecords}
+              handleExerciseChange={handleExerciseChange}
+              handleSetsNumberChange={handleSetsNumberChange}
+            />
+
+            <ExerciseTable
+              exercise={exercise}
+              strengthRecords={strengthRecords}
+              exerciseName={exercise.exercise}
+              exerciseIndex={exerciseIndex}
+              handleCheckboxChange={handleCheckboxChange}
+              handleWeightPercentageChange={handleWeightPercentageChange}
+              handleExerciseDetailsChange={handleExerciseDetailsChange}
+            />
+            <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
+            <button onClick={() => handleRemoveExercise(exerciseIndex)}>
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+      <button onClick={handleAddExercise}>Add exercise</button>
+      <button onClick={handleSubmit}>Submit</button>
     </Layout>
   );
 };
 
-export default AddTrainingSessionPage;
+export default AddTrainingSession;

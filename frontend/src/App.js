@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 // Import components
 // trainingLogs components
-import AddTrainingSessionPage from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSession";
 import ExerciseListPage from "features/trainingLogs/pages/ExerciseList/ExerciseList";
+import AddTrainingSession from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSession";
 import ViewTrainingLogsPage from "features/trainingLogs/pages/ViewTrainingLogs/ViewTrainingLogs";
 import TrainingLogDashboardPage from "features/trainingLogs/pages/TrainingLogDashboard/TrainingLogDashboard";
 
@@ -22,11 +22,9 @@ import StrengthRecords from "features/users/pages/StrengthRecords/StrengthRecord
 
 // Import actions
 import { verifyAuth } from "features/users/user";
-import EditTrainingSessionPage from "features/trainingLogs/pages/EditTrainingSession/EditTrainingSession";
 
 import backgroundImage from "./images/evolve_eagle.jpg";
 import secondBackgroundImage from "./images/evolve_background.jpg";
-import AddTrainingSessionV2 from "features/trainingLogs/pages/AddTrainingSession/AddTrainingSessionV2";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -55,10 +53,9 @@ const App = () => {
           <Route path="/exercises" element={<ExerciseListPage />} />
           <Route path="/training-log" element={<TrainingLogDashboardPage />} />
           <Route path="/view-logs" element={<ViewTrainingLogsPage />} />
-          <Route path="/add-log" element={<AddTrainingSessionPage />} />
           <Route
             path="/add-training-session"
-            element={<AddTrainingSessionV2 />}
+            element={<AddTrainingSession />}
           />
           <Route path="/strength-records" element={<StrengthRecords />} />
           <Route path="/training-cycle" element={<TrainingCycle />} />
@@ -68,7 +65,7 @@ const App = () => {
           />
           <Route
             path="/edit-training-session/:id"
-            element={<AddTrainingSessionV2 />}
+            element={<AddTrainingSession />}
           />
         </Routes>
       </Router>

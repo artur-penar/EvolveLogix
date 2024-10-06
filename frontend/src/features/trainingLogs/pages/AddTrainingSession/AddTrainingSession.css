@@ -1,106 +1,128 @@
-.field-container {
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  justify-content: flex-start;
-  margin-bottom: 20px; /* Adjust as needed */
-}
-
-.exercise-set-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.exercise {
-  position: relative;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.exercise-left-panel {
-  padding-right: 10px;
-  width: 15%;
-}
-.exercise-right-panel {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  border-left: 2px solid #ddd;
-}
-
-.form-label {
-  font-weight: bold;
-}
-
-.form-control {
-  width: 100%;
-  padding: 5px;
-  border-radius: 3px;
-  border: 1px solid #ddd;
-}
-
-.add-training-container {
-  width: 80%;
-  margin: 0 auto;
+.ats-training-session {
+  border-radius: 1px solid #ccc;
   padding: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.field-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-bottom: 20px;
+.ats-training-session label {
+  margin-right: 1rem;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
+.ats-exercise {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  margin: 10px 0;
 }
 
-.button {
-  padding: 10px 20px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 5px;
+.ats-exercise-table-container {
+  width: 30%;
+  margin-bottom: 1rem;
+}
+
+.ats-exercise-header {
+  margin-bottom: 1rem;
+}
+
+.ats-exercise-header-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.ats-exercise-header label {
+  font-weight: bold;
+}
+
+.ats-exercise-table {
+  display: grid;
+  gap: 0.5rem; /* Adjust gap as needed */
+}
+
+.ats-four-columns {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.ats-five-columns {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.ats-exercise-table-header {
+  display: contents;
+}
+
+.ats-exercise-table-header label {
+  font-weight: bold;
+}
+
+.ats-exercise-table-row {
+  display: contents;
+}
+
+.ats-set {
+  margin-left: 20px;
+  margin-bottom: 1rem;
+}
+
+.ats-exercise-parameter-input {
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: none; */
+  /* border-radius: 4px; */
+  width: 50px;
+  height: 25px;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0.1rem;
+}
+
+/* styles.css or ExerciseTable.css */
+.ats-checkbox-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  width: 100%; /* Adjust as needed */
+  height: 100%; /* Adjust as needed */
+}
+
+.ats-custom-checkbox {
+  position: absolute;
+  opacity: 0;
   cursor: pointer;
 }
 
-.button-add-exercise {
-  background-color: #007bff;
-  color: white;
+.ats-custom-checkbox + label {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 20px;
+  user-select: none;
 }
 
-.button-submit {
-  background-color: #28a745;
-  color: white;
-}
-
-.set-input {
-  padding-right: 10px;
-  padding-left: 10px;
-  border-right: 1px solid #ddd;
-}
-.h1-title {
-  font-size: 2.5em; /* Adjust as needed */
-  color: #333; /* Adjust as needed */
-  margin-bottom: 10px; /* Adjust as needed */
-  text-align: center; /* Adjust as needed */
-}
-
-.h2-subtitle {
-  font-size: 1.5em; /* Adjust as needed */
-  color: #666; /* Adjust as needed */
-  margin-bottom: 20px; /* Adjust as needed */
-  text-align: center; /* Adjust as needed */
-}
-
-.delete-button-container button {
-  background-color: red;
+.ats-custom-checkbox + label::before {
+  content: "";
   position: absolute;
-  top: 10px; /* adjust as needed */
-  right: 10px; /* adjust as needed */
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 3px;
+}
+
+.ats-custom-checkbox:checked + label::before {
+  background-color: #ccc;
+  border-color: #bbb;
+}
+
+.ats-custom-checkbox:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
