@@ -23,6 +23,8 @@ const AddTrainingSession = () => {
 
   const editData = location.state?.trainingData;
   const isEditMode = !!editData;
+  const selectedDate = location.state?.selectedDate;
+  const formattedDate = new Date().toISOString().split("T")[0];
 
   const strengthRecords = Object.entries(
     useGetLatestRecords(useFetchStrengthRecords())
@@ -36,7 +38,7 @@ const AddTrainingSession = () => {
       ? editData
       : {
           comment: "This is a comment",
-          date: "2024-10-01",
+          date: selectedDate ? selectedDate : formattedDate,
           description: "This is a description",
           exercises: [
             {
