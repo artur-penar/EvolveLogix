@@ -24,6 +24,8 @@ const useHandleExerciseDetailChange = (setPhaseTrainingProgram) => {
     detailType
   ) => {
     setPhaseTrainingProgram((prevState) => {
+      if (newValue < 0) newValue = 0;
+      if (newValue > 999) newValue = 999;
       const newState = JSON.parse(JSON.stringify(prevState));
       newState[trainingSessionIndex].exercises[exerciseIndex].microcycles[
         microcycleIndex
