@@ -12,6 +12,7 @@ const TrainingSessionContainer = ({
   handleExerciseDetailChange,
   displayWeightInPercent,
   isEditable,
+  strengthRecords,
 }) => {
   return (
     <div className="training-day-container" key={trainingSessionIndex}>
@@ -35,6 +36,7 @@ const TrainingSessionContainer = ({
         handleExerciseDetailChange={handleExerciseDetailChange}
         displayWeightInPercent={displayWeightInPercent}
         isEditable={isEditable}
+        strengthRecords={strengthRecords}
       />
 
       <div
