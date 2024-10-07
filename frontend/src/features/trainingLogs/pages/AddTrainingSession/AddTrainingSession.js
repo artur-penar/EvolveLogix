@@ -279,7 +279,7 @@ const AddTrainingSession = () => {
         <TrainingSessionHeader
           description={trainingData.description}
           trainingSessionDate={trainingData.date}
-          setTrainingSessionDate={handleTrainingDataChange}
+          handleTrainingDataChange={handleTrainingDataChange}
           comment={trainingData.comment}
           setComment={handleTrainingDataChange}
         />
