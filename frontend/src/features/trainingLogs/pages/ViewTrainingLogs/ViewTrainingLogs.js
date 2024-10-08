@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTrainingLogs } from "../../log";
 import Layout from "components/shared/Layout";
 import "./ViewTrainingLogs.css";
+import { getWeek } from "date-fns";
 
 const ViewTrainingLogsPage = () => {
   const dispatch = useDispatch();
@@ -10,51 +11,69 @@ const ViewTrainingLogsPage = () => {
     dispatch(getTrainingLogs());
   }, []);
 
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  // Fetch current selected training log
+  const selectedTrainingLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
+  const trainingSessions = selectedTrainingLog.training_sessions;
   const loading = useSelector((state) => state.log.loading);
+
+  const groupTrainingSessions = (trainingSessions) => {
+    const trainingSessionGroups = {
+      "Training A": [],
+      "Training B": [],
+    };
+    trainingSessions.map((session) => {
+      const sessionDate = new Date(session.date);
+      const weekNumber = getWeek(sessionDate, { weekStartsOn: 1 });
+
+      if (trainingSessionGroups[session.description]) {
+        trainingSessionGroups[session.description].push({
+          ...session,
+          weekNumber,
+        });
+      }
+    });
+
+    console.log(trainingSessionGroups);
+  };
+
+  groupTrainingSessions(trainingSessions);
 
   return (
     <Layout title="EvolveLogix | Training Log">
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <>
-          <React.Fragment>
-            <div className="training-log-container">
-              {trainingLogsData.map((log, index) => (
-                <div key={index}>
-                  <div className="header-container">
-                    <h1>{log.name}</h1>
-                  </div>
-                  <div className="training-log-container">
-                    {log.training_sessions.map((session, i) => (
-                      <div key={`${index}-{i}`} className="training-log">
-                        <h4>Name: {session.description}</h4>
-                        <h5>Date: {session.date}</h5>
-                        <h5>Comment: {session.comment}</h5>
-                        {session.exercises.map((exercise, j) => (
-                          <div key={j} className="ex">
-                            <p>
-                              Nr.{exercise.order} : {exercise.exercise}
-                            </p>
-                            {exercise.sets.map((set, k) => (
-                              <div key={k} className="set">
-                                <p>
-                                  Set {set.set_number}: {set.weight}kg x{" "}
-                                  {set.repetitions}rep
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        ))}
+        <div className="training-log-container">
+          <div className="header-container">
+            <h1>{selectedTrainingLog.name}</h1>
+          </div>
+          <div className="training-log-container">
+            {trainingSessions.map((session, i) => (
+              <div key={i} className="training-log">
+                <h4>Name: {session.description}</h4>
+                <h5>Date: {session.date}</h5>
+                <h5>Comment: {session.comment}</h5>
+                {session.exercises.map((exercise, j) => (
+                  <div key={j} className="ex">
+                    <p>
+                      Nr.{exercise.order} : {exercise.exercise}
+                    </p>
+                    {exercise.sets.map((set, k) => (
+                      <div key={k} className="set">
+                        <p>
+                          Set {set.set_number}: {set.weight}kg x{" "}
+                          {set.repetitions}rep
+                        </p>
                       </div>
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </React.Fragment>
-        </>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </Layout>
   );
