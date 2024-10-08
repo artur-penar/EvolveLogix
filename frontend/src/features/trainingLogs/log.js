@@ -135,6 +135,16 @@ export const deleteTrainingSession = createAsyncThunk(
   }
 );
 
+const updateSelectedTrainingLog = (state, updatedLog) => {
+  if (
+    state.selectedTrainingLog &&
+    state.selectedTrainingLog.id === updatedLog.id
+  ) {
+    state.selectedTrainingLog = updatedLog;
+    saveSelectedTrainingLog(updatedLog);
+  }
+};
+
 const saveSelectedTrainingLog = (trainingLog) => {
   localStorage.setItem("selectedTrainingLog", JSON.stringify(trainingLog));
 };
@@ -192,10 +202,11 @@ const logSlice = createSlice({
         state.loading = false;
         const newTrainingSession = action.payload;
         const trainingLog = state.trainingLogs.find(
-          (log) => log.id === newTrainingSession.id
+          (log) => log.id === newTrainingSession.training_log
         );
         if (trainingLog) {
           trainingLog.training_sessions.push(newTrainingSession);
+          updateSelectedTrainingLog(state, trainingLog);
         }
       })
       .addCase(addTrainingSession.rejected, (state, action) => {
@@ -208,10 +219,18 @@ const logSlice = createSlice({
       .addCase(updateTrainingSession.fulfilled, (state, action) => {
         state.loading = false;
         const updatedTrainingSession = action.payload;
-        const index = state.trainingLogs.findIndex(
-          (trainingSession) => trainingSession.id === updatedTrainingSession.id
+        const trainingLog = state.trainingLogs.find(
+          (log) => log.id === updatedTrainingSession.training_log
         );
-        state.trainingLogs[index] = updatedTrainingSession;
+
+        if (trainingLog) {
+          const trainingSessionIndex = trainingLog.training_sessions.findIndex(
+            (session) => session.id === updatedTrainingSession.id
+          );
+          trainingLog.training_sessions[trainingSessionIndex] =
+            updatedTrainingSession;
+          updateSelectedTrainingLog(state, trainingLog);
+        }
       })
       .addCase(updateTrainingSession.rejected, (state, action) => {
         state.loading = false;
@@ -223,12 +242,19 @@ const logSlice = createSlice({
       .addCase(deleteTrainingSession.fulfilled, (state, action) => {
         state.loading = false;
         const { sessionId } = action.payload;
-        state.trainingLogs = state.trainingLogs.map((logData) => ({
-          ...logData,
-          training_sessions: logData.training_sessions.filter(
+        const trainingSession =
+          state.selectedTrainingLog.training_sessions.find(
+            (session) => session.id === sessionId
+          );
+        const trainingLog = state.trainingLogs.find(
+          (log) => log.id === trainingSession.training_log
+        );
+        if (trainingLog) {
+          trainingLog.training_sessions = trainingLog.training_sessions.filter(
             (session) => session.id !== sessionId
-          ),
-        }));
+          );
+          updateSelectedTrainingLog(state, trainingLog);
+        }
       })
       .addCase(deleteTrainingSession.rejected, (state, action) => {
         state.loading = false;
