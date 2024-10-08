@@ -72,13 +72,21 @@ const DashboardPage = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
+    let trainingLogData = null;
     if (selectedTrainingLogName) {
+      console.log("Setting selected log to: ", selectedTrainingLogName);
+      trainingLogData = trainingLogs.find(
+        (log) => log.name === selectedTrainingLogName
+      );
       setSelectedLog(selectedTrainingLogName);
     } else if (trainingLogs.length > 0) {
       const firstLogName = trainingLogs[0].name;
+      trainingLogData = trainingLogs[0];
       setSelectedLog(firstLogName);
-      dispatch(setSelectedTrainingLog(trainingLogs[0]));
+      console.log("Setting selected log to: ", firstLogName);
     }
+
+    dispatch(setSelectedTrainingLog(trainingLogData));
   }, [dispatch, trainingLogs]);
 
   const handleChange = (e) => {
