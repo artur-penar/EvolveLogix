@@ -11,10 +11,13 @@ const ViewTrainingLogsPage = () => {
     dispatch(getTrainingLogs());
   }, []);
 
+  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  console.log("Training logs: ", trainingLogsData);
   // Fetch current selected training log
   const selectedTrainingLog = useSelector(
     (state) => state.log.selectedTrainingLog
   );
+  console.log("Selected training log: ", selectedTrainingLog);
   const trainingSessions = selectedTrainingLog.training_sessions;
   const loading = useSelector((state) => state.log.loading);
 
@@ -22,6 +25,7 @@ const ViewTrainingLogsPage = () => {
     const trainingSessionGroups = {
       "Training A": [],
       "Training B": [],
+      "Training C": [],
     };
     trainingSessions.map((session) => {
       const sessionDate = new Date(session.date);
@@ -36,9 +40,21 @@ const ViewTrainingLogsPage = () => {
     });
 
     console.log(trainingSessionGroups);
+    return trainingSessionGroups;
   };
 
-  groupTrainingSessions(trainingSessions);
+  const calculateTrainingDaysPerWeek = (groupedTrainingSessions) => {
+    let trainingDaysPerWeek = 0;
+    Object.keys(groupedTrainingSessions).map((key) => {
+      if (groupedTrainingSessions[key].length > 0) {
+        trainingDaysPerWeek++;
+      }
+    });
+    return trainingDaysPerWeek;
+  };
+
+  const groupedTrainingSessions = groupTrainingSessions(trainingSessions);
+  console.log(calculateTrainingDaysPerWeek(groupedTrainingSessions));
 
   return (
     <Layout title="EvolveLogix | Training Log">
