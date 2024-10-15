@@ -1,14 +1,12 @@
 /* TrainingLogs.css */
-.training-log-container {
+/* TrainingLogs.css */
+.training-sessions-container {
   margin: 0 auto;
   padding: 20px;
+  display: grid;
+  gap: 20px; /* Space between grid items */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.logs-container {
-  display: flex;
-  align-items: center; /* This will vertically align the items in the middle */
-  gap: 100px; /* This will add a 10px gap between the items */
+  overflow-x: auto;
 }
 
 .header-container h3 {
@@ -22,11 +20,10 @@
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Slightly larger shadow on hover */
 }
 
-.training-log {
+.training-session {
   border-radius: 1px solid #ccc;
   padding: 20px;
   margin-bottom: 20px;
-  width: calc(33% - 45px);
   box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
