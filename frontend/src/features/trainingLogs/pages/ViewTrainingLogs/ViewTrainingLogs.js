@@ -4,7 +4,7 @@ import { getTrainingLogs } from "../../log";
 import Layout from "components/shared/Layout";
 import "./ViewTrainingLogs.css";
 import { getWeek } from "date-fns";
-import GroupedSessions from "./components/GroupedSessions";
+import GroupedTrainingSessions from "./components/GroupedTrainingSessions";
 
 const ViewTrainingLogsPage = () => {
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ const ViewTrainingLogsPage = () => {
           <div className="header-container">
             <h1>{selectedTrainingLog.name}</h1>
           </div>
-          <GroupedSessions trainingSessions={trainingSessions} />
+          <GroupedTrainingSessions trainingSessions={trainingSessions} />
         </div>
       )}
     </Layout>

@@ -2,7 +2,7 @@ import React from "react";
 import { getWeek, startOfWeek } from "date-fns";
 import getWeekStartAndEndDates from "features/trainingLogs/utils/getWeekStartAndEndDates";
 
-const GroupedSessions = ({ trainingSessions }) => {
+const GroupedTrainingSessions = ({ trainingSessions }) => {
   const groupSessionsByWeek = (trainingSessions) => {
     const groupedSessions = {};
     trainingSessions.forEach((session) => {
@@ -71,4 +71,4 @@ const GroupedSessions = ({ trainingSessions }) => {
   );
 };
 
-export default GroupedSessions;
+export default GroupedTrainingSessions;
