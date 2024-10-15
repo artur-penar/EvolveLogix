@@ -4,6 +4,7 @@ import { getTrainingLogs } from "../../log";
 import Layout from "components/shared/Layout";
 import "./ViewTrainingLogs.css";
 import { getWeek } from "date-fns";
+import GroupedSessions from "./components/GroupedSessions";
 
 const ViewTrainingLogsPage = () => {
   const dispatch = useDispatch();
@@ -68,35 +69,7 @@ const ViewTrainingLogsPage = () => {
           <div className="header-container">
             <h1>{selectedTrainingLog.name}</h1>
           </div>
-          <div
-            className="training-sessions-container"
-            style={{
-              gridTemplateColumns: ` repeat(${trainingDaysPerWeek}, minmax(300px, 1fr)  )`,
-            }}
-          >
-            {sortedTrainingSessions.map((session, i) => (
-              <div key={i} className="training-session">
-                <h4>Tag: {session.description}</h4>
-                <h5>Date: {session.date}</h5>
-                <h5>Comment: {session.comment}</h5>
-                {session.exercises.map((exercise, j) => (
-                  <div key={j} className="ex">
-                    <p>
-                      Nr.{exercise.order} : {exercise.exercise}
-                    </p>
-                    {exercise.sets.map((set, k) => (
-                      <div key={k} className="set">
-                        <p>
-                          Set {set.set_number}: {set.weight}kg x{" "}
-                          {set.repetitions}rep
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          <GroupedSessions trainingSessions={trainingSessions} />
         </div>
       )}
     </Layout>
