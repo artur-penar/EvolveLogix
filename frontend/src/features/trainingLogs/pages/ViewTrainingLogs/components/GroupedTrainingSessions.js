@@ -18,12 +18,20 @@ const GroupedTrainingSessions = ({ trainingSessions }) => {
 
     return groupedSessions;
   };
-  const trainingDaysPerWeek = 2;
 
   const groupedSessions = groupSessionsByWeek(trainingSessions);
-  console.log(getWeekStartAndEndDates(2024, 1));
-  const { startOfWeek, endOfWeek } = getWeekStartAndEndDates(2024, 1);
-  console.log(`Week 1 starts on ${startOfWeek} and ends on ${endOfWeek}`);
+  const calculateTrainingDaysPerWeek = (groupedSessions) => {
+    const uniqueTrainingDescriptions = new Set();
+    Object.values(groupedSessions).forEach((sessions) => {
+      sessions.forEach((session) => {
+        uniqueTrainingDescriptions.add(session.description);
+      });
+    });
+    return uniqueTrainingDescriptions.size;
+  };
+
+  const trainingDaysPerWeek = calculateTrainingDaysPerWeek(groupedSessions);
+
   return (
     <div
       className="grouped-session-container"
