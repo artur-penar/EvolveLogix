@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import TrainingSessionContainer from "./TrainingSessionContainer";
 import DateInput from "./DateInput";
 import "./PhaseDisplay.css";
-import { useSelector } from "react-redux";
+
 import { selectExerciseNames } from "features/trainingLogs/selectors";
+import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 
 const processPhaseData = (data) => {
   if (!data) return [];
@@ -22,6 +25,7 @@ const PhaseDisplay = ({
   isLabelVisible = true,
   enableSelect = true,
 }) => {
+  const strengthRecords = useFetchStrengthRecords();
   const exerciseNamesList = useSelector(selectExerciseNames);
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [selectedPhaseStartDate, setSelectedPhaseStartDate] = useState("");
@@ -100,6 +104,7 @@ const PhaseDisplay = ({
             handleAddExercise={() => {}}
             displayWeightInPercent={false}
             isEditable={false}
+            strengthRecords={strengthRecords}
           />
         );
       })}
