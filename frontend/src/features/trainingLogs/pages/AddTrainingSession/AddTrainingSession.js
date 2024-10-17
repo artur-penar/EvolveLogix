@@ -10,6 +10,7 @@ import ExerciseTable from "./components/ExerciseTable";
 import { addTrainingSession, updateTrainingSession } from "../../log";
 import "./AddTrainingSession.css";
 import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
+import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -171,19 +172,13 @@ const AddTrainingSession = () => {
     return newSets;
   };
 
-  const handleSetsNumberChange = (e, targetExerciseIndex) => {
-    const newSetsNumber = parseInt(e.target.value, 10);
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
-        currentExerciseIndex !== targetExerciseIndex
-          ? exercise
-          : {
-              ...exercise,
-              sets: updateSets(exercise, newSetsNumber),
-            }
-      ),
-    });
+  const changeSetsNumber = (e, targetExerciseIndex) => {
+    handleSetsNumberChange(
+      e,
+      targetExerciseIndex,
+      trainingData,
+      setTrainingData
+    );
   };
 
   const addExercise = () => {
@@ -287,7 +282,7 @@ const AddTrainingSession = () => {
               exercises={trainingData.exercises}
               processedStrengthRecords={strengthRecords}
               handleExerciseChange={handleExerciseChange}
-              handleSetsNumberChange={handleSetsNumberChange}
+              handleSetsNumberChange={changeSetsNumber}
             />
 
             <ExerciseTable
