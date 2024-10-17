@@ -35,6 +35,7 @@ const ExerciseTable = ({
                 className="ats-exercise-parameter-input"
                 type="number"
                 value={Math.round((set.weight / oneRepMax) * 100)}
+                min={0}
                 onChange={(e) =>
                   handleWeightPercentageChange(
                     e.target.value,
@@ -50,6 +51,7 @@ const ExerciseTable = ({
               name="weight"
               type="number"
               value={set.weight}
+              min={0}
               onChange={(e) =>
                 handleExerciseDetailsChange(e, exerciseIndex, setIndex)
               }
@@ -59,6 +61,7 @@ const ExerciseTable = ({
               name="repetitions"
               type="number"
               value={set.repetitions}
+              min={0}
               onChange={(e) => {
                 handleExerciseDetailsChange(e, exerciseIndex, setIndex);
               }}

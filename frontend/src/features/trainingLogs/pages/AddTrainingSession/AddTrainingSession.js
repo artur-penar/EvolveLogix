@@ -129,24 +129,27 @@ const AddTrainingSession = () => {
     targetSetIndex
   ) => {
     const { name, value } = e.target;
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
-        currentExerciseIndex !== targetExerciseIndex
-          ? exercise
-          : {
-              ...exercise,
-              sets: exercise.sets.map((set, currentSetIndex) =>
-                currentSetIndex !== targetSetIndex
-                  ? set
-                  : {
-                      ...set,
-                      [name]: value,
-                    }
-              ),
-            }
-      ),
-    });
+    if (value >= 0) {
+      setTrainingData({
+        ...trainingData,
+        exercises: trainingData.exercises.map(
+          (exercise, currentExerciseIndex) =>
+            currentExerciseIndex !== targetExerciseIndex
+              ? exercise
+              : {
+                  ...exercise,
+                  sets: exercise.sets.map((set, currentSetIndex) =>
+                    currentSetIndex !== targetSetIndex
+                      ? set
+                      : {
+                          ...set,
+                          [name]: value,
+                        }
+                  ),
+                }
+        ),
+      });
+    }
   };
 
   const updateSets = (exercise, newSetsNumber) => {
