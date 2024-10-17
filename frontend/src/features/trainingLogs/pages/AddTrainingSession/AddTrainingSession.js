@@ -13,6 +13,7 @@ import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise"
 import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
 import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
 import handleRemoveExercise from "features/trainingLogs/handlers/handleRemoveExercise";
+import handleWeightPercentageChange from "features/trainingLogs/handlers/handleWeightPercentageChange";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -154,31 +155,20 @@ const AddTrainingSession = () => {
     handleRemoveExercise(exerciseIndexToRemove, trainingData, setTrainingData);
   };
 
-  const handleWeightPercentageChange = (
+  const changeWeightPercentage = (
     weightPercent,
     weight,
     targetExerciseIndex,
     targetSetIndex
   ) => {
-    const newWeight = (weightPercent / 100) * weight;
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
-        currentExerciseIndex !== targetExerciseIndex
-          ? exercise
-          : {
-              ...exercise,
-              sets: exercise.sets.map((set, currentSetIndex) =>
-                currentSetIndex !== targetSetIndex
-                  ? set
-                  : {
-                      ...set,
-                      weight: newWeight,
-                    }
-              ),
-            }
-      ),
-    });
+    handleWeightPercentageChange(
+      weightPercent,
+      weight,
+      targetExerciseIndex,
+      targetSetIndex,
+      trainingData,
+      setTrainingData
+    );
   };
 
   const prepareExercisesForSubmission = (exercises) => {
@@ -251,7 +241,7 @@ const AddTrainingSession = () => {
               exerciseName={exercise.exercise}
               exerciseIndex={exerciseIndex}
               handleCheckboxChange={handleCheckboxChange}
-              handleWeightPercentageChange={handleWeightPercentageChange}
+              handleWeightPercentageChange={changeWeightPercentage}
               handleExerciseDetailsChange={changeExerciseDetails}
             />
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
