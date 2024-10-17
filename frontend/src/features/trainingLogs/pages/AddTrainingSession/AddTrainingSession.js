@@ -8,12 +8,13 @@ import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
 import { addTrainingSession, updateTrainingSession } from "../../log";
-import "./AddTrainingSession.css";
 import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
 import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
 import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
 import handleRemoveExercise from "features/trainingLogs/handlers/handleRemoveExercise";
 import handleWeightPercentageChange from "features/trainingLogs/handlers/handleWeightPercentageChange";
+import "./AddTrainingSession.css";
+import handleCheckboxChange from "features/trainingLogs/handlers/handleCheckboxChange";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -69,28 +70,14 @@ const AddTrainingSession = () => {
     });
   };
 
-  const handleCheckboxChange = (e, exerciseIndex, setIndex) => {
-    console.log("exerciseIndex", exerciseIndex);
-    console.log("setIndex", setIndex);
-    const newIsCompleted = e.target.checked;
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
-        currentExerciseIndex !== exerciseIndex
-          ? exercise
-          : {
-              ...exercise,
-              sets: exercise.sets.map((set, currentSetIndex) =>
-                currentSetIndex !== setIndex
-                  ? set
-                  : {
-                      ...set,
-                      is_completed: newIsCompleted,
-                    }
-              ),
-            }
-      ),
-    });
+  const changeCheckbox = (e, exerciseIndex, setIndex) => {
+    handleCheckboxChange(
+      e,
+      exerciseIndex,
+      setIndex,
+      trainingData,
+      setTrainingData
+    );
   };
 
   const calculateAverageIntensity = (exercise) => {
@@ -240,7 +227,7 @@ const AddTrainingSession = () => {
               strengthRecords={strengthRecords}
               exerciseName={exercise.exercise}
               exerciseIndex={exerciseIndex}
-              handleCheckboxChange={handleCheckboxChange}
+              handleCheckboxChange={changeCheckbox}
               handleWeightPercentageChange={changeWeightPercentage}
               handleExerciseDetailsChange={changeExerciseDetails}
             />
