@@ -9,6 +9,7 @@ import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
 import { addTrainingSession, updateTrainingSession } from "../../log";
 import "./AddTrainingSession.css";
+import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -185,17 +186,8 @@ const AddTrainingSession = () => {
     });
   };
 
-  const handleAddExercise = () => {
-    setTrainingData({
-      ...trainingData,
-      exercises: [
-        ...trainingData.exercises,
-        {
-          exercise: "Squat",
-          sets: [{ weight: 0, repetitions: 0, set_number: 1 }],
-        },
-      ],
-    });
+  const addExercise = () => {
+    handleAddExercise(trainingData, setTrainingData);
   };
 
   const handleRemoveExercise = (exerciseIndexToRemove) => {
@@ -314,7 +306,7 @@ const AddTrainingSession = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleAddExercise}>Add exercise</button>
+      <button onClick={addExercise}>Add exercise</button>
       <button onClick={handleSubmit}>Submit</button>
     </Layout>
   );
