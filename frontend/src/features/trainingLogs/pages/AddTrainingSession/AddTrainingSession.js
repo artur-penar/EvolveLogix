@@ -11,6 +11,7 @@ import { addTrainingSession, updateTrainingSession } from "../../log";
 import "./AddTrainingSession.css";
 import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
 import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
+import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -125,33 +126,14 @@ const AddTrainingSession = () => {
     });
   };
 
-  const handleExerciseDetailsChange = (
-    e,
-    targetExerciseIndex,
-    targetSetIndex
-  ) => {
-    const { name, value } = e.target;
-    if (value >= 0) {
-      setTrainingData({
-        ...trainingData,
-        exercises: trainingData.exercises.map(
-          (exercise, currentExerciseIndex) =>
-            currentExerciseIndex !== targetExerciseIndex
-              ? exercise
-              : {
-                  ...exercise,
-                  sets: exercise.sets.map((set, currentSetIndex) =>
-                    currentSetIndex !== targetSetIndex
-                      ? set
-                      : {
-                          ...set,
-                          [name]: value,
-                        }
-                  ),
-                }
-        ),
-      });
-    }
+  const changeExerciseDetails = (e, targetExerciseIndex, targetSetIndex) => {
+    handleExerciseDetailsChange(
+      e,
+      targetExerciseIndex,
+      targetSetIndex,
+      trainingData,
+      setTrainingData
+    );
   };
 
   const updateSets = (exercise, newSetsNumber) => {
@@ -292,7 +274,7 @@ const AddTrainingSession = () => {
               exerciseIndex={exerciseIndex}
               handleCheckboxChange={handleCheckboxChange}
               handleWeightPercentageChange={handleWeightPercentageChange}
-              handleExerciseDetailsChange={handleExerciseDetailsChange}
+              handleExerciseDetailsChange={changeExerciseDetails}
             />
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
             <button onClick={() => handleRemoveExercise(exerciseIndex)}>
