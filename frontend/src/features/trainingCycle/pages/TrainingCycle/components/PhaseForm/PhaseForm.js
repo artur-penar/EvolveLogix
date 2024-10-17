@@ -6,9 +6,9 @@ import useExerciseNames from "features/trainingCycle/hooks/useExerciseNames";
 import useUpdateSessionsNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateSessionsNumber";
 import useUpdateMicrocyclesNumber from "features/trainingCycle/hooks/PhaseForm/useUpdateMicrocyclesNumber";
 import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
-import useHandleExerciseChange from "features/trainingCycle/hooks/handlers/useHandleExerciseChange";
-import useHandleAddExercise from "features/trainingCycle/hooks/handlers/useHandleAddExercise";
-import useHandleExerciseDetailChange from "features/trainingCycle/hooks/handlers/useHandleExerciseDetailChange";
+import useHandleExerciseChange from "features/trainingCycle/handlers/useHandleExerciseChange";
+import useHandleAddExercise from "features/trainingCycle/handlers/useHandleAddExercise";
+import useHandleExerciseDetailChange from "features/trainingCycle/handlers/useHandleExerciseDetailChange";
 
 // Component imports
 import RecordsDisplayContainer from "./RecordsDisplayContainer";
