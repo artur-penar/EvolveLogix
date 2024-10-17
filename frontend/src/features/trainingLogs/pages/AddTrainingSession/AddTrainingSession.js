@@ -12,6 +12,7 @@ import "./AddTrainingSession.css";
 import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
 import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
 import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
+import handleRemoveExercise from "features/trainingLogs/handlers/handleRemoveExercise";
 
 const AddTrainingSession = () => {
   const dispatch = useDispatch();
@@ -136,24 +137,6 @@ const AddTrainingSession = () => {
     );
   };
 
-  const updateSets = (exercise, newSetsNumber) => {
-    const newSets = [...exercise.sets];
-
-    if (newSetsNumber >= 0)
-      if (newSetsNumber < newSets.length) {
-        newSets.length = newSetsNumber;
-      } else {
-        while (newSets.length < newSetsNumber) {
-          newSets.push({
-            weight: 0,
-            repetitions: 0,
-            set_number: newSets.length + 1,
-          });
-        }
-      }
-    return newSets;
-  };
-
   const changeSetsNumber = (e, targetExerciseIndex) => {
     handleSetsNumberChange(
       e,
@@ -167,13 +150,8 @@ const AddTrainingSession = () => {
     handleAddExercise(trainingData, setTrainingData);
   };
 
-  const handleRemoveExercise = (exerciseIndexToRemove) => {
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.filter(
-        (exercise, index) => index !== exerciseIndexToRemove
-      ),
-    });
+  const removeExercise = (exerciseIndexToRemove) => {
+    handleRemoveExercise(exerciseIndexToRemove, trainingData, setTrainingData);
   };
 
   const handleWeightPercentageChange = (
@@ -277,7 +255,7 @@ const AddTrainingSession = () => {
               handleExerciseDetailsChange={changeExerciseDetails}
             />
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
-            <button onClick={() => handleRemoveExercise(exerciseIndex)}>
+            <button onClick={() => removeExercise(exerciseIndex)}>
               Remove
             </button>
           </div>
