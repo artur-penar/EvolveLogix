@@ -15,6 +15,7 @@ import handleWeightPercentageChange from "features/trainingLogs/handlers/handleW
 import handleCheckboxChange from "features/trainingLogs/handlers/handleCheckboxChange";
 import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
 import "./AddTrainingSession.css";
+import handleExerciseChange from "features/trainingLogs/handlers/handleExerciseChange";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -98,19 +99,8 @@ const AddTrainingSession = () => {
     );
   };
 
-  const handleExerciseChange = (e, targetExerciseIndex) => {
-    const { name, value } = e.target;
-    setTrainingData({
-      ...trainingData,
-      exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
-        currentExerciseIndex !== targetExerciseIndex
-          ? exercise
-          : {
-              ...exercise,
-              [name]: value,
-            }
-      ),
-    });
+  const changeExercise = (e, targetExerciseIndex) => {
+    handleExerciseChange(e, targetExerciseIndex, trainingData, setTrainingData);
   };
 
   const changeExerciseDetails = (e, targetExerciseIndex, targetSetIndex) => {
@@ -184,7 +174,7 @@ const AddTrainingSession = () => {
               exerciseNamesList={exerciseNamesList}
               exercises={trainingData.exercises}
               processedStrengthRecords={strengthRecords}
-              handleExerciseChange={handleExerciseChange}
+              handleExerciseChange={changeExercise}
               handleSetsNumberChange={changeSetsNumber}
             />
 
