@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Layout from "components/shared/Layout";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
-import { addTrainingSession, updateTrainingSession } from "../../log";
 import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
 import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
 import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
 import handleRemoveExercise from "features/trainingLogs/handlers/handleRemoveExercise";
 import handleWeightPercentageChange from "features/trainingLogs/handlers/handleWeightPercentageChange";
-import "./AddTrainingSession.css";
 import handleCheckboxChange from "features/trainingLogs/handlers/handleCheckboxChange";
+import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
+import "./AddTrainingSession.css";
 
 const AddTrainingSession = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const exercisesData = useSelector((state) => state.exercises.exercises);
@@ -158,44 +156,12 @@ const AddTrainingSession = () => {
     );
   };
 
-  const prepareExercisesForSubmission = (exercises) => {
-    return exercises.map((exercise) => ({
-      exercise: exercise.exercise,
-      sets: exercise.sets.map((set) => ({
-        weight: set.weight,
-        repetitions: set.repetitions,
-        is_completed: set.is_completed,
-      })),
-    }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const baseData = {
-      description: trainingData.description,
-      date: trainingData.date,
-      comment: trainingData.comment,
-      exercises: prepareExercisesForSubmission(trainingData.exercises),
-    };
-
-    const dataToSubmit = isEditMode
-      ? {
-          id: editData.id,
-          ...baseData,
-        }
-      : {
-          training_log_id: selectedTrainingLogId,
-          training_session: baseData,
-        };
-
-    if (isEditMode) {
-      dispatch(updateTrainingSession(dataToSubmit));
-    } else {
-      dispatch(addTrainingSession(dataToSubmit));
-    }
-    navigate("/training-log");
-  };
+  const handleSubmit = useHandleSubmit(
+    trainingData,
+    editData,
+    isEditMode,
+    selectedTrainingLogId
+  );
 
   return (
     <Layout title="EvolveLogix | Training Log">
@@ -239,7 +205,7 @@ const AddTrainingSession = () => {
         ))}
       </div>
       <button onClick={addExercise}>Add exercise</button>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={(event) => handleSubmit(event)}>Submit</button>
     </Layout>
   );
 };
