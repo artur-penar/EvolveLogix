@@ -16,6 +16,7 @@ import handleCheckboxChange from "features/trainingLogs/handlers/handleCheckboxC
 import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
 import "./AddTrainingSession.css";
 import handleExerciseChange from "features/trainingLogs/handlers/handleExerciseChange";
+import handleTrainingDataChange from "features/trainingLogs/handlers/handleTrainingDataChange";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -61,12 +62,8 @@ const AddTrainingSession = () => {
         }
   );
 
-  const handleTrainingDataChange = (e) => {
-    const { name, value } = e.target;
-    setTrainingData({
-      ...trainingData,
-      [name]: value,
-    });
+  const changeTrainingData = (e) => {
+    handleTrainingDataChange(e, trainingData, setTrainingData);
   };
 
   const changeCheckbox = (e, exerciseIndex, setIndex) => {
@@ -162,9 +159,9 @@ const AddTrainingSession = () => {
         <TrainingSessionHeader
           description={trainingData.description}
           trainingSessionDate={trainingData.date}
-          handleTrainingDataChange={handleTrainingDataChange}
+          handleTrainingDataChange={changeTrainingData}
           comment={trainingData.comment}
-          setComment={handleTrainingDataChange}
+          setComment={changeTrainingData}
         />
         {trainingData.exercises.map((exercise, exerciseIndex) => (
           <div key={exerciseIndex} className="ats-exercise">
