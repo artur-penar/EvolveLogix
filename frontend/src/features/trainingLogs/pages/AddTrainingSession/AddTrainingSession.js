@@ -37,22 +37,19 @@ import useStrengthRecords from "features/trainingLogs/hooks/useStrengthRecords";
 const AddTrainingSession = () => {
   const location = useLocation();
 
+  // State variables
   const exercisesData = useSelector((state) => state.exercises.exercises);
+  const selectedTrainingLogId = useSelector((state) => state.log.selectedTrainingLog.id);
+  
+  // Derived data
   const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
-  const selectedTrainingLogId = useSelector(
-    (state) => state.log.selectedTrainingLog.id
-  );
-
   const editData = location.state?.trainingData;
   const isEditMode = !!editData;
   const selectedDate = location.state?.selectedDate; // This is the selected date from the calendar
   const currentDate = new Date().toISOString().split("T")[0];
-
-  const [trainingData, setTrainingData] = useTrainingData(
-    editData,
-    selectedDate,
-    currentDate
-  );
+  
+  // Custom hooks
+  const [trainingData, setTrainingData] = useTrainingData(editData, selectedDate, currentDate);
   const strengthRecords = useStrengthRecords();
 
   const changeTrainingData = (e) => {
