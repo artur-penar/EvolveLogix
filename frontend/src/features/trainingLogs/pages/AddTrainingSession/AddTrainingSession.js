@@ -32,6 +32,7 @@ import calculateTotalVolume from "features/trainingLogs/utils/calculateTotalVolu
 // Style imports
 import "./AddTrainingSession.css";
 import useTrainingData from "features/trainingLogs/hooks/useTrainingData";
+import useStrengthRecords from "features/trainingLogs/hooks/useStrengthRecords";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -52,12 +53,7 @@ const AddTrainingSession = () => {
     selectedDate,
     currentDate
   );
-  const strengthRecords = Object.entries(
-    useGetLatestRecords(useFetchStrengthRecords())
-  ).reduce((acc, [exerciseName, record]) => {
-    acc[exerciseName] = record[0];
-    return acc;
-  }, {});
+  const strengthRecords = useStrengthRecords();
 
   const changeTrainingData = (e) => {
     handleTrainingDataChange(e, trainingData, setTrainingData);
