@@ -10,8 +10,6 @@ import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
 
 // Hook imports
-import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
-import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
 
 // Handler imports
@@ -39,19 +37,33 @@ const AddTrainingSession = () => {
 
   // State variables
   const exercisesData = useSelector((state) => state.exercises.exercises);
-  const selectedTrainingLogId = useSelector((state) => state.log.selectedTrainingLog.id);
-  
+  const selectedTrainingLogId = useSelector(
+    (state) => state.log.selectedTrainingLog.id
+  );
+
   // Derived data
   const exerciseNamesList = exercisesData.map((exercise) => exercise.name);
   const editData = location.state?.trainingData;
   const isEditMode = !!editData;
   const selectedDate = location.state?.selectedDate; // This is the selected date from the calendar
   const currentDate = new Date().toISOString().split("T")[0];
-  
+
   // Custom hooks
-  const [trainingData, setTrainingData] = useTrainingData(editData, selectedDate, currentDate);
+  const [trainingData, setTrainingData] = useTrainingData(
+    editData,
+    selectedDate,
+    currentDate
+  );
   const strengthRecords = useStrengthRecords();
 
+  const handleSubmit = useHandleSubmit(
+    trainingData,
+    editData,
+    isEditMode,
+    selectedTrainingLogId
+  );
+
+  // Handlers
   const changeTrainingData = (e) => {
     handleTrainingDataChange(e, trainingData, setTrainingData);
   };
@@ -112,13 +124,6 @@ const AddTrainingSession = () => {
       setTrainingData
     );
   };
-
-  const handleSubmit = useHandleSubmit(
-    trainingData,
-    editData,
-    isEditMode,
-    selectedTrainingLogId
-  );
 
   return (
     <Layout title="EvolveLogix | Training Log">
