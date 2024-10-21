@@ -1,22 +1,36 @@
+// React and Redux imports
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+
+// Component imports
 import Layout from "components/shared/Layout";
-import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
-import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
-import handleAddExercise from "features/trainingLogs/handlers/handleAddExercise";
-import handleSetsNumberChange from "features/trainingLogs/handlers/handleSetsNumberChange";
-import handleExerciseDetailsChange from "features/trainingLogs/handlers/handleExerciseDetailsChange";
-import handleRemoveExercise from "features/trainingLogs/handlers/handleRemoveExercise";
-import handleWeightPercentageChange from "features/trainingLogs/handlers/handleWeightPercentageChange";
-import handleCheckboxChange from "features/trainingLogs/handlers/handleCheckboxChange";
+
+// Hook imports
+import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
+import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
+
+// Handler imports
+import {
+  handleAddExercise,
+  handleSetsNumberChange,
+  handleExerciseDetailsChange,
+  handleRemoveExercise,
+  handleWeightPercentageChange,
+  handleCheckboxChange,
+  handleExerciseChange,
+  handleTrainingDataChange,
+} from "features/trainingLogs/handlers";
+
+// Utility imports
+import calculateTotalVolume from "features/trainingLogs/utils/calculateTotalVolume";
+
+// Style imports
 import "./AddTrainingSession.css";
-import handleExerciseChange from "features/trainingLogs/handlers/handleExerciseChange";
-import handleTrainingDataChange from "features/trainingLogs/handlers/handleTrainingDataChange";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -73,26 +87,6 @@ const AddTrainingSession = () => {
       setIndex,
       trainingData,
       setTrainingData
-    );
-  };
-
-  const calculateAverageIntensity = (exercise) => {
-    const totalWeight = exercise.sets.reduce(
-      (totalWeight, set) => totalWeight + set.weight,
-      0
-    );
-    const totalReps = exercise.sets.reduce(
-      (totalReps, set) => totalReps + set.repetitions,
-      0
-    );
-
-    return totalWeight / totalReps;
-  };
-
-  const calculateTotalVolume = (exercise) => {
-    return exercise.sets.reduce(
-      (totalVolume, set) => totalVolume + set.weight * set.repetitions,
-      0
     );
   };
 
