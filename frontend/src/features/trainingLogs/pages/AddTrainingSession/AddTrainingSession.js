@@ -31,6 +31,7 @@ import calculateTotalVolume from "features/trainingLogs/utils/calculateTotalVolu
 
 // Style imports
 import "./AddTrainingSession.css";
+import useTrainingData from "features/trainingLogs/hooks/useTrainingData";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -43,38 +44,20 @@ const AddTrainingSession = () => {
 
   const editData = location.state?.trainingData;
   const isEditMode = !!editData;
-  const selectedDate = location.state?.selectedDate;
-  const formattedDate = new Date().toISOString().split("T")[0];
+  const selectedDate = location.state?.selectedDate; // This is the selected date from the calendar
+  const currentDate = new Date().toISOString().split("T")[0];
 
+  const [trainingData, setTrainingData] = useTrainingData(
+    editData,
+    selectedDate,
+    currentDate
+  );
   const strengthRecords = Object.entries(
     useGetLatestRecords(useFetchStrengthRecords())
   ).reduce((acc, [exerciseName, record]) => {
     acc[exerciseName] = record[0];
     return acc;
   }, {});
-
-  const [trainingData, setTrainingData] = useState(
-    editData
-      ? editData
-      : {
-          comment: "This is a comment",
-          date: selectedDate ? selectedDate : formattedDate,
-          description: "This is a description",
-          exercises: [
-            {
-              exercise: "Squat",
-              sets: [
-                {
-                  set_number: 1,
-                  weight: 0,
-                  repetitions: 0,
-                  is_completed: true,
-                },
-              ],
-            },
-          ],
-        }
-  );
 
   const changeTrainingData = (e) => {
     handleTrainingDataChange(e, trainingData, setTrainingData);
