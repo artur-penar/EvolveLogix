@@ -18,7 +18,7 @@ const useTrainingData = (editData, selectedDate, currentDate) => {
     editData
       ? editData
       : {
-          comment: "This is a comment",
+          comment: "",
           date: selectedDate ? selectedDate : currentDate,
           description: "This is a description",
           exercises: [
