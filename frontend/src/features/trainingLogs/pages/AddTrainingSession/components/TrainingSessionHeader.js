@@ -1,4 +1,5 @@
 import React from "react";
+import "./TrainingSessionHeader.css";
 
 const TrainingSessionHeader = ({
   description,
@@ -16,28 +17,43 @@ const TrainingSessionHeader = ({
   }
 
   return (
-    <div className="ats-training-session-header">
-      <label>Training tag</label>
-      <select
-        name="description"
-        value={description}
-        onChange={handleTrainingDataChange}
-      >
-        {trainingOptions.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <label>Date:</label>
-      <input
-        name="date"
-        type="date"
-        value={trainingSessionDate}
-        onChange={handleTrainingDataChange}
-      />
-      <label>Comment:</label>
-      <input name="comment" type="text" value={comment} onChange={setComment} />
+    <div className="ats-header-select-container">
+      <div className="ats-header-select-group">
+        <label className="ats-header-select-label">Tag:</label>
+        <select
+          className="ats-header-select-control form-control"
+          name="description"
+          value={description}
+          onChange={handleTrainingDataChange}
+        >
+          {trainingOptions.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="ats-header-select-group">
+        <label className="ats-header-select-label">Date:</label>
+        <input
+          className="ats-header-select-control form-control"
+          name="date"
+          type="date"
+          value={trainingSessionDate}
+          onChange={handleTrainingDataChange}
+        />
+      </div>
+      <div className="ats-header-select-group">
+        <label className="ats-header-select-label">Comment:</label>
+        <textarea
+          className="ats-header-select-control form-control"
+          name="comment"
+          type="text"
+          value={comment}
+          onChange={setComment}
+          placeholder="Add a comment"
+        />
+      </div>
     </div>
   );
 };
