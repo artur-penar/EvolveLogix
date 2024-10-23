@@ -11,8 +11,11 @@
 }
 
 .ats-exercise {
+  display: grid;
+  grid-template-columns: 1fr 1fr 225px 100px; /* Adjust the columns as needed */
+  gap: 10px; /* Adjust the gap between columns as needed */
   border-top: 1px solid #000;
-  padding: 10px 0;
+  padding: 1rem;
   margin: 10px 0;
 }
 
@@ -65,14 +68,51 @@
 }
 
 .ats-exercise-parameter-input {
+  /* Consider using the following styles for the input fields: */
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border: none; */
-  /* border-radius: 4px; */
+  border: none; 
+  border-radius: 4px; */
   width: 50px;
   height: 25px;
   font-size: 14px;
   text-align: center;
   margin: 0 0.1rem;
+}
+
+.ats-exercise-parameter-input.weight {
+  width: 60px; /* Larger width for weight */
+}
+
+.ats-button {
+  width: 120px; /* Set a fixed width */
+  height: 40px; /* Set a fixed height */
+  text-align: center; /* Center the text */
+  border: 1px solid #000; /* Add a border */
+  border-radius: 4px; /* Add some border radius for rounded corners */
+  background-color: #f0f0f0; /* Set a background color */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  margin: 10px; /* Add some margin for spacing */
+}
+
+.ats-button-container {
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+
+  border-top: 1px solid #000;
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Add some space between the buttons */
+  margin-top: 20px; /* Add some margin at the top */
+}
+
+.ats-constant-size-button {
+  width: 90px; /* Set a fixed width */
+  height: 30px; /* Set a fixed height */
+  text-align: center; /* Center the text */
+  border: 1px solid #000; /* Optional: Add a border */
+  border-radius: 4px;
+  background-color: #f0f0f0; /* Optional: Set a background color */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  justify-self: end;
 }
 
 /* styles.css or ExerciseTable.css */
