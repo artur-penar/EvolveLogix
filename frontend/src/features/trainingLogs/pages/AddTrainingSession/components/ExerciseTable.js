@@ -47,7 +47,7 @@ const ExerciseTable = ({
               />
             )}
             <input
-              className="ats-exercise-parameter-input"
+              className="ats-exercise-parameter-input weight"
               name="weight"
               type="number"
               value={set.weight}
