@@ -18,6 +18,10 @@
  *   [name]: value
  * }
  */
+const removeLeadingZeros = (value) => {
+  return value.replace(/^0+(?!$)/, "");
+};
+
 const isValidInput = (name, value) => {
   if (value === "") {
     return true; // Allow empty value for backspace handling
@@ -41,7 +45,6 @@ const isValidInput = (name, value) => {
   return false;
 };
 
-
 const handleExerciseDetailsChange = (
   e,
   targetExerciseIndex,
@@ -50,7 +53,9 @@ const handleExerciseDetailsChange = (
   setTrainingData
 ) => {
   const { name, value } = e.target;
-  if (isValidInput(name, value)) {
+  const formattedValue = removeLeadingZeros(value);
+  console.log("formattedValue", formattedValue);
+  if (isValidInput(name, formattedValue)) {
     setTrainingData({
       ...trainingData,
       exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
@@ -63,7 +68,7 @@ const handleExerciseDetailsChange = (
                   ? set
                   : {
                       ...set,
-                      [name]: value,
+                      [name]: formattedValue,
                     }
               ),
             }
