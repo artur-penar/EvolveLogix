@@ -26,15 +26,22 @@ const handleExerciseDetailsChange = (
   setTrainingData
 ) => {
   const { name, value } = e.target;
+  let isValid = false;
 
   // Regular expression to match numbers with one decimal place ending in 0 or 5, or integers
-  const regex = /^\d+(\.\d{1})?$/;
-  const isValid =
-    regex.test(value) &&
-    (value.endsWith("0") || value.endsWith("5") || !value.includes("."));
-
+  if (name === "weight") {
+    const regex = /^\d+(\.\d{1})?$/;
+    isValid =
+      regex.test(value) &&
+      (value.endsWith("0") ||
+        value.endsWith("5") ||
+        (!value.includes(".") && value >= 0 && value < 501));
+  } else {
+    const regex = /^\d+$/;
+    isValid = regex.test(value) && value >= 0 && value < 100;
+  }
   // Allow empty value for backspace handling
-  if (value === "" || (value >= 0 && value < 501 && isValid)) {
+  if (value === "" || isValid) {
     setTrainingData({
       ...trainingData,
       exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
