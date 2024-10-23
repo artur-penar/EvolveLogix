@@ -160,14 +160,26 @@ const AddTrainingSession = () => {
               handleExerciseDetailsChange={changeExerciseDetails}
             />
             <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
-            <button onClick={() => removeExercise(exerciseIndex)}>
+            <button
+              className="ats-constant-size-button"
+              onClick={() => removeExercise(exerciseIndex)}
+            >
               Remove
             </button>
           </div>
         ))}
+        <div className="ats-button-container">
+          <button className="ats-button" onClick={addExercise}>
+            Add Exercise
+          </button>
+          <button
+            className="ats-button"
+            onClick={(event) => handleSubmit(event)}
+          >
+            Submit
+          </button>
+        </div>
       </div>
-      <button onClick={addExercise}>Add exercise</button>
-      <button onClick={(event) => handleSubmit(event)}>Submit</button>
     </Layout>
   );
 };
