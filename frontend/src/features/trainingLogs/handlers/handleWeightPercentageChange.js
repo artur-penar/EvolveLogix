@@ -23,7 +23,8 @@ const handleWeightPercentageChange = (
   trainingData,
   setTrainingData
 ) => {
-  const newWeight = (weightPercent / 100) * weight;
+  const roundToNearestHalf = (weight) => Math.round(weight * 2) / 2;
+  const newWeight = roundToNearestHalf((weightPercent / 100) * weight);
   setTrainingData({
     ...trainingData,
     exercises: trainingData.exercises.map((exercise, currentExerciseIndex) =>
