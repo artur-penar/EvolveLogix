@@ -24,6 +24,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 // Styles
 import "./TrainingLogDashboard.css";
 import useEventsData from "./hooks/useEventsData";
+import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -45,11 +46,7 @@ const TrainingLogDashboardPage = () => {
   const [deleteInfoModalIsOpen, setDeleteInfoModalIsOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
+  useAuthRedirect(isAuthenticated);
 
   // Handle delete message and modal state
   useEffect(() => {
@@ -122,8 +119,6 @@ const TrainingLogDashboardPage = () => {
     }
     setMainModalIsOpen(false);
   };
-
-  if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
     <Layout title="EvolveLogix | Training Log">
