@@ -23,6 +23,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 // Styles
 import "./TrainingLogDashboard.css";
+import useEventsData from "./hooks/useEventsData";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -48,50 +49,22 @@ const TrainingLogDashboardPage = () => {
     if (!isAuthenticated) {
       navigate("/login");
     }
+  }, [isAuthenticated, navigate]);
 
-    if (deleteMessage !== "") {
-      setDeleteInfoModalIsOpen(true);
-    } else {
-      setDeleteInfoModalIsOpen(false);
-    }
+  // Handle delete message and modal state
+  useEffect(() => {
+    setDeleteInfoModalIsOpen(deleteMessage !== "");
+  }, [deleteMessage]);
 
+  // Fetch training logs if not already fetched
+  useEffect(() => {
     if (!trainingLogsData) {
+      console.log("fetching training logs");
       dispatch(getTrainingLogs());
     }
-  }, [selectedTrainingLog, deleteMessage, isAuthenticated]);
+  }, [trainingLogsData, dispatch]);
 
-  const eventsData = useMemo(() => {
-    if (Array.isArray(trainingLogsData) && trainingLogsData.length > 0) {
-      const selectedLogData = trainingLogsData.find(
-        (log) => log.name === selectedTrainingLog.name
-      );
-      if (selectedLogData) {
-        return selectedLogData.training_sessions.map((session) => {
-          const sessionDate = new Date(session.date);
-          const today = new Date();
-          today.setHours(0, 0, 0, 0); // set time to 00:00:00 to compare only the date part
-
-          let color;
-          if (session.is_completed) {
-            color = "green";
-          } else if (sessionDate < today) {
-            color = "red";
-          } else {
-            color = "grey";
-          }
-
-          return {
-            title: session.description,
-            date: session.date,
-            color: color,
-            extendedProps: {
-              ...session,
-            },
-          };
-        });
-      }
-    }
-  }, [trainingLogsData, selectedTrainingLog]);
+  const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 
   const handleDateClick = (date) => {
     alert("Clicked on: " + date.dateStr);
