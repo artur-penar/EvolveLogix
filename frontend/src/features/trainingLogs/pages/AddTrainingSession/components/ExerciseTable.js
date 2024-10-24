@@ -71,7 +71,7 @@ const ExerciseTable = ({
                 id={`checkbox-${exerciseIndex}-${setIndex}`}
                 className="ats-custom-checkbox"
                 type="checkbox"
-                checked={set.is_completed}
+                checked={set.is_completed || false}
                 onChange={(e) =>
                   handleCheckboxChange(e, exerciseIndex, setIndex)
                 } // Add an onChange handler if needed
