@@ -21,7 +21,7 @@ const ExerciseDetailsSummary = ({ exercise, strengthRecords }) => {
   return (
     <div>
       <p style={{ fontWeight: "bold" }}>Exercise Details</p>
-      <p>Exercise volume: {volume}</p>
+      <p>Exercise volume: {volume}kg</p>
       {averageIntensity !== null && averageIntensity !== undefined && (
         <p>Average intensity: {averageIntensity}%</p>
       )}

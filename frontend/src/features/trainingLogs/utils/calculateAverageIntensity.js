@@ -23,7 +23,7 @@ const calculateAverageIntensity = ({ exercise, strengthRecord }) => {
   });
 
   const averageIntensity = summaryIntensity / totalSets;
-  return averageIntensity;
+  return Math.round(averageIntensity);
 };
 
 export default calculateAverageIntensity;

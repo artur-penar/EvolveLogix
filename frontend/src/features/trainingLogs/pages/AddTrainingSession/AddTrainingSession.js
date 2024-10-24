@@ -24,13 +24,11 @@ import {
   handleTrainingDataChange,
 } from "features/trainingLogs/handlers";
 
-// Utility imports
-import calculateTotalVolume from "features/trainingLogs/utils/calculateTotalVolume";
-
 // Style imports
 import "./AddTrainingSession.css";
 import useTrainingData from "features/trainingLogs/hooks/useTrainingData";
 import useStrengthRecords from "features/trainingLogs/hooks/useStrengthRecords";
+import ExerciseDetailsSummary from "./components/ExerciseDetailsSummary";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -159,7 +157,10 @@ const AddTrainingSession = () => {
               handleWeightPercentageChange={changeWeightPercentage}
               handleExerciseDetailsChange={changeExerciseDetails}
             />
-            <p>Exercise volume: {calculateTotalVolume(exercise)}kg</p>
+            <ExerciseDetailsSummary
+              exercise={exercise}
+              strengthRecords={strengthRecords}
+            />
             <button
               className="ats-constant-size-button"
               onClick={() => removeExercise(exerciseIndex)}
