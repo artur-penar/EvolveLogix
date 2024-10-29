@@ -1,6 +1,5 @@
 // React related imports
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // Redux related imports
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +24,7 @@ import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
 import useDeleteModalState from "./hooks/useDeleteModalState";
 import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSession";
+import useNavigateToEditTrainingSession from "./hooks/useNavigateToEditTrainingSession";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -37,7 +37,6 @@ const TrainingLogDashboardPage = () => {
   );
 
   // Navigation hooks
-  const navigate = useNavigate();
 
   // State hooks
   // const [eventsData, setEventsData] = useState();
@@ -52,7 +51,9 @@ const TrainingLogDashboardPage = () => {
 
   const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 
-  const navigateToAddTrainingSession = useNavigateToAddTrainingSession();
+  const handleModalAddClick = useNavigateToAddTrainingSession();
+  const handleModalEditClick =
+    useNavigateToEditTrainingSession(clickedEventData);
 
   const handleEventClick = (e) => {
     setIsMainModalOpen(true);
@@ -66,13 +67,6 @@ const TrainingLogDashboardPage = () => {
       exercises,
       is_completed,
     });
-  };
-
-  const handleModalEditClick = () => {
-    const { id } = clickedEventData;
-    const trainingData = clickedEventData;
-
-    navigate(`/edit-training-session/${id}`, { state: { trainingData } });
   };
 
   const handleModalDeleteClick = async () => {
@@ -125,7 +119,7 @@ const TrainingLogDashboardPage = () => {
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
               initialView="dayGridMonth"
-              dateClick={navigateToAddTrainingSession}
+              dateClick={handleModalAddClick}
               eventClick={handleEventClick}
               firstDay={1}
               events={eventsData}
