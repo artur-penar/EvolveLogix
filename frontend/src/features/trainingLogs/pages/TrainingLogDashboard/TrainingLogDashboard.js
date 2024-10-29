@@ -25,6 +25,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "./TrainingLogDashboard.css";
 import useEventsData from "./hooks/useEventsData";
 import useAuthRedirect from "../../../../hooks/useAuthRedirect";
+import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -42,24 +43,17 @@ const TrainingLogDashboardPage = () => {
   // State hooks
   // const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
-  const [mainModalIsOpen, setMainModalIsOpen] = useState(false);
-  const [deleteInfoModalIsOpen, setDeleteInfoModalIsOpen] = useState(false);
+  const [isMainModalOpen, setIsMainModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
 
   useAuthRedirect(isAuthenticated);
+  useGetTrainingLogs(trainingLogsData);
 
   // Handle delete message and modal state
   useEffect(() => {
-    setDeleteInfoModalIsOpen(deleteMessage !== "");
+    setIsDeleteModalOpen(deleteMessage !== "");
   }, [deleteMessage]);
-
-  // Fetch training logs if not already fetched
-  useEffect(() => {
-    if (!trainingLogsData) {
-      console.log("fetching training logs");
-      dispatch(getTrainingLogs());
-    }
-  }, [trainingLogsData, dispatch]);
 
   const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 
@@ -71,7 +65,7 @@ const TrainingLogDashboardPage = () => {
   };
 
   const handleEventClick = (e) => {
-    setMainModalIsOpen(true);
+    setIsMainModalOpen(true);
     const { id, description, date, comment, exercises, is_completed } =
       e.event.extendedProps;
     setClickedEventData({
@@ -117,7 +111,7 @@ const TrainingLogDashboardPage = () => {
     } catch (err) {
       setDeleteMessage("Info from catch(err)\n" + err.message);
     }
-    setMainModalIsOpen(false);
+    setIsMainModalOpen(false);
   };
 
   return (
@@ -147,14 +141,14 @@ const TrainingLogDashboardPage = () => {
               events={eventsData}
             />
             <TrainingLogDashboardModal
-              isOpen={mainModalIsOpen}
+              isOpen={isMainModalOpen}
               handleEdit={handleModalEditClick}
               handleDelete={handleModalDeleteClick}
               trainingSessionData={clickedEventData}
-              setMainModalIsOpen={setMainModalIsOpen}
+              setMainModalIsOpen={setIsMainModalOpen}
             />
             <DeleteInfoModal
-              isOpen={deleteInfoModalIsOpen}
+              isOpen={isDeleteModalOpen}
               deleteMessage={deleteMessage}
               setDeleteMessage={setDeleteMessage}
             />
