@@ -24,16 +24,17 @@ import useEventsData from "./hooks/useEventsData";
 import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
 import useDeleteModalState from "./hooks/useDeleteModalState";
+import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSession";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
   const dispatch = useDispatch();
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const loading = useSelector((state) => state.log.loading);
+  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  const isAuthenticated = useSelector(selectIsUserAuthenticated);
   const selectedTrainingLog = useSelector(
     (state) => state.log.selectedTrainingLog
   );
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   // Navigation hooks
   const navigate = useNavigate();
@@ -49,16 +50,9 @@ const TrainingLogDashboardPage = () => {
   useGetTrainingLogs(trainingLogsData);
   useDeleteModalState(deleteMessage, setIsDeleteModalOpen);
 
-  // Handle delete message and modal state
-
   const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 
-  const handleDateClick = (date) => {
-    alert("Clicked on: " + date.dateStr);
-    navigate("/add-training-session", {
-      state: { selectedDate: date.dateStr },
-    });
-  };
+  const navigateToAddTrainingSession = useNavigateToAddTrainingSession();
 
   const handleEventClick = (e) => {
     setIsMainModalOpen(true);
@@ -131,7 +125,7 @@ const TrainingLogDashboardPage = () => {
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
               initialView="dayGridMonth"
-              dateClick={handleDateClick}
+              dateClick={navigateToAddTrainingSession}
               eventClick={handleEventClick}
               firstDay={1}
               events={eventsData}
