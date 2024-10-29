@@ -25,6 +25,7 @@ import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
 import useDeleteModalState from "./hooks/useDeleteModalState";
 import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSession";
 import useNavigateToEditTrainingSession from "./hooks/useNavigateToEditTrainingSession";
+import useHandleDeleteTrainingSession from "./hooks/useHandleDeleteTrainingSession";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -69,34 +70,11 @@ const TrainingLogDashboardPage = () => {
     });
   };
 
-  const handleModalDeleteClick = async () => {
-    const trainingSessionIdToDelete = clickedEventData.id;
-    try {
-      const resultAction = await dispatch(
-        deleteTrainingSession(trainingSessionIdToDelete)
-      );
-
-      if (deleteTrainingSession.fulfilled.match(resultAction)) {
-        setDeleteMessage(
-          `${clickedEventData.comment} on ${clickedEventData.date} was deleted`
-        );
-      } else {
-        if (resultAction.payload) {
-          setDeleteMessage(
-            "Info from payload.message\n" + resultAction.payload.error
-          );
-        } else {
-          setDeleteMessage(
-            "Info from resultAction.error.message\n" +
-              resultAction.error.message
-          );
-        }
-      }
-    } catch (err) {
-      setDeleteMessage("Info from catch(err)\n" + err.message);
-    }
-    setIsMainModalOpen(false);
-  };
+  const handleModalDeleteClick = useHandleDeleteTrainingSession(
+    clickedEventData,
+    setDeleteMessage,
+    setIsMainModalOpen
+  );
 
   return (
     <Layout title="EvolveLogix | Training Log">
