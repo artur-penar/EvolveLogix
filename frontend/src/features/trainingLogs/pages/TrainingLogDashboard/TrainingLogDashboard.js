@@ -1,13 +1,10 @@
 // React related imports
-import React, { useEffect, useMemo, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Redux related imports
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteTrainingSession,
-  getTrainingLogs,
-} from "features/trainingLogs/log";
+import { deleteTrainingSession } from "features/trainingLogs/log";
 import { selectIsUserAuthenticated } from "features/users/user";
 
 // Component imports
@@ -26,6 +23,7 @@ import "./TrainingLogDashboard.css";
 import useEventsData from "./hooks/useEventsData";
 import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
+import useDeleteModalState from "./hooks/useDeleteModalState";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -49,11 +47,9 @@ const TrainingLogDashboardPage = () => {
 
   useAuthRedirect(isAuthenticated);
   useGetTrainingLogs(trainingLogsData);
+  useDeleteModalState(deleteMessage, setIsDeleteModalOpen);
 
   // Handle delete message and modal state
-  useEffect(() => {
-    setIsDeleteModalOpen(deleteMessage !== "");
-  }, [deleteMessage]);
 
   const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 

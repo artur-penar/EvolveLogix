@@ -18,7 +18,6 @@ const useGetTrainingLogs = (trainingLogsData) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!trainingLogsData) {
-      console.log("fetching training logs");
       dispatch(getTrainingLogs());
     }
   }, [trainingLogsData, dispatch]);
