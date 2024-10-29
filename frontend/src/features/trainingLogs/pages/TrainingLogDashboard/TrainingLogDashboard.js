@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 
 // Redux related imports
-import { useDispatch, useSelector } from "react-redux";
-import { deleteTrainingSession } from "features/trainingLogs/log";
+import { useSelector } from "react-redux";
 import { selectIsUserAuthenticated } from "features/users/user";
 
 // Component imports
@@ -17,8 +16,7 @@ import DeleteInfoModal from "./Modals/DeleteInfoModal";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-// Styles
-import "./TrainingLogDashboard.css";
+// Hook imports
 import useEventsData from "./hooks/useEventsData";
 import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
@@ -27,9 +25,14 @@ import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSes
 import useNavigateToEditTrainingSession from "./hooks/useNavigateToEditTrainingSession";
 import useHandleDeleteTrainingSession from "./hooks/useHandleDeleteTrainingSession";
 
+// Handler imports
+import handleEventClick from "./handlers/handleEventClick";
+
+// Styles
+import "./TrainingLogDashboard.css";
+
 const TrainingLogDashboardPage = () => {
   // Redux hooks
-  const dispatch = useDispatch();
   const loading = useSelector((state) => state.log.loading);
   const trainingLogsData = useSelector((state) => state.log.trainingLogs);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -37,37 +40,25 @@ const TrainingLogDashboardPage = () => {
     (state) => state.log.selectedTrainingLog
   );
 
-  // Navigation hooks
-
   // State hooks
-  // const [eventsData, setEventsData] = useState();
   const [clickedEventData, setClickedEventData] = useState();
   const [isMainModalOpen, setIsMainModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
 
+  // Custom hooks
   useAuthRedirect(isAuthenticated);
   useGetTrainingLogs(trainingLogsData);
   useDeleteModalState(deleteMessage, setIsDeleteModalOpen);
 
   const eventsData = useEventsData(trainingLogsData, selectedTrainingLog);
 
+  // Event handlers
   const handleModalAddClick = useNavigateToAddTrainingSession();
   const handleModalEditClick =
     useNavigateToEditTrainingSession(clickedEventData);
-
-  const handleEventClick = (e) => {
-    setIsMainModalOpen(true);
-    const { id, description, date, comment, exercises, is_completed } =
-      e.event.extendedProps;
-    setClickedEventData({
-      id,
-      description,
-      date,
-      comment,
-      exercises,
-      is_completed,
-    });
+  const eventClick = (e) => {
+    handleEventClick(e, setClickedEventData, setIsMainModalOpen);
   };
 
   const handleModalDeleteClick = useHandleDeleteTrainingSession(
@@ -98,7 +89,7 @@ const TrainingLogDashboardPage = () => {
               plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
               initialView="dayGridMonth"
               dateClick={handleModalAddClick}
-              eventClick={handleEventClick}
+              eventClick={eventClick}
               firstDay={1}
               events={eventsData}
             />
