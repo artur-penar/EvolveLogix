@@ -34,12 +34,12 @@ import LoadingState from "components/shared/LoadingState";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
-  const loading = useSelector((state) => state.log.loading);
-  const trainingLogsData = useSelector((state) => state.log.trainingLogs);
+  const {
+    loading,
+    selectedTrainingLog,
+    trainingLogs: trainingLogsData,
+  } = useSelector((state) => state.log);
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
-  const selectedTrainingLog = useSelector(
-    (state) => state.log.selectedTrainingLog
-  );
 
   // State hooks
   const [clickedEventData, setClickedEventData] = useState();
