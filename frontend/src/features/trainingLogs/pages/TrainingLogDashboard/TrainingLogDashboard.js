@@ -1,5 +1,5 @@
 // React related imports
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 // Redux related imports
 import { useSelector } from "react-redux";
@@ -58,9 +58,9 @@ const TrainingLogDashboardPage = () => {
   const handleModalAddClick = useNavigateToAddTrainingSession();
   const handleModalEditClick =
     useNavigateToEditTrainingSession(clickedEventData);
-  const eventClick = (e) => {
+  const eventClick = useCallback((e) => {
     handleEventClick(e, setClickedEventData, setIsMainModalOpen);
-  };
+  }, []);
 
   const handleModalDeleteClick = useHandleDeleteTrainingSession(
     clickedEventData,
