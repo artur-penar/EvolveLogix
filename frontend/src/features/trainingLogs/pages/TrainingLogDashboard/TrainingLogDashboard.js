@@ -30,6 +30,7 @@ import handleEventClick from "./handlers/handleEventClick";
 
 // Styles
 import "./TrainingLogDashboard.css";
+import LoadingState from "components/shared/LoadingState";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -72,17 +73,7 @@ const TrainingLogDashboardPage = () => {
       <div className="dashboard-content">
         <PageHeader headerContent={"Training Log"} />
         {loading || !trainingLogsData ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <div className="spinner-border" role="status">
-              <span className="sr-only"></span>
-            </div>
-            <h2>Loading...</h2>
-          </div>
+          <LoadingState />
         ) : (
           <div className="calendar-component">
             <FullCalendar
