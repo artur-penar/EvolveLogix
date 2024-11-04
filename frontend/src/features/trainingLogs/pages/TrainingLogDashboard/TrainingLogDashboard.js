@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { selectIsUserAuthenticated } from "features/users/user";
 
 // Component imports
-import Layout from "components/shared/Layout";
-import PageHeader from "components/shared/PageHeader";
+import Layout from "shared/components/Layout";
+import PageHeader from "shared/components/PageHeader";
 import FullCalendar from "@fullcalendar/react";
 import TrainingLogDashboardModal from "./Modals/TrainingLogDashboardModal";
 import DeleteInfoModal from "./Modals/DeleteInfoModal";
@@ -30,7 +30,7 @@ import handleEventClick from "./handlers/handleEventClick";
 
 // Styles
 import "./TrainingLogDashboard.css";
-import LoadingState from "components/shared/LoadingState";
+import LoadingState from "shared/components/LoadingState";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks

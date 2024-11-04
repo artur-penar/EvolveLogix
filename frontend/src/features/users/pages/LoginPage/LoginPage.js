@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import Layout from "components/shared/Layout";
+import Layout from "shared/components/Layout";
 import {
   login,
   resetRegistered,

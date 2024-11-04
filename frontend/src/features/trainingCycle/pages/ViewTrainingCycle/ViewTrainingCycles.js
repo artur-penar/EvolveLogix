@@ -1,9 +1,9 @@
-import Layout from "components/shared/Layout";
+import Layout from "shared/components/Layout";
 import React from "react";
 import { useSelector } from "react-redux";
 import PhaseDisplay from "../TrainingCycle/components/Shared/PhaseDisplay";
 import CycleTimeline from "../TrainingCycle/components/Shared/CycleTimeline";
-import PageHeader from "components/shared/PageHeader";
+import PageHeader from "shared/components/PageHeader";
 import "./ViewTrainingCycles.css";
 
 // What i want to do here is to display the selected macrocycle and its mesocycles and phases

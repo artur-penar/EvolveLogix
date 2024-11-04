@@ -5,8 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Absolute imports
-import Layout from "components/shared/Layout";
-import PageHeader from "components/shared/PageHeader";
+import Layout from "shared/components/Layout";
+import PageHeader from "shared/components/PageHeader";
 import calculateNewPhaseStartDate from "features/trainingCycle/utils/calculateNewPhaseStartDate";
 import {
   getCycleIdByName,

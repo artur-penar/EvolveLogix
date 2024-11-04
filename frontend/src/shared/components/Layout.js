@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import Navbar from "components/shared/Navbar";
+import Navbar from "shared/components/Navbar";
 // Using curly bracket () instead of curly braces {} because we  create a
 // concise stateless component.
 const Layout = ({ title, content, children }) => (

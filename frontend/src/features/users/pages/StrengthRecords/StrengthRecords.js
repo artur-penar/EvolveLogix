@@ -1,6 +1,6 @@
 import React from "react";
 import "./StrengthRecords.css";
-import Layout from "components/shared/Layout";
+import Layout from "shared/components/Layout";
 import { useSelector } from "react-redux";
 import Records from "features/users/components/StrengthRecords/Records";
 // frontend/src/features/users/components/StrengthRecords.js

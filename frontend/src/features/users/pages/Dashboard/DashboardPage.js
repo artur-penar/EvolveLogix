@@ -7,8 +7,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import "./DashboardPage.css";
 
 // Shared components
-import Layout from "components/shared/Layout";
-import LoadingState from "components/shared/LoadingState";
+import Layout from "shared/components/Layout";
+import LoadingState from "shared/components/LoadingState";
 
 // Features
 import {
@@ -23,7 +23,7 @@ import {
 } from "features/users/user";
 
 // Local components
-import Header from "../../../../components/shared/PageHeader";
+import Header from "../../../../shared/components/PageHeader";
 import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
 import { getAllStrengthRecords } from "features/users/strengthRecordSlice";

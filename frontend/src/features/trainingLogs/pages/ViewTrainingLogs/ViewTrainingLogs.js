@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTrainingLogs } from "../../log";
 import GroupedTrainingSessions from "./components/GroupedTrainingSessions";
-import Layout from "components/shared/Layout";
+import Layout from "shared/components/Layout";
 import "./ViewTrainingLogs.css";
 
 const ViewTrainingLogsPage = () => {
