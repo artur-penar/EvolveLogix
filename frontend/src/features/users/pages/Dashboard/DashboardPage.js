@@ -1,7 +1,7 @@
 // External libraries
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 // Styles
 import "./DashboardPage.css";
@@ -29,6 +29,7 @@ import Footer from "../../components/DashboardFooter";
 import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
 import { getExercises } from "features/trainingLogs/exercises";
 import NewLogForm from "features/users/components/NewLogForm";
+import useAuth from "shared/hooks/useAuth";
 const DashboardPage = () => {
   // Redux state selectors
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -49,14 +50,11 @@ const DashboardPage = () => {
 
   // Redux dispatch
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  useAuth();
 
   // Side effects
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-
     if (!userDetail) {
       dispatch(getUserDetail());
     }
@@ -69,7 +67,7 @@ const DashboardPage = () => {
       dispatch(getAllStrengthRecords());
     }
     dispatch(getExercises());
-  }, [isAuthenticated]);
+  }, []);
 
   useEffect(() => {
     let trainingLogData = null;
@@ -103,7 +101,8 @@ const DashboardPage = () => {
     dispatch(createTrainingLog({ name: newLogName }));
   };
 
-  if (!isAuthenticated && !loading) return <Navigate to="/login" />;
+  // Commented out to test if useAuth is working
+  // if (!isAuthenticated && !loading) return <Navigate to="/login" />;
 
   return (
     <Layout title="EvolveLogix | Dashboard">
