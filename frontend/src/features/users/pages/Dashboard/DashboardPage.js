@@ -38,13 +38,12 @@ const DashboardPage = () => {
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
-  const selectedTrainingLogName =
-    useSelector((state) =>
-      state.log.selectedTrainingLog ? state.log.selectedTrainingLog.name : null
-    ) || null;
+  const reduxSelectedLog = useSelector(
+    (state) => state.log.selectedTrainingLog
+  );
 
   // State variables
-  const [selectedLog, setSelectedLog] = useState("");
+  const [localSelectedLog, setLocalSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
   const [isNewLogFormVisible, setIsNewLogFormVisible] = useState(false);
 
@@ -52,6 +51,11 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
 
   useAuth();
+  useEffect(() => {
+    if (!localSelectedLog && reduxSelectedLog) {
+      setLocalSelectedLog(reduxSelectedLog);
+    }
+  }, [reduxSelectedLog]);
 
   // Side effects
   useEffect(() => {
@@ -70,21 +74,16 @@ const DashboardPage = () => {
   }, []);
 
   useEffect(() => {
-    let trainingLogData = null;
-    if (selectedTrainingLogName) {
-      console.log("Setting selected log to: ", selectedTrainingLogName);
-      trainingLogData = trainingLogs.find(
-        (log) => log.name === selectedTrainingLogName
+    if (trainingLogs.length > 0 && !reduxSelectedLog) {
+      console.log("Setting selected log to first log");
+      const logToSelect = trainingLogs[0].name;
+      setLocalSelectedLog(logToSelect);
+      dispatch(
+        setSelectedTrainingLog(
+          trainingLogs.find((log) => log.name === logToSelect)
+        )
       );
-      setSelectedLog(selectedTrainingLogName);
-    } else if (trainingLogs.length > 0) {
-      const firstLogName = trainingLogs[0].name;
-      trainingLogData = trainingLogs[0];
-      setSelectedLog(firstLogName);
-      console.log("Setting selected log to: ", firstLogName);
     }
-
-    dispatch(setSelectedTrainingLog(trainingLogData));
   }, [dispatch, trainingLogs]);
 
   const handleChange = (e) => {
@@ -93,7 +92,7 @@ const DashboardPage = () => {
       (log) => log.name === selectedLogName
     );
 
-    setSelectedLog(selectedLogName);
+    setLocalSelectedLog(selectedLogName);
     dispatch(setSelectedTrainingLog(selectedLog));
   };
 
@@ -115,7 +114,7 @@ const DashboardPage = () => {
             <>
               <Main
                 trainingLogs={trainingLogs}
-                selectedLog={selectedLog}
+                selectedLog={localSelectedLog}
                 handleChange={handleChange}
                 userDetail={userDetail}
                 strengthRecords={strengthRecords}
