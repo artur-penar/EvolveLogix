@@ -17,7 +17,6 @@ import {
   setSelectedTrainingLog,
 } from "features/trainingLogs/log";
 import {
-  getUserDetail,
   selectIsUserAuthenticated,
   selectUser,
 } from "features/users/user";
@@ -30,6 +29,7 @@ import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
 import { getExercises } from "features/trainingLogs/exercises";
 import NewLogForm from "features/users/components/NewLogForm";
 import useAuth from "shared/hooks/useAuth";
+import useFetchUserDetail from "./hooks/useFetchUserDetail";
 const DashboardPage = () => {
   // Redux state selectors
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -51,6 +51,7 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
 
   useAuth();
+  useFetchUserDetail(userDetail);
   useEffect(() => {
     if (!localSelectedLog && reduxSelectedLog) {
       setLocalSelectedLog(reduxSelectedLog);
@@ -59,10 +60,6 @@ const DashboardPage = () => {
 
   // Side effects
   useEffect(() => {
-    if (!userDetail) {
-      dispatch(getUserDetail());
-    }
-
     if (trainingLogs.length === 0) {
       dispatch(getTrainingLogs());
     }
