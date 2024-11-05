@@ -13,13 +13,9 @@ import LoadingState from "shared/components/LoadingState";
 // Features
 import {
   createTrainingLog,
-  getTrainingLogs,
   setSelectedTrainingLog,
 } from "features/trainingLogs/log";
-import {
-  selectIsUserAuthenticated,
-  selectUser,
-} from "features/users/user";
+import { selectIsUserAuthenticated, selectUser } from "features/users/user";
 
 // Local components
 import Header from "../../../../shared/components/PageHeader";
@@ -30,6 +26,7 @@ import { getExercises } from "features/trainingLogs/exercises";
 import NewLogForm from "features/users/components/NewLogForm";
 import useAuth from "shared/hooks/useAuth";
 import useFetchUserDetail from "./hooks/useFetchUserDetail";
+import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 const DashboardPage = () => {
   // Redux state selectors
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -52,6 +49,8 @@ const DashboardPage = () => {
 
   useAuth();
   useFetchUserDetail(userDetail);
+  useFetchTrainingLogs(trainingLogs);
+
   useEffect(() => {
     if (!localSelectedLog && reduxSelectedLog) {
       setLocalSelectedLog(reduxSelectedLog);
@@ -60,10 +59,6 @@ const DashboardPage = () => {
 
   // Side effects
   useEffect(() => {
-    if (trainingLogs.length === 0) {
-      dispatch(getTrainingLogs());
-    }
-
     if (strengthRecords.length === 0) {
       dispatch(getAllStrengthRecords());
     }
