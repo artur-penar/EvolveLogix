@@ -296,6 +296,7 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(verifyAuth.rejected, (state) => {
+        state.isAuthenticated = false;
         state.loading = false;
       })
 
