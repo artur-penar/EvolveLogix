@@ -151,7 +151,18 @@ const saveSelectedTrainingLog = (trainingLog) => {
 
 const loadSelectedTrainingLog = () => {
   const savedTrainingLog = localStorage.getItem("selectedTrainingLog");
-  return savedTrainingLog ? JSON.parse(savedTrainingLog) : null;
+  if (!savedTrainingLog) {
+    return null;
+  }
+
+  try {
+    const parsedLog = JSON.parse(savedTrainingLog);
+    console.log("Parsed training log:", parsedLog);
+    return parsedLog;
+  } catch (error) {
+    console.error("Failed to parse saved training log:", error);
+    return null;
+  }
 };
 
 const initialState = {
