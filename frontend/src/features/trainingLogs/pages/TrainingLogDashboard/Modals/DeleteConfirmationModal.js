@@ -14,7 +14,9 @@ const DeleteConfirmationModal = ({
         overlayClassName="react-modal-overlay"
         className="react-modal-content"
       >
-        <h2>Are you sure you want to delete this training session?</h2>
+        <h2 style={{ textAlign: "center" }}>
+          Are you sure you want to delete this training session?
+        </h2>
         <button
           className="react-modal-button"
           onClick={() => {

@@ -25,7 +25,7 @@ const useHandleDeleteTrainingSession = (
 
       if (deleteTrainingSession.fulfilled.match(resultAction)) {
         setDeleteMessage(
-          `${clickedEventData.comment} on ${clickedEventData.date} was deleted`
+          `${clickedEventData.description}: ${clickedEventData.date} deleted.`
         );
       } else {
         if (resultAction.payload) {

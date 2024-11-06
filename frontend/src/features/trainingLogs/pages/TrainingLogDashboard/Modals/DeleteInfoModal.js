@@ -11,7 +11,7 @@ const DeleteInfoModal = ({ isOpen, deleteMessage, setDeleteMessage }) => {
         overlayClassName="react-modal-overlay"
         className="react-modal-content"
       >
-        <h2>{deleteMessage}</h2>
+        <h2 style={{ textAlign: "center" }}>{deleteMessage}</h2>
         <button
           className="react-modal-button"
           onClick={() => setDeleteMessage("")}
