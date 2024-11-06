@@ -27,6 +27,7 @@ import useAuth from "shared/hooks/useAuth";
 import useFetchUserDetail from "./hooks/useFetchUserDetail";
 import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
+import { useFetchExercises } from "shared/hooks/useFetchExercises";
 const DashboardPage = () => {
   // Redux state selectors
   const isAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -48,6 +49,7 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
 
   useAuth();
+  useFetchExercises();
   useFetchUserDetail(userDetail);
   useFetchTrainingLogs(trainingLogs);
   useFetchStrengthRecords(strengthRecords);
@@ -57,11 +59,6 @@ const DashboardPage = () => {
       setLocalSelectedLog(reduxSelectedLog);
     }
   }, [reduxSelectedLog]);
-
-  // Side effects
-  useEffect(() => {
-    dispatch(getExercises());
-  }, []);
 
   useEffect(() => {
     if (trainingLogs.length > 0 && !reduxSelectedLog) {
