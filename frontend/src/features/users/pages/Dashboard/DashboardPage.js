@@ -1,7 +1,6 @@
 // External libraries
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 
 // Styles
 import "./DashboardPage.css";
@@ -21,16 +20,15 @@ import { selectIsUserAuthenticated, selectUser } from "features/users/user";
 import Header from "../../../../shared/components/PageHeader";
 import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
-import { getExercises } from "features/trainingLogs/exercises";
 import NewLogForm from "features/users/components/NewLogForm";
 import useAuth from "shared/hooks/useAuth";
 import useFetchUserDetail from "./hooks/useFetchUserDetail";
 import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
+import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 const DashboardPage = () => {
   // Redux state selectors
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
   const user = useSelector(selectUser);
   const userDetail = useSelector((state) => state.user.userDetail);
   const loading = useSelector((state) => state.user.loading);
@@ -60,18 +58,12 @@ const DashboardPage = () => {
     }
   }, [reduxSelectedLog]);
 
-  useEffect(() => {
-    if (trainingLogs.length > 0 && !reduxSelectedLog) {
-      console.log("Setting selected log to first log");
-      const logToSelect = trainingLogs[0].name;
-      setLocalSelectedLog(logToSelect);
-      dispatch(
-        setSelectedTrainingLog(
-          trainingLogs.find((log) => log.name === logToSelect)
-        )
-      );
-    }
-  }, [dispatch, trainingLogs]);
+  useSetInitialTrainingLog(
+    trainingLogs,
+    reduxSelectedLog,
+    setLocalSelectedLog,
+    setSelectedTrainingLog
+  );
 
   const handleChange = (e) => {
     const selectedLogName = e.target.value;
@@ -86,9 +78,6 @@ const DashboardPage = () => {
   const handleSubmit = () => {
     dispatch(createTrainingLog({ name: newLogName }));
   };
-
-  // Commented out to test if useAuth is working
-  // if (!isAuthenticated && !loading) return <Navigate to="/login" />;
 
   return (
     <Layout title="EvolveLogix | Dashboard">
