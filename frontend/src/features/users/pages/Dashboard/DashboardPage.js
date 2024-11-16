@@ -28,6 +28,7 @@ import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
+import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
@@ -61,16 +62,6 @@ const DashboardPage = () => {
     setSelectedTrainingLog
   );
 
-  const handleChange = (e) => {
-    const selectedLogName = e.target.value;
-    const selectedLog = trainingLogs.find(
-      (log) => log.name === selectedLogName
-    );
-
-    setLocalSelectedLog(selectedLogName);
-    dispatch(setSelectedTrainingLog(selectedLog));
-  };
-
   const handleSubmit = () => {
     dispatch(createTrainingLog({ name: newLogName }));
   };
@@ -87,7 +78,14 @@ const DashboardPage = () => {
               <Main
                 trainingLogs={trainingLogs}
                 selectedLog={localSelectedLog}
-                handleChange={handleChange}
+                handleChange={(e) =>
+                  handleTrainingLogChange(
+                    e,
+                    trainingLogs,
+                    setLocalSelectedLog,
+                    dispatch
+                  )
+                }
                 userDetail={userDetail}
                 strengthRecords={strengthRecords}
               />
