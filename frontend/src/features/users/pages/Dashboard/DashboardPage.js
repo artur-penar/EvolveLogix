@@ -31,7 +31,7 @@ import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
-  const userDetail = useSelector((state) => state.user.userDetail);
+  const userDetails = useSelector((state) => state.user.userDetail);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
@@ -49,7 +49,7 @@ const DashboardPage = () => {
 
   useAuth();
   useFetchExercises();
-  useFetchUserDetail(userDetail);
+  useFetchUserDetail(userDetails);
   useFetchTrainingLogs(trainingLogs);
   useFetchStrengthRecords(strengthRecords);
   useSyncTrainingLog(localSelectedLog, reduxSelectedLog, setLocalSelectedLog);
@@ -68,7 +68,7 @@ const DashboardPage = () => {
       ) : (
         <div className="dashboard">
           <Header headerContent={"Dashboard"} />
-          {trainingLogs.length > 0 && userDetail ? (
+          {trainingLogs.length > 0 && userDetails ? (
             <>
               <Main
                 trainingLogs={trainingLogs}
@@ -81,7 +81,7 @@ const DashboardPage = () => {
                     dispatch
                   )
                 }
-                userDetail={userDetail}
+                userDetail={userDetails}
                 strengthRecords={strengthRecords}
               />
               <Footer
@@ -100,7 +100,9 @@ const DashboardPage = () => {
               <NewLogForm
                 newLogName={newLogName}
                 setNewLogName={setNewLogName}
-                handleSubmit={handleSubmit}
+                handleSubmit={() =>
+                  handleCreateTrainingLog(dispatch, newLogName)
+                }
               />
             </>
           )}
