@@ -12,20 +12,7 @@ const Main = ({
   strengthRecords,
 }) => (
   <>
-    <div
-      className="log-selector-container"
-      style={{
-        display: "flex",
-        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px",
-        marginTop: "10px",
-      }}
-    >
-      <h2 className="dashboard-subtitle" style={{ width: "100%" }}>
-        Current log:
-      </h2>
+    <div className="log-info">
       <LogSelector
         trainingLogs={trainingLogs}
         selectedLog={selectedLog}
