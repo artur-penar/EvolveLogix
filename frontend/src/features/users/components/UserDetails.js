@@ -5,7 +5,7 @@ import DetailEditForm from "./DetailEditForm";
 import { createUserDetail, updateUserDetail } from "../user";
 import { useDispatch } from "react-redux";
 
-const UserDetails = ({ userDetail }) => {
+const UserDetails = ({ userDetails }) => {
   const initialUserDetails = [
     {
       updated_at: "2000-01-01T13:39:41.623430Z",
@@ -21,10 +21,10 @@ const UserDetails = ({ userDetail }) => {
       neck: "0.0",
     },
   ];
-  const [currentIndex, setCurrentIndex] = useState(userDetail.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(userDetails.length - 1);
 
   const { updated_at, ...bodyMeasurements } =
-    userDetail[currentIndex] || initialUserDetails[0];
+    userDetails[currentIndex] || initialUserDetails[0];
   const [formData, setFormData] = useState(bodyMeasurements);
   const updatedAtData = new Date(updated_at);
 
@@ -61,7 +61,7 @@ const UserDetails = ({ userDetail }) => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex < userDetail.length - 1 ? prevIndex + 1 : prevIndex
+      prevIndex < userDetails.length - 1 ? prevIndex + 1 : prevIndex
     );
   };
 
@@ -87,7 +87,7 @@ const UserDetails = ({ userDetail }) => {
           </button>
           <button
             onClick={handleNext}
-            disabled={currentIndex === userDetail.length - 1}
+            disabled={currentIndex === userDetails.length - 1}
           >
             Next
           </button>

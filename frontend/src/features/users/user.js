@@ -213,7 +213,7 @@ export const verifyAuth = createAsyncThunk(
 const initialState = {
   isAuthenticated: false,
   user: null,
-  userDetail: null,
+  userDetails: null,
   loading: false,
   registered: false,
 };
@@ -269,7 +269,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserDetail.fulfilled, (state, action) => {
         state.loading = false;
-        state.userDetail = action.payload;
+        state.userDetails = action.payload;
       })
       .addCase(getUserDetail.rejected, (state) => {
         state.loading = false;
@@ -281,7 +281,7 @@ const userSlice = createSlice({
       })
       .addCase(createUserDetail.fulfilled, (state, action) => {
         state.loading = false;
-        state.userDetail = action.payload;
+        state.userDetails = action.payload;
       })
       .addCase(createUserDetail.rejected, (state) => {
         state.loading = false;

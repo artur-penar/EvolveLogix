@@ -19,7 +19,7 @@ import Main from "../../components/DashboardMain";
 import Footer from "../../components/DashboardFooter";
 import NewLogForm from "features/users/components/NewLogForm";
 import useAuth from "shared/hooks/useAuth";
-import useFetchUserDetail from "./hooks/useFetchUserDetail";
+import useFetchUserDetails from "./hooks/useFetchUserDetails";
 import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
@@ -31,7 +31,7 @@ import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
-  const userDetails = useSelector((state) => state.user.userDetail);
+  const userDetails = useSelector((state) => state.user.userDetails);
   const loading = useSelector((state) => state.user.loading);
   const trainingLogs = useSelector((state) => state.log.trainingLogs);
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
@@ -49,7 +49,7 @@ const DashboardPage = () => {
 
   useAuth();
   useFetchExercises();
-  useFetchUserDetail(userDetails);
+  useFetchUserDetails(userDetails);
   useFetchTrainingLogs(trainingLogs);
   useFetchStrengthRecords(strengthRecords);
   useSyncTrainingLog(localSelectedLog, reduxSelectedLog, setLocalSelectedLog);
@@ -81,7 +81,7 @@ const DashboardPage = () => {
                     dispatch
                   )
                 }
-                userDetail={userDetails}
+                userDetails={userDetails}
                 strengthRecords={strengthRecords}
               />
               <Footer
