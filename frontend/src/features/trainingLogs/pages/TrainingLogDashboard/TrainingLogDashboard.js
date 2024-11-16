@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react";
 
 // Redux related imports
 import { useSelector } from "react-redux";
-import { selectIsUserAuthenticated } from "features/users/user";
 
 // Component imports
 import Layout from "shared/components/Layout";
@@ -18,7 +17,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 // Hook imports
 import useEventsData from "./hooks/useEventsData";
-import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
 import useDeleteModalState from "./hooks/useDeleteModalState";
 import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSession";
@@ -31,6 +29,7 @@ import handleEventClick from "./handlers/handleEventClick";
 // Styles
 import "./TrainingLogDashboard.css";
 import LoadingState from "shared/components/LoadingState";
+import useAuth from "shared/hooks/useAuth";
 
 const TrainingLogDashboardPage = () => {
   // Redux hooks
@@ -39,7 +38,6 @@ const TrainingLogDashboardPage = () => {
     selectedTrainingLog,
     trainingLogs: trainingLogsData,
   } = useSelector((state) => state.log);
-  const isAuthenticated = useSelector(selectIsUserAuthenticated);
 
   // State hooks
   const [clickedEventData, setClickedEventData] = useState();
@@ -48,7 +46,7 @@ const TrainingLogDashboardPage = () => {
   const [deleteMessage, setDeleteMessage] = useState("");
 
   // Custom hooks
-  useAuthRedirect(isAuthenticated);
+  useAuth();
   useGetTrainingLogs(trainingLogsData);
   useDeleteModalState(deleteMessage, setIsDeleteModalOpen);
 
