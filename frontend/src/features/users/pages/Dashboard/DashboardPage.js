@@ -27,6 +27,7 @@ import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
+import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
@@ -51,12 +52,7 @@ const DashboardPage = () => {
   useFetchUserDetail(userDetail);
   useFetchTrainingLogs(trainingLogs);
   useFetchStrengthRecords(strengthRecords);
-
-  useEffect(() => {
-    if (!localSelectedLog && reduxSelectedLog) {
-      setLocalSelectedLog(reduxSelectedLog);
-    }
-  }, [reduxSelectedLog]);
+  useSyncTrainingLog(localSelectedLog, reduxSelectedLog, setLocalSelectedLog);
 
   useSetInitialTrainingLog(
     trainingLogs,
