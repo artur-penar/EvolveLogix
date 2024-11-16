@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 /**
  * Custom hook to fetch user details if not already provided.
  *
- * @param {Object} userDetail - The user detail object.
+ * @param {Object} userDetails- The user detail object.
  * @returns {void}
  */
-const useFetchUserDetail = (userDetail) => {
+const useFetchUserDetails = (userDetails) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!userDetail) {
+    if (!userDetails) {
       dispatch(getUserDetail());
     }
   });
 };
 
-export default useFetchUserDetail;
+export default useFetchUserDetails;
