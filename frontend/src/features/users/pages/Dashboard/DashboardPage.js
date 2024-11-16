@@ -1,5 +1,5 @@
 // External libraries
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Styles
@@ -10,11 +10,8 @@ import Layout from "shared/components/Layout";
 import LoadingState from "shared/components/LoadingState";
 
 // Features
-import {
-  createTrainingLog,
-  setSelectedTrainingLog,
-} from "features/trainingLogs/log";
-import { selectIsUserAuthenticated, selectUser } from "features/users/user";
+import { setSelectedTrainingLog } from "features/trainingLogs/log";
+import { selectUser } from "features/users/user";
 
 // Local components
 import Header from "../../../../shared/components/PageHeader";
@@ -29,6 +26,8 @@ import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
+import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
+
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
@@ -62,10 +61,6 @@ const DashboardPage = () => {
     setSelectedTrainingLog
   );
 
-  const handleSubmit = () => {
-    dispatch(createTrainingLog({ name: newLogName }));
-  };
-
   return (
     <Layout title="EvolveLogix | Dashboard">
       {loading || !user ? (
@@ -94,7 +89,9 @@ const DashboardPage = () => {
                 setIsNewLogFormVisible={setIsNewLogFormVisible}
                 newLogName={newLogName}
                 setNewLogName={setNewLogName}
-                handleSubmit={handleSubmit}
+                handleSubmit={() =>
+                  handleCreateTrainingLog(dispatch, newLogName)
+                }
               />
             </>
           ) : (
