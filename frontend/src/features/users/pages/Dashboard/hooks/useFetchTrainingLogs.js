@@ -1,4 +1,5 @@
 import { getTrainingLogs } from "features/trainingLogs/log";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 /**
@@ -11,9 +12,11 @@ import { useDispatch } from "react-redux";
  */
 const useFetchTrainingLogs = (trainingLogs) => {
   const dispatch = useDispatch();
-  if (trainingLogs.length === 0) {
-    dispatch(getTrainingLogs());
-  }
+  useEffect(() => {
+    if (trainingLogs.length === 0) {
+      dispatch(getTrainingLogs());
+    }
+  }, [dispatch, trainingLogs]);
 };
 
 export default useFetchTrainingLogs;
