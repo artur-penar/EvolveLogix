@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const NewLogForm = ({ newLogName, setNewLogName, handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <label>
-      New log name:
+      Create new log:
       <input
         type="text"
+        placeholder="Enter log name"
         value={newLogName}
         onChange={(e) => setNewLogName(e.target.value)}
       />
