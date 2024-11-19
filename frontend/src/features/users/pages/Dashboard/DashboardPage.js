@@ -15,8 +15,7 @@ import { selectUser } from "features/users/user";
 
 // Local components
 import Header from "../../../../shared/components/PageHeader";
-import Main from "../../components/DashboardMain";
-import Footer from "../../components/DashboardFooter";
+import UserInfoPanel from "../../components/UserInfoPanel";
 import NewLogForm from "features/users/components/NewLogForm";
 import useAuth from "shared/hooks/useAuth";
 import useFetchUserDetails from "./hooks/useFetchUserDetails";
@@ -27,6 +26,7 @@ import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
+import TrainingLogPanel from "features/users/components/TrainingLogPanel";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -42,7 +42,6 @@ const DashboardPage = () => {
   // State variables
   const [localSelectedLog, setLocalSelectedLog] = useState("");
   const [newLogName, setNewLogName] = useState("");
-  const [isNewLogFormVisible, setIsNewLogFormVisible] = useState(false);
 
   // Redux dispatch
   const dispatch = useDispatch();
@@ -61,6 +60,19 @@ const DashboardPage = () => {
     setSelectedTrainingLog
   );
 
+  const logData = {
+    trainingLogs,
+    localSelectedLog,
+    handleChange: (e) =>
+      handleTrainingLogChange(e, trainingLogs, setLocalSelectedLog, dispatch),
+  };
+
+  const formData = {
+    newLogName,
+    setNewLogName,
+    handleSubmit: () => handleCreateTrainingLog(dispatch, newLogName),
+  };
+
   return (
     <Layout title="EvolveLogix | Dashboard">
       {loading || !user ? (
@@ -70,28 +82,10 @@ const DashboardPage = () => {
           <Header headerContent={"Dashboard"} />
           {trainingLogs.length > 0 && userDetails ? (
             <>
-              <Main
-                trainingLogs={trainingLogs}
-                selectedLog={localSelectedLog}
-                handleChange={(e) =>
-                  handleTrainingLogChange(
-                    e,
-                    trainingLogs,
-                    setLocalSelectedLog,
-                    dispatch
-                  )
-                }
+              <TrainingLogPanel logData={logData} formData={formData} />
+              <UserInfoPanel
                 userDetails={userDetails}
                 strengthRecords={strengthRecords}
-              />
-              <Footer
-                isNewLogFormVisible={isNewLogFormVisible}
-                setIsNewLogFormVisible={setIsNewLogFormVisible}
-                newLogName={newLogName}
-                setNewLogName={setNewLogName}
-                handleSubmit={() =>
-                  handleCreateTrainingLog(dispatch, newLogName)
-                }
               />
             </>
           ) : (
