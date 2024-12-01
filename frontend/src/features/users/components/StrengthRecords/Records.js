@@ -98,7 +98,7 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
           {isAddNewRecordVisible && <NewStrengthRecord />}
 
           {simple && (
-            <button className="dashboard-button" onClick={handleEdit}>
+            <button className="user-details-button" onClick={handleEdit}>
               Go To
             </button>
           )}
