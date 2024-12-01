@@ -52,6 +52,7 @@ const TrainingCycle = () => {
   // Variables
   const macrocycleNames = getCycleNames(trainingCycleState);
   const phaseTypes = ["Hypertrophy", "Strength", "Peak", "Deload"];
+  const shouldRenderPhaseForm = trainingCycleState.length > 0;
 
   // State hooks
   const [phasesData, setPhasesData] = useState([]);
@@ -133,13 +134,15 @@ const TrainingCycle = () => {
           )}
           macrocyclesData={macrocyclesData}
         />
-        <PhaseForm
-          mesocycleId={getCycleIdByName(selectedMesocycle, mesocyclesData)}
-          cycleFormValues={cycleFormValues}
-          phasesData={phasesData}
-          setPhasesData={setPhasesData}
-          handleMultipleInputChanges={handleMultipleInputChanges}
-        />
+        {shouldRenderPhaseForm && (
+          <PhaseForm
+            mesocycleId={getCycleIdByName(selectedMesocycle, mesocyclesData)}
+            cycleFormValues={cycleFormValues}
+            phasesData={phasesData}
+            setPhasesData={setPhasesData}
+            handleMultipleInputChanges={handleMultipleInputChanges}
+          />
+        )}
       </div>
     </Layout>
   );
