@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DetailDisplay from "./DetailDisplay";
-import "./UserDetails.css";
-import DetailEditForm from "./DetailEditForm";
-import { createUserDetail, updateUserDetail } from "../user";
 import { useDispatch } from "react-redux";
+import DetailDisplay from "./DetailDisplay";
+import DetailEditForm from "./DetailEditForm";
+import { createUserDetail } from "../../user";
+import "./UserDetails.css";
 
 const UserDetails = ({ userDetails }) => {
+  // Initial user details
   const initialUserDetails = [
     {
       updated_at: "2000-01-01T13:39:41.623430Z",
@@ -21,18 +22,17 @@ const UserDetails = ({ userDetails }) => {
       neck: "0.0",
     },
   ];
-  const [currentIndex, setCurrentIndex] = useState(userDetails.length - 1);
 
+  // React hooks
+  const dispatch = useDispatch();
+  const [currentIndex, setCurrentIndex] = useState(userDetails.length - 1);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Extracting data
   const { updated_at, ...bodyMeasurements } =
     userDetails[currentIndex] || initialUserDetails[0];
   const [formData, setFormData] = useState(bodyMeasurements);
   const updatedAtData = new Date(updated_at);
-
-  // React hooks
-  const dispatch = useDispatch();
-
-  // State data
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setFormData(bodyMeasurements);
@@ -54,6 +54,7 @@ const UserDetails = ({ userDetails }) => {
     });
   };
 
+  // Prev and Next buttons
   // Prev and Next buttons
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));

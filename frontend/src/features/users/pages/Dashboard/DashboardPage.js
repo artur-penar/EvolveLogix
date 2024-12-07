@@ -17,7 +17,7 @@ import NewLogForm from "features/users/components/NewLogForm";
 import TrainingLogPanel from "features/users/components/TrainingLogPanel";
 
 // Local components
-import UserInfoPanel from "../../components/UserInfoPanel";
+import UserInfoPanel from "../../components/UserInfoPanel/UserInfoPanel";
 
 // Hooks
 import useAuth from "shared/hooks/useAuth";

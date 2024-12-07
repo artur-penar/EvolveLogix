@@ -1,6 +1,6 @@
 import React from "react";
 import UserDetails from "./UserDetails";
-import Records from "./StrengthRecords/Records";
+import Records from "./Records";
 import "./UserInfoPanel.css";
 
 const UserInfoPanel = ({ userDetails, strengthRecords }) => (
