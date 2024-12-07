@@ -1,5 +1,9 @@
 import React from "react";
 
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const DetailDisplay = ({ formData, handleEdit }) => (
   <div className="body-measurements">
     {Object.entries(formData).map(([key, value]) => (
@@ -11,7 +15,7 @@ const DetailDisplay = ({ formData, handleEdit }) => (
           marginBottom: "10px",
         }}
       >
-        <label>{key}:</label>
+        <label>{capitalizeFirstLetter(key)}:</label>
         <input
           className="centered-input"
           type="number"
