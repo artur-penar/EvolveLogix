@@ -22,7 +22,7 @@ const DetailDisplay = ({ formData, handleEdit }) => (
         />
       </div>
     ))}
-    <button className="dashboard-button" onClick={handleEdit}>
+    <button className="user-details-button" onClick={handleEdit}>
       Edit
     </button>
   </div>
