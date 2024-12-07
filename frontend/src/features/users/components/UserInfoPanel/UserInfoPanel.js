@@ -1,12 +1,12 @@
 import React from "react";
-import UserDetails from "./UserDetails";
-import Records from "./Records";
+import UserDetailsPanel from "./UserDetailsPanel";
+import StrengthRecordsPanel from "./StrengthRecordsPanel";
 import "./UserInfoPanel.css";
 
 const UserInfoPanel = ({ userDetails, strengthRecords }) => (
   <div className="details-container">
-    <UserDetails userDetails={userDetails} />
-    <Records
+    <UserDetailsPanel userDetails={userDetails} />
+    <StrengthRecordsPanel
       strengthRecords={strengthRecords}
       simple={true}
       styleClassName={"body-measurements"}

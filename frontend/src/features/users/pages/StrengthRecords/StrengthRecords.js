@@ -2,7 +2,7 @@ import React from "react";
 import "./StrengthRecords.css";
 import Layout from "shared/components/Layout";
 import { useSelector } from "react-redux";
-import Records from "features/users/components/UserInfoPanel/Records";
+import StrengthRecordsPanel from "features/users/components/UserInfoPanel/StrengthRecordsPanel";
 // frontend/src/features/users/components/StrengthRecords.js
 const StrengthRecords = () => {
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
@@ -17,10 +17,10 @@ const StrengthRecords = () => {
         {isLoading ? (
           <p>Loading</p>
         ) : (
-          <Records
+          <StrengthRecordsPanel
             strengthRecords={strengthRecords}
             styleClassName={"strength-records-container"}
-          ></Records>
+          ></StrengthRecordsPanel>
         )}
       </div>
     </Layout>

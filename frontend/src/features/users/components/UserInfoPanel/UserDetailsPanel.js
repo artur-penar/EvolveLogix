@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import DetailDisplay from "./DetailDisplay";
 import DetailEditForm from "./DetailEditForm";
 import { createUserDetail } from "../../user";
-import "./UserDetails.css";
+import "./UserDetailsPanel.css";
 
-const UserDetails = ({ userDetails }) => {
+const UserDetailsPanel = ({ userDetails }) => {
   // Initial user details
   const initialUserDetails = [
     {
@@ -107,4 +107,4 @@ const UserDetails = ({ userDetails }) => {
   );
 };
 
-export default UserDetails;
+export default UserDetailsPanel;

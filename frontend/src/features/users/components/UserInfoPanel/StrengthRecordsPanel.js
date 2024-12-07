@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import RecordDisplay from "../StrengthRecords/RecordDisplay";
 import NewStrengthRecord from "../StrengthRecords/NewStrengthRecord";
 
-const Records = ({ strengthRecords, simple, styleClassName }) => {
+const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   // State data
@@ -123,4 +123,4 @@ const Records = ({ strengthRecords, simple, styleClassName }) => {
   );
 };
 
-export default Records;
+export default StrengthRecordsPanel;
