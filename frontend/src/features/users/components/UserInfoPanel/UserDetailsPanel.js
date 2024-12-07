@@ -4,6 +4,7 @@ import DetailDisplay from "./DetailDisplay";
 import DetailEditForm from "./DetailEditForm";
 import { createUserDetail } from "../../user";
 import "./UserDetailsPanel.css";
+import UserDetailsNavigation from "./UserDetailsNavigation";
 
 const UserDetailsPanel = ({ userDetails }) => {
   // Initial user details
@@ -80,20 +81,13 @@ const UserDetailsPanel = ({ userDetails }) => {
       >
         <h3>User details:</h3>
       </div>
-      <div className="user-details-header">
-        <p>{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
-        <div>
-          <button onClick={handlePrev} disabled={currentIndex === 0}>
-            Previous
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === userDetails.length - 1}
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      <UserDetailsNavigation
+        updatedAtData={updatedAtData}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+        currentIndex={currentIndex}
+        userDetails={userDetails}
+      />
       {isEditing ? (
         <DetailEditForm
           formData={formData}
