@@ -21,10 +21,10 @@ import UserInfoPanel from "../../components/UserInfoPanel";
 
 // Hooks
 import useAuth from "shared/hooks/useAuth";
+import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useFetchUserDetails from "./hooks/useFetchUserDetails";
 import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
 import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
-import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 
@@ -50,13 +50,13 @@ const DashboardPage = () => {
   // Redux dispatch
   const dispatch = useDispatch();
 
+  // Custom hooks
   useAuth();
   useFetchExercises();
   useFetchUserDetails(userDetails);
   useFetchTrainingLogs(trainingLogs);
   useFetchStrengthRecords(strengthRecords);
   useSyncTrainingLog(localSelectedLog, reduxSelectedLog, setLocalSelectedLog);
-
   useSetInitialTrainingLog(
     trainingLogs,
     reduxSelectedLog,
@@ -64,11 +64,12 @@ const DashboardPage = () => {
     setSelectedTrainingLog
   );
 
+  // Handlers
   const handleLogChange = (e) =>
     handleTrainingLogChange(e, trainingLogs, setLocalSelectedLog, dispatch);
-
   const handleSubmit = () => handleCreateTrainingLog(dispatch, newLogName);
 
+  // Data objects
   const logData = {
     trainingLogs,
     localSelectedLog,
