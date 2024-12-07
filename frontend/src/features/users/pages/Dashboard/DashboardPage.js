@@ -31,6 +31,7 @@ import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 // Handlers
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
+import NoLogsPanel from "features/users/components/NoLogsPanel";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -98,12 +99,7 @@ const DashboardPage = () => {
               />
             </>
           ) : (
-            <>
-              <p className="tcf-info">No logs found. Create your first log!</p>
-              <div className="new-log-form-container">
-                <NewLogForm formData={formData} />
-              </div>
-            </>
+            <NoLogsPanel formData={formData} />
           )}
         </div>
       )}
