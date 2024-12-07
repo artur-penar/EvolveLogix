@@ -8,15 +8,18 @@ import "./DashboardPage.css";
 // Shared components
 import Layout from "shared/components/Layout";
 import LoadingState from "shared/components/LoadingState";
+import Header from "../../../../shared/components/PageHeader";
 
 // Features
 import { setSelectedTrainingLog } from "features/trainingLogs/log";
 import { selectUser } from "features/users/user";
+import NewLogForm from "features/users/components/NewLogForm";
+import TrainingLogPanel from "features/users/components/TrainingLogPanel";
 
 // Local components
-import Header from "../../../../shared/components/PageHeader";
 import UserInfoPanel from "../../components/UserInfoPanel";
-import NewLogForm from "features/users/components/NewLogForm";
+
+// Hooks
 import useAuth from "shared/hooks/useAuth";
 import useFetchUserDetails from "./hooks/useFetchUserDetails";
 import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
@@ -24,9 +27,10 @@ import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
 import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
 import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
+
+// Handlers
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
-import TrainingLogPanel from "features/users/components/TrainingLogPanel";
 
 const DashboardPage = () => {
   // Redux state selectors
@@ -60,17 +64,21 @@ const DashboardPage = () => {
     setSelectedTrainingLog
   );
 
+  const handleLogChange = (e) =>
+    handleTrainingLogChange(e, trainingLogs, setLocalSelectedLog, dispatch);
+
+  const handleSubmit = () => handleCreateTrainingLog(dispatch, newLogName);
+
   const logData = {
     trainingLogs,
     localSelectedLog,
-    handleChange: (e) =>
-      handleTrainingLogChange(e, trainingLogs, setLocalSelectedLog, dispatch),
+    handleChange: handleLogChange,
   };
 
   const formData = {
     newLogName,
     setNewLogName,
-    handleSubmit: () => handleCreateTrainingLog(dispatch, newLogName),
+    handleSubmit,
   };
 
   return (
@@ -90,14 +98,10 @@ const DashboardPage = () => {
             </>
           ) : (
             <>
-              <p>Log has no logs Create your first log! </p>
-              <NewLogForm
-                newLogName={newLogName}
-                setNewLogName={setNewLogName}
-                handleSubmit={() =>
-                  handleCreateTrainingLog(dispatch, newLogName)
-                }
-              />
+              <p className="tcf-info">No logs found. Create your first log!</p>
+              <div className="new-log-form-container">
+                <NewLogForm formData={formData} />
+              </div>
             </>
           )}
         </div>
