@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RecordDisplay from "../StrengthRecords/RecordDisplay";
 import NewStrengthRecord from "../StrengthRecords/NewStrengthRecord";
-import PanelHeader from "./PanelHeader";
+import PanelHeader from "../PanelHeader/PanelHeader";
 
 const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
