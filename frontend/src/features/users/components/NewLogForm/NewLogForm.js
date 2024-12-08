@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./NewLogForm.css";
 
 /**
  * NewLogForm component renders a form to create a new log.
@@ -17,18 +18,20 @@ const NewLogForm = ({ formData }) => {
   }
 
   return (
-    <form onSubmit={formData.handleSubmit}>
-      <label>
-        Create new log:
-        <input
-          type="text"
-          placeholder="Enter log name"
-          value={formData.newLogName}
-          onChange={(e) => formData.setNewLogName(e.target.value)}
-        />
-      </label>
-      <button type="submit">Create log</button>
-    </form>
+    <div className="new-log-form-container">
+      <form onSubmit={formData.handleSubmit}>
+        <label>
+          Create new log:
+          <input
+            type="text"
+            placeholder="Enter log name"
+            value={formData.newLogName}
+            onChange={(e) => formData.setNewLogName(e.target.value)}
+          />
+        </label>
+        <button type="submit">Create log</button>
+      </form>
+    </div>
   );
 };
 
