@@ -13,7 +13,7 @@ import Header from "../../../../shared/components/PageHeader";
 // Features
 import { setSelectedTrainingLog } from "features/trainingLogs/log";
 import { selectUser } from "features/users/user";
-import NewLogForm from "features/users/components/NewLogForm";
+import NewLogForm from "features/users/components/NewLogForm/NewLogForm";
 import TrainingLogPanel from "features/users/components/TrainingLogPanel";
 
 // Local components

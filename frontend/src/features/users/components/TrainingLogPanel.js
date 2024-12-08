@@ -1,6 +1,6 @@
 import React from "react";
 import LogSelector from "./LogSelector/LogSelector";
-import NewLogForm from "./NewLogForm";
+import NewLogForm from "./NewLogForm/NewLogForm";
 import "./TrainingLogPanel.css";
 
 const TrainingLogPanel = ({ logData, formData }) => {

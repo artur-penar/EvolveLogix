@@ -1,5 +1,5 @@
 import React from "react";
-import NewLogForm from "./NewLogForm";
+import NewLogForm from "./NewLogForm/NewLogForm";
 
 /**
  * NoLogsPanel component displays a message indicating no logs are found and provides a form to create a new log.

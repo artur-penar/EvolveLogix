@@ -1,6 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * NewLogForm component renders a form to create a new log.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.formData - The form data object.
+ * @param {function} props.formData.handleSubmit - The function to handle form submission.
+ * @param {string} props.formData.newLogName - The current value of the new log name input.
+ * @param {function} props.formData.setNewLogName - The function to update the new log name input value.
+ * @returns {JSX.Element|null} The rendered form element or null if formData is undefined.
+ */
 const NewLogForm = ({ formData }) => {
   if (!formData) {
     return null; // Handle the case where formData is undefined
