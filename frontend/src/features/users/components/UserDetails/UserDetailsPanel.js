@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import UserMeasurementForm from "./UserMeasurementForm";
-import { createUserDetail } from "../../user";
-import "./UserDetailsPanel.css";
 import UserDetailsNavigation from "./UserDetailsNavigation";
 import PanelHeader from "../PanelHeader/PanelHeader";
+import useUserDetails from "./useUserDetails";
+import "./UserDetailsPanel.css";
 
 const UserDetailsPanel = ({ userDetails }) => {
   // Initial user details
@@ -24,41 +23,15 @@ const UserDetailsPanel = ({ userDetails }) => {
     },
   ];
 
-  // React hooks
-  const dispatch = useDispatch();
-  const [currentIndex, setCurrentIndex] = useState(userDetails.length - 1);
-
-  // Extracting data
-  const { updated_at, ...bodyMeasurements } =
-    userDetails[currentIndex] || initialUserDetails[0];
-  const [formData, setFormData] = useState(bodyMeasurements);
-  const updatedAtData = new Date(updated_at);
-
-  useEffect(() => {
-    setFormData(bodyMeasurements);
-  }, [currentIndex]);
-
-  const handleSubmit = () => {
-    dispatch(createUserDetail(formData));
-  };
-
-  const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  // Prev and Next buttons
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < userDetails.length - 1 ? prevIndex + 1 : prevIndex
-    );
-  };
+  const {
+    formData,
+    updatedAtData,
+    currentIndex,
+    handleSubmit,
+    handleInputChange,
+    handlePrev,
+    handleNext,
+  } = useUserDetails(userDetails, initialUserDetails);
 
   return (
     <div className="user-details-container">
