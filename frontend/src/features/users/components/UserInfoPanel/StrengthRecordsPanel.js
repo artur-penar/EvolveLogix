@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RecordDisplay from "../StrengthRecords/RecordDisplay";
 import NewStrengthRecord from "../StrengthRecords/NewStrengthRecord";
+import PanelHeader from "./PanelHeader";
 
 const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
   const navigate = useNavigate();
@@ -61,20 +62,7 @@ const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
 
   return (
     <div className="user-details-container">
-      {simple && (
-        <div
-          style={{
-            display: "flex",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            justifyContent: "center",
-            marginBottom: "10px",
-            alignItems: "center",
-            padding: "5px",
-          }}
-        >
-          <h3>Strength Records</h3>
-        </div>
-      )}
+      {simple && <PanelHeader title="Strength Records" />}
       {isDataLoading ? (
         <p>Loading</p>
       ) : (

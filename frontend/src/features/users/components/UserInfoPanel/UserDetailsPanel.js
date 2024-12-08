@@ -4,6 +4,7 @@ import UserMeasurementForm from "./UserMeasurementForm";
 import { createUserDetail } from "../../user";
 import "./UserDetailsPanel.css";
 import UserDetailsNavigation from "./UserDetailsNavigation";
+import PanelHeader from "./PanelHeader";
 
 const UserDetailsPanel = ({ userDetails }) => {
   // Initial user details
@@ -61,18 +62,7 @@ const UserDetailsPanel = ({ userDetails }) => {
 
   return (
     <div className="user-details-container">
-      <div
-        style={{
-          display: "flex",
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          justifyContent: "center",
-          marginBottom: "10px",
-          alignItems: "center",
-          padding: "5px",
-        }}
-      >
-        <h3>User details:</h3>
-      </div>
+      <PanelHeader title="User Details" />
       <UserDetailsNavigation
         updatedAtData={updatedAtData}
         handleNext={handleNext}
