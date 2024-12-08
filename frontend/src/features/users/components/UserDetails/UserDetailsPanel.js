@@ -4,7 +4,7 @@ import UserMeasurementForm from "./UserMeasurementForm";
 import { createUserDetail } from "../../user";
 import "./UserDetailsPanel.css";
 import UserDetailsNavigation from "./UserDetailsNavigation";
-import PanelHeader from "./PanelHeader";
+import PanelHeader from "../UserInfoPanel/PanelHeader";
 
 const UserDetailsPanel = ({ userDetails }) => {
   // Initial user details

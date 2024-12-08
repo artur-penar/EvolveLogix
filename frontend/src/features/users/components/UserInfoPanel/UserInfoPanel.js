@@ -1,5 +1,5 @@
 import React from "react";
-import UserDetailsPanel from "./UserDetailsPanel";
+import UserDetailsPanel from "../UserDetails/UserDetailsPanel";
 import StrengthRecordsPanel from "./StrengthRecordsPanel";
 import "./UserInfoPanel.css";
 
