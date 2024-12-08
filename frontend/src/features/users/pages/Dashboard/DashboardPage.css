@@ -36,8 +36,3 @@ form button[type="submit"] {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.new-log-form-container {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
-}
