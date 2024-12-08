@@ -4,7 +4,7 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const DetailDisplay = ({ formData, handleInputChange, handleSubmit }) => {
+const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
   const [isEditable, setIsEditable] = useState(false);
   return (
     <div className="body-measurements">
@@ -45,4 +45,4 @@ const DetailDisplay = ({ formData, handleInputChange, handleSubmit }) => {
   );
 };
 
-export default DetailDisplay;
+export default UserMeasurementForm;

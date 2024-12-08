@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import DetailDisplay from "./DetailDisplay";
+import UserMeasurementForm from "./UserMeasurementForm";
 import { createUserDetail } from "../../user";
 import "./UserDetailsPanel.css";
 import UserDetailsNavigation from "./UserDetailsNavigation";
@@ -81,7 +81,7 @@ const UserDetailsPanel = ({ userDetails }) => {
         userDetails={userDetails}
       />
 
-      <DetailDisplay
+      <UserMeasurementForm
         formData={formData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
