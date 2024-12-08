@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import DetailDisplay from "./DetailDisplay";
-import DetailEditForm from "./DetailEditForm";
 import { createUserDetail } from "../../user";
 import "./UserDetailsPanel.css";
 import UserDetailsNavigation from "./UserDetailsNavigation";
@@ -27,7 +26,6 @@ const UserDetailsPanel = ({ userDetails }) => {
   // React hooks
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(userDetails.length - 1);
-  const [isEditing, setIsEditing] = useState(false);
 
   // Extracting data
   const { updated_at, ...bodyMeasurements } =
@@ -39,12 +37,7 @@ const UserDetailsPanel = ({ userDetails }) => {
     setFormData(bodyMeasurements);
   }, [currentIndex]);
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
   const handleSubmit = () => {
-    setIsEditing(false);
     dispatch(createUserDetail(formData));
   };
 
@@ -55,7 +48,6 @@ const UserDetailsPanel = ({ userDetails }) => {
     });
   };
 
-  // Prev and Next buttons
   // Prev and Next buttons
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
@@ -88,15 +80,12 @@ const UserDetailsPanel = ({ userDetails }) => {
         currentIndex={currentIndex}
         userDetails={userDetails}
       />
-      {isEditing ? (
-        <DetailEditForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
-        />
-      ) : (
-        <DetailDisplay formData={formData} handleEdit={handleEdit} />
-      )}
+
+      <DetailDisplay
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };
