@@ -1,5 +1,5 @@
 import React from "react";
-import LogSelector from "./LogSelector";
+import LogSelector from "./LogSelector/LogSelector";
 import NewLogForm from "./NewLogForm";
 import "./TrainingLogPanel.css";
 
