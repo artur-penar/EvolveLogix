@@ -1,0 +1,8 @@
+.panel-header {
+  display: flex;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  margin-bottom: 10px;
+  align-items: center;
+  padding: 5px;
+}
