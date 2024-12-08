@@ -2,9 +2,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// Styles
-import "./DashboardPage.css";
-
 // Shared components
 import Layout from "shared/components/Layout";
 import LoadingState from "shared/components/LoadingState";
@@ -13,12 +10,11 @@ import Header from "../../../../shared/components/PageHeader";
 // Features
 import { setSelectedTrainingLog } from "features/trainingLogs/log";
 import { selectUser } from "features/users/user";
-import NewLogForm from "features/users/components/NewLogForm/NewLogForm";
-import TrainingLogPanel from "features/users/components/TrainingLogPanel/TrainingLogPanel";
 
 // Local components
 import UserInfoPanel from "../../components/UserInfoPanel/UserInfoPanel";
 import NoLogsPanel from "features/users/components/NoLogsPanel/NoLogsPanel";
+import TrainingLogPanel from "features/users/components/TrainingLogPanel/TrainingLogPanel";
 
 // Hooks
 import useAuth from "shared/hooks/useAuth";
@@ -33,6 +29,8 @@ import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
 
+// Styles
+import "./DashboardPage.css";
 const DashboardPage = () => {
   // Redux state selectors
   const user = useSelector(selectUser);
@@ -83,26 +81,30 @@ const DashboardPage = () => {
     handleSubmit,
   };
 
+  if (loading || !user) {
+    return (
+      <Layout title="EvolveLogix | Dashboard">
+        <LoadingState />
+      </Layout>
+    );
+  }
+
   return (
     <Layout title="EvolveLogix | Dashboard">
-      {loading || !user ? (
-        <LoadingState />
-      ) : (
-        <div className="dashboard">
-          <Header headerContent={"Dashboard"} />
-          {trainingLogs.length > 0 && userDetails ? (
-            <>
-              <TrainingLogPanel logData={logData} formData={formData} />
-              <UserInfoPanel
-                userDetails={userDetails}
-                strengthRecords={strengthRecords}
-              />
-            </>
-          ) : (
-            <NoLogsPanel formData={formData} />
-          )}
-        </div>
-      )}
+      <div className="dashboard">
+        <Header headerContent={"Dashboard"} />
+        {trainingLogs.length > 0 && userDetails ? (
+          <>
+            <TrainingLogPanel logData={logData} formData={formData} />
+            <UserInfoPanel
+              userDetails={userDetails}
+              strengthRecords={strengthRecords}
+            />
+          </>
+        ) : (
+          <NoLogsPanel formData={formData} />
+        )}
+      </div>
     </Layout>
   );
 };
