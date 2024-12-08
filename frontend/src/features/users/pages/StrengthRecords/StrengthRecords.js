@@ -2,7 +2,7 @@ import React from "react";
 import "./StrengthRecords.css";
 import Layout from "shared/components/Layout";
 import { useSelector } from "react-redux";
-import StrengthRecordsPanel from "features/users/components/UserInfoPanel/StrengthRecordsPanel";
+import StrengthRecordsPanel from "features/users/components/StrengthRecordsPanel/StrengthRecordsPanel";
 // frontend/src/features/users/components/StrengthRecords.js
 const StrengthRecords = () => {
   const strengthRecords = useSelector((state) => state.strengthRecords.records);

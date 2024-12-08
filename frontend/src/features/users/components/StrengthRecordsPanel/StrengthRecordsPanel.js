@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RecordDisplay from "../StrengthRecords/RecordDisplay";
-import NewStrengthRecord from "../StrengthRecords/NewStrengthRecord";
+import RecordDisplay from "../Shared/RecordDisplay";
+import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 
 const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
