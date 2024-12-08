@@ -18,6 +18,7 @@ import TrainingLogPanel from "features/users/components/TrainingLogPanel/Trainin
 
 // Local components
 import UserInfoPanel from "../../components/UserInfoPanel/UserInfoPanel";
+import NoLogsPanel from "features/users/components/NoLogsPanel/NoLogsPanel";
 
 // Hooks
 import useAuth from "shared/hooks/useAuth";
@@ -31,7 +32,6 @@ import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
 // Handlers
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
 import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
-import NoLogsPanel from "features/users/components/NoLogsPanel";
 
 const DashboardPage = () => {
   // Redux state selectors
