@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./UserMeasurementForm.css";
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -6,42 +7,45 @@ const capitalizeFirstLetter = (string) => {
 
 const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
   const [isEditable, setIsEditable] = useState(false);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setIsEditable(true);
+  };
+
   return (
-    <div className="body-measurements">
-      {Object.entries(formData).map(([key, value]) => (
-        <div
-          key={key}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "10px",
-          }}
-        >
-          <label>{capitalizeFirstLetter(key)}:</label>
-          <input
-            className="centered-input"
-            type="number"
-            name={key}
-            value={value}
-            disabled={!isEditable}
-            onChange={isEditable ? handleInputChange : null}
-            min="0"
-          />
-        </div>
-      ))}
+    <form className="body-measurements" onSubmit={handleSubmit}>
+      <fieldset>
+        {Object.entries(formData).map(([key, value]) => (
+          <div key={key} className="measurement-row">
+            <label htmlFor={key}>{capitalizeFirstLetter(key)}:</label>
+            <input
+              className="centered-input"
+              type="number"
+              id={key}
+              name={key}
+              value={value}
+              disabled={!isEditable}
+              onChange={isEditable ? handleInputChange : null}
+              min="0"
+            />
+          </div>
+        ))}
+      </fieldset>
       {isEditable ? (
-        <button className="user-details-button" onClick={handleSubmit}>
+        <button type="submit" className="user-details-button">
           Save
         </button>
       ) : (
         <button
+          type="button"
           className="user-details-button"
-          onClick={() => setIsEditable(true)}
+          onClick={handleEdit}
         >
           Edit
         </button>
       )}
-    </div>
+    </form>
   );
 };
 
