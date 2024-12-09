@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
 import RecordsSectionHeader from "./RecordsSectionHeader";
+import RecordsSectionLabels from "./RecordsSectionLabels";
 
 const RecordDisplay = ({
   formData,
@@ -36,26 +37,18 @@ const RecordDisplay = ({
   return (
     <div className={styleClassName}>
       <RecordsSectionHeader simple={simple} isPowerlifts={isPowerlifts} />
-      <div
-        className="record-container"
-        style={{ justifyContent: justifyContentStyle, marginTop: "1rem" }}
-      >
-        <label className="record-label" style={{ textAlign: "left" }}>
-          Exercise:
-        </label>
-        <label className="record-label">Weight:</label>
-        {!isCycleVersion && <label className="record-label">Increase:</label>}
-        {!simple && <label className="record-label">Record Date:</label>}
-        {!simple && <label className="record-label">Prev/Next:</label>}
-      </div>
+      <RecordsSectionLabels
+        simple={simple}
+        isCycleVersion={isCycleVersion}
+        justifyContentStyle={justifyContentStyle}
+      />
       <div style={trainingCycleRecordsStyle}>
         {Object.entries(formData).map(([recordIndex, data]) => {
           const currentData = data[currentIndex[recordIndex]];
           return (
             <div
               key={recordIndex}
-              className="record-container"
-              style={{ justifyContent: justifyContentStyle }}
+              className={`record-container ${justifyContentStyle}`}
             >
               <label className="record-content" style={{ textAlign: "left" }}>
                 {recordIndex}
