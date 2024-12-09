@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./RecordDisplay.css";
+import RecordsSectionHeader from "./RecordsSectionHeader";
 
 const RecordDisplay = ({
   formData,
@@ -34,14 +35,7 @@ const RecordDisplay = ({
 
   return (
     <div className={styleClassName}>
-      {!simple && (
-        <h4 className="header-container">
-          {isPowerlifts ? "Powerlifts" : "Others"}
-        </h4>
-      )}
-      <div className="simple-header-container">
-        {simple && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
-      </div>
+      <RecordsSectionHeader simple={simple} isPowerlifts={isPowerlifts} />
       <div
         className="record-container"
         style={{ justifyContent: justifyContentStyle, marginTop: "1rem" }}
