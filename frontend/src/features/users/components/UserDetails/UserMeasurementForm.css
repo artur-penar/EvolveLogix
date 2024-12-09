@@ -1,0 +1,11 @@
+/* UserMeasurementForm.css */
+.body-measurements {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .measurement-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
