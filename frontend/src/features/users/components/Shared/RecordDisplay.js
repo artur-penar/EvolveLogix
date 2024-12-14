@@ -7,7 +7,7 @@ import RecordRow from "./RecordRow";
 const RecordDisplay = ({
   formData: exerciseRecords,
   isPowerlifts,
-  simple,
+  isSimpleView,
   isCycleVersion,
   styleClassName,
 }) => {
@@ -38,9 +38,12 @@ const RecordDisplay = ({
 
   return (
     <div className={styleClassName}>
-      <RecordsSectionHeader simple={simple} isPowerlifts={isPowerlifts} />
+      <RecordsSectionHeader
+        isSimpleView={isSimpleView}
+        isPowerlifts={isPowerlifts}
+      />
       <RecordsSectionLabels
-        simple={simple}
+        isSimpleView={isSimpleView}
         isCycleVersion={isCycleVersion}
         justifyContentStyle={justifyContentStyle}
       />
@@ -51,7 +54,7 @@ const RecordDisplay = ({
             exerciseName,
             currentRecord,
             isCycleVersion,
-            simple,
+            isSimpleView,
             handlePrev,
             handleNext,
             currentRecordIndices,

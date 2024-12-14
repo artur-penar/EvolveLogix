@@ -8,7 +8,7 @@ const UserInfoPanel = ({ userDetails, strengthRecords }) => (
     <UserDetailsPanel userDetails={userDetails} />
     <StrengthRecordsPanel
       strengthRecords={strengthRecords}
-      simple={true}
+      isSimpleView={true}
       styleClassName={"body-measurements"}
     />
   </div>

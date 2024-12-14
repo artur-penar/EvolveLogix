@@ -20,7 +20,7 @@ const RecordRow = ({
   exerciseName,
   currentRecord,
   isCycleVersion,
-  simple,
+  isSimpleView,
   handleNext,
   handlePrev,
   currentRecordIndices,
@@ -45,13 +45,13 @@ const RecordRow = ({
           %
         </label>
       )}
-      {!simple && (
+      {!isSimpleView && (
         <label className="record-content">
           {new Date(currentRecord.record_date).toLocaleDateString()}
         </label>
       )}
 
-      {!simple && (
+      {!isSimpleView && (
         <div className="flex-container">
           <button
             onClick={() => handlePrev(exerciseName)}

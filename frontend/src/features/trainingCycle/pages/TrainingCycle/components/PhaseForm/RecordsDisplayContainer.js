@@ -32,7 +32,7 @@ const RecordsDisplayContainer = () => {
         <RecordDisplay
           formData={latestPowerlifts}
           isPowerlifts={true}
-          simple={true}
+          isSimpleView={true}
           isCycleVersion={true}
           styleClassName={"record-display"}
         />
@@ -41,7 +41,7 @@ const RecordsDisplayContainer = () => {
         <RecordDisplay
           formData={latestOtherExercises}
           isPowerlifts={false}
-          simple={true}
+          isSimpleView={true}
           isCycleVersion={true}
           styleClassName={"record-display"}
         />

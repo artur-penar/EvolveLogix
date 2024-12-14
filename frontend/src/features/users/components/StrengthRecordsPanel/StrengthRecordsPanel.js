@@ -4,7 +4,11 @@ import RecordDisplay from "../Shared/RecordDisplay";
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 
-const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
+const StrengthRecordsPanel = ({
+  strengthRecords,
+  isSimpleView,
+  styleClassName,
+}) => {
   const navigate = useNavigate();
   const [isDataLoading, setIsDataLoading] = useState(true);
   // State data
@@ -62,7 +66,7 @@ const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
 
   return (
     <div className="user-details-container">
-      {simple && <PanelHeader title="Strength Records" />}
+      {isSimpleView && <PanelHeader title="Strength Records" />}
       {isDataLoading ? (
         <p>Loading</p>
       ) : (
@@ -71,25 +75,25 @@ const StrengthRecordsPanel = ({ strengthRecords, simple, styleClassName }) => {
             formData={powerliftsRecords}
             isPowerlifts={true}
             handleEdit={handleEdit}
-            simple={simple}
+            isSimpleView={isSimpleView}
             styleClassName={styleClassName}
           />
           <RecordDisplay
             formData={otherLiftsRecords}
             isPowerlifts={false}
             handleEdit={handleEdit}
-            simple={simple}
+            isSimpleView={isSimpleView}
             styleClassName={styleClassName}
           />
 
           {isAddNewRecordVisible && <NewStrengthRecord />}
 
-          {simple && (
+          {isSimpleView && (
             <button className="user-details-button" onClick={handleEdit}>
               Go To
             </button>
           )}
-          {!simple && !isAddNewRecordVisible && (
+          {!isSimpleView && !isAddNewRecordVisible && (
             <button
               onClick={handleAddNewRecord}
               style={{

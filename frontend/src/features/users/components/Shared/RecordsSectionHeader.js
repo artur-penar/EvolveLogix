@@ -1,15 +1,15 @@
 import React from "react";
 
-const RecordsSectionHeader = ({ simple, isPowerlifts }) => {
+const RecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
   return (
     <>
-      {!simple && (
+      {!isSimpleView && (
         <h4 className="header-container">
           {isPowerlifts ? "Powerlifts" : "Others"}
         </h4>
       )}
       <div className="simple-header-container">
-        {simple && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
+        {isSimpleView && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
       </div>
     </>
   );
