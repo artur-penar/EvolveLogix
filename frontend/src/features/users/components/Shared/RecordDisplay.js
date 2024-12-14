@@ -4,31 +4,32 @@ import RecordsSectionHeader from "./RecordsSectionHeader";
 import RecordsSectionLabels from "./RecordsSectionLabels";
 
 const RecordDisplay = ({
-  formData,
+  formData: exerciseRecords,
   isPowerlifts,
   simple,
   isCycleVersion,
   styleClassName,
 }) => {
-  const initialIndex = Object.fromEntries(
-    Object.entries(formData).map(([key, data]) => [key, data.length - 1])
+  const initialRecordIndices = Object.fromEntries(
+    Object.entries(exerciseRecords).map(([key, data]) => [key, data.length - 1])
   );
 
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [currentRecordIndices, setCurrentRecordIndices] =
+    useState(initialRecordIndices);
   const justifyContentStyle = isCycleVersion ? "space-evenly" : "space-between";
   const trainingCycleRecordsStyle = isCycleVersion
     ? { height: "110px", overflowY: "auto" }
     : {};
 
   const handlePrev = (exerciseName) => {
-    setCurrentIndex((prevState) => ({
+    setCurrentRecordIndices((prevState) => ({
       ...prevState,
       [exerciseName]: (prevState[exerciseName] || 0) - 1,
     }));
   };
 
   const handleNext = (exerciseName) => {
-    setCurrentIndex((prevState) => ({
+    setCurrentRecordIndices((prevState) => ({
       ...prevState,
       [exerciseName]: (prevState[exerciseName] || 0) + 1,
     }));
@@ -43,46 +44,47 @@ const RecordDisplay = ({
         justifyContentStyle={justifyContentStyle}
       />
       <div style={trainingCycleRecordsStyle}>
-        {Object.entries(formData).map(([recordIndex, data]) => {
-          const currentData = data[currentIndex[recordIndex]];
+        {Object.entries(exerciseRecords).map(([exerciseName, records]) => {
+          const currentRecord = records[currentRecordIndices[exerciseName]];
           return (
             <div
-              key={recordIndex}
+              key={exerciseName}
               className={`record-container ${justifyContentStyle}`}
             >
               <label className="record-content" style={{ textAlign: "left" }}>
-                {recordIndex}
+                {exerciseName}
               </label>
               <label className="record-content">
-                {currentData?.weight || ""}kg
+                {currentRecord?.weight || ""}kg
               </label>
               {!isCycleVersion && (
                 <label className="record-content">
                   🔺
-                  {currentData?.percent_increase !== null
-                    ? Math.round(currentData?.percent_increase)
+                  {currentRecord?.percent_increase !== null
+                    ? Math.round(currentRecord?.percent_increase)
                     : 0 || "0"}
                   %
                 </label>
               )}
               {!simple && (
                 <label className="record-content">
-                  {new Date(currentData.record_date).toLocaleDateString()}
+                  {new Date(currentRecord.record_date).toLocaleDateString()}
                 </label>
               )}
 
               {!simple && (
                 <div className="flex-container">
                   <button
-                    onClick={() => handlePrev(recordIndex)}
-                    disabled={currentIndex[recordIndex] === 0}
+                    onClick={() => handlePrev(exerciseName)}
+                    disabled={currentRecordIndices[exerciseName] === 0}
                   >
                     &lt;
                   </button>
                   <button
-                    onClick={() => handleNext(recordIndex)}
+                    onClick={() => handleNext(exerciseName)}
                     disabled={
-                      currentIndex[recordIndex] >= initialIndex[recordIndex]
+                      currentRecordIndices[exerciseName] >=
+                      initialRecordIndices[exerciseName]
                     }
                   >
                     &gt;
