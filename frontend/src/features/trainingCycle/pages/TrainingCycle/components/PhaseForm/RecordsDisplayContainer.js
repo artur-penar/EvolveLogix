@@ -1,4 +1,4 @@
-import StrengthRecordsDisplay from "features/users/components/Shared/StrengthRecordsDisplay";
+import StrengthRecordsDisplay from "features/users/components/Shared/StrengthRecords/StrengthRecordsDisplay";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatestStrengthRecords";

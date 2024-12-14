@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import StrengthRecordsDisplay from "../Shared/StrengthRecordsDisplay";
+import StrengthRecordsDisplay from "../Shared/StrengthRecords/StrengthRecordsDisplay";
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 
