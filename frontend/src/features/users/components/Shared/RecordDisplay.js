@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./RecordDisplay.css";
 import RecordsSectionHeader from "./RecordsSectionHeader";
 import RecordsSectionLabels from "./RecordsSectionLabels";
+import RecordRow from "./RecordRow";
 
 const RecordDisplay = ({
   formData: exerciseRecords,
@@ -46,53 +47,18 @@ const RecordDisplay = ({
       <div style={trainingCycleRecordsStyle}>
         {Object.entries(exerciseRecords).map(([exerciseName, records]) => {
           const currentRecord = records[currentRecordIndices[exerciseName]];
-          return (
-            <div
-              key={exerciseName}
-              className={`record-container ${justifyContentStyle}`}
-            >
-              <label className="record-content" style={{ textAlign: "left" }}>
-                {exerciseName}
-              </label>
-              <label className="record-content">
-                {currentRecord?.weight || ""}kg
-              </label>
-              {!isCycleVersion && (
-                <label className="record-content">
-                  🔺
-                  {currentRecord?.percent_increase !== null
-                    ? Math.round(currentRecord?.percent_increase)
-                    : 0 || "0"}
-                  %
-                </label>
-              )}
-              {!simple && (
-                <label className="record-content">
-                  {new Date(currentRecord.record_date).toLocaleDateString()}
-                </label>
-              )}
-
-              {!simple && (
-                <div className="flex-container">
-                  <button
-                    onClick={() => handlePrev(exerciseName)}
-                    disabled={currentRecordIndices[exerciseName] === 0}
-                  >
-                    &lt;
-                  </button>
-                  <button
-                    onClick={() => handleNext(exerciseName)}
-                    disabled={
-                      currentRecordIndices[exerciseName] >=
-                      initialRecordIndices[exerciseName]
-                    }
-                  >
-                    &gt;
-                  </button>
-                </div>
-              )}
-            </div>
-          );
+          const recordRowProps = {
+            exerciseName,
+            currentRecord,
+            isCycleVersion,
+            simple,
+            handlePrev,
+            handleNext,
+            currentRecordIndices,
+            initialRecordIndices,
+            justifyContentStyle,
+          };
+          return <RecordRow key={exerciseName} {...recordRowProps} />;
         })}
       </div>
     </div>
