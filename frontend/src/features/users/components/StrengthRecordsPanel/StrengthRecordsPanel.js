@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RecordDisplay from "../Shared/RecordDisplay";
+import StrengthRecordsDisplay from "../Shared/StrengthRecordsDisplay";
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 
@@ -71,14 +71,14 @@ const StrengthRecordsPanel = ({
         <p>Loading</p>
       ) : (
         <>
-          <RecordDisplay
+          <StrengthRecordsDisplay
             formData={powerliftsRecords}
             isPowerlifts={true}
             handleEdit={handleEdit}
             isSimpleView={isSimpleView}
             styleClassName={styleClassName}
           />
-          <RecordDisplay
+          <StrengthRecordsDisplay
             formData={otherLiftsRecords}
             isPowerlifts={false}
             handleEdit={handleEdit}

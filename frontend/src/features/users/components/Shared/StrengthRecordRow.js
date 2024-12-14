@@ -16,7 +16,7 @@ import React from "react";
  *
  * @returns {JSX.Element} The RecordRow component.
  */
-const RecordRow = ({
+const StrengthRecordRow = ({
   exerciseName,
   currentRecord,
   isCycleVersion,
@@ -74,4 +74,4 @@ const RecordRow = ({
   );
 };
 
-export default RecordRow;
+export default StrengthRecordRow;

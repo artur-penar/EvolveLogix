@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./RecordDisplay.css";
-import RecordsSectionHeader from "./RecordsSectionHeader";
-import RecordsSectionLabels from "./RecordsSectionLabels";
-import RecordRow from "./RecordRow";
+import StrengthRecordsSectionHeader from "./StrengthRecordsSectionHeader";
+import StrengthRecordsSectionLabels from "./StrengthRecordsSectionLabels";
+import StrengthRecordRow from "./StrengthRecordRow";
+import "./StrengthRecordsDisplay.css";
 
-const RecordDisplay = ({
+const StrengthRecordsDisplay = ({
   formData: exerciseRecords,
   isPowerlifts,
   isSimpleView,
@@ -38,11 +38,11 @@ const RecordDisplay = ({
 
   return (
     <div className={styleClassName}>
-      <RecordsSectionHeader
+      <StrengthRecordsSectionHeader
         isSimpleView={isSimpleView}
         isPowerlifts={isPowerlifts}
       />
-      <RecordsSectionLabels
+      <StrengthRecordsSectionLabels
         isSimpleView={isSimpleView}
         isCycleVersion={isCycleVersion}
         justifyContentStyle={justifyContentStyle}
@@ -61,11 +61,11 @@ const RecordDisplay = ({
             initialRecordIndices,
             justifyContentStyle,
           };
-          return <RecordRow key={exerciseName} {...recordRowProps} />;
+          return <StrengthRecordRow key={exerciseName} {...recordRowProps} />;
         })}
       </div>
     </div>
   );
 };
 
-export default RecordDisplay;
+export default StrengthRecordsDisplay;

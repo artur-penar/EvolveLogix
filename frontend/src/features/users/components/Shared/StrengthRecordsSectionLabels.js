@@ -8,7 +8,7 @@ import React from "react";
  * @param {boolean} props.isCycleVersion - Determines if the cycle version of the labels should be displayed.
  * @returns {JSX.Element} The rendered labels.
  */
-const RecordsSectionLabels = ({
+const StrengthRecordsSectionLabels = ({
   isSimpleView,
   isCycleVersion,
   justifyContentStyle,
@@ -26,4 +26,4 @@ const RecordsSectionLabels = ({
   );
 };
 
-export default RecordsSectionLabels;
+export default StrengthRecordsSectionLabels;

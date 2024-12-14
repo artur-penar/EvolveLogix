@@ -1,4 +1,4 @@
-import RecordDisplay from "features/users/components/Shared/RecordDisplay";
+import StrengthRecordsDisplay from "features/users/components/Shared/StrengthRecordsDisplay";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatestStrengthRecords";
@@ -29,7 +29,7 @@ const RecordsDisplayContainer = () => {
   return (
     <div className="records-container">
       <div className="record-section powerlifts-section">
-        <RecordDisplay
+        <StrengthRecordsDisplay
           formData={latestPowerlifts}
           isPowerlifts={true}
           isSimpleView={true}
@@ -38,7 +38,7 @@ const RecordsDisplayContainer = () => {
         />
       </div>
       <div className="record-section other-exercises-section">
-        <RecordDisplay
+        <StrengthRecordsDisplay
           formData={latestOtherExercises}
           isPowerlifts={false}
           isSimpleView={true}

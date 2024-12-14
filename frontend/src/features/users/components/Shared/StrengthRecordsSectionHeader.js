@@ -1,6 +1,6 @@
 import React from "react";
 
-const RecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
+const StrengthRecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
   return (
     <>
       {!isSimpleView && (
@@ -15,4 +15,4 @@ const RecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
   );
 };
 
-export default RecordsSectionHeader;
+export default StrengthRecordsSectionHeader;
