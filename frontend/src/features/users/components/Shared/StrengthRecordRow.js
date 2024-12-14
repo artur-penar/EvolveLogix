@@ -1,4 +1,5 @@
 import React from "react";
+import RecordNavigation from "./RecordNavigation";
 
 /**
  * RecordRow component displays a row of exercise records with various details.
@@ -28,10 +29,7 @@ const StrengthRecordRow = ({
   justifyContentStyle,
 }) => {
   return (
-    <div
-      key={exerciseName}
-      className={`record-container ${justifyContentStyle}`}
-    >
+    <div className={`record-container ${justifyContentStyle}`}>
       <label className="record-content" style={{ textAlign: "left" }}>
         {exerciseName}
       </label>
@@ -52,23 +50,13 @@ const StrengthRecordRow = ({
       )}
 
       {!isSimpleView && (
-        <div className="flex-container">
-          <button
-            onClick={() => handlePrev(exerciseName)}
-            disabled={currentRecordIndices[exerciseName] === 0}
-          >
-            &lt;
-          </button>
-          <button
-            onClick={() => handleNext(exerciseName)}
-            disabled={
-              currentRecordIndices[exerciseName] >=
-              initialRecordIndices[exerciseName]
-            }
-          >
-            &gt;
-          </button>
-        </div>
+        <RecordNavigation
+          exerciseName={exerciseName}
+          handleNext={handleNext}
+          handlePrev={handlePrev}
+          currentRecordIndices={currentRecordIndices}
+          initialRecordIndices={initialRecordIndices}
+        />
       )}
     </div>
   );
