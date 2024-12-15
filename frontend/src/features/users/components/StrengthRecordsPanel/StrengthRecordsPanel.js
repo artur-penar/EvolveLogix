@@ -45,13 +45,13 @@ const StrengthRecordsPanel = ({
       processedStrengthRecords = defaultPowerliftsRecords;
     }
     const processedPowerlifts = Object.fromEntries(
-      Object.entries(processedStrengthRecords).filter((exercise) =>
-        powerlifts.includes(exercise[0])
+      Object.entries(processedStrengthRecords).filter(([exerciseName]) =>
+        powerlifts.includes(exerciseName)
       )
     );
     const processedOtherLifts = Object.fromEntries(
       Object.entries(processedStrengthRecords).filter(
-        (exercise) => !powerlifts.includes(exercise[0])
+        ([exerciseName]) => !powerlifts.includes(exerciseName)
       )
     );
 
