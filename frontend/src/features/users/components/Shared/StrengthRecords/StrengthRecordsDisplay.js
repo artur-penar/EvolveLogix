@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import StrengthRecordsSectionHeader from "./StrengthRecordsSectionHeader";
 import StrengthRecordsSectionLabels from "./StrengthRecordsSectionLabels";
 import StrengthRecordRow from "./StrengthRecordRow";
+import useRecordIndices from "./useRecordIndices";
 import "./StrengthRecordsDisplay.css";
 
 const StrengthRecordsDisplay = ({
@@ -11,29 +12,12 @@ const StrengthRecordsDisplay = ({
   isCycleVersion,
   styleClassName,
 }) => {
-  const initialRecordIndices = Object.fromEntries(
-    Object.entries(exerciseRecords).map(([key, data]) => [key, data.length - 1])
-  );
-
-  const [currentRecordIndices, setCurrentRecordIndices] =
-    useState(initialRecordIndices);
+  const { initialRecordIndices, currentRecordIndices, handlePrev, handleNext } =
+    useRecordIndices(exerciseRecords);
   const justifyContentStyle = isCycleVersion ? "space-evenly" : "space-between";
-  const trainingCycleRecordsStyle = isCycleVersion
-    ? { height: "110px", overflowY: "auto" }
-    : {};
-
-  const handlePrev = (exerciseName) => {
-    setCurrentRecordIndices((prevState) => ({
-      ...prevState,
-      [exerciseName]: (prevState[exerciseName] || 0) - 1,
-    }));
-  };
-
-  const handleNext = (exerciseName) => {
-    setCurrentRecordIndices((prevState) => ({
-      ...prevState,
-      [exerciseName]: (prevState[exerciseName] || 0) + 1,
-    }));
+  const trainingCycleRecordsStyle = {
+    height: isCycleVersion ? "110px" : "auto",
+    overflowY: isCycleVersion ? "auto" : "visible",
   };
 
   return (
