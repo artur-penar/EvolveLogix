@@ -55,17 +55,9 @@ const StrengthRecordsPanel = ({
           {!isSimpleView && !isAddNewRecordVisible && (
             <button
               onClick={handleAddNewRecord}
-              style={{
-                display: "block",
-                margin: "0 auto",
-                borderRadius: "10px",
-                marginTop: "10px",
-                backgroundColor: "#007bff",
-                padding: "10px 20px",
-                color: "white",
-              }}
+              className="user-details-button"
             >
-              Add record
+              Add New Record
             </button>
           )}
         </>
