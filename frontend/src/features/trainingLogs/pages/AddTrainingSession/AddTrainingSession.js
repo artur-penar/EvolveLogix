@@ -10,7 +10,7 @@ import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
 
 // Hook imports
-import useHandleSubmit from "features/trainingLogs/hooks/useHandleSubmit";
+import useHandleSubmit from "features/trainingLogs/hooks/AddTrainingSession/useHandleSubmit";
 
 // Handler imports
 import {
@@ -26,8 +26,8 @@ import {
 
 // Style imports
 import "./AddTrainingSession.css";
-import useTrainingData from "features/trainingLogs/hooks/useTrainingData";
-import useStrengthRecords from "features/trainingLogs/hooks/useStrengthRecords";
+import useTrainingData from "features/trainingLogs/hooks/AddTrainingSession/useTrainingData";
+import useStrengthRecords from "features/trainingLogs/hooks/AddTrainingSession/useStrengthRecords";
 import ExerciseDetailsSummary from "./components/ExerciseDetailsSummary";
 
 const AddTrainingSession = () => {

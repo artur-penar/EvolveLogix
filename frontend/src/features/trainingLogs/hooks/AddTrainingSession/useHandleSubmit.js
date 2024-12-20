@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addTrainingSession, updateTrainingSession } from "../log";
+import { addTrainingSession, updateTrainingSession } from "../../log";
 
 /**
  * Custom hook to handle form submission for training data.
