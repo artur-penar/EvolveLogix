@@ -26,8 +26,8 @@ import useSetInitialTrainingLog from "../../hooks/Dashboard/useSetInitialTrainin
 import useSyncTrainingLog from "../../hooks/Dashboard/useSyncTrainingLog";
 
 // Handlers
-import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
-import handleCreateTrainingLog from "./handlers/handleCreateTrainingLog";
+import handleTrainingLogChange from "../../handlers/Dashboard/handleTrainingLogChange";
+import handleCreateTrainingLog from "../../handlers/Dashboard/handleCreateTrainingLog";
 
 // Styles
 import "./DashboardPage.css";
