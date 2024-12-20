@@ -19,11 +19,11 @@ import TrainingLogPanel from "features/users/components/TrainingLogPanel/Trainin
 // Hooks
 import useAuth from "shared/hooks/useAuth";
 import { useFetchExercises } from "shared/hooks/useFetchExercises";
-import useFetchUserDetails from "./hooks/useFetchUserDetails";
-import useFetchTrainingLogs from "./hooks/useFetchTrainingLogs";
-import useFetchStrengthRecords from "./hooks/useFetchStrengthRecords";
-import useSetInitialTrainingLog from "./hooks/useSetInitialTrainingLog";
-import useSyncTrainingLog from "./hooks/useSyncTrainingLog";
+import useFetchUserDetails from "../../hooks/DashboardPage/useFetchUserDetails";
+import useFetchTrainingLogs from "../../hooks/DashboardPage/useFetchTrainingLogs";
+import useFetchStrengthRecords from "../../hooks/DashboardPage/useFetchStrengthRecords";
+import useSetInitialTrainingLog from "../../hooks/DashboardPage/useSetInitialTrainingLog";
+import useSyncTrainingLog from "../../hooks/DashboardPage/useSyncTrainingLog";
 
 // Handlers
 import handleTrainingLogChange from "./handlers/handleTrainingLogChange";
