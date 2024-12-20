@@ -24,7 +24,7 @@ import useNavigateToEditTrainingSession from "../../hooks/TrainingLogDashboard/u
 import useHandleDeleteTrainingSession from "../../hooks/TrainingLogDashboard/useHandleDeleteTrainingSession";
 
 // Handler imports
-import handleEventClick from "./handlers/handleEventClick";
+import handleEventClick from "../../handlers/handleEventClick";
 
 // Styles
 import "./TrainingLogDashboard.css";
