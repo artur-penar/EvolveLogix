@@ -16,12 +16,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 // Hook imports
-import useEventsData from "./hooks/useEventsData";
-import useGetTrainingLogs from "./hooks/useGetTrainingLogs";
-import useDeleteModalState from "./hooks/useDeleteModalState";
-import useNavigateToAddTrainingSession from "./hooks/useNavigateToAddTrainingSession";
-import useNavigateToEditTrainingSession from "./hooks/useNavigateToEditTrainingSession";
-import useHandleDeleteTrainingSession from "./hooks/useHandleDeleteTrainingSession";
+import useEventsData from "../../hooks/TrainingLogDashboard/useEventsData";
+import useGetTrainingLogs from "../../hooks/TrainingLogDashboard/useGetTrainingLogs";
+import useDeleteModalState from "../../hooks/TrainingLogDashboard/useDeleteModalState";
+import useNavigateToAddTrainingSession from "../../hooks/TrainingLogDashboard/useNavigateToAddTrainingSession";
+import useNavigateToEditTrainingSession from "../../hooks/TrainingLogDashboard/useNavigateToEditTrainingSession";
+import useHandleDeleteTrainingSession from "../../hooks/TrainingLogDashboard/useHandleDeleteTrainingSession";
 
 // Handler imports
 import handleEventClick from "./handlers/handleEventClick";
