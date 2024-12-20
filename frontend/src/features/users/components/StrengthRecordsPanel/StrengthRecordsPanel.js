@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StrengthRecordsDisplay from "../Shared/StrengthRecords/StrengthRecordsDisplay";
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
+import useOrganizeStrengthRecords from "./useOrganizeStrengthRecords";
 
 const StrengthRecordsPanel = ({
   strengthRecords,
@@ -10,55 +11,13 @@ const StrengthRecordsPanel = ({
   styleClassName,
 }) => {
   const navigate = useNavigate();
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  // State data
-  const [powerliftsRecords, setPowerliftsRecords] = useState();
-  const [otherLiftsRecords, setOtherLiftsRecords] = useState();
   const [isAddNewRecordVisible, setIsAddNewRecordVisible] = useState(false);
-  const defaultPowerliftsRecords = {
-    Squat: "0.0",
-    "Bench press": "0.0",
-    Deadlift: "0.0",
-  };
+  const { powerliftsRecords, otherLiftsRecords, isDataLoading } =
+    useOrganizeStrengthRecords(strengthRecords);
 
   const handleAddNewRecord = () => {
     setIsAddNewRecordVisible(true);
   };
-
-  useEffect(() => {
-    let processedStrengthRecords = {};
-    const powerlifts = ["Squat", "Bench press", "Deadlift"];
-    if (strengthRecords) {
-      processedStrengthRecords = strengthRecords.reduce((acc, record) => {
-        const exerciseName = record.exercise;
-        if (!acc[exerciseName]) {
-          acc[exerciseName] = [];
-        }
-        acc[exerciseName].push({
-          weight: record.weight,
-          record_date: record.record_date,
-          percent_increase: record.percent_increase,
-        });
-        return acc;
-      }, {});
-    } else {
-      processedStrengthRecords = defaultPowerliftsRecords;
-    }
-    const processedPowerlifts = Object.fromEntries(
-      Object.entries(processedStrengthRecords).filter(([exerciseName]) =>
-        powerlifts.includes(exerciseName)
-      )
-    );
-    const processedOtherLifts = Object.fromEntries(
-      Object.entries(processedStrengthRecords).filter(
-        ([exerciseName]) => !powerlifts.includes(exerciseName)
-      )
-    );
-
-    setPowerliftsRecords(processedPowerlifts);
-    setOtherLiftsRecords(processedOtherLifts);
-    setIsDataLoading(false);
-  }, [strengthRecords]);
 
   const handleEdit = () => {
     navigate("/strength-records");
