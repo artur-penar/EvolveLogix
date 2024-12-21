@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import FormGroup from "./FormGroup";
-import useMacrocycleForm from "./useMacrocycleForm";
+import useMacrocycleForm from "../../../../hooks/CreateNewCycle/useMacrocycleForm";
 import "./CreateNewCycle.css";
 
 const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
