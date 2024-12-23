@@ -45,10 +45,12 @@ const NewStrengthRecord = () => {
         <div className="nsr-row">
           <label htmlFor="exercise">Exercise</label>
           <select
+            className="form-control"
             id="exercise"
             name="exercise"
             value={exerciseName}
             onChange={handleExerciseChange}
+            style={{ width: "20%" }}
           >
             {exercisesList.map((exercise) => (
               <option key={exercise} value={exercise}>
@@ -60,12 +62,13 @@ const NewStrengthRecord = () => {
         <div className="nsr-row">
           <label htmlFor="weight">Weight</label>
           <input
-            className="nsr-centered-input"
+            className="nsr-centered-input form-control"
             type="number"
             id="weight"
             name="weight"
             value={weight}
             onChange={handleWeightChange}
+            style={{ width: "20%" }}
           />
         </div>
         <div className="nsr-row">
