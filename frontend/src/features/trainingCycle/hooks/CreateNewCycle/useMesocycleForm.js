@@ -1,10 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addMesocycle } from "features/trainingCycle/trainingCycle";
 
-const useFormState = (initialState) => {
+const useMesocycleForm = ({
+  initialState,
+  setAddCycleStatus,
+  setIsCreateCycleVisible,
+  selectedMacrocycleId,
+}) => {
+  const dispatch = useDispatch();
   const [formState, setFormState] = useState(initialState);
   const [warnings, setWarnings] = useState({});
-  const nameInputRef = useRef(null);
-  const dateInputRef = useRef(null);
+
+  const availableDurationOptions = [...Array(12).keys()].map(
+    (number, i) => number + 1
+  );
 
   const handleFormChange = (e) => {
     const { id, value } = e.target;
@@ -45,16 +55,50 @@ const useFormState = (initialState) => {
     }
   }, [formState.mesocycleStartDate, formState.mesocycleDuration]);
 
+  const handleError = (error) => {
+    if (error.non_field_errors) {
+      const newWaring = {};
+      newWaring.mesocycleStartDate =
+        error.non_field_errors[0] + "Check Mesocycles duration!";
+      setWarnings(newWaring);
+    }
+  };
+
+  const handleSuccess = () => {
+    setAddCycleStatus("Cycle added successfully");
+    setIsCreateCycleVisible(false);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        addMesocycle({
+          name: formState.cycleName,
+          macrocycle: selectedMacrocycleId,
+          start_date: formState.mesocycleStartDate,
+          duration: Number(formState.mesocycleDuration) + 1,
+        })
+      ).unwrap();
+      handleSuccess();
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      handleSubmit();
+    }
+  };
   return {
     formState,
     setFormState,
     warnings,
-    setWarnings,
     handleFormChange,
-    validateForm,
-    nameInputRef,
-    dateInputRef,
+    onSubmit,
+    availableDurationOptions,
   };
 };
 
-export default useFormState;
+export default useMesocycleForm;
