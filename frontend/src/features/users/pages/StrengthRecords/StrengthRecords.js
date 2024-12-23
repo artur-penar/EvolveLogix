@@ -1,9 +1,9 @@
 import React from "react";
-import "./StrengthRecords.css";
-import Layout from "shared/components/Layout";
 import { useSelector } from "react-redux";
+import Layout from "shared/components/Layout";
 import StrengthRecordsPanel from "features/users/components/StrengthRecordsPanel/StrengthRecordsPanel";
-// frontend/src/features/users/components/StrengthRecords.js
+import "./StrengthRecords.css";
+
 const StrengthRecords = () => {
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
   const isLoading = useSelector((state) => state.strengthRecords.loading);
