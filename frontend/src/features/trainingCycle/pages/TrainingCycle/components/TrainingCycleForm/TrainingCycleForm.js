@@ -46,6 +46,35 @@ const TrainingCycleForm = ({
   const hasMesocycles = mesocycles.length > 0;
 
   const countdown = useAutoClearStatus(addCycleStatus, setAddCycleStatus);
+  const mesocycleOptions = [
+    {
+      id: 1,
+      label: "Timeline",
+      checked: isTimelineVisible,
+      onChange: () => {
+        setIsTimelineVisible((prevState) => !prevState);
+      },
+    },
+    {
+      id: 2,
+      label: "Calendar",
+      checked: isCalendarVisible,
+      onChange: () => {
+        setIsCalendarVisible((prevState) => !prevState);
+      },
+    },
+  ];
+
+  const phaseOptions = [
+    {
+      id: 1,
+      label: "Phase Details",
+      checked: isPhaseDetailsVisible,
+      onChange: () => {
+        setIsPhaseDetailsVisible((prevState) => !prevState);
+      },
+    },
+  ];
 
   return (
     <div className="tcf-parent-container">
@@ -84,24 +113,7 @@ const TrainingCycleForm = ({
             isCreateCycleVisible={isCreateCycleVisible}
             additionalProps={{
               mesocycleDurationInWeeks,
-              options: [
-                {
-                  id: 1,
-                  label: "Timeline",
-                  checked: isTimelineVisible,
-                  onChange: () => {
-                    setIsTimelineVisible((prevState) => !prevState);
-                  },
-                },
-                {
-                  id: 2,
-                  label: "Calendar",
-                  checked: isCalendarVisible,
-                  onChange: () => {
-                    setIsCalendarVisible((prevState) => !prevState);
-                  },
-                },
-              ],
+              options: mesocycleOptions,
             }}
           />
           {addCycleStatus && (
@@ -117,9 +129,7 @@ const TrainingCycleForm = ({
               setIsCreateCycleVisible={setIsCreateCycleVisible}
             />
           )}
-          {/* {isCreateCycleVisible && (
-            <CreateNewCycle selectedMacrocycle={selectedMacrocycleId} />
-          )} */}
+
           {isTimelineVisible && (
             <div className="tcf-select-group-container">
               <h3>Mesocycle Timeline</h3>
@@ -148,7 +158,6 @@ const TrainingCycleForm = ({
               )}
             </div>
           )}
-          {/* // Phase selection */}
           <CycleSelectGroup
             type={"Phase"}
             value={phase}
@@ -159,25 +168,15 @@ const TrainingCycleForm = ({
             additionalProps={{
               trainingDays,
               phaseDurationInWeeks,
-              options: [
-                {
-                  id: 1,
-                  label: "Phase details",
-                  checked: isPhaseDetailsVisible,
-                  onChange: () => {
-                    setIsPhaseDetailsVisible((prevState) => !prevState);
-                  },
-                },
-              ],
+              options: phaseOptions,
             }}
           />
-          {isPhaseDetailsVisible ? (
-            phasesData.length > 0 ? (
+          {isPhaseDetailsVisible &&
+            (phasesData.length > 0 ? (
               <PhaseDisplay phasesData={phasesData} />
             ) : (
               <p className="tcf-info">No phases details available</p>
-            )
-          ) : null}
+            ))}
         </>
       )}
     </div>
