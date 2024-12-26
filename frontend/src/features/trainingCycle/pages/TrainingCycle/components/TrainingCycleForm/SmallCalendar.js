@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import PropTypes from "prop-types";
 
 const calculateTotalPhasesDuration = (phasesData) => {
   return phasesData.reduce((total, phase) => total + phase.duration, 0);
@@ -9,6 +10,50 @@ const calculateTotalPhasesDuration = (phasesData) => {
 const calculateRemainingDuration = (mesocycleDuration, phasesData) => {
   const existingDuration = calculateTotalPhasesDuration(phasesData);
   return mesocycleDuration - existingDuration;
+};
+
+const addDays = (dateString, numberOfDays) => {
+  let date = new Date(dateString);
+  date.setDate(date.getDate() + numberOfDays);
+  return date.toISOString().split("T")[0];
+};
+
+const addRemainingPhase = (remainingDuration, phasesData) => {
+  return [...phasesData, { type: "remaining", duration: remainingDuration }];
+};
+
+const colorMapping = {
+  remaining: "blue",
+  Hypertrophy: "green",
+  Strength: "yellow",
+  Peak: "red",
+};
+
+const getPhaseDates = (
+  phase,
+  mesocycleStartDate,
+  mesocycleEndDate,
+  lastPhaseEndDate
+) => {
+  let startDate = null;
+  let endDate = null;
+  if (phase.type === "remaining") {
+    startDate = lastPhaseEndDate ? lastPhaseEndDate : mesocycleStartDate;
+    endDate = addDays(mesocycleEndDate, 1);
+  } else {
+    startDate = phase.start_date;
+    endDate = addDays(phase.end_date, 1);
+  }
+  return { startDate, endDate };
+};
+
+const renderEventContent = (eventInfo) => {
+  return (
+    <div style={{ textAlign: "center", color: "black" }}>
+      <b>{eventInfo.timeText}</b>
+      <i>{eventInfo.event.title}</i>
+    </div>
+  );
 };
 
 const SmallCalendarComponent = ({
@@ -25,49 +70,23 @@ const SmallCalendarComponent = ({
   );
 
   if (remainingDuration > 0) {
-    phasesData = [
-      ...phasesData,
-      { type: "remaining", duration: remainingDuration },
-    ];
+    phasesData = addRemainingPhase(remainingDuration, phasesData);
   }
 
-  // Map phases to events
-  let endDate = null;
-  // Work on that shit
-  // Need to calculate remaining start date and end date if it occurred.
-  const colorMapping = {
-    remaining: "blue",
-    Hypertrophy: "green",
-    Strength: "yellow",
-    Peak: "red",
-  };
-
-  const addDays = (dateString, numberOfDays) => {
-    let date = new Date(dateString);
-    date.setDate(date.getDate() + numberOfDays);
-    return date.toISOString().split("T")[0];
-  };
-
-  // Last phase end date in the case when remaining phase occurred.
   let lastPhaseEndDate = null;
 
   const events = phasesData.map((phase) => {
-    // Now if phase type is equal 'remaining' they has no start_date and end_date
-    // Need to calculate them based on last phase end date
-    // If last phase end date does not  exist, new phase start date will be mesocycle start date
-    let startDate = null;
-    let endDate = null;
+    const { startDate, endDate } = getPhaseDates(
+      phase,
+      mesocycleStartDate,
+      mesocycleEndDate,
+      lastPhaseEndDate
+    );
     const color = colorMapping[phase.type];
-
-    if (phase.type === "remaining") {
-      // Check if lastPhaseEndDate exist, it mean phase before remaining exist
-      startDate = lastPhaseEndDate ? lastPhaseEndDate : mesocycleStartDate;
-      endDate = addDays(mesocycleEndDate, 1);
-    } else {
-      startDate = phase.start_date;
-      endDate = addDays(phase.end_date, 1);
+    if (phase.type !== "remaining") {
       lastPhaseEndDate = endDate;
     }
+
     return {
       title: phase.type,
       start: startDate,
@@ -87,7 +106,7 @@ const SmallCalendarComponent = ({
           right: "prev,next",
         }}
         height="auto"
-        events={events} // Pass the array of events
+        events={events}
         eventContent={renderEventContent}
         firstDay={1}
       />
@@ -95,14 +114,18 @@ const SmallCalendarComponent = ({
   );
 };
 
-// Custom render function for event content
-function renderEventContent(eventInfo) {
-  return (
-    <div style={{ textAlign: "center", color: "black" }}>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </div>
-  );
-}
+SmallCalendarComponent.propTypes = {
+  mesocycleStartDate: PropTypes.string.isRequired,
+  mesocycleEndDate: PropTypes.string.isRequired,
+  mesocycleDuration: PropTypes.number.isRequired,
+  phasesData: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      duration: PropTypes.number.isRequired,
+      start_date: PropTypes.string,
+      end_date: PropTypes.string,
+    })
+  ),
+};
 
 export default SmallCalendarComponent;
