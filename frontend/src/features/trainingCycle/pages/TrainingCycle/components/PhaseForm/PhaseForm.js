@@ -66,6 +66,28 @@ const PhaseForm = ({
   const [phaseTrainingProgram, setPhaseTrainingProgram] =
     useState(initialPhaseProgram);
 
+  // Options for phase display
+  const phaseOptions = [
+    {
+      id: 1,
+      label: "Weight in percent of 1RM",
+      checked: displayWeightInPercent,
+      onChange: setDisplayWeightInPercent,
+    },
+    {
+      id: 2,
+      label: "Show Strength Records",
+      checked: displayRecords,
+      onChange: setDisplayRecords,
+    },
+    {
+      id: 3,
+      label: "Percentage Calculator",
+      checked: displayPercentageCalc,
+      onChange: setDisplayPercentageCalc,
+    },
+  ];
+
   // Custom hooks
   const isPhaseFormActive = usePhaseFormStatus(phaseEndDate, addRequestStatus);
   const exerciseNamesList = useExerciseNames();
@@ -77,11 +99,9 @@ const PhaseForm = ({
     stateChanged,
     microcyclesNumber ? parseInt(microcyclesNumber, 10) : 1
   );
-
   const handleExerciseDetailChange = useHandleExerciseDetailChange(
     setPhaseTrainingProgram
   );
-
   const count = useAutoClearStatus(addRequestStatus, setAddRequestStatus);
 
   // Custom hooks for updating sessions and microcycles
@@ -122,28 +142,7 @@ const PhaseForm = ({
   return isPhaseFormActive ? (
     <div className="form-container">
       <h3>Microcycle programming</h3>
-      <CycleSelectGroupOptions
-        options={[
-          {
-            id: 1,
-            label: "Weight in percent of 1RM",
-            checked: displayWeightInPercent,
-            onChange: setDisplayWeightInPercent,
-          },
-          {
-            id: 2,
-            label: "Show Strength Records",
-            checked: displayRecords,
-            onChange: setDisplayRecords,
-          },
-          {
-            id: 3,
-            label: "Percentage Calculator",
-            checked: displayPercentageCalc,
-            onChange: setDisplayPercentageCalc,
-          },
-        ]}
-      />
+      <CycleSelectGroupOptions options={phaseOptions} />
       {displayRecords && <RecordsDisplayContainer />}
       {displayPercentageCalc && (
         <PercentageCalculator strengthRecords={strengthRecords} />
