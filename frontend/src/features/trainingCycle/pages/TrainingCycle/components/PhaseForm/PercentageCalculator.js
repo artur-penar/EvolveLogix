@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { getLatestStrengthRecords } from "features/trainingCycle/utils/getLatestStrengthRecords";
-import "./PercentageCalculator.css";
+import React, { useState } from "react";
 import useUpdateStrengthRecords from "features/trainingCycle/hooks/PercentageCalculator/useUpdateStrengthRecords";
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import useConvertValue from "features/trainingCycle/hooks/PercentageCalculator/useConvertValue";
+import "./PercentageCalculator.css";
 
 const PercentageCalculator = ({ strengthRecords }) => {
   const [selectedExerciseName, setSelectedExerciseName] = useState("Other");
