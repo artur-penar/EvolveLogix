@@ -14,7 +14,7 @@ const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
   };
 
   return (
-    <form className="body-measurements" onSubmit={handleSubmit}>
+    <form className="body-measurements-form" onSubmit={handleSubmit}>
       <fieldset>
         {Object.entries(formData).map(([key, value]) => (
           <div key={key} className="measurement-row">
@@ -33,13 +33,16 @@ const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
         ))}
       </fieldset>
       {isEditable ? (
-        <button type="submit" className="user-details-button">
+        <button
+          type="submit"
+          className="user-details-button body-measurements-form-button"
+        >
           Save
         </button>
       ) : (
         <button
           type="button"
-          className="user-details-button"
+          className="user-details-button body-measurements-form-button"
           onClick={handleEdit}
         >
           Edit
