@@ -6,12 +6,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.user-details-navigation{
+.user-details-navigation {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 5px;
-
+  border-bottom: 1px solid rgb(201, 189, 189);
 }
 
 .body-measurements {
