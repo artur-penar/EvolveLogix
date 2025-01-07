@@ -9,7 +9,7 @@
 .training-log-info-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 150px;
+  gap: 10rem;
 }
 
 .training-log-info-container h3 {
