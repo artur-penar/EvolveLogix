@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 3rem;
   margin-bottom: 2px;
 }
 
@@ -21,4 +21,8 @@
 
 .nsr-centered-input {
   text-align: center;
+}
+
+.nsr-fixed-width-submit-button{
+  width: 27%;
 }

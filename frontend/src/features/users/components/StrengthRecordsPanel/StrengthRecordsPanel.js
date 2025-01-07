@@ -53,12 +53,14 @@ const StrengthRecordsPanel = ({
             </button>
           )}
           {!isSimpleView && !isAddNewRecordVisible && (
-            <button
-              onClick={handleAddNewRecord}
-              className="user-details-button"
-            >
-              Add New Record
-            </button>
+            <div className="sr-button-container">
+              <button
+                onClick={handleAddNewRecord}
+                className="user-details-button sr-add-new-record-button"
+              >
+                Add New Record
+              </button>
+            </div>
           )}
         </>
       )}

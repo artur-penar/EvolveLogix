@@ -45,7 +45,7 @@ const NewStrengthRecord = () => {
         <div className="nsr-row">
           <label htmlFor="exercise">Exercise</label>
           <select
-            className="form-control"
+            className="nsr-centered-input form-control"
             id="exercise"
             name="exercise"
             value={exerciseName}
@@ -72,7 +72,12 @@ const NewStrengthRecord = () => {
           />
         </div>
         <div className="nsr-row">
-          <button onClick={handleSubmit}>Submit</button>
+          <button
+            className="user-details-button nsr-fixed-width-submit-button"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

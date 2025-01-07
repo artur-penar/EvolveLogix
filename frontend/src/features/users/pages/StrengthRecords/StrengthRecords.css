@@ -18,3 +18,14 @@
   border-radius: 10px; /* Increased border radius to match other components */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
 }
+
+.sr-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sr-add-new-record-button {
+  margin-top: 1rem;
+  width: 27%;
+}
