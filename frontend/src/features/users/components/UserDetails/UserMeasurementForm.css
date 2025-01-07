@@ -1,16 +1,17 @@
 /* UserMeasurementForm.css */
 .body-measurements-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .measurement-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem; /* Add left margin */
+  margin-right: 1rem; /* Add right margin */
+}
 
-  
-.body-measurements-form-button{
+.measurement-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.body-measurements-form-button {
   margin-top: 1rem;
 }
