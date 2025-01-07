@@ -174,7 +174,7 @@ const PhaseForm = ({
           </p>
         )}
         <div className="button-container" onClick={handleAddPhase}>
-          <button>Add phase</button>
+          <button className="add-phase-button">Add phase</button>
         </div>
       </div>
     </div>
