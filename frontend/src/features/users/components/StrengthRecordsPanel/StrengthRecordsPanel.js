@@ -4,6 +4,7 @@ import StrengthRecordsDisplay from "../Shared/StrengthRecords/StrengthRecordsDis
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 import useOrganizeStrengthRecords from "./useOrganizeStrengthRecords";
+import "./StrengthRecordsPanel.css";
 
 const StrengthRecordsPanel = ({
   strengthRecords,
@@ -15,6 +16,11 @@ const StrengthRecordsPanel = ({
   const { powerliftsRecords, otherLiftsRecords, isDataLoading } =
     useOrganizeStrengthRecords(strengthRecords);
 
+  const containerClass =
+    styleClassName === "body-measurements"
+      ? "strength-records-dashboard-page"
+      : "strength-records-page";
+
   const handleAddNewRecord = () => {
     setIsAddNewRecordVisible(true);
   };
@@ -24,7 +30,7 @@ const StrengthRecordsPanel = ({
   };
 
   return (
-    <div className="user-details-container">
+    <div className={containerClass}>
       {isSimpleView && <PanelHeader title="Strength Records" />}
       {isDataLoading ? (
         <p>Loading</p>

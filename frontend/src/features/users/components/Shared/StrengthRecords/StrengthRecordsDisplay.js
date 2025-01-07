@@ -31,7 +31,10 @@ const StrengthRecordsDisplay = ({
         isCycleVersion={isCycleVersion}
         justifyContentStyle={justifyContentStyle}
       />
-      <div style={trainingCycleRecordsStyle}>
+      <div
+        className="strength-records-list"
+        style={trainingCycleRecordsStyle}
+      >
         {Object.entries(exerciseRecords).map(([exerciseName, records]) => {
           const currentRecord = records[currentRecordIndices[exerciseName]];
           const recordRowProps = {
