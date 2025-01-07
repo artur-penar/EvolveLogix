@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Layout from "shared/components/Layout";
+import Button from "@mui/material/Button";
 import {
   login,
   resetRegistered,
@@ -65,9 +66,9 @@ const LoginPage = () => {
               value={password}
             />
           </div>
-          <button className="btn btn-primary mt-4" type="submit">
-            Submit
-          </button>
+          <Button type="submit" variant="contained" color="primary">
+            Login
+          </Button>
         </form>
       </div>
     </Layout>
