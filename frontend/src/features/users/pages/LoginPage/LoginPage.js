@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import Layout from "shared/components/Layout";
-import Header from "shared/components/PageHeader";
+import { Link } from "@mui/material";
 import Button from "@mui/material/Button";
+import Layout from "shared/components/Layout";
+import SignInOptions from "features/users/components/Shared/SignInOptions";
+
 import {
   login,
   resetRegistered,
@@ -11,14 +13,6 @@ import {
 } from "features/users/user";
 
 import "./LoginPage.css";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link } from "@mui/material";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -51,8 +45,6 @@ const LoginPage = () => {
   return (
     <Layout title="EvolveLogix | Login" content="Login page.">
       <div className="login-page-container">
-        {/* <Header headerContent={"Login"} /> */}
-
         <div className="login-form-container">
           <h1 style={{ marginTop: "1rem" }}>Login</h1>
           <form className="mt-5" onSubmit={onSubmit}>
@@ -91,6 +83,7 @@ const LoginPage = () => {
             >
               Login
             </Button>
+            <SignInOptions />
             <span
               style={{
                 marginTop: "1rem",

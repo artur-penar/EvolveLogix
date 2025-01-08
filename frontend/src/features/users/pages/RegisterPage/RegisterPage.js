@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { register } from "features/users/user";
 import Button from "@mui/material/Button";
 import "./RegisterPage.css";
+import SignInOptions from "features/users/components/Shared/SignInOptions";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ const RegisterPage = () => {
             >
               Register
             </Button>
+            <SignInOptions />
           </form>
         </div>
       </div>
