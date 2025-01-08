@@ -6,6 +6,10 @@ import { register } from "features/users/user";
 import Button from "@mui/material/Button";
 import "./RegisterPage.css";
 import SignInOptions from "features/users/components/Shared/SignInOptions";
+import { Email } from "@mui/icons-material";
+import EmailInputField from "features/users/components/Shared/EmailInputField";
+import UserNameInputFIeld from "features/users/components/Shared/NameInputField";
+import PasswordInputField from "features/users/components/Shared/PasswordInputField";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -38,42 +42,9 @@ const RegisterPage = () => {
         <div className="register-form-container">
           <h1 style={{ marginTop: "1rem" }}>Register</h1>
           <form className="mt-5" onSubmit={onSubmit}>
-            <div className="form-group">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-control"
-                type="email"
-                name="email"
-                onChange={onChange}
-                value={email}
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="name">
-                Name
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                name="user_name"
-                onChange={onChange}
-                value={user_name}
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-control"
-                type="password"
-                name="password"
-                onChange={onChange}
-                value={password}
-              />
-            </div>
+            <EmailInputField value={email} onChange={onChange} />
+            <UserNameInputFIeld value={user_name} onChange={onChange} />
+            <PasswordInputField value={password} onChange={onChange} />
             <Button
               type="submit"
               variant="contained"
