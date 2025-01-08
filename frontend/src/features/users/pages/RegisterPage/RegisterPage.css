@@ -1,0 +1,30 @@
+.register-page-container {
+  /* height: 100vh; */
+  background-color: #1f1f1f;
+  /* background-image: url("12262.jpg");
+    background-size: cover;
+    background-position: center; */
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.register-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto; /* Center the container horizontally */
+  width: 40%; /* Set the width directly */
+  background-color: rgba(240, 248, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.register-button-container {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: center;
+}
