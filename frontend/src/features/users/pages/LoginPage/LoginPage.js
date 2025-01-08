@@ -13,6 +13,8 @@ import {
 } from "features/users/user";
 
 import "./LoginPage.css";
+import PasswordInputField from "features/users/components/Shared/PasswordInputField";
+import EmailInputField from "features/users/components/Shared/EmailInputField";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -48,30 +50,8 @@ const LoginPage = () => {
         <div className="login-form-container">
           <h1 style={{ marginTop: "1rem" }}>Login</h1>
           <form className="mt-5" onSubmit={onSubmit}>
-            <div className="form-group">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-control"
-                type="email"
-                name="email"
-                onChange={onChange}
-                value={email}
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-control"
-                type="password"
-                name="password"
-                onChange={onChange}
-                value={password}
-              />
-            </div>
+            <EmailInputField value={email} onChange={onChange} />
+            <PasswordInputField value={password} onChange={onChange} />
             <Link href="#" variant="body1">
               Forgot Password?
             </Link>
