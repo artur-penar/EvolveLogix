@@ -3,6 +3,7 @@ import Layout from "shared/components/Layout";
 import Banner from "features/users/components/HomePage/Banner";
 import About from "features/users/components/HomePage/About";
 import "./HomePage.css";
+import Work from "features/users/components/HomePage/Work";
 
 const HomePage = () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = () => {
       <div className="home-page-container">
         <Banner />
         <About />
+        <Work />
       </div>
     </Layout>
   );
