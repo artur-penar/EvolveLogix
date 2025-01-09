@@ -11,7 +11,7 @@ const Layout = ({ title, content, children }) => (
       <meta name="description" content={content} />
     </Helmet>
     <Navbar />
-    <div className="container mt-5" style={{ marginBottom: "3rem" }}>
+    <div className="layout-container" style={{ marginBottom: "3rem" }}>
       {children}
     </div>
   </>
