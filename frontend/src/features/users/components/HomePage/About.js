@@ -1,6 +1,5 @@
 import React from "react";
 import AboutBackground from "./Assets/about-background.png";
-import AboutBackgroundImage from "./Assets/about-background-image.png";
 import Eagle from "./Assets/eagle2.png";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import "./About.css";
@@ -17,20 +16,22 @@ const About = () => {
       <div className="about-section-text-container">
         <p className="primary-subheading">About</p>
         <h1 className="about-primary-heading">
-          Food Is An Important Part Of A Balanced Diet
+          Structured Training for Optimal Results
         </h1>
         <p className="about-primary-text">
-          Lorem ipsum dolor sit amet consectetur. Non tincidunt magna non et
-          elit. Dolor turpis molestie dui magnis facilisis at fringilla quam.
+          EvolveLogix provides the tools to design, log, and track your training
+          programs, including the ability to record strength records for various
+          exercises.
         </p>
         <p className="about-primary-text">
-          Non tincidunt magna non et elit. Dolor turpis molestie dui magnis
-          facilisis at fringilla quam.
+          From macrocycles to individual workouts and personal bests, we
+          simplify training management so you can focus on maximizing your
+          performance.
         </p>
         <div className="about-buttons-container">
           <button className="secondary-button">Learn More</button>
           <button className="watch-video-button">
-            <PlayCircleIcon fontSize="large"/> Watch Video
+            <PlayCircleIcon fontSize="large" /> Watch Video
           </button>
         </div>
       </div>
