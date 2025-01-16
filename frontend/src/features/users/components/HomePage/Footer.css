@@ -26,7 +26,7 @@
 .footer-section-columns {
   display: flex;
   flex-direction: column;
-  min-width: 190px;
+  min-width: 220px;
 }
 
 .footer-section-columns span {
