@@ -34,22 +34,6 @@ body {
   background-color: #f6f6f6;
 }
 
-.primary-button {
-  padding: 0.9rem 1.75rem;
-  background-color: white;
-  outline: none;
-  border: none;
-  border-radius: 5rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
-}
-
-.primary-button:hover {
-  background-color: rgb(234, 234, 234);
-}
-
 .contact-page-wrapper h1 {
   max-width: 900px !important;
 }
@@ -80,9 +64,6 @@ body {
 }
 
 @media (max-width: 1000px) {
-  .primary-button {
-    font-size: 1rem;
-  }
   .home-bannerImage-container {
     max-width: 600px;
   }
@@ -160,7 +141,6 @@ body {
   }
 }
 
-/* Shared */
 .secondary-button {
   padding: 1rem 2.5rem;
   background-color: #fe9e0d;
