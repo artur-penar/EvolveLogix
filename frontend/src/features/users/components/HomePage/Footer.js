@@ -1,14 +1,13 @@
 import React from "react";
-import Logo from "./Assets/Logo.svg";
 import { Twitter, LinkedIn, YouTube, Facebook } from "@mui/icons-material";
 
 const Footer = () => {
   return (
     <div className="footer-wrapper">
       <div className="footer-section-one">
-        <div className="footer-logo-container">
+        {/* <div className="footer-logo-container">
           <img src={Logo} alt="" />
-        </div>
+        </div> */}
         <div className="footer-icons">
           <Twitter />
           <LinkedIn />
@@ -21,15 +20,12 @@ const Footer = () => {
           <span>Quality</span>
           <span>Help</span>
           <span>Share</span>
-          <span>Careers</span>
-          <span>Testimonials</span>
-          <span>Work</span>
         </div>
         <div className="footer-section-columns">
-          <span>244-5333-7783</span>
-          <span>hello@food.com</span>
-          <span>press@food.com</span>
-          <span>contact@food.com</span>
+          <span>123-456-7890</span>
+          <span>info@evolvelogix.com</span>
+          <span>contact@evolvelogix.com</span>
+          <span>support@evolvelogix.com</span>
         </div>
         <div className="footer-section-columns">
           <span>Terms & Conditions</span>
