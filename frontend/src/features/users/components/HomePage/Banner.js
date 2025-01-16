@@ -1,14 +1,12 @@
 import React from "react";
-import BannerBackground from "./Assets/home-banner-background.png";
-import BannerImage from "./Assets/home-banner-image.png";
 import Eagle from "./Assets/eagle.png";
+import BannerBackground from "./Assets/home-banner-background.png";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./Banner.css";
 
 const Banner = () => {
   return (
     <div className="home-container">
-      {/* <Navbar /> */}
       <div className="home-banner-container">
         <div className="home-bannerImage-container">
           <img src={BannerBackground} alt="" />
