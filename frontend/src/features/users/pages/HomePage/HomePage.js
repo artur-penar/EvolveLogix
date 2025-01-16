@@ -5,6 +5,7 @@ import About from "features/users/components/HomePage/About";
 import "./HomePage.css";
 import Work from "features/users/components/HomePage/Work";
 import Footer from "features/users/components/HomePage/Footer";
+import Testimonial from "features/users/components/HomePage/Testimonial";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
         <Banner />
         <About />
         <Work />
+        <Testimonial />
         <Footer />
       </div>
     </Layout>
