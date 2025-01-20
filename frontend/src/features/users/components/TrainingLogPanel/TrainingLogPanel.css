@@ -4,6 +4,7 @@
   align-items: center;
   padding: 1rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .training-log-info-row {
