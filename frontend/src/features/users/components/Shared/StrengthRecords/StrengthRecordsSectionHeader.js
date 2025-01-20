@@ -1,5 +1,6 @@
 import React from "react";
 import ContainerHeader from "shared/components/ContainerHeader";
+import SimpleHeader from "shared/components/SimpleHeader";
 
 const StrengthRecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
   return (
@@ -9,8 +10,12 @@ const StrengthRecordsSectionHeader = ({ isSimpleView, isPowerlifts }) => {
           headerContent={isPowerlifts ? "Powerlifts" : "Others"}
         />
       )}
-      <div className="simple-header-container">
-        {isSimpleView && <h5>{isPowerlifts ? "Powerlifts" : "Others"}</h5>}
+      <div>
+        {isSimpleView && (
+          <SimpleHeader
+            headerContent={isPowerlifts ? "Powerlifts" : "Others"}
+          />
+        )}
       </div>
     </>
   );

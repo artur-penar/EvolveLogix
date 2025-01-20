@@ -16,6 +16,13 @@ body {
   background-color: #c4c0c0;
 }
 
-.bg-container-header h3{
+.bg-container-header h3 {
+  background-color: #e6b7b7;
+}
+.bg-panel-header {
+  background-color: #e6b7b7;
+}
+
+.bg-simple-header {
   background-color: #e6b7b7;
 }

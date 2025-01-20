@@ -3,6 +3,7 @@ import useUpdateStrengthRecords from "features/trainingCycle/hooks/PercentageCal
 import useGetLatestRecords from "features/trainingCycle/hooks/PercentageCalculator/useGetLatestStrengthRecords";
 import useConvertValue from "features/trainingCycle/hooks/PercentageCalculator/useConvertValue";
 import "./PercentageCalculator.css";
+import SimpleHeader from "shared/components/SimpleHeader";
 
 const PercentageCalculator = ({ strengthRecords }) => {
   const [selectedExerciseName, setSelectedExerciseName] = useState("Other");
@@ -43,9 +44,7 @@ const PercentageCalculator = ({ strengthRecords }) => {
 
   return (
     <div className="calculator-container">
-      <div className="simple-header-container">
-        <h5>Calculator</h5>
-      </div>
+      <SimpleHeader headerContent="Percentage Calculator" />
       <div className="calculator-body">
         <select
           className="calculator-select"

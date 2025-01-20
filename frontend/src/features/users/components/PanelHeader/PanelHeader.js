@@ -3,7 +3,7 @@ import "./PanelHeader.css";
 
 const PanelHeader = ({ title }) => {
   return (
-    <div className="panel-header">
+    <div className="panel-header bg-panel-header">
       <h3>{title}</h3>
     </div>
   );
