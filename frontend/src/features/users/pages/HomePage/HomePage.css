@@ -30,10 +30,6 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  background-color: #f6f6f6;
-}
-
 .contact-page-wrapper h1 {
   max-width: 900px !important;
 }
