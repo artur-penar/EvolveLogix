@@ -8,6 +8,7 @@ import Layout from "shared/components/Layout";
 import TrainingSessionHeader from "./components/TrainingSessionHeader";
 import ExerciseHeader from "./components/ExerciseHeader";
 import ExerciseTable from "./components/ExerciseTable";
+import PageHeader from "shared/components/PageHeader";
 
 // Hook imports
 import useHandleSubmit from "features/trainingLogs/hooks/AddTrainingSession/useHandleSubmit";
@@ -24,11 +25,12 @@ import {
   handleTrainingDataChange,
 } from "features/trainingLogs/handlers";
 
-// Style imports
-import "./AddTrainingSession.css";
 import useTrainingData from "features/trainingLogs/hooks/AddTrainingSession/useTrainingData";
 import useStrengthRecords from "features/trainingLogs/hooks/AddTrainingSession/useStrengthRecords";
 import ExerciseDetailsSummary from "./components/ExerciseDetailsSummary";
+
+// Style imports
+import "./AddTrainingSession.css";
 
 const AddTrainingSession = () => {
   const location = useLocation();
@@ -126,11 +128,11 @@ const AddTrainingSession = () => {
   return (
     <Layout title="EvolveLogix | Training Log">
       <div className="ats-container">
-        <div className="header-container">
-          <h1>
-            {isEditMode ? "Edit Training Session" : "Add Training Session"}
-          </h1>
-        </div>
+        <PageHeader
+          headerContent={
+            isEditMode ? "Edit Training Session" : "Add Training Session"
+          }
+        />
         <div className="ats-training-session bg-containers">
           <TrainingSessionHeader
             description={trainingData.description}

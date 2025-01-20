@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTrainingLogs } from "../../log";
 import GroupedTrainingSessions from "./components/GroupedTrainingSessions";
 import Layout from "shared/components/Layout";
+import PageHeader from "shared/components/PageHeader";
 import "./ViewTrainingLogs.css";
 
 const ViewTrainingLogsPage = () => {
@@ -23,10 +24,8 @@ const ViewTrainingLogsPage = () => {
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <div>
-          <div className="header-container">
-            <h1>{selectedTrainingLog.name}</h1>
-          </div>
+        <div className="view-training-logs-container">
+          <PageHeader headerContent={selectedTrainingLog.name} />
           <GroupedTrainingSessions trainingSessions={trainingSessions} />
         </div>
       )}
