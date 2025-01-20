@@ -1,5 +1,5 @@
 import React from "react";
-import ProfilePic from "./Assets/profile-image.png"
+import ProfilePic from "./Assets/profile-image.png";
 import StarIcon from "@mui/icons-material/Star";
 import "./Testimonial.css";
 
@@ -15,7 +15,7 @@ const Testimonial = () => {
     <div className="work-section-wrapper">
       <div className="work-section-top">
         <p className="primary-subheading">Testimonial</p>
-        <h1 className="primary-heading">What They Are Saying</h1>
+        <h1 className="testimonial-primary-heading">What They Are Saying</h1>
       </div>
       <div className="testimonial-section-bottom">
         <img src={ProfilePic} alt="" />

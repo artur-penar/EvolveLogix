@@ -33,7 +33,7 @@ const Work = () => {
     <div className="work-section-wrapper">
       <div className="work-section-top">
         <p className="primary-subheading">Work</p>
-        <h1 className="primary-heading">How It Works</h1>
+        <h1 className="work-primary-heading">How It Works</h1>
         <p className="work-primary-text">
           EvolveLogix simplifies training program design, workout logging, and
           progress tracking. Plan your training cycles, record your workouts,
