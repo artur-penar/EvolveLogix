@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Layout from "shared/components/Layout";
 import StrengthRecordsPanel from "features/users/components/StrengthRecordsPanel/StrengthRecordsPanel";
+import PageHeader from "shared/components/PageHeader";
 import "./StrengthRecords.css";
 
 const StrengthRecords = () => {
@@ -11,9 +12,7 @@ const StrengthRecords = () => {
   return (
     <Layout title={"EvolveLogix | Records"}>
       <div className="strength-records">
-        <div className="records-header-container">
-          <h1>Strength Records</h1>
-        </div>
+        <PageHeader headerContent={"Strength Records"} />
         {isLoading ? (
           <p>Loading</p>
         ) : (
