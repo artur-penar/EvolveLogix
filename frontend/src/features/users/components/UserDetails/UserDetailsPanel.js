@@ -34,7 +34,7 @@ const UserDetailsPanel = ({ userDetails }) => {
   } = useUserDetails(userDetails, initialUserDetails);
 
   return (
-    <div className="user-details-container">
+    <div className="user-details-container bg-containers">
       <PanelHeader title="User Details" />
       <div className="user-details-panel">
         <UserDetailsNavigation

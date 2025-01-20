@@ -131,7 +131,7 @@ const AddTrainingSession = () => {
             {isEditMode ? "Edit Training Session" : "Add Training Session"}
           </h1>
         </div>
-        <div className="ats-training-session">
+        <div className="ats-training-session bg-containers">
           <TrainingSessionHeader
             description={trainingData.description}
             trainingSessionDate={trainingData.date}

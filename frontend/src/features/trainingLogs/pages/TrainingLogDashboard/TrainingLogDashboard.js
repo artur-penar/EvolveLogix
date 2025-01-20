@@ -73,7 +73,7 @@ const TrainingLogDashboardPage = () => {
         {loading || !trainingLogsData ? (
           <LoadingState />
         ) : (
-          <div className="calendar-component">
+          <div className="calendar-component bg-containers">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]} // include the interactionPlugin
               initialView="dayGridMonth"

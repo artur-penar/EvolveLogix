@@ -2,11 +2,6 @@
   cursor: pointer;
 }
 
-.log-name {
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-}
-
 .dashboard-content {
   width: 80%;
   margin: 0 auto;
@@ -17,7 +12,6 @@
 .calendar-component {
   margin-top: 20px;
   padding: 20px;
-  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

@@ -18,7 +18,7 @@ const StrengthRecordsPanel = ({
 
   const containerClass =
     styleClassName === "body-measurements"
-      ? "strength-records-dashboard-page"
+      ? "strength-records-dashboard-page bg-containers"
       : "strength-records-page";
 
   const handleAddNewRecord = () => {

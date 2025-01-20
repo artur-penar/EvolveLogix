@@ -16,7 +16,7 @@ const CycleSelectGroup = ({
 }) => {
   const name = type.toLowerCase();
   return (
-    <div className="tcf-select-group-container">
+    <div className="tcf-select-group-container bg-containers">
       <h3>{type}</h3>
       {(type === "Phase" || type === "Mesocycle") && (
         <CycleSelectGroupOptions options={additionalProps.options} />

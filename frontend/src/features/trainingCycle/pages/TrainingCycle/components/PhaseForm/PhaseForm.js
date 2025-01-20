@@ -140,7 +140,7 @@ const PhaseForm = ({
   );
 
   return isPhaseFormActive ? (
-    <div className="form-container">
+    <div className="form-container bg-containers">
       <h3>Microcycle programming</h3>
       <CycleSelectGroupOptions options={phaseOptions} />
       {displayRecords && <RecordsDisplayContainer />}

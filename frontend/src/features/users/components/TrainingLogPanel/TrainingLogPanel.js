@@ -17,7 +17,7 @@ import "./TrainingLogPanel.css";
  */
 const TrainingLogPanel = ({ logData, formData }) => {
   return (
-    <div className="training-log-info-container">
+    <div className="training-log-info-container bg-containers">
       <h3>Training Log Panel</h3>
       <div className="training-log-info-row">
         <LogSelector
