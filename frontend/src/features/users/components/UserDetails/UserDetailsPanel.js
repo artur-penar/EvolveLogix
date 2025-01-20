@@ -36,19 +36,20 @@ const UserDetailsPanel = ({ userDetails }) => {
   return (
     <div className="user-details-container">
       <PanelHeader title="User Details" />
-      <UserDetailsNavigation
-        updatedAtData={updatedAtData}
-        handleNext={handleNext}
-        handlePrev={handlePrev}
-        currentIndex={currentIndex}
-        userDetails={userDetails}
-      />
-
-      <UserMeasurementForm
-        formData={formData}
-        handleInputChange={handleInputChange}
-        handleSubmit={handleSubmit}
-      />
+      <div className="user-details-panel">
+        <UserDetailsNavigation
+          updatedAtData={updatedAtData}
+          handleNext={handleNext}
+          handlePrev={handlePrev}
+          currentIndex={currentIndex}
+          userDetails={userDetails}
+        />
+        <UserMeasurementForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 };

@@ -43,3 +43,8 @@ form {
 .user-details-button:hover {
   background-color: #0056b3;
 }
+
+.user-details-panel {
+  margin-left: 20px;
+  margin-right: 20px;
+}
