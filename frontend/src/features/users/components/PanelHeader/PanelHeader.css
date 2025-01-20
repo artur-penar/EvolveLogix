@@ -6,3 +6,7 @@
   align-items: center;
   padding: 5px;
 }
+
+.panel-header h3 {
+  margin-top: 0.5rem;
+}
