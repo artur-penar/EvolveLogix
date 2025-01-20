@@ -125,60 +125,64 @@ const AddTrainingSession = () => {
 
   return (
     <Layout title="EvolveLogix | Training Log">
-      <div className="header-container">
-        <h1>{isEditMode ? "Edit Training Session" : "Add Training Session"}</h1>
-      </div>
-      <div className="ats-training-session">
-        <TrainingSessionHeader
-          description={trainingData.description}
-          trainingSessionDate={trainingData.date}
-          handleTrainingDataChange={changeTrainingData}
-          comment={trainingData.comment}
-          setComment={changeTrainingData}
-        />
-        {trainingData.exercises.map((exercise, exerciseIndex) => (
-          <div key={exerciseIndex} className="ats-exercise">
-            <ExerciseHeader
-              exerciseIndex={exerciseIndex}
-              exerciseName={exercise.exercise}
-              exerciseNamesList={exerciseNamesList}
-              exercises={trainingData.exercises}
-              processedStrengthRecords={strengthRecords}
-              handleExerciseChange={changeExercise}
-              handleSetsNumberChange={changeSetsNumber}
-            />
+      <div className="ats-container">
+        <div className="header-container">
+          <h1>
+            {isEditMode ? "Edit Training Session" : "Add Training Session"}
+          </h1>
+        </div>
+        <div className="ats-training-session">
+          <TrainingSessionHeader
+            description={trainingData.description}
+            trainingSessionDate={trainingData.date}
+            handleTrainingDataChange={changeTrainingData}
+            comment={trainingData.comment}
+            setComment={changeTrainingData}
+          />
+          {trainingData.exercises.map((exercise, exerciseIndex) => (
+            <div key={exerciseIndex} className="ats-exercise">
+              <ExerciseHeader
+                exerciseIndex={exerciseIndex}
+                exerciseName={exercise.exercise}
+                exerciseNamesList={exerciseNamesList}
+                exercises={trainingData.exercises}
+                processedStrengthRecords={strengthRecords}
+                handleExerciseChange={changeExercise}
+                handleSetsNumberChange={changeSetsNumber}
+              />
 
-            <ExerciseTable
-              exercise={exercise}
-              strengthRecords={strengthRecords}
-              exerciseName={exercise.exercise}
-              exerciseIndex={exerciseIndex}
-              handleCheckboxChange={changeCheckbox}
-              handleWeightPercentageChange={changeWeightPercentage}
-              handleExerciseDetailsChange={changeExerciseDetails}
-            />
-            <ExerciseDetailsSummary
-              exercise={exercise}
-              strengthRecords={strengthRecords}
-            />
+              <ExerciseTable
+                exercise={exercise}
+                strengthRecords={strengthRecords}
+                exerciseName={exercise.exercise}
+                exerciseIndex={exerciseIndex}
+                handleCheckboxChange={changeCheckbox}
+                handleWeightPercentageChange={changeWeightPercentage}
+                handleExerciseDetailsChange={changeExerciseDetails}
+              />
+              <ExerciseDetailsSummary
+                exercise={exercise}
+                strengthRecords={strengthRecords}
+              />
+              <button
+                className="ats-constant-size-button"
+                onClick={() => removeExercise(exerciseIndex)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <div className="ats-button-container">
+            <button className="ats-button" onClick={addExercise}>
+              Add Exercise
+            </button>
             <button
-              className="ats-constant-size-button"
-              onClick={() => removeExercise(exerciseIndex)}
+              className="ats-button"
+              onClick={(event) => handleSubmit(event)}
             >
-              Remove
+              Submit
             </button>
           </div>
-        ))}
-        <div className="ats-button-container">
-          <button className="ats-button" onClick={addExercise}>
-            Add Exercise
-          </button>
-          <button
-            className="ats-button"
-            onClick={(event) => handleSubmit(event)}
-          >
-            Submit
-          </button>
         </div>
       </div>
     </Layout>
