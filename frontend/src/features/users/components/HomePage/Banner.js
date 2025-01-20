@@ -22,7 +22,7 @@ const Banner = () => {
             details.
           </p>
           <button className="secondary-button">
-            Order Now <ArrowForwardIcon />{" "}
+            Get Started <ArrowForwardIcon />{" "}
           </button>
         </div>
         <div className="home-image-section">
