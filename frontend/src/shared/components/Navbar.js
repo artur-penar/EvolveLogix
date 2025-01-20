@@ -68,7 +68,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
+    <nav className="navbar navbar-expand-lg bg-light navbar-background">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           EvolveLogix
