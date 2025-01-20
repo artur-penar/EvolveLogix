@@ -21,6 +21,7 @@ import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 import usePhaseFormStatus from "features/trainingCycle/hooks/PhaseForm/usePhaseFormStatus";
 import PercentageCalculator from "./PercentageCalculator";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
+import ContainerHeader from "shared/components/ContainerHeader";
 
 const initialPhaseProgram = [
   {
@@ -141,7 +142,7 @@ const PhaseForm = ({
 
   return isPhaseFormActive ? (
     <div className="form-container bg-containers">
-      <h3>Microcycle programming</h3>
+      <ContainerHeader headerContent={"Microcycle programming"} />
       <CycleSelectGroupOptions options={phaseOptions} />
       {displayRecords && <RecordsDisplayContainer />}
       {displayPercentageCalc && (

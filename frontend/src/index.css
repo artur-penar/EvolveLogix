@@ -15,3 +15,7 @@ body {
 .bg-page-header {
   background-color: #c4c0c0;
 }
+
+.bg-container-header {
+  background-color: #f5f5f5;
+}

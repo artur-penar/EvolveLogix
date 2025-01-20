@@ -2,6 +2,7 @@ import React from "react";
 import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
 import CycleSelectGroupOptions from "./CycleSelectGroupOptions";
+import ContainerHeader from "shared/components/ContainerHeader";
 
 const CycleSelectGroup = ({
   type,
@@ -17,7 +18,7 @@ const CycleSelectGroup = ({
   const name = type.toLowerCase();
   return (
     <div className="tcf-select-group-container bg-containers">
-      <h3>{type}</h3>
+      <ContainerHeader headerContent={type} />
       {(type === "Phase" || type === "Mesocycle") && (
         <CycleSelectGroupOptions options={additionalProps.options} />
       )}

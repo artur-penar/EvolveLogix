@@ -2,6 +2,7 @@ import React from "react";
 import LogSelector from "../LogSelector/LogSelector";
 import NewLogForm from "../NewLogForm/NewLogForm";
 import "./TrainingLogPanel.css";
+import ContainerHeader from "shared/components/ContainerHeader";
 
 /**
  * TrainingLogPanel component renders a panel with training log information and a form for creating new logs.
@@ -18,7 +19,7 @@ import "./TrainingLogPanel.css";
 const TrainingLogPanel = ({ logData, formData }) => {
   return (
     <div className="training-log-info-container bg-containers">
-      <h3>Training Log Panel</h3>
+      <ContainerHeader headerContent={"Training Log Panel"} />
       <div className="training-log-info-row">
         <LogSelector
           trainingLogs={logData.trainingLogs}
