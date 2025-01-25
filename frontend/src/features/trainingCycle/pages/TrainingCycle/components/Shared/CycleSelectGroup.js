@@ -3,6 +3,7 @@ import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
 import CycleSelectGroupOptions from "./CycleSelectGroupOptions";
 import ContainerHeader from "shared/components/ContainerHeader";
+import Button from "@mui/material/Button";
 
 const CycleSelectGroup = ({
   type,
@@ -67,9 +68,14 @@ const CycleSelectGroup = ({
       </div>
       {type === "Mesocycle" && (
         <div className="tcf-button-container">
-          <button className="tcf-button" onClick={handleCreateNewCycleClick}>
+          <Button
+            className="tcf-button"
+            variant="outlined"
+            size="large"
+            onClick={handleCreateNewCycleClick}
+          >
             {isCreateCycleVisible ? "Hide" : "Create new Mesocycle"}
-          </button>
+          </Button>
         </div>
       )}
     </div>
