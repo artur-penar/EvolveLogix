@@ -1,4 +1,5 @@
 import React from "react";
+import Button from '@mui/material/Button';
 
 /**
  * UserDetailsNavigation component renders navigation buttons and updated date information.
@@ -24,15 +25,15 @@ const UserDetailsNavigation = ({
         style={{ fontWeight: "bold", fontSize: "1.1rem" }}
       >{`Updated at: ${updatedAtData.toLocaleDateString()}`}</p>
       <div>
-        <button onClick={handlePrev} disabled={currentIndex === 0}>
-          Previous
-        </button>
-        <button
+        <Button onClick={handlePrev} disabled={currentIndex === 0}>
+          {"< "}
+        </Button>
+        <Button
           onClick={handleNext}
           disabled={currentIndex === userDetails.length - 1}
         >
-          Next
-        </button>
+          {">"}
+        </Button>
       </div>
     </div>
   );
