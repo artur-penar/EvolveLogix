@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
 import "./UserMeasurementForm.css";
 
 const capitalizeFirstLetter = (string) => {
@@ -40,13 +41,10 @@ const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
           Save
         </button>
       ) : (
-        <button
-          type="button"
-          className="user-details-button body-measurements-form-button"
-          onClick={handleEdit}
-        >
-          Edit
-        </button>
+        <Button 
+        variant="outlined"
+        size="large"
+        onClick={handleEdit}>Edit</Button>
       )}
     </form>
   );
