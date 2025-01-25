@@ -4,6 +4,7 @@ import StrengthRecordsDisplay from "../Shared/StrengthRecords/StrengthRecordsDis
 import NewStrengthRecord from "./NewStrengthRecord";
 import PanelHeader from "../PanelHeader/PanelHeader";
 import useOrganizeStrengthRecords from "./useOrganizeStrengthRecords";
+import Button from "@mui/material/Button";
 import "./StrengthRecordsPanel.css";
 
 const StrengthRecordsPanel = ({
@@ -54,18 +55,40 @@ const StrengthRecordsPanel = ({
           {isAddNewRecordVisible && <NewStrengthRecord />}
 
           {isSimpleView && (
-            <button className="user-details-button" onClick={handleEdit}>
+            <Button
+              className="user-details-button"
+              variant="outlined"
+              sx={{
+                color: "green",
+                borderColor: "green",
+                "&:hover": {
+                  backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                  borderColor: "green",
+                },
+              }}
+              onClick={handleEdit}
+            >
               Go To
-            </button>
+            </Button>
           )}
           {!isSimpleView && !isAddNewRecordVisible && (
             <div className="sr-button-container">
-              <button
+              <Button
                 onClick={handleAddNewRecord}
                 className="user-details-button sr-add-new-record-button"
+                variant="outlined"
+                size="large"
+                sx={{
+                  color: "green",
+                  borderColor: "green",
+                  "&:hover": {
+                    backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                    borderColor: "green",
+                  },
+                }}
               >
                 Add New Record
-              </button>
+              </Button>
             </div>
           )}
         </>

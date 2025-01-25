@@ -1,9 +1,13 @@
 .new-strength-record-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   margin-top: 3rem;
   margin-bottom: 2px;
+}
+
+.nsr-form-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }
 
 .new-strength-record-header {
@@ -21,8 +25,4 @@
 
 .nsr-centered-input {
   text-align: center;
-}
-
-.nsr-fixed-width-submit-button{
-  width: 27%;
 }
