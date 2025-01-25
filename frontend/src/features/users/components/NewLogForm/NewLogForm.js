@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
 import "./NewLogForm.css";
 
 /**
@@ -29,7 +30,13 @@ const NewLogForm = ({ formData }) => {
             onChange={(e) => formData.setNewLogName(e.target.value)}
           />
         </label>
-        <button type="submit">Create log</button>
+        <Button
+          type="submit"
+          variant="contained"
+          style={{ backgroundColor: "lightgrey", color: "black" }}
+        >
+          Create log
+        </Button>
       </form>
     </div>
   );
