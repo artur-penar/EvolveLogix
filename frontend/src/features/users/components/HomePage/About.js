@@ -1,6 +1,6 @@
 import React from "react";
-import AboutBackground from "./Assets/about-background.png";
 import Eagle from "./Assets/eagle2.png";
+import AboutBackground from "./Assets/about-background-green.png";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import "./About.css";
 

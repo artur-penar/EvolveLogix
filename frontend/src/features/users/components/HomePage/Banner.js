@@ -1,6 +1,6 @@
 import React from "react";
 import Eagle from "./Assets/eagle.png";
-import BannerBackground from "./Assets/home-banner-background.png";
+import BannerBackground from "./Assets/home-banner-background-green.png";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./Banner.css";
 
