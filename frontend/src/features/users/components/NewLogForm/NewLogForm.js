@@ -31,9 +31,15 @@ const NewLogForm = ({ formData }) => {
           />
         </label>
         <Button
-          type="submit"
-          variant="contained"
-          style={{ backgroundColor: "lightgrey", color: "black" }}
+          variant="outlined"
+          sx={{
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+              borderColor: "green",
+            },
+          }}
         >
           Create log
         </Button>

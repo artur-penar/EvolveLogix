@@ -34,17 +34,34 @@ const UserMeasurementForm = ({ formData, handleInputChange, handleSubmit }) => {
         ))}
       </fieldset>
       {isEditable ? (
-        <button
-          type="submit"
-          className="user-details-button body-measurements-form-button"
+        <Button
+          variant="outlined"
+          sx={{
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+              borderColor: "green",
+            },
+          }}
         >
           Save
-        </button>
+        </Button>
       ) : (
-        <Button 
-        variant="outlined"
-        size="large"
-        onClick={handleEdit}>Edit</Button>
+        <Button
+          onClick={handleEdit}
+          variant="outlined"
+          sx={{
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+              borderColor: "green",
+            },
+          }}
+        >
+          Edit
+        </Button>
       )}
     </form>
   );
