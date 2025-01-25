@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@mui/material/Button";
 
 /**
  * RecordNavigation component for navigating through exercise records.
@@ -20,13 +21,33 @@ const RecordNavigation = ({
 }) => {
   return (
     <div className="flex-container">
-      <button
+      <Button
+        variant="outlined"
+        size="small"
+        sx={{
+          color: "green",
+          borderColor: "green",
+          "&:hover": {
+            backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+            borderColor: "green",
+          },
+        }}
         onClick={() => handlePrev(exerciseName)}
         disabled={currentRecordIndices[exerciseName] === 0}
       >
         &lt;
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="outlined"
+        size="small"
+        sx={{
+          color: "green",
+          borderColor: "green",
+          "&:hover": {
+            backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+            borderColor: "green",
+          },
+        }}
         onClick={() => handleNext(exerciseName)}
         disabled={
           currentRecordIndices[exerciseName] >=
@@ -34,7 +55,7 @@ const RecordNavigation = ({
         }
       >
         &gt;
-      </button>
+      </Button>
     </div>
   );
 };
