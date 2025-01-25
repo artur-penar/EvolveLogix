@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Shared components
 import Layout from "shared/components/Layout";
 import LoadingState from "shared/components/LoadingState";
-import Header from "../../../../shared/components/PageHeader";
+import PageHeader from "../../../../shared/components/PageHeader";
 
 // Features
 import { setSelectedTrainingLog } from "features/trainingLogs/log";
@@ -92,7 +92,7 @@ const DashboardPage = () => {
   return (
     <Layout title="EvolveLogix | Dashboard">
       <div className="dashboard">
-        <Header headerContent={"Dashboard"} />
+        <PageHeader headerContent={"Dashboard"} />
         {trainingLogs.length > 0 && userDetails ? (
           <>
             <TrainingLogPanel logData={logData} formData={formData} />
