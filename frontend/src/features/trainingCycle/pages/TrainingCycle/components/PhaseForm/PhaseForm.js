@@ -15,13 +15,16 @@ import RecordsDisplayContainer from "./RecordsDisplayContainer";
 import TrainingSessionContainer from "../Shared/TrainingSessionContainer";
 import CycleSelectGroupOptions from "../Shared/CycleSelectGroupOptions";
 
-// Style imports
-import "./PhaseForm.css";
 import useAddPhase from "features/trainingCycle/hooks/PhaseForm/useAddPhase";
 import usePhaseFormStatus from "features/trainingCycle/hooks/PhaseForm/usePhaseFormStatus";
 import PercentageCalculator from "./PercentageCalculator";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import ContainerHeader from "shared/components/ContainerHeader";
+
+import Button from "@mui/material/Button";
+
+// Style imports
+import "./PhaseForm.css";
 
 const initialPhaseProgram = [
   {
@@ -174,8 +177,23 @@ const PhaseForm = ({
             {".".repeat(count)}
           </p>
         )}
-        <div className="button-container" onClick={handleAddPhase}>
-          <button className="add-phase-button">Add phase</button>
+        <div className="button-container">
+          <Button
+            className="add-phase-button"
+            variant="outlined"
+            size="large"
+            sx={{
+              color: "green",
+              borderColor: "green",
+              "&:hover": {
+                backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                borderColor: "green",
+              },
+            }}
+            onClick={handleAddPhase}
+          >
+            Add phase
+          </Button>
         </div>
       </div>
     </div>

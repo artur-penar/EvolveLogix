@@ -71,9 +71,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 99%;
 }
 
 .training-phase-form {
   overflow-x: auto;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
