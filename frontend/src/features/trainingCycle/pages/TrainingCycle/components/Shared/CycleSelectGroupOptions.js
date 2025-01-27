@@ -16,7 +16,7 @@ const CycleSelectGroupOptions = ({ options }) => {
           padding: "0.5rem",
         }}
       >
-        <h4>Options</h4>
+        <h5>Options</h5>
       </div>
       <div
         style={{
