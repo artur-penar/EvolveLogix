@@ -29,6 +29,8 @@ import useTrainingData from "features/trainingLogs/hooks/AddTrainingSession/useT
 import useStrengthRecords from "features/trainingLogs/hooks/AddTrainingSession/useStrengthRecords";
 import ExerciseDetailsSummary from "./components/ExerciseDetailsSummary";
 
+import Button from "@mui/material/Button";
+
 // Style imports
 import "./AddTrainingSession.css";
 
@@ -175,15 +177,41 @@ const AddTrainingSession = () => {
             </div>
           ))}
           <div className="ats-button-container">
-            <button className="ats-button" onClick={addExercise}>
+            {/* <button className="ats-button" onClick={addExercise}>
               Add Exercise
-            </button>
-            <button
+            </button> */}
+            <Button
               className="ats-button"
+              variant="outlined"
+              size="small"
+              sx={{
+                color: "green",
+                borderColor: "green",
+                "&:hover": {
+                  backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                  borderColor: "green",
+                },
+              }}
+              onClick={addExercise}
+            >
+              Add Exercise
+            </Button>
+            <Button
+              className="ats-button"
+              variant="outlined"
+              size="small"
+              sx={{
+                color: "green",
+                borderColor: "green",
+                "&:hover": {
+                  backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                  borderColor: "green",
+                },
+              }}
               onClick={(event) => handleSubmit(event)}
             >
               Submit
-            </button>
+            </Button>
           </div>
         </div>
       </div>
