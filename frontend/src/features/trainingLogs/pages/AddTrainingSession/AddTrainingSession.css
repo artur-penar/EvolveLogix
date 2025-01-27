@@ -167,3 +167,9 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
+.exercise-remove-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}

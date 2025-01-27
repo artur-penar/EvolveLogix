@@ -29,6 +29,8 @@ import useTrainingData from "features/trainingLogs/hooks/AddTrainingSession/useT
 import useStrengthRecords from "features/trainingLogs/hooks/AddTrainingSession/useStrengthRecords";
 import ExerciseDetailsSummary from "./components/ExerciseDetailsSummary";
 
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 
 // Style imports
@@ -154,7 +156,6 @@ const AddTrainingSession = () => {
                 handleExerciseChange={changeExercise}
                 handleSetsNumberChange={changeSetsNumber}
               />
-
               <ExerciseTable
                 exercise={exercise}
                 strengthRecords={strengthRecords}
@@ -168,12 +169,12 @@ const AddTrainingSession = () => {
                 exercise={exercise}
                 strengthRecords={strengthRecords}
               />
-              <button
-                className="ats-constant-size-button"
-                onClick={() => removeExercise(exerciseIndex)}
-              >
-                Remove
-              </button>
+              <div className="exercise-remove-button-container">
+                <IconButton aria-label="delete">
+                  <DeleteIcon color="error"
+                  onClick={() => removeExercise(exerciseIndex)} />
+                </IconButton>
+              </div>
             </div>
           ))}
           <div className="ats-button-container">
