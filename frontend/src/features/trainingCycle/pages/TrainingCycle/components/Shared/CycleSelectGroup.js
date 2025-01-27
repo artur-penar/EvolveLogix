@@ -72,6 +72,14 @@ const CycleSelectGroup = ({
             className="tcf-button"
             variant="outlined"
             size="large"
+            sx={{
+              color: "green",
+              borderColor: "green",
+              "&:hover": {
+                backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+                borderColor: "green",
+              },
+            }}
             onClick={handleCreateNewCycleClick}
           >
             {isCreateCycleVisible ? "Hide" : "Create new Mesocycle"}
