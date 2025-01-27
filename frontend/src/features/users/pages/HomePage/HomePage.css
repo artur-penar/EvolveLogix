@@ -30,53 +30,28 @@ body {
   overflow-x: hidden;
 }
 
-.contact-page-wrapper h1 {
-  max-width: 900px !important;
-}
-.contact-page-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 6rem 0rem;
-}
-.contact-form-container {
-  background-color: white;
-  max-width: 700px;
-  width: 100%;
-  margin-top: 3rem;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  border-radius: 5rem;
-}
-.contact-form-container input {
-  flex: 1;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-size: 1.3rem;
-  padding: 0.5rem 1rem;
-}
-
 @media (max-width: 1000px) {
   .home-bannerImage-container {
     max-width: 600px;
   }
 }
+
 @media (max-width: 800px) {
   .nav-logo-container {
     max-width: 140px;
   }
+
   .home-bannerImage-container {
     max-width: 450px;
   }
+
   .home-banner-container,
   .about-section-container {
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
   }
+
   .about-section-container {
     flex-direction: column;
   }
@@ -91,6 +66,7 @@ body {
   .about-section-container {
     margin-top: 5rem !important;
   }
+
   .about-buttons-container {
     justify-content: center;
     flex-direction: column;
@@ -99,9 +75,11 @@ body {
   .work-section-wrapper {
     margin-top: 5rem !important;
   }
+
   .work-section-bottom {
     margin-top: 1rem !important;
   }
+
   .contact-form-container {
     padding: 0.5rem !important;
     flex-direction: column;
@@ -109,6 +87,7 @@ body {
     align-items: center;
     border-radius: 1rem !important;
   }
+
   .contact-form-container input {
     font-size: 1rem !important;
     max-width: 100%;
@@ -116,19 +95,24 @@ body {
     margin-bottom: 0.8rem !important;
     text-align: center;
   }
+
   .footer-wrapper {
     flex-direction: column;
   }
+
   .footer-section-two {
     flex-direction: column;
     margin-top: 2rem;
   }
+
   .footer-section-columns {
     margin: 1rem 0rem;
   }
+
   .App {
     max-width: 95vw;
   }
+
 }
 @media (max-width: 600px) {
   .home-bannerImage-container,
@@ -139,7 +123,7 @@ body {
 
 .secondary-button {
   padding: 1rem 2.5rem;
-  background-color: #fe9e0d;
+  background-color: #056408;
   outline: none;
   border: none;
   border-radius: 5rem;
