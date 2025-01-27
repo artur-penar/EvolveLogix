@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import FormGroup from "./FormGroup";
 import useMesocycleForm from "features/trainingCycle/hooks/CreateNewCycle/useMesocycleForm";
+import Button from "@mui/material/Button";
 import "./CreateNewCycle.css";
+import ContainerHeader from "shared/components/ContainerHeader";
 
 const CreateMesocycle = ({
   selectedMacrocycleId,
@@ -44,7 +46,7 @@ const CreateMesocycle = ({
 
   return (
     <div className="cnc-container">
-      <h3>Create Mesocycle</h3>
+      <ContainerHeader headerContent="Create Mesocycle" />
       <div className="cnc-form-container">
         <FormGroup
           id="cycleName"
@@ -79,11 +81,24 @@ const CreateMesocycle = ({
           value={mesocycleEndDate}
           disabled={true}
         />
-        <div className="tcf-button-container">
-          <button className="tcf-button" onClick={onSubmit}>
-            Create Mesocycle
-          </button>
-        </div>
+      </div>
+      <div className="tcf-button-container">
+        <Button
+          className="tcf-button"
+          variant="outlined"
+          size="large"
+          sx={{
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "rgba(5, 100, 8, 0.1)", // Very light green background on hover
+              borderColor: "green",
+            },
+          }}
+          onClick={onSubmit}
+        >
+          Create Mesocycle
+        </Button>
       </div>
     </div>
   );
