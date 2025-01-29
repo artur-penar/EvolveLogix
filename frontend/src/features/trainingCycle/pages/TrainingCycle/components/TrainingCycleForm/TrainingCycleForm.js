@@ -6,6 +6,7 @@ import PhaseDisplay from "../Shared/PhaseDisplay";
 import useAutoClearStatus from "features/trainingCycle/hooks/PhaseForm/useAutoClearStatus";
 import CreateMacrocycle from "../CreateNewCycle/CreateMacrocycle";
 import CreateMesocycle from "../CreateNewCycle/CreateMesocycle";
+import Alert from "@mui/material/Alert";
 import "./TrainingCycleForm.css";
 
 const TrainingCycleForm = ({
@@ -102,24 +103,38 @@ const TrainingCycleForm = ({
               setMacrocycleFormVisible={setMacrocycleFormVisible}
             />
           )}
-          <CycleSelectGroup
-            type={"Mesocycle"}
-            value={mesocycle}
-            options={mesocycles}
-            handleInputChange={handleInputChange}
-            startDate={mesocycleStartDate}
-            endDate={mesocycleEndDate}
-            handleCreateNewCycleClick={handleCreateNewCycleClick}
-            isCreateCycleVisible={isCreateCycleVisible}
-            additionalProps={{
-              mesocycleDurationInWeeks,
-              options: mesocycleOptions,
-            }}
-          />
+          {mesocycle ? (
+            <CycleSelectGroup
+              type={"Mesocycle"}
+              value={mesocycle}
+              options={mesocycles}
+              handleInputChange={handleInputChange}
+              startDate={mesocycleStartDate}
+              endDate={mesocycleEndDate}
+              handleCreateNewCycleClick={handleCreateNewCycleClick}
+              isCreateCycleVisible={isCreateCycleVisible}
+              additionalProps={{
+                mesocycleDurationInWeeks,
+                options: mesocycleOptions,
+              }}
+            />
+          ) : (
+            <CreateMesocycle
+              selectedMacrocycleId={selectedMacrocycleId}
+              setAddCycleStatus={setAddCycleStatus}
+              setIsCreateCycleVisible={setIsCreateCycleVisible}
+            />
+          )}
+
           {addCycleStatus && (
-            <p className="tcf-info">
-              {addCycleStatus} {".".repeat(countdown)}
-            </p>
+            <>
+              <Alert variant="outlined" severity="success">
+                This is an outlined success Alert.
+              </Alert>
+              <p className="tcf-info">
+                {addCycleStatus} {".".repeat(countdown)}
+              </p>
+            </>
           )}
 
           {isCreateCycleVisible && (
@@ -133,6 +148,9 @@ const TrainingCycleForm = ({
           {isTimelineVisible && (
             <div className="tcf-select-group-container">
               <h3>Mesocycle Timeline</h3>
+              <Alert variant="outlined" severity="success">
+                This is an outlined success Alert.
+              </Alert>
               {hasMesocycles ? (
                 <CycleTimeline
                   mesocycleDuration={mesocycleDurationInWeeks}
