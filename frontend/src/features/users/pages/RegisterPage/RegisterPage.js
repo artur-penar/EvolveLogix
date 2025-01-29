@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import Layout from "shared/components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { register } from "features/users/user";
 import Button from "@mui/material/Button";
-import "./RegisterPage.css";
+import Layout from "shared/components/Layout";
+import { register } from "features/users/user";
 import SignInOptions from "features/users/components/Shared/SignInOptions";
-import { Email } from "@mui/icons-material";
 import EmailInputField from "features/users/components/Shared/EmailInputField";
 import UserNameInputFIeld from "features/users/components/Shared/NameInputField";
 import PasswordInputField from "features/users/components/Shared/PasswordInputField";
+import "./RegisterPage.css";
+import PageHeader from "shared/components/PageHeader";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,9 @@ const RegisterPage = () => {
     <Layout title="EvolveLogix| Register" content="Register page.">
       <div className="register-page-container">
         <div className="register-form-container">
-          <h1 style={{ marginTop: "1rem" }}>Register</h1>
+          <div style={{ width: "100%" }}>
+            <PageHeader headerContent={"Register"} />
+          </div>
           <form className="mt-5" onSubmit={onSubmit}>
             <EmailInputField value={email} onChange={onChange} />
             <UserNameInputFIeld value={user_name} onChange={onChange} />

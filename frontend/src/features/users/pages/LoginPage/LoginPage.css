@@ -1,11 +1,11 @@
 .login-page-container {
-  /* height: 100vh; */
-  /* background-image: url("12262.jpg");
-  background-size: cover;
-  background-position: center; */
+  height: 120vh;
+  background-image: url("../../components/HomePage/Assets/eagle.png");
+  background-position: center bottom;
+  background-size: 85%;
+  background-repeat: no-repeat;
   margin: 0 auto;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
@@ -16,7 +16,12 @@
   justify-content: center;
   margin: 1rem auto; /* Center the container horizontally */
   width: 40%; /* Set the width directly */
-  background-color: white;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* White background with 80% opacity */
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   backdrop-filter: blur(5px);
