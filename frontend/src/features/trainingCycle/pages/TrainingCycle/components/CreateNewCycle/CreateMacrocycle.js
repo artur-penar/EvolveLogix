@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
+import ContainerHeader from "shared/components/ContainerHeader";
 import FormGroup from "./FormGroup";
 import useMacrocycleForm from "../../../../hooks/CreateNewCycle/useMacrocycleForm";
-
 import "./CreateNewCycle.css";
-import ContainerHeader from "shared/components/ContainerHeader";
 
 const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
   const selectedTrainingLogId = useSelector((state) =>
@@ -13,6 +12,7 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
   );
 
   const currentYear = new Date().getFullYear();
+  const nameInputRef = useRef(null);
 
   const { formState, handleFormChange, onSubmit, warnings } = useMacrocycleForm(
     {
@@ -22,7 +22,6 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
   );
 
   const { macrocycleName, macrocycleStartDate, macrocycleEndDate } = formState;
-  const nameInputRef = useRef(null);
 
   const canCreateMacrocycle = (macrocyclesData) => {
     return !macrocyclesData.some(
@@ -76,6 +75,7 @@ const CreateMacrocycle = ({ macrocyclesData, setMacrocycleFormVisible }) => {
           style={{ width: "67%", marginTop: "1rem" }}
           type="submit"
           variant="outlined"
+          onClick={onSubmit}
           sx={{
             color: "green",
             borderColor: "green",
