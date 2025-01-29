@@ -31,6 +31,7 @@ const NewLogForm = ({ formData }) => {
           />
         </label>
         <Button
+          type="submit"
           variant="outlined"
           sx={{
             color: "green",
