@@ -76,7 +76,7 @@ const useMesocycleForm = ({
           name: formState.cycleName,
           macrocycle: selectedMacrocycleId,
           start_date: formState.mesocycleStartDate,
-          duration: Number(formState.mesocycleDuration) + 1,
+          duration: Number(formState.mesocycleDuration),
         })
       ).unwrap();
       handleSuccess();
