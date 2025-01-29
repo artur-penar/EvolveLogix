@@ -19,8 +19,12 @@ const useSetInitialTrainingLog = (
 ) => {
   const dispatch = useDispatch();
 
+  const selectedLog = trainingLogs.find(
+    (log) => log.id === reduxSelectedLog.id
+  );
+
   useEffect(() => {
-    if (trainingLogs.length > 0 && !reduxSelectedLog) {
+    if (trainingLogs.length > 0 && !selectedLog) {
       const logToSelect = trainingLogs[0].name;
       setLocalSelectedLog(logToSelect);
       dispatch(
