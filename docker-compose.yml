@@ -25,23 +25,23 @@ services:
     depends_on:
       - db
 
-frontend:
-  build: ./frontend
-  volumes:
-    - ./frontend/src:/app/src
-  ports:
-    - "3000:3000"
-  networks:
-    - evolve_logix_network
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - "3000:3000"
+    networks:
+      - evolve_logix_network
 
-express:
-  build: ./express
-  volumes:
-    - ./express/routes:/app/routes
-  ports:
-    - "5000:5000"
-  networks:
-    - evolve_logix_network
+  express:
+    build: ./express
+    volumes:
+      - ./express/routes:/app/routes
+    ports:
+      - "5000:5000"
+    networks:
+      - evolve_logix_network
 
 networks:
   evolve_logix_network:
