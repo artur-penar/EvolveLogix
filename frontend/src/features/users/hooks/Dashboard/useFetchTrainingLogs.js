@@ -1,5 +1,5 @@
 import { getTrainingLogs } from "features/trainingLogs/log";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 /**
@@ -12,9 +12,12 @@ import { useDispatch } from "react-redux";
  */
 const useFetchTrainingLogs = (trainingLogs) => {
   const dispatch = useDispatch();
+  const [logFetched, setLogsFetched] = useState(false);
+
   useEffect(() => {
-    if (trainingLogs.length === 0) {
+    if (!logFetched && trainingLogs.length === 0) {
       dispatch(getTrainingLogs());
+      setLogsFetched(true);
     }
   }, [dispatch, trainingLogs]);
 };
