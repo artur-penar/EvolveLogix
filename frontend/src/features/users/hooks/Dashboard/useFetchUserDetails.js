@@ -1,5 +1,5 @@
 import { getUserDetail } from "features/users/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 /**
@@ -10,9 +10,12 @@ import { useDispatch } from "react-redux";
  */
 const useFetchUserDetails = (userDetails) => {
   const dispatch = useDispatch();
+  const [fetchUserDetails, setFetchUserDetails] = useState(false);
+
   useEffect(() => {
-    if (!userDetails) {
+    if (!fetchUserDetails && !userDetails) {
       dispatch(getUserDetail());
+      setFetchUserDetails(true);
     }
   });
 };
