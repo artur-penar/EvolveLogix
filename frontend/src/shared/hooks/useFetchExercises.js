@@ -1,13 +1,19 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getExercises } from "features/trainingLogs/exercises";
 import { selectExercises } from "features/trainingLogs/selectors";
-import { useDispatch, useSelector } from "react-redux";
 
 export const useFetchExercises = () => {
   const dispatch = useDispatch();
   const exercises = useSelector(selectExercises);
+  const [fetchedExercises, setFetchedExercises] = useState(false);
 
-  if (!exercises.length) {
-    dispatch(getExercises());
-  }
+  useEffect(() => {
+    if (!fetchedExercises && !exercises.length) {
+      dispatch(getExercises());
+      setFetchedExercises(true);
+    }
+  }, [dispatch, exercises, fetchedExercises]);
+
   return exercises;
 };
