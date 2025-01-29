@@ -8,6 +8,7 @@ import CreateMacrocycle from "../CreateNewCycle/CreateMacrocycle";
 import CreateMesocycle from "../CreateNewCycle/CreateMesocycle";
 import Alert from "@mui/material/Alert";
 import "./TrainingCycleForm.css";
+import ContainerHeader from "shared/components/ContainerHeader";
 
 const TrainingCycleForm = ({
   cycleFormValues,
@@ -147,10 +148,7 @@ const TrainingCycleForm = ({
 
           {isTimelineVisible && (
             <div className="tcf-select-group-container">
-              <h3>Mesocycle Timeline</h3>
-              <Alert variant="outlined" severity="success">
-                This is an outlined success Alert.
-              </Alert>
+              <ContainerHeader headerContent={"Mesocycle Timeline"} />
               {hasMesocycles ? (
                 <CycleTimeline
                   mesocycleDuration={mesocycleDurationInWeeks}
@@ -163,7 +161,7 @@ const TrainingCycleForm = ({
           )}
           {isCalendarVisible && (
             <div className="tcf-select-group-container">
-              <h3>Calendar</h3>
+            <ContainerHeader headerContent={"Mesocycle Calendar"} />
               {hasMesocycles ? (
                 <SmallCalendarComponent
                   mesocycleStartDate={mesocycleStartDate}

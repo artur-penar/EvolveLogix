@@ -16,6 +16,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Same shadow as other components */
   padding: 20px;
   margin-top: 1rem;
+  background-color: white;
 }
 
 .tcf-select-container {
