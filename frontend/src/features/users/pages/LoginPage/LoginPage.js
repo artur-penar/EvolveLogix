@@ -15,6 +15,7 @@ import {
 import "./LoginPage.css";
 import PasswordInputField from "features/users/components/Shared/PasswordInputField";
 import EmailInputField from "features/users/components/Shared/EmailInputField";
+import PageHeader from "shared/components/PageHeader";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,9 @@ const LoginPage = () => {
     <Layout title="EvolveLogix | Login" content="Login page.">
       <div className="login-page-container">
         <div className="login-form-container">
-          <h1 style={{ marginTop: "1rem" }}>Login</h1>
+          <div style={{ width: "100%" }}>
+            <PageHeader headerContent={"Login"} />
+          </div>
           <form className="mt-5" onSubmit={onSubmit}>
             <EmailInputField value={email} onChange={onChange} />
             <PasswordInputField value={password} onChange={onChange} />
