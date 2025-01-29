@@ -9,8 +9,6 @@
   align-items: center;
 }
 
-
-
 .cnc-form-container {
   display: flex;
   flex-direction: column;
@@ -29,7 +27,7 @@
 
 .cnc-form-group label {
   text-align: right;
-  width: 30%;
+  width: 11%;
 }
 
 .cnc-form-group-row {
@@ -70,13 +68,17 @@
 }
 
 .cnc-info-container {
-  width: 340px;
   padding: 10px;
   background-color: #f0f0f0;
   border-radius: 5px;
+  width: 67%;
 }
 
 .cnc-info-container p {
   color: #666;
   line-height: "1.5";
+}
+
+.cnc-header-container{
+  width: 100%;
 }
