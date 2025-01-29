@@ -20,7 +20,7 @@ const NewLogForm = ({ formData }) => {
 
   return (
     <div className="new-log-form-container">
-      <form onSubmit={formData.handleSubmit}>
+      <form className="new-log-form" onSubmit={formData.handleSubmit}>
         <label style={{ fontWeight: "bold" }}>
           Create new log:
           <input

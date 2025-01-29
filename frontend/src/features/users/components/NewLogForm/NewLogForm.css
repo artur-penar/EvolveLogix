@@ -2,4 +2,9 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 1rem;
+  background-color: white;
+}
+
+.new-log-form {
+  margin-bottom: 1rem;
 }
