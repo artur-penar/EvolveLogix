@@ -129,12 +129,18 @@ const TrainingCycleForm = ({
 
           {addCycleStatus && (
             <>
-              <Alert variant="outlined" severity="success">
-                This is an outlined success Alert.
+              <Alert
+                variant="filled"
+                severity="success"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.2rem", // Increase font size
+                }}
+              >
+                Mesocycle added successfully{".".repeat(countdown)}
               </Alert>
-              <p className="tcf-info">
-                {addCycleStatus} {".".repeat(countdown)}
-              </p>
             </>
           )}
 
@@ -161,7 +167,7 @@ const TrainingCycleForm = ({
           )}
           {isCalendarVisible && (
             <div className="tcf-select-group-container">
-            <ContainerHeader headerContent={"Mesocycle Calendar"} />
+              <ContainerHeader headerContent={"Mesocycle Calendar"} />
               {hasMesocycles ? (
                 <SmallCalendarComponent
                   mesocycleStartDate={mesocycleStartDate}
@@ -191,7 +197,18 @@ const TrainingCycleForm = ({
             (phasesData.length > 0 ? (
               <PhaseDisplay phasesData={phasesData} />
             ) : (
-              <p className="tcf-info">No phases details available</p>
+              <Alert
+                variant="filled"
+                severity="info"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.2rem", // Increase font size
+                }}
+              >
+                No phases details available
+              </Alert>
             ))}
         </>
       )}

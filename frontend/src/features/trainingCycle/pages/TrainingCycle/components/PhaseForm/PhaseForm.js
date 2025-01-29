@@ -21,6 +21,7 @@ import PercentageCalculator from "./PercentageCalculator";
 import useFetchStrengthRecords from "features/trainingCycle/hooks/PhaseForm/useFetchStrengthRecords";
 import ContainerHeader from "shared/components/ContainerHeader";
 
+import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 
 // Style imports
@@ -198,7 +199,20 @@ const PhaseForm = ({
       </div>
     </div>
   ) : (
-    <p className="tcf-phase-warning">Can't add phase!</p>
+    <>
+      <Alert
+        variant="filled"
+        severity="warning"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.2rem", // Increase font size
+        }}
+      >
+        Can't add phase!
+      </Alert>
+    </>
   );
 };
 
