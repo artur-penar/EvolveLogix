@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import userEndpoints from "./userEndpoints";
 
 export const getAllStrengthRecords = createAsyncThunk(
   "strengthRecords/all",

@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Layout from "shared/components/Layout";
 import SignInOptions from "features/users/components/Shared/SignInOptions";
 
-import Eagle from "../../components/HomePage/Assets/eagle.png";
 
 import {
   login,
@@ -43,7 +42,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     dispatch(resetRegistered());
-  }, []);
+  }, [dispatch]);
 
   if (isAuthenticated) return <Navigate to="/dashboard" />;
 
