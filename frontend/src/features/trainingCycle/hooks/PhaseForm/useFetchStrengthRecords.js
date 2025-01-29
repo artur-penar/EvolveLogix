@@ -1,14 +1,16 @@
 import { getAllStrengthRecords } from "features/users/strengthRecordSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useFetchStrengthRecords = () => {
   const dispatch = useDispatch();
   const strengthRecords = useSelector((state) => state.strengthRecords.records);
+  const [strengthRecordsFetched, setStrengthRecordsFetched] = useState(false);
 
   useEffect(() => {
-    if (strengthRecords.length === 0) {
+    if (!strengthRecordsFetched && strengthRecords.length === 0) {
       dispatch(getAllStrengthRecords());
+      setStrengthRecordsFetched(true);
     }
   }, [strengthRecords]);
 
