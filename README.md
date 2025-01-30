@@ -1,4 +1,4 @@
-# EvovleLogix
+# EvolveLogix
 
 EvolveLogix is a comprehensive web application designed to empower users in managing their fitness journey.
 With EvolveLogix, users can effortlessly maintain detailed training logs, including exercises, weights, reps, and sets for each session.
