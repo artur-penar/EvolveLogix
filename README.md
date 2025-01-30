@@ -117,3 +117,42 @@ http://localhost:3000/
 ### Training Log
 
 <img src="./images/training-log.png" alt="Training Log" />
+
+## Technologies Used
+
+### Frontend
+
+- **React**: A JavaScript library for building user interfaces.
+- **Redux**: A predictable state container for JavaScript apps.
+- **Material-UI**: A popular React UI framework.
+- **CSS**: Styling for the application.
+
+### Backend
+
+- **Django**: A high-level Python web framework that encourages rapid development and clean, pragmatic design.
+- **Simle JWT**: A JSON Web Token authentication plugin for the Django REST Framework.
+- **Express**: A minimal and flexible Node.js web application framework.
+- **PostgreSQL**: A powerful, open-source object-relational database system.
+
+### DevOps
+
+- **Docker**: A platform for developing, shipping, and running applications in containers.
+- **Docker Compose**: A tool for defining and running multi-container Docker applications.
+
+### Other Tools
+
+- **Git**: Version control system for tracking changes in source code.
+- **GitHub**: Hosting service for Git repositories.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you have any questions, suggestions, or feedback, feel free to contact me:
+
+- **Author:** Artur Penar
+- **Email:** penar.art@gmail.com     
+- **GitHub:** [artur-penar](https://github.com/artur-penar/)
+- **LinkedIn:** [Artur Penar](https://www.linkedin.com/in/artur-penar-18092a324/)
