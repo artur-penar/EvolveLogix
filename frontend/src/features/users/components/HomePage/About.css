@@ -12,10 +12,9 @@
 }
 
 .about-section-image-container {
-  flex: 1.1;
+  flex: 1.2;
   margin-right: 1rem;
-  width: 100%;
-  max-width: 900px;
+  transform: scale(1.2) translateX(-40px);
 }
 
 .about-section-text-container {
@@ -23,7 +22,7 @@
   flex: 1;
   justify-content: center;
   flex-direction: column;
-  margin-left: 2rem;
+  margin-left: 5rem;
 }
 
 .primary-subheading {
@@ -34,7 +33,6 @@
 
 .about-primary-heading {
   font-size: clamp(2rem, 5vw, 4rem);
-  color: #4c4c4c;
   line-height: 5rem;
   max-width: 600px;
 }
@@ -42,7 +40,6 @@
 .about-primary-text {
   font-size: clamp(1rem, 3vw, 1.5rem);
   max-width: 600px;
-  color: #6a6a6a;
   margin: 1.5rem 0rem;
   text-align: left;
 }
